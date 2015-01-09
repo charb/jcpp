@@ -1,0 +1,101 @@
+#include "namespaceInjection.h"
+#include "methodInjection.h"
+#include "memberInitializer.h"
+#include "variableInjection.h"
+#include "Sample1.h"
+
+Sample1* globalSample = new Sample1();DeclaredVariable(globalSample);
+
+namespace helloNamespace2 {
+	namespace internal {
+		char* strHelloGlobal2 = (char*) 0;DeclaredVariable(strHelloGlobal2);
+	
+/*DeclaredNamespace(internal);*/
+}
+
+/*DeclaredNamespace(helloNamespace2);*/
+}
+
+char * Sample1::strStaticField = 0;
+
+Sample1::Sample1() : strField(0) ,__objectInfo() {
+/*DeclaredMethod(Sample1);*/
+
+	value = 0;
+}
+
+Sample1::~Sample1() {
+/*DeclaredMethod(~Sample1);*/
+
+}
+
+void Sample1::addValue(Sample1* object) {
+/*DeclaredMethod(addValue);*/
+DeclaredParameter(object);
+
+    Sample1* anotherObject = new Sample1();DeclaredVariable(anotherObject);
+	value += object->value;
+	/*before for: c*/for (char c[] = {'a','b','c','\0'}; *c == 0; c++) {
+		*c = 'x';
+	}/*after for: c*/
+}
+
+void Sample1::addValue(Sample1* objectA, Sample1* objectB) {
+/*DeclaredMethod(addValue);*/
+DeclaredParameter(objectA);
+DeclaredParameter(objectB);
+
+    Sample1* someOtherObject = new Sample1();DeclaredVariable(someOtherObject);
+	value += objectA->value;
+	value += objectB->value;
+}
+
+Sample1* Sample1::getCopy() {
+/*DeclaredMethod(getCopy);*/
+
+	Sample1* newObject = new Sample1();DeclaredVariable(newObject);
+	return newObject;
+}
+
+void* someFunction(Sample1* object, char* strParam) {
+/*DeclaredMethod(someFunction);*/
+DeclaredParameter(object);
+DeclaredParameter(strParam);
+
+	Sample1* anotherObject = new Sample1();DeclaredVariable(anotherObject);
+	object->strField = strParam;
+	return 0;
+}
+
+namespace sampleNs {
+	Sample2::Sample2() : strInternal(0) ,__objectInfo() {
+/*DeclaredMethod(Sample2);*/
+
+	}
+	
+	Sample2::~Sample2() {
+/*DeclaredMethod(~Sample2);*/
+
+	}
+
+	char* Sample2::sayHello(char *strMessage) {
+/*DeclaredMethod(sayHello);*/
+DeclaredParameter(strMessage);
+
+		char* tmp = strMessage;DeclaredVariable(tmp);
+		return tmp;
+	}
+
+	Sample2::SampleChild::SampleChild() : childValue(0) ,__objectInfo() {
+/*DeclaredMethod(SampleChild);*/
+
+	}
+
+	Sample2::SampleChild::~SampleChild() {
+/*DeclaredMethod(~SampleChild);*/
+
+	}
+
+/*DeclaredNamespace(sampleNs);*/
+}
+#include "endOfFile.h"

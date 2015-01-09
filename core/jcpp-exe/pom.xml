@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp</groupId>
+		<artifactId>core</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>charb.jcpp.core</groupId>
+	<artifactId>jcpp-exe</artifactId>
+	<packaging>nar</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>charb.jcpp.core</groupId>
+			<artifactId>core-lang</artifactId>
+			<type>nar</type>
+		</dependency>
+		<dependency>
+			<groupId>charb.jcpp.cli</groupId>
+			<artifactId>jcpp-cli</artifactId>
+			<type>nar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+				<artifactId>pre-mavenplugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<configuration>
+					<libraries>
+						<library>
+							<type>executable</type>
+						</library>
+					</libraries>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

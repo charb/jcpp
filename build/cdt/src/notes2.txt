@@ -1,0 +1,1163 @@
+
+cdt.core.dom.ast:
+-----------------
+
+IVariable extds IBinding{ //represente variable : local, parameter, global, field
+	IType getType()	
+	IValue getInitialValue()
+	boolean isStatic/isExtern/isAuto/isRegister
+}
+
+IValue{//models value of a variable, enumerator or expression
+	long numericValue()
+
+	ICPPEvaluation getEvaluation()
+}
+
+ITypedef extds IBinding, IType{//model typedef type
+	IType getType()
+}
+
+IType{//parent class of all C/C++ type
+	boolean isSameType(IType)
+}
+
+ISemanticProblem{//base interface of all semantic pb
+}
+
+IScope{//parent class of all scopes, method|class|block scopes
+	EScopeKing getKind()
+
+	IName getScopeName()
+
+	IScope getParent()
+
+	IBinding find(IName)
+}
+
+IQualifierType extds IType{//model const|volatile
+	isConst|isVolatile
+	IType getType()
+}
+
+IProblemType extds IType, ISemanticProblem{//model a type that cannot be determined
+}
+
+IProblemBinding extds IBinding,IScope,IType,ISemanticProblem{//model a binding that cannot be determined
+}
+
+IPointerType extds IType{//models the type "T*"
+	IType getType()
+	bool isConst|isVolatile|isRestrict
+}
+
+IParameter extds IVariable{//models a parameter of a function
+	IValue getInitialValue()
+}
+
+IMacroBinding extds IBinding{
+	bool isFunctionStyle|isDynamic
+	char[][] getParameterList|getExpansion|getParameterPlaceholderList|getExpansionImage
+}
+
+ILabel extds IBinding{//models a label definition
+	IASTLabelStatement getLabelStatement()
+}
+
+IFunctionType extds IType{//models the type of a function
+	IType getReturnType()
+	IType[] getParameterTypes()
+}
+
+IFunction extds IBinding{//model a function
+	IParameter[] getParameters()
+	IScope getFunctionScope()
+	IFunctionType getType()
+	bool isStatic/isExtern/isAuto/isRegister/isInline/takesVarArgs/isNoReturn
+}
+
+IFileNomination{//parent class for TranslationUnit,...
+	ISignificantMacros getSignificantMacros()
+	bool hasPragmaOnceSemantics()
+}
+
+IField extds IVariable{//model a field in struct, class,...
+	ICompositeType getCompositeTypeOwner()
+}
+
+IEnumerator extds IBinding{//model an enumerator
+	IType getType()
+	IValue getValue()
+}
+
+IEnumeration extds IBinding,IType{//model an enum type
+	IEnumerator[] getEnumerators()
+	long getMinValue()
+	long getMaxValue()
+}
+
+ICompositeType extds IBinding,IType{//model a composite (struct|unions|class) type
+	int getKey() //struct|union|class
+	bool isAnonymous|
+	IField[] getFields()
+	IScope getCompositeScope()
+}
+
+IBinding extds IAdaptable{//parent of a name in the AST
+	string getName()
+	ILinkage getLinkage()
+	IBinding getOwner()
+}
+
+IBasicType extds IType{//models basic type : long, short,...
+	Kind getKind()
+	int getModifiers()
+	bool isSigned/isUnsigned/isShort/isLong/isLongLong/isComplex/isImaginary
+}
+
+IASTWhileStatement extds IASTStatement{//models a while statement
+	IASTExpression getCondition()
+	IASTStatement getBody()
+}
+
+IASTUnaryExpression extds IASTExpression{//models operator operand
+	int getOperator()//++ -- 
+	IASTExpression getOperand()
+}
+
+IASTTypeIdInitializerExpression extds IASTExpression{//models type-id{ initializer }
+	IASTTypeId getTypeId()
+	IASTInitializer getInitializer()
+}
+
+IASTTypeIdExpression extds IASTExpression{//models possible operations on type-id, ex: "sizeof(Tata)"
+	int getOperator()
+	IASTTypeId getTypeId()
+}
+
+IASTTypeId extds IASTNode{ //models l'id d'un type, example ClassName, ...
+	IASTDeclSpecifier getDeclSpecifier()
+	IASTDeclarator getAbstractDeclarator()
+}
+
+IASTTranslationUnit extds IASTDeclarationListOwner,IFileNomination,IAdaptable{//model a parsed file
+	IASTDeclaration[] getDeclarations()
+	IScope getScope()
+	IASTPreprocessorMacroDefinition[] getMacroDefinitions()
+	IASTPreprocessorMacroDefinition[] getBuiltinMacroDefinitions()
+	IASTPreprocessorIncludeStatement[] getIncludeDirectives()
+	IASTPreprocessorStatement[] getAllPreprocessorStatements()
+	IASTPreprocessorMacroExpansion[] getMacroExpansions()
+	IASTProblem[] getPreprocessorProblems()
+	IASTComment[] getComments()
+	boolean isHeaderUnit()
+}
+
+IASTTokenList extds IASTToken{//model a sequence of code token
+	IASTToken[] getTokens()
+}
+
+IASTToken extds IASTNode{//model a code token
+	int getTokenType()
+}
+
+IASTSwitchStatement extds IASTStatement{//models a switch
+	IASTExpression getControllerExpression()
+	IASTStatement getBody()
+}
+
+IASTStatement extends IASTAttributeOwner{//parent of all statements
+}
+
+IASTStandardFunctionDeclarator extends IASTFunctionDeclarator{//models a standard function like "abs"
+	IScope getFunctionScope()
+	IASTParameterDeclaration[] getParameters()
+	bool takeVarArgs()
+}
+
+IASTSimpleDeclSpecifier extds IASTDeclSpecifier{//models a declaration specifier for a built-in type	
+	int getType()//exemple : char, int, ...
+	bool isSigned/isUnsigned/iShort/isLong/isLongLong/isComplex/isImaginary
+	IASTExpression getDeclTypeExpression()	
+}
+
+IASTSimpleDeclaration extds IASTDeclaration, IASTAttributeOwner {//models a simple declaration : decl_specifier + list of declarators
+	IASTDeclSpecifier getDeclSpecifier()
+	IASTDeclarator[] getDeclarators()
+}
+
+IASTReturnStatement extds IASTStatement {//models a return statement
+	IASTExpression getReturnValue()
+	IASTInitializerClause getReturnArgument()
+}
+
+IASTProblemTypeId extds IASTTypeId, IASTProblemHolder {//models unkown type-id, example ClassName
+}
+
+IASTProblemStatement extds IASTStatement, IASTProblemHolder {//model unkown statement
+}
+
+IASTProblemHolder{
+	IASTProblem getProblem()
+}
+
+IASTProblemExpression extds IASTExpression, IASTProblemHolder {//models unknown expression
+}
+
+IASTProblemDeclaration extds IASTDeclaration, IASTProblemHolder {//model unknown declaration
+}
+
+IASTProblem extds IProblem, IASTNode {//model pb in AST node
+}
+
+IASTPreprocessorUndefStatement extds	IASTPreprocessorStatement {//model #undef
+	ISATName getMacroName()
+	bool isActive()
+}
+
+IASTPreprocessorStatement extds IASTNode {//parent of all preprocessor statements
+}
+
+IASTPreprocessorPragmaStatement extds IASTPreprocessorStatement {//models #pragma
+	string getMessage()
+	bool isPragmaOperator()
+}
+
+IASTPreprocessorMacroExpansion extds IASTNode {//models macro expansion
+	IASTPreprocessorMacroDefinition getMacroDefinition()
+	IASTName getMacroReference()
+	IASTName[] getNestedMacroReferences()
+}
+
+IASTPreprocessorMacroDefinition extds IASTPreprocessorStatement, IASTNameOwner {//models definition of a macro
+	IASTName getName()
+	String getExpansion()
+	IASTFileLocation getExpansionLocation();
+	bool isActive()
+}
+
+IASTPreprocessorIncludeStatement extds IASTPreprocessorStatement, IFileNomination {//models #include
+	string getPath()
+	IASTName getName()
+	bool isSystemInclude/isActive/isResolved/isResolvedByHeuristics
+}
+
+IASTPreprocessorIfStatement extds IASTPreprocessorStatement {//models a #if
+	bool taken()
+	string getCondition()
+}
+
+IASTPreprocessorIfndefStatement extds IASTPreprocessorStatement {//models #ifndef
+	bool taken()
+	string getCondition()
+	IASTName getMacroReference()
+}
+
+IASTPreprocessorIfdefStatement extds IASTPreprocessorStatement {//models #ifdef
+	bool taken()
+	string getCondition()
+	IASTName getMacroReference()
+}
+
+IASTPreprocessorFunctionStyleMacroDefinition extds IASTPreprocessorMacroDefinition {//models function style macro
+	IASTFunctionStyleMacroParameter[] getParameters()
+}
+
+IASTPreprocessorErrorStatement extds IASTPreprocessorStatement {//models #error
+	string getMessage()
+}
+
+IASTPreprocessorEndifStatement extds IASTPreprocessorStatement {//models #endif
+}
+
+IASTPreprocessorElseStatement extds IASTPreprocessorStatement {//models #else
+}
+
+IASTPreprocessorElifStatement extds IASTPreprocessorStatement {//models #elif
+	bool taken()
+	stirng getCondition()
+}
+
+IASTPointerOperator extds IASTAttributeOwner {//parent of all pointer operators
+}
+
+IASTPointer extds IASTPointerOperator {//models '*'
+	bool isConst/isVolatile/isRestrict
+}
+
+IASTParameterDeclaration extends IASTNode {//models a parameter declaration
+	IASTDeclSpecifier getDeclSpecifier()
+	IASTDeclarator getDeclarator()
+}
+
+IASTNullStatement extds IASTStatement {//models a numll stmt
+}
+
+IASTNameOwner{
+	int getRoleForName(IASTName)//declaration|reference|definition|unclear
+}
+
+IASTNamedTypeSpecifier extds IASTDeclSpecifier, IASTNameOwner {//model typedef|class|union|struct name in a decl specifier in C 
+	IASTName getName()
+}
+
+IASTName extds IASTNode, IName {//models a semantic name
+	IBinding geTbinding()
+	...
+}
+
+IASTLiteralExpression extds IASTExpression {//models a literal expression
+	int getKind()//float|integer|...
+	string getValue()
+}
+
+IASTLabelStatement extds IASTStatement, IASTNameOwner {//models a label stmt
+	IASTName getName()
+	IASTStatement getNestedStatement()
+}
+
+IASTInitializerList extds IASTInitializer, IASTInitializerClause {//modls int[]a={1,2,3};
+	int getSize()
+	IASTInitializerClause[] getClauses()
+}
+
+IASTInitializerClause extds IASTNode {//parent of initializer that can be in a initializer list
+}
+
+IASTInitializer extds IASTNode {//parent of a declarator initializer
+}
+
+IASTImplicitNameOwner extds IASTNode {//owner of implicit names such operators
+	IASTImplicitName[] getImplicitNames()
+}
+
+IASTImplicitName extds IASTName {//model an implicit name like overloaded operator
+	IBinding resolveBinding()
+	bool isAlternate/isOperator
+}
+
+IASTIfStatement extds IASTStatement {//model a if stmt
+	IASTExpression getConditionExpression()
+	IASTStatement getThenClause()
+	IASTStatement getElseClause()
+}
+
+IASTIdExpression extds IASTExpression, IASTNameOwner {//models a name used in an expression
+	IASTName getName()
+}
+
+IASTGotoStatement extds IASTStatement, IASTNameOwner {//models a goto stmt
+	IASTName getName()
+}
+
+IASTFunctionStyleMacroParameter extds IASTNode {//models a parameter of a macro
+	String getParameter()
+}
+
+IASTFunctionDefinition extds IASTDeclaration {//models a function definition, with a body
+	IASTDeclSpecifier getDeclSpecifier()
+	IASTFunctionDeclarator getDeclarator()
+	IASTStatement getBody()
+	IScope getScope()
+}
+
+IASTFunctionDeclarator extds IASTDeclarator {//models a function declarator
+}
+
+IASTFunctionCallExpression extds IASTExpression {//models a function call
+	IASTExpression getFunctionNameExpression()
+	IASTInitializerClause[] getArguments()
+}
+
+IASTForStatement extds IASTStatement {//models a for stmt
+	IASTStatement getInitializerStatement()
+	IASTExpression getConditionExpression()
+	IASTExpression getIterationExpression()
+	IASTStatement getBody()
+	IScope getScope()
+}
+
+IASTFieldReference extds IASTExpression, IASTNameOwner {//models expression that access a field reference ex: a.b
+	IASTExpression getFieldOwner()
+	IASTName getFieldName()
+	bool isPointerDereference()
+}
+
+IASTFieldDeclarator extds IASTDeclarator {//models a field in struct
+	IASTExpression getBitFieldSize()
+}
+
+IASTExpressionStatement extds IASTStatement {//models an expression stmt
+	IASTExpression getExpression()
+}
+
+IASTExpressionList extds IASTExpression {//models comma separated list of expression
+	IASTExpression getExpressions()
+}
+
+IASTExpression extds IASTInitializerClause {//parent of all epxressions
+	IType getExpressionType()
+	bool isLValue
+	ValueCategory getValueCategory()
+}
+
+IASTEqualsInitializer extds IASTInitializer {//models initializer with equal sign, int x=0;
+	IASTInitializerClause getInitializerClause()
+}
+
+IASTEnumerationSpecifier extds IASTDeclSpecifier, IASTNameOwner {//models enum in C C++
+	IASTEnumerator extds IASTNode, IASTNameOwner {//models an enum element
+		ISATName getName()
+		IASTExpression getValue()
+	}
+	IASTEnumerator[] getEnumerators()
+	IASTName getName()
+}
+
+IASTElaboratedTypeSpecifier extds IASTDeclSpecifier, IASTNameOwner {//example: "class X;"
+	int getKind()//enum|struct|union
+	IASTName getName()
+}
+
+IASTDoStatement extds IASTStatement {//models a do stmt
+	IASTStatement getBody()
+	IASTExpression getCondition()
+}
+
+IASTDefaultStatement extds IASTStatement {//models default stmt in switch
+}
+
+IASTDeclSpecifier extds IASTNode {//parent of declaration specifier sequence
+	int getStorageClass()//unspecified|typedef|extern|static|auto|register|mutable
+	bool isConst|isVolatile|isRestrict|isInline
+}
+
+IASTDeclarator extds IASTNameOwner, IASTAttributeOwner {//parent for all declarators
+	IASTPointerOperator[] getPointerOperators()
+	IASTDeclarator getNestedDeclarator()
+	IASTName getName()
+	IASTInitializer getInitializer()
+}
+
+IASTDeclarationStatement extds IASTStatement {//stmt that introduces a declaration
+	IASTDeclaration getDeclaration()
+}
+
+IASTDeclarationListOwner extds IASTNode {//parent class of declaration lists
+	IASTDeclaration[] getDeclarations()
+}
+
+IASTDeclaration extds IASTNode {//parent of all declaration
+}
+
+IASTContinueStatement extds IASTStatement {//model continue stmt
+}
+
+IASTConditionalExpression extds IASTExpression {//(X?Y:Z)
+	IASTExpression getLogicalConditionExpression()
+	IASTExpression getPositiveResultExpression()
+	IASTExpression getNegativeResultExpression()
+}
+
+IASTCompoundStatement extds IASTStatement {//model a block of stmt "{ ... }"
+	IASTStatement[] getStatements()
+	IScope getScope()
+}
+
+IASTCompositeTypeSpecifier extds IASTDeclSpecifier, IASTNameOwner, IASTDeclarationListOwner {//models a composite structure that contains declarations
+	int getKey()//struct|union
+	IASTName getName()
+	IASTDeclaration[] getMembers()
+	IScope getScope()
+}
+
+IASTComment extds IASTNode {//model a comment
+	string getComment()
+	bool isBlockComment()
+}
+
+IASTCastExpression extds IASTExpression {//models a cast expression
+	int getOperator()
+	IASTExpression getExpression()
+	IASTTypeId getTypeId()
+}
+
+IASTCaseStatement extds IASTStatement {///models a case stmt
+	IASTExpression getExpression()	
+}
+
+IASTBreakStatement extds IASTStatement {//model a break stmt
+}
+
+IASTBinaryTypeIdExpression extds IASTExpression {//typeid1 op typeid2
+	Operator getOperator()
+	IASTTypeId getOperand1()
+	IASTTypeId getOperand2()
+}
+
+IASTBinaryExpression extds IASTExpression {//binary expression
+	int getOperator()
+	IASTTypeId getOperand1()
+	IASTTypeId getOperand2()
+}
+
+IASTAttributeSpecifier extds IASTNode {//models a container of attribute
+	IASTAttribute[] getAttributes()
+}
+
+IASTAttributeOwner extds IASTNode {//owner of attribute
+	IASTAttributeSpecifier[] getAttributeSpecifiers()
+	IASTAttribute[] getAttributes()
+}
+
+IASTAttribute extds IASTNode {//model an attribute
+	string getName()
+}
+
+IASTASMDeclaration extds IASTDeclaration {//models a ASM declaration
+	sting getAssembly()
+}
+
+IASTArraySubscriptExpression extds IASTExpression {//x[10], y.z()[t*t]
+	IASTExpression getArrayExpression()
+	IASTInitializerClause getArgument()
+}
+
+IASTArrayModifier extds IASTAttributeOwner {
+	IASTExpression getConstantExpression()
+}
+
+IASTArrayDeclarator extds IASTDeclarator {//array declarator
+	IASTArrayModifier[] getArrayModifiers()
+}
+
+IArrayType extds IType {//model type array
+	IType getType()
+	IValue getSize()
+	IASTExpression getArraySizeExpression()
+}
+
+EScopeKind {
+	eLocal, eEnumeration,eNamespace,eClassType,eGlobal,eTemplateDeclaration
+}
+
+
+cdt.core.dom.ast.c:
+-------------------
+
+ICScope extds IScope{
+}
+
+ICQualifierType extds IQualifierType{
+	bool isRestrict()
+}
+
+ICPointerType extds IPointerType {
+	bool isRestrict()
+}
+
+ICFunctionScope extds ICScope {
+	IScope getBodyScope()
+}
+
+ICFunctionPrototypeScope extds IScope {
+}
+
+ICExternalBinding extds IBinding {
+}
+
+ICCompositeTypeScope extds ICScope {
+	IBinding getBinding(string name)
+	ICompositeType getCompositeType()
+}
+
+ICBasicType extds IBasicType {
+}
+
+ICASTTypeIdInitializerExpression extds IASTTypeIdInitializerExpression {
+}
+
+ICASTTypedefNameSpecifier extds IASTNamedTypeSpecifier, ICASTDeclSpecifier {
+}
+
+ICASTSimpleDeclSpecifier extds IASTSimpleDeclSpecifier, ICASTDeclSpecifier {
+}
+
+ICASTPointer extds IASTPointer {
+}
+
+ICASTDesignator extds IASTNode {//parent for all designator
+}
+
+ICASTFieldDesignator extds ICASTDesignator {//model a field reference
+	IASTName getName()
+}
+
+ICASTEnumerationSpecifier extds ICASTDeclSpecifier,IASTEnumerationSpecifier {
+}
+
+ICASTElaboratedTypeSpecifier extds IASTElaboratedTypeSpecifier, ICASTDeclSpecifier {
+}
+
+ICASTDesignatedInitializer extds IASTInitializer, IASTInitializerClause {
+/*
+     struct point { int x, y; };
+     struct point p = { .y = yvalue, .x = xvalue };
+*/
+	ICASTDesignator[] getDesignators()
+	IASTInitializerClause getOperand()
+}
+
+ICASTDeclSpecifier extds IASTDeclSpecifier {
+}
+
+ICASTCompositeTypeSpecifier extds IASTCompositeTypeSpecifier, ICASTDeclSpecifier {//model struct|union
+}
+
+ICASTArrayModifier extds IASTArrayModifier {
+	bool isConst|isStatic|isRestrict|isVolatile|isVariableSized
+}
+
+ICASTArrayDesignator extds ICASTDesignator {
+/*struct ABC { int def[10] }; 
+  struct ABC* instance = { def[0] = 9 };
+ */
+ 	IASTExpression getSubscriptExpression()
+}
+
+ICArrayType extds IArrayType {
+	bool isConst|isRestrict|isVolatile|isStatic|isVariableLength
+}
+
+
+cdt.core.dom.ast.cpp:
+---------------------
+
+ICPPVariable extds IVariable,ICPPBinding{
+	bool isMutable|isExternC
+}
+
+ICPPUsingDirective{//model "using ZZZZ"
+	ICPPNamespaceScope getNominatedScope()
+	int getPointOfDeclaration()
+	IScope getContainingScope()
+}
+
+ICPPUsingDeclaration extds ICPPBinding {//model using directive
+	IBinding[] getDelegates()
+}
+
+ICPPUnaryTypeTransformation extds IType {//underlying_type(T)
+	Operator getOperator()
+	IType getOperand()
+}
+
+ICPPTemplateTypeParameter extds ICPPTemplateParameter, IType {//template type parameter 
+	IType getDefault()
+}
+
+ICPPTemplateTemplateParameter extds ICPPTemplateParameter, ICPPClassTemplate {//template parameters of type template
+	ICPPTemplateParameter[] getTemplateParameters()
+	IType getDefault()
+}
+
+ICPPTemplateScope extds ICPPScope {//template scope
+	ICPPASTTemplateDeclaration getTemplateDeclaration()
+}
+
+ICPPTemplateParameterMap{
+	...
+}
+
+ICPPTemplateParameter extds ICPPBinding {//parent for all template parameters : non-type, type, template
+	short getParameterPosition()
+	short getTemplateNestingLevel()
+	int getParameterID()
+	ICPPTemplateArgument getDefaultValue()
+}
+
+ICPPTemplateNonTypeParameter extds ICPPTemplateParameter, ICPPVariable {//template non type parameters
+}
+
+ICPPTemplateInstance extds ICPPSpecialization {//instance template of class or function
+	ICPPTemplateDefinition getTemplateDefinition()
+	ICPPTemplateArgument[] getTemplateArguments()
+	boolean isExplicitSpecialization()
+}
+
+ICPPTemplateDefinition extds ICPPBinding {//parent interface for all template definition
+	ICPPTemplateParameter[] getTemplateParameters()
+}
+
+ICPPTemplateArgument{//model value of the template parameter
+	boolean isNonTypeValue()
+	boolean isTypeValue()
+	IType getTypeValue()
+	IType getOriginalTypeValue()
+	ICPPEvaluation getNonTypeEvaluation()
+	...
+}
+
+ICPPSpecialization extds ICPPBinding{//used in template instantiation
+	...
+}
+
+ICPPScope extds IScope {
+}
+
+ICPPReferenceType extds IType {//model T&
+	IType getType()
+	bool isRValueReference()
+}
+
+ICPPPointerToMemberType extds IPointerType {
+/*class Car{
+	int s;
+}
+Car c;
+c.*s=2;
+*/
+	IType getMemberOfClass()
+}
+
+ICPPParameterPackType extds IType {//model a parameter pack, used in template
+	IType getType()
+}
+
+ICPPParameter extds IParameter, ICPPVariable {//models a parameter
+	bool hasDefaultValue/isParameterPack
+}
+
+ICPPNamespaceScope extds ICPPScope {
+	ICPPUsingDirective[] getUsingDirectives()
+	ICPPNamespaceScope[] getInlineNamespaces()
+}
+
+ICPPNamespaceAlias extds ICPPNamespace {
+	IBinding getBinding()
+}
+
+ICPPNamespace extds ICPPBinding {//model a namespace in AST
+	ICPPNamespaceScope getNamespaceScope()
+	IBinding[] getMemberBindings()
+	bool isInline()
+}
+
+ICPPMethodSpecialization extds ICPPSpecialization, ICPPMethod {//specialization of a method in template context
+	IType[] getExceptionSpecification(IASTNode)
+}
+
+ICPPMethod extds ICPPFunction, ICPPMember {//parent class for methods, constructors
+	bool isVirtual/isDestructor/isImplicit/isExplicit/isPureVirtual/isOverride/isFinal
+}
+
+ICPPMember extds ICPPBinding {//model a member of a class
+	int getVisibility()//private/protected/public
+	ICPPClassType getClassOwner()
+	bool isStatic
+	IType getType()
+}
+
+ICPPFunctionType extds IFunctionType {//type of C++ function
+	bool isConst/isVolatile/takesVarArgs
+}
+
+ICPPFunctionTemplate extds ICPPFunction, ICPPTemplateDefinition {
+}
+
+ICPPFunctionScope extds ICPPScope {
+	IScope getBodyScope()
+}
+
+ICPPFunction extds IFunction, ICPPBinding {//model a C++ function
+	bool isMutable/isInline/isExternC/isConstexpr/hasParameterPack/isDeleted
+	IType[] getExceptionSpecification()
+	ICPPFunctionType getType()
+	ICPPParameter[] getParameters()
+	int getRequiredArgumentCount()
+}
+
+ICPPField extds IField, ICPPMember, ICPPVariable {//models a field of a C++ class
+}
+
+ICPPEnumScope extds ICPPScope {
+	ICPPEnumeration getEnumerationType()
+}
+
+ICPPEnumerationSpecialization extds ICPPEnumeration, ICPPSpecialization {//specialization of enum, used in template context
+	ICPPEnumeration getSpecializedBinding()
+	IEnumerator specializeEnumerator(IEnumerator enumerator)
+}
+
+ICPPEnumeration extds IEnumeration, ICPPBinding {//C++ enumeration
+	bool isScoped/
+	IType getFixedType()
+	IScope asScope()
+}
+
+ICPPDeferredFunction extds ICPPFunction {//reference to function cannot be resolved, template is used
+	ICPPFunction[] getCandidates()
+}
+
+ICPPConstructor extds ICPPMethod {
+}
+
+ICPPClassType extds ICompositeType, ICPPBinding {
+	ICPPBase[] getBases()
+	IField[] getFields()
+	ICPPField[] getDeclaredFields()
+	ICPPMethod[] getMethods()
+	ICPPMethod[] getAllDeclaredMethods()
+	ICPPMethod[] getDeclaredMethods()
+	ICPPConstructor[] getConstructors()
+	IBinding[] getFriends()
+	ICPPClassType[] getNestedClasses()
+	bool isFinal
+	int getVisibility(IBinding memeber)
+}
+
+ICPPClassTemplatePartialSpecializationSpecialization extds ICPPClassTemplatePartialSpecialization, ICPPClassSpecialization {
+}
+
+ICPPClassTemplatePartialSpecialization extds ICPPClassTemplate {
+}
+
+ICPPClassTemplate extds ICPPTemplateDefinition, ICPPClassType {
+}
+
+ICPPClassSpecialization extds ICPPSpecialization, ICPPClassType {
+}
+
+ICPPClassScope extds ICPPScope {
+	ICPPClassType getClassType()
+	ICPPMethod[] getImplicitMethods()
+	ICPPConstructor[] getConstructors()
+}
+
+ICPPBlockScope extds ICPPNamespaceScope {
+}
+
+ICPPBinding extds IBinding {
+	String[] getQualifiedName()
+	boolean isGloballyQualified()
+}
+
+ICPPBasicType extds IBasicType {
+}
+
+ICPPBase{//model extends | implements
+	IBinding getBaseClass()
+	IType getBaseClassType()
+	IName getClassDefinitionName()
+	int getVisibility()
+	boolean isVirtual()
+}
+
+ICPPASTWhileStatement extds IASTWhileStatement {
+	IASTDeclaration getConditionDeclaration()
+	IScope getScope()
+}
+
+ICPPASTVisibilityLabel extds IASTDeclaration {//model viaibility used with declaration in class specifier
+	int getVisibility()
+}
+
+ICPPASTVirtSpecifier extds IASTNode {//virt-specifier used at the end of a function declaration
+	SpecifierKind getKind()//final|override
+}
+
+ICPPASTUsingDirective extds IASTDeclaration, IASTNameOwner, IASTAttributeOwner {
+	IASTName getQualifiedName()
+}
+
+ICPPASTUsingDeclaration extds IASTDeclaration, IASTNameOwner, IASTAttributeOwner {
+	boolean isTypename()	
+	IASTName getName()
+}
+
+ICPPASTUnaryExpression extds IASTUnaryExpression, ICPPASTExpression, IASTImplicitNameOwner {//throw|typeid
+	ICPPFunction getOverload()
+}
+
+ICPPASTTypeTransformationSpecifier extds ICPPASTDeclSpecifier {//_underlying_type(T)
+	Operator getOperator()
+	ICPPASTTypeId getOperand()
+}
+
+ICPPASTTypeIdExpression extds IASTTypeIdExpression, ICPPASTExpression {
+}
+
+ICPPASTTypeId extds IASTTypeId, ICPPASTPackExpandable {
+}
+
+ICPPASTTryBlockStatement extds IASTStatement {
+	IASTStatement getTryBody()
+	ICPPASTCatchHandler[] getCatchHandlers()
+}
+
+ICPPASTTemplateSpecialization extds IASTDeclaration {
+	IASTDeclaration getDeclaration()
+}
+
+ICPPASTTemplateParameter extds IASTNode {
+	bool isParameterPack()
+}
+
+ICPPASTTemplateId extds ICPPASTName, IASTNameOwner {
+	...
+}
+
+ICPPASTSwitchStatement extds IASTSwitchStatement {
+	IASTDeclaration getControllerDeclaration()
+	IScope getScope()
+}
+
+ICPPASTStaticAssertDeclaration extds IASTDeclaration {//static_assert(false, "message");
+	IASTExpression getCondition()
+	ICPPASTLiteralExpression getMessage()
+}
+
+ICPPASTSimpleTypeConstructorExpression extds ICPPASTExpression {
+	ICPPASTDeclSpecifier getDeclSpecifier()
+	IASTInitializer getInitializer()
+
+}
+
+ICPPASTSimpleDeclSpecifier extds IASTSimpleDeclSpecifier, ICPPASTDeclSpecifier {//built-in type in C++
+}
+
+ICPPASTReferenceOperator extds IASTPointerOperator {// '&' used in declarator
+	bool isRValueReference()
+}
+
+ICPPASTRangeBasedForStatement extds IASTStatement, IASTImplicitNameOwner {//range based for loop
+	IASTDeclaration getDeclaration()
+	IASTInitializerClause getInitializerClause()
+	IASTStatement getBody()
+	IScope getScope()
+}
+
+ICPPASTQualifiedName extds ICPPASTName, IASTNameOwner {
+	ICPPASTNameSpecifier[] getQualifier()
+	ICPPASTNameSpecifier[] getAllSegments()
+	IASTName getLastName()
+	boolean isFullyQualified()
+	boolean isConversionOrOperator()
+}
+
+ICPPASTPointerToMember extds IASTPointer, IASTNameOwner {
+	IASTName getName()
+}
+
+ICPPASTParameterDeclaration extds ICPPASTTemplateParameter, IASTParameterDeclaration {
+	ICPPASTDeclarator getDeclarator()
+}
+
+ICPPASTPackExpansionExpression extds ICPPASTExpression {
+	IASTExpression getPattern()
+}
+
+ICPPASTPackExpandable {
+	boolean isPackExpansion()
+}
+
+ICPPASTOperatorName extds ICPPASTName {//model a C++ overloaded operator member function name
+}
+
+ICPPASTNewExpression extds ICPPASTExpression, IASTImplicitNameOwner {
+	boolean isGlobal()//::new XXX
+	boolean isArrayAllocation()
+	IASTInitializerClause[] getPlacementArguments()
+	IASTTypeId getTypeId()
+	boolean isNewTypeId()
+	IASTInitializer getInitializer()
+}
+
+ICPPASTNameSpecifier extds IASTNode {
+}
+
+ICPPASTNamespaceDefinition extds IASTDeclaration, IASTNameOwner, IASTDeclarationListOwner,IASTAttributeOwner {
+	IASTName getName()
+	boolean isInline()
+	IASTDeclaration[] getDeclarations()
+	IScope getScope()
+}
+
+ICPPASTNamespaceAlias extds IASTDeclaration, IASTNameOwner {//namespace ABC { int* x; } namespace DEF = ABC;
+	IASTName getAlias()
+	IASTName getMappingName()
+}
+
+CPPASTNamedTypeSpecifier extds IASTNamedTypeSpecifier,ICPPASTDeclSpecifier {
+	boolean isTypename()
+}
+
+ICPPASTName extds IASTName, ICPPASTNameSpecifier {
+}
+
+ICPPASTLiteralExpression extds IASTLiteralExpression, ICPPASTExpression {
+}
+
+ICPPASTLinkageSpecification extends IASTDeclaration, IASTDeclarationListOwner {//extern "C"{}
+	String getLiteral()
+	IASTDeclaration[] getDeclarations()
+}
+
+ICPPASTLambdaExpression extds ICPPASTExpression, IASTImplicitNameOwner {
+	CaptureDefault getCaptureDefault()
+	ICPPASTCapture[] getCaptures()
+	IASTImplicitName getClosureTypeName()
+	ICPPASTFunctionDeclarator getDeclarator()
+	IASTImplicitName getFunctionCallOperatorName()
+	IASTCompoundStatement getBody()
+}
+
+ICPPASTInitializerList extds IASTInitializerList, ICPPASTInitializerClause, ICPPASTPackExpandable {// { xxxx }
+}
+
+ICPPASTInitializerClause extds IASTInitializerClause {
+	ICPPEvaluation getEvaluation()
+}
+
+ICPPASTIfStatement extds IASTIfStatement {
+	IASTDeclaration getConditionDeclaration()
+	IScope getScope()
+}
+
+ICPPASTFunctionWithTryBlock extds ICPPASTFunctionDefinition {
+	ICPPASTCatchHandler[] getCatchHandlers()
+}
+
+ICPPASTFunctionDefinition extds IASTFunctionDefinition, IASTAttributeOwner {
+	ICPPASTConstructorChainInitializer[] getMemberInitializers()//used in case of constructor
+	boolean isDefaulted()/isDeleted
+}
+
+ICPPASTFunctionDeclarator extds IASTStandardFunctionDeclarator, ICPPASTDeclarator {
+	bool isConst/isVolatile/isMutable/isPureVirtual/isOverride/isFinal
+	ICPPASTParameterDeclaration[] getParameters()
+	IASTTypeId[] getExceptionSpecification()
+	ICPPASTExpression getNoexceptExpression()
+	IASTTypeId getTrailingReturnType()
+	ICPPFunctionScope getFunctionScope()
+	ICPPASTVirtSpecifier[] getVirtSpecifiers()
+}
+
+ICPPASTFunctionCallExpression extds IASTFunctionCallExpression, ICPPASTExpression, IASTImplicitNameOwner {
+}
+
+ICPPASTForStatement extds IASTForStatement {
+	IASTDeclaration getConditionDeclaration()
+}
+
+ICPPASTFieldReference extds IASTFieldReference, ICPPASTExpression, IASTImplicitNameOwner {
+	bool isTemplate()
+	IType getFieldOwnerType()
+	ICPPASTExpression getFieldOwner()
+}
+
+ICPPASTFieldDeclarator extds IASTFieldDeclarator, ICPPASTDeclarator {
+}
+
+ICPPASTExpressionList extds IASTExpressionList, ICPPASTExpression, IASTImplicitNameOwner {	
+}
+
+ICPPASTExpression extds IASTExpression, ICPPASTInitializerClause {
+}
+
+ICPPASTEnumerationSpecifier extds IASTEnumerationSpecifier, ICPPASTDeclSpecifier {//enum struct : unsigned int {...}
+	bool isScoped/isOpaque
+	ICPPASTDeclSpecifier getBaseType()
+}
+
+ICPPASTElaboratedTypeSpecifier extds IASTElaboratedTypeSpecifier, ICPPASTDeclSpecifier {	
+}
+
+ICPPASTDeleteExpression extds ICPPASTExpression, IASTImplicitNameOwner {
+	IASTExpression getOperand()
+	bool isGlobal/isVectored
+}
+
+ICPPASTDecltypeSpecifier extds ICPPASTNameSpecifier {
+	ICPPASTExpression getDecltypeExpression()
+}
+
+ICPPASTDeclSpecifier extds IASTDeclSpecifier, IASTAttributeOwner {
+	bool isFriend/isVirtual/isExplicit/isConstexpr/isThreadLocal
+}
+
+ICPPASTDeclarator extds IASTDeclarator {
+	bool declaresParameterPack
+}
+
+ICPPASTConversionName extds ICPPASTName {
+	IASTTypeId getTypeId()	
+}
+
+ICPPASTConstructorInitializer extds IASTInitializer {// (initializer-list?)
+	IASTInitializerClause[] getArguments()
+}
+
+ICPPASTConstructorChainInitializer extds IASTInitializer, ICPPASTPackExpandable,IASTNameOwner {
+/*
+class X {
+	int a;
+ 	X();
+};
+X::X : a(0) {}
+*/
+	IASTName getMemberInitializerId()
+	IASTInitializer getInitializer()
+}
+
+ICPPASTCompositeTypeSpecifier extds IASTCompositeTypeSpecifier, ICPPASTDeclSpecifier {
+	ICPPASTBaseSpecifier extds IASTNode, IASTNameOwner, ICPPASTPackExpandable {
+		bool isVirtual
+		int getVisibility()//public|protected|private
+		IASTName getName()
+	}
+	ICPPASTBaseSpecifier[] getBaseSpecifiers()
+	ICPPClassScope getScope()
+	bool isFinal
+}
+
+ICPPASTCatchHandler extds IASTStatement {
+	boolean isCatchAll()
+	IASTStatement getCatchBody()
+	IASTDeclaration getDeclaration()
+	IScope getScope()
+}
+
+ICPPASTCastExpression extds IASTCastExpression, ICPPASTExpression {//dynamic|static|reinterpret|const
+}
+
+ICPPASTCapture extds IASTNode, ICPPASTPackExpandable {
+}
+
+ICPPASTBinaryExpression extds IASTBinaryExpression, ICPPASTExpression, IASTImplicitNameOwner {
+	ICPPFunction getOverload()
+}
+
+ICPPASTAttribute extds IASTAttribute {
+}
+
+ICPPASTArraySubscriptExpression extds IASTArraySubscriptExpression, ICPPASTExpression, IASTImplicitNameOwner {
+	ICPPASTExpression getArrayExpression()
+	ICPPASTInitializerClause getArgument()
+}
+
+ICPPASTArrayDeclarator extds IASTArrayDeclarator, ICPPASTDeclarator {
+}
+
+ICPPASTAmbiguousTemplateArgument extds IASTNode {
+...
+}
+
+ICPPASTAliasDeclaration extds IASTDeclaration, IASTNameOwner, IASTAttributeOwner {//struct Type {}; using Alias = Type;
+	IASTName getAlias()
+	ICPPASTTypeId getMappingTypeId()
+}
+
+
+
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>charb.jcpp</groupId>
+		<artifactId>native</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<groupId>charb.jcpp.native</groupId>
+	<artifactId>native-api</artifactId>
+	<packaging>nar</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>charb.jcpp.native</groupId>
+			<artifactId>native-include</artifactId>
+			<type>nar</type>
+		</dependency>
+	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>native-api-windows-dependencies</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>charb.jcpp.native</groupId>
+					<artifactId>native-windows</artifactId>
+					<type>nar</type>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		
+		<profile>
+			<id>native-api-unix-dependencies</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>charb.jcpp.native</groupId>
+					<artifactId>native-unix</artifactId>
+					<type>nar</type>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+	
+</project>

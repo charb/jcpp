@@ -1,0 +1,106 @@
+On JPackage:
+-----------
+	+there is no class describing each JPackage instance. Should be added if needed later
+
+JCPP rules:
+-----------
+	+main parent classes:
+		+JAnnotation
+		+JObject
+		+JInterface
+		+JPackage
+
+
+	+definition of class extending JAnnotation:
+		+static getClazz
+
+	+definition of class extending JInterface:
+		+static getClazz
+		+all methods are virtual except the destructor
+
+	+definition of class extending JObject:
+		+static getClazz
+		+abstract methods are virtual
+		+extends only one JObject class and several JInterface classes
+		+for every constructor, have a protected constructor with additional JClass* parameter, in case that class should be overriden
+		+all extended class+implemeted interfaces should be extended with public modifier in c++
+
+	+definition of class JPackage:
+		+contains its parent package
+		+contains its children packages
+		+contains all classes of the current package
+
+	+how to fill the JClass:
+		+canonicalName
+		+name
+		+simpleName
+		+interfaces[]
+		+superClass
+		+declaringClass
+		+serialVersionUID
+		+componentType
+		+annotation[]
+		+enumConstants[]
+		+JField[]
+		+JConstructor[]
+		+JMethod[]
+		+public classes[]
+		+declared classes[]
+		+isArray
+		+isAnnotation
+		+isAnonymous
+		+isProxy
+		+isEnum
+		+isInterface
+		+isLocalMember
+		+isPrimitive
+		+isPackage
+		+modifier
+		+serialVersionUID
+		+superClass
+
+		+how to fill JExecutable:
+			+name
+			+modifier
+			+declaringClass
+			+annotation[]
+			+parameterTypes[]
+			+parameterAnnotations[][]
+
+		+how to fill the JConstructor:
+			+instantiator
+			+JExecutable fields
+
+		+how to fill the JMethod:
+			+name
+			+declaringClass
+			+returnType
+			+invocation
+			+JExecutable fields
+
+		+how to fill the JField:
+			+name
+			+type
+			+getter/setter/@
+			+modifier
+			+declaringClass
+			+annotation[]
+			+JExecutable fields
+
+	+rules for JClass:
+		+if ancestor is JInterface, then isInterface is true in its JClass
+		+if ancestor is JAnnotation, then isAnnotation is true in its JClass
+		+getSuperClass should be the same than the one used in chained constructor
+		+
+
+	+stub creation:
+		+for every object that should be exported, create an object/Stub that extends JProxy with correct interfaces
+		+the created stub class name, should be one of the interfaceName+"Proxy"
+
+
+Java to JCPP generator:
+-----------------------
+	+for every annotation, define class extending JAnnotation.
+	 In its JClass, add an instance of the annotation using addAnnotation method.
+
+	+	

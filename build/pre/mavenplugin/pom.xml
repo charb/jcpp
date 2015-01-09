@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp.build.pre</groupId>
+		<artifactId>build-pre</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+	<artifactId>pre-mavenplugin</artifactId>
+	<packaging>maven-plugin</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.maven-nar</groupId>
+			<artifactId>nar-maven-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>charb.jcpp.tools</groupId>
+			<artifactId>tools-parser</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.21</version>
+		</dependency>
+	</dependencies>
+</project>

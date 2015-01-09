@@ -1,0 +1,1 @@
+d:\java\jdk1.7.0_51-x64\bin\java -cp target\jcpp-build-1.0-jar-with-dependencies.jar jcpp.model.cpp.ast.ASTTranslationUnitBuilder config.xml

@@ -1,0 +1,1 @@
+%JAVA_HOME%\bin\java -cp target\core-java-rmi-tests-1.0-jar-with-dependencies.jar jcpp.rmi.server.RMIServerTest

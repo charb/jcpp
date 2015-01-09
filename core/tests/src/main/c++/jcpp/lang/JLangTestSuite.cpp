@@ -1,0 +1,146 @@
+#include "jcpp/lang/JStringTest.h"
+#include "jcpp/lang/JClass.h"
+#include "jcpp/lang/JObject.h"
+#include "jcpp/lang/JLangTestSuite.h"
+#include "jcpp/lang/reflect/JConstructor.h"
+#include "jcpp/lang/reflect/JModifier.h"
+#include "jcpp/lang/JExceptionTest.h"
+#include "jcpp/lang/JAbstractMethodErrorTest.h"
+#include "jcpp/lang/JArithmeticExceptionTest.h"
+#include "jcpp/lang/JArrayIndexOutOfBoundsExceptionTest.h"
+#include "jcpp/lang/JArrayStoreExceptionTest.h"
+#include "jcpp/lang/JAssertionErrorTest.h"
+#include "jcpp/lang/JBooleanTest.h"
+#include "jcpp/lang/JBootstrapMethodErrorTest.h"
+#include "jcpp/lang/JByteTest.h"
+#include "jcpp/lang/JCharacterTest.h"
+#include "jcpp/lang/JClassTest.h"
+#include "jcpp/lang/JClassCastExceptionTest.h"
+#include "jcpp/lang/JClassCircularityErrorTest.h"
+#include "jcpp/lang/JClassFormatErrorTest.h"
+#include "jcpp/lang/JClassNotFoundExceptionTest.h"
+#include "jcpp/lang/JCloneNotSupportedExceptionTest.h"
+#include "jcpp/lang/JDoubleTest.h"
+#include "jcpp/lang/JEnumSampleObjectTest.h"
+#include "jcpp/lang/JEnumConstantNotPresentExceptionTest.h"
+#include "jcpp/lang/JErrorTest.h"
+#include "jcpp/lang/JFloatTest.h"
+#include "jcpp/lang/JIllegalAccessErrorTest.h"
+#include "jcpp/lang/JIllegalAccessExceptionTest.h"
+#include "jcpp/lang/JIllegalArgumentExceptionTest.h"
+#include "jcpp/lang/JIllegalMonitorStateExceptionTest.h"
+#include "jcpp/lang/JIllegalStateExceptionTest.h"
+#include "jcpp/lang/JIllegalThreadStateExceptionTest.h"
+#include "jcpp/lang/JIncompatibleClassChangeErrorTest.h"
+#include "jcpp/lang/JIndexOutOfBoundsExceptionTest.h"
+#include "jcpp/lang/JInstantiationErrorTest.h"
+#include "jcpp/lang/JInstantiationExceptionTest.h"
+#include "jcpp/lang/JIntegerTest.h"
+#include "jcpp/lang/JInternalErrorTest.h"
+#include "jcpp/lang/JInterruptedExceptionTest.h"
+#include "jcpp/lang/JLinkageErrorTest.h"
+#include "jcpp/lang/JLongTest.h"
+#include "jcpp/lang/JNegativeArraySizeExceptionTest.h"
+#include "jcpp/lang/JNoClassDefFoundErrorTest.h"
+#include "jcpp/lang/JNoSuchFieldErrorTest.h"
+#include "jcpp/lang/JNoSuchFieldExceptionTest.h"
+#include "jcpp/lang/JNoSuchMethodErrorTest.h"
+#include "jcpp/lang/JNoSuchMethodExceptionTest.h"
+#include "jcpp/lang/JNullPointerExceptionTest.h"
+#include "jcpp/lang/JNumberFormatExceptionTest.h"
+#include "jcpp/lang/JOutOfMemoryErrorTest.h"
+#include "jcpp/lang/JPrimitiveTest.h"
+#include "jcpp/lang/JReflectiveOperationExceptionTest.h"
+#include "jcpp/lang/JRuntimeExceptionTest.h"
+#include "jcpp/lang/JSecurityExceptionTest.h"
+#include "jcpp/lang/JShortTest.h"
+#include "jcpp/lang/JStackOverflowErrorTest.h"
+#include "jcpp/lang/JStringBufferTest.h"
+#include "jcpp/lang/JStringBuilderTest.h"
+#include "jcpp/lang/JStringIndexOutOfBoundsExceptionTest.h"
+#include "jcpp/lang/JStringTest.h"
+#include "jcpp/lang/JThrowableTest.h"
+#include "jcpp/lang/JTypeNotPresentExceptionTest.h"
+#include "jcpp/lang/JUnknownErrorTest.h"
+#include "jcpp/lang/JUnsatisfiedLinkErrorTest.h"
+#include "jcpp/lang/JUnsupportedClassVersionErrorTest.h"
+#include "jcpp/lang/JUnsupportedOperationExceptionTest.h"
+#include "jcpp/lang/JVerifyErrorTest.h"
+#include "jcpp/lang/reflect/JReflectTestSuite.h"
+
+using namespace jcpp::io;
+using namespace jcpp::lang::reflect;
+
+namespace jcpp{
+    namespace lang{
+
+        JLangTestSuite::JLangTestSuite():JTestSuite(JLangTestSuite::getClazz(),true){
+            addTest(new JStringTest(new JString("testNewString")));
+            addTest(new JExceptionTest());
+            addTest(new JAbstractMethodErrorTest());
+            addTest(new JArithmeticExceptionTest());
+            addTest(new JArrayIndexOutOfBoundsExceptionTest());
+            addTest(new JArrayStoreExceptionTest());
+            addTest(new JAssertionErrorTest());
+            addTest(new JBooleanTest());
+            addTest(new JBootstrapMethodErrorTest());
+            addTest(new JByteTest());
+            addTest(new JCharacterTest());
+            addTest(new JClassTest());
+            addTest(new JClassCastExceptionTest());
+            addTest(new JClassCircularityErrorTest());
+            addTest(new JClassFormatErrorTest());
+            addTest(new JClassNotFoundExceptionTest());
+            addTest(new JCloneNotSupportedExceptionTest());
+            addTest(new JDoubleTest());
+            addTest(new JEnumSampleObjectTest());
+            addTest(new JEnumConstantNotPresentExceptionTest());
+            addTest(new JErrorTest());
+            addTest(new JFloatTest());
+            addTest(new JIllegalAccessErrorTest());
+            addTest(new JIllegalAccessExceptionTest());
+            addTest(new JIllegalArgumentExceptionTest());
+            addTest(new JIllegalMonitorStateExceptionTest());
+            addTest(new JIllegalStateExceptionTest());
+            addTest(new JIllegalThreadStateExceptionTest());
+            addTest(new JIncompatibleClassChangeErrorTest());
+            addTest(new JIndexOutOfBoundsExceptionTest());
+            addTest(new JInstantiationErrorTest());
+            addTest(new JInstantiationExceptionTest());
+            addTest(new JIntegerTest());
+            addTest(new JInternalErrorTest());
+            addTest(new JInterruptedExceptionTest());
+            addTest(new JLinkageErrorTest());
+            addTest(new JLongTest());
+            addTest(new JNegativeArraySizeExceptionTest());
+            addTest(new JNoClassDefFoundErrorTest());
+            addTest(new JNoSuchFieldErrorTest());
+            addTest(new JNoSuchFieldExceptionTest());
+            addTest(new JNoSuchMethodErrorTest());
+            addTest(new JNoSuchMethodExceptionTest());
+            addTest(new JNullPointerExceptionTest());
+            addTest(new JNumberFormatExceptionTest());
+            addTest(new JOutOfMemoryErrorTest());
+            addTest(new JPrimitiveTest());
+            addTest(new JReflectiveOperationExceptionTest());
+            addTest(new JRuntimeExceptionTest());
+            addTest(new JSecurityExceptionTest());
+            addTest(new JShortTest());
+            addTest(new JStackOverflowErrorTest());
+            addTest(new JStringBufferTest());
+            addTest(new JStringBuilderTest());
+            addTest(new JStringIndexOutOfBoundsExceptionTest());
+            addTest(new JThrowableTest());
+            addTest(new JTypeNotPresentExceptionTest());
+            addTest(new JUnknownErrorTest());
+            addTest(new JUnsatisfiedLinkErrorTest());
+            addTest(new JUnsupportedClassVersionErrorTest());
+            addTest(new JUnsupportedOperationExceptionTest());
+            addTest(new JVerifyErrorTest());
+            addTest(new JReflectTestSuite());
+        }
+
+        JLangTestSuite::~JLangTestSuite(){
+        }
+    }
+}

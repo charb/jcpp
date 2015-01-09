@@ -1,0 +1,92 @@
+Types:
+-------
+
+- ITypedef etxds IType => "typedef NewType oldType;"
+
+- IQualifierType exts IType => const|volatile
+
+- IBasicType extends IType => interface for basic types
+
+- IFunctionType extends IType => signature de la fonction, used dans typedef. 
+  Exemple : typedef int FIC(int) const;
+
+- IPointerType extends IType
+
+- IArrayType extds IType
+
+- ICPPReferenceType extds IType: "T&""
+
+- ICPPClassType extds IType:  represent a Class type
+
+- ICPPTemplateTypeParameter extds IType
+
+- IEnumeration extds IType
+
+- ICPPUnknownType extds IType : ????
+
+
+Expressions:
+------------
+
+- IASTLiteralExpression : this|string|false|true|numeric|null 
+
+- IASTIdExpression : variable_name
+
+- IASTFieldReference :  "a.b" => a is the expression, b is the field name
+
+- IASTUnaryExpression : operator expression
+
+- IASTConditionalExpression : (X ? Y : Z)
+
+- IASTArraySubscriptExpression :  exemple "x[10] y.z()[t * t]""
+
+- IASTBinaryExpression : operand1 op operand2
+
+- ICPPASTDeleteExpression : delete XXX;
+
+- ICPPASTNewExpression : "new XXX()"
+
+- IASTFunctionCallExpression : "f(X)"
+
+- IASTCastExpression : (TypeId)operand
+
+Stmts:
+------
+
+- IASTBreakStatement
+
+- IASTCaseStatement
+
+- IASTContinueStatement
+
+- IASTDefaultStatement
+
+- IASTGotoStatement
+
+- IASTNullStatement
+
+- IASTProblemStatement
+
+- IASTCompoundStatement
+
+- IASTDeclarationStatement
+
+- IASTDoStatement
+
+- IASTExpressionStatement
+
+- IASTForStatement
+
+- IASTIfStatement
+
+- IASTLabelStatement
+
+- IASTReturnStatement
+
+- IASTSwitchStatement
+
+- IASTWhileStatement
+
+- ICPPASTTryBlockStatement
+
+- 

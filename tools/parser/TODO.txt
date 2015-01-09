@@ -1,0 +1,25 @@
+- [DONE] re-implement function parameters list with AST interfaces OR add a corresponding AST node object to CPPMethodParameter class
+- [NO] for all variables/fields/params ensure corresponding class has a method to return file path and return computed insertion point
+- [DONE] have way to indicate if variable/etc. is pointer + have way to indicate if variable/etc. is static (what about other modifiers?) (Create class CPPType)
+- [DONE] find how global/static variables are described in AST (add them to CPPFile)
+- [DONE] handle overloaded methods.
+- [DONE] insert code for constructor. after "colon" initialization block.
+
+- find how object instantiation not directly assigned to variables are described in AST (i.e. "return new MyObject()", "myFunction(new MyObject())")
+if (new JString(""")->equals()){
+
+}
+
+JString* toto;
+if ((toto=new JString("""))->equals()){
+
+}
+
+return new JString()
+
+JString* toto;
+return ((toto=new JString())
+
+
+- [DONE] insert code for class. after class declaration.
+- [DONE] insert code after namespace

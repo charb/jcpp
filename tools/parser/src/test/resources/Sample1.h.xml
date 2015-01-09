@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cppFile>
+	<fileName>Sample1.h</fileName>
+	<namespaces>
+		<entry>
+			<key>helloNamespace</key>
+			<value>
+				<name>helloNamespace</name>
+				<lastName>helloNamespace</lastName>
+			</value>
+		</entry>
+		<entry>
+			<key>helloNamespace::internal</key>
+			<value>
+				<name>helloNamespace::internal</name>
+				<lastName>internal</lastName>
+			</value>
+		</entry>
+		<entry>
+			<key>helloNamespace::internal::emptyns</key>
+			<value>
+				<name>helloNamespace::internal::emptyns</name>
+				<lastName>emptyns</lastName>
+			</value>
+		</entry>
+		<entry>
+			<key>sampleNs</key>
+			<value>
+				<name>sampleNs</name>
+				<lastName>sampleNs</lastName>
+			</value>
+		</entry>
+	</namespaces>
+	<classes>
+		<entry>
+			<key>sampleNs::Sample2::SampleChild</key>
+			<value>
+				<namespace>sampleNs</namespace>
+				<name>sampleNs::Sample2::SampleChild</name>
+				<namespaceName>sampleNs</namespaceName>
+				<simpleName>SampleChild</simpleName>
+				<fields>
+					<field>
+						<name>childValue</name>
+						<type name="int" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPBasicType" isStatic="false" isPointer="false" />
+						<visibility>PUBLIC</visibility>
+						<cppClass>sampleNs::Sample2::SampleChild</cppClass>
+					</field>
+				</fields>
+				<methods>
+					<entry>
+						<key>~SampleChild()</key>
+						<value>
+							<name>~SampleChild</name>
+							<signature>~SampleChild()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters />
+							<variables />
+							<cppClass>sampleNs::Sample2::SampleChild</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>SampleChild()</key>
+						<value>
+							<name>SampleChild</name>
+							<signature>SampleChild()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>true</constructor>
+							<parameters />
+							<variables />
+							<cppClass>sampleNs::Sample2::SampleChild</cppClass>
+						</value>
+					</entry>
+				</methods>
+				<baseClasses />
+				<annotations />
+			</value>
+		</entry>
+		<entry>
+			<key>Sample1</key>
+			<value>
+				<name>Sample1</name>
+				<namespaceName></namespaceName>
+				<simpleName>Sample1</simpleName>
+				<fields>
+					<field>
+						<name>value</name>
+						<type name="int" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPBasicType" isStatic="false" isPointer="false" />
+						<visibility>PRIVATE</visibility>
+						<cppClass>Sample1</cppClass>
+					</field>
+					<field>
+						<name>strField</name>
+						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+						<visibility>PRIVATE</visibility>
+						<cppClass>Sample1</cppClass>
+					</field>
+					<field>
+						<name>strStaticField</name>
+						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="true" isPointer="true" />
+						<visibility>PRIVATE</visibility>
+						<cppClass>Sample1</cppClass>
+					</field>
+				</fields>
+				<methods>
+					<entry>
+						<key>getCopy()</key>
+						<value>
+							<name>getCopy</name>
+							<signature>getCopy()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters />
+							<variables />
+							<cppClass>Sample1</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>Sample1()</key>
+						<value>
+							<name>Sample1</name>
+							<signature>Sample1()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>true</constructor>
+							<parameters />
+							<variables />
+							<cppClass>Sample1</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>~Sample1()</key>
+						<value>
+							<name>~Sample1</name>
+							<signature>~Sample1()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters />
+							<variables />
+							<cppClass>Sample1</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>addValue(Sample1 *)</key>
+						<value>
+							<name>addValue</name>
+							<signature>addValue(Sample1 *)</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters>
+								<parameter>
+									<name>object</name>
+									<type name="Sample1 *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+								</parameter>
+							</parameters>
+							<variables />
+							<cppClass>Sample1</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>addValue(Sample1 *, Sample1 *)</key>
+						<value>
+							<name>addValue</name>
+							<signature>addValue(Sample1 *, Sample1 *)</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters>
+								<parameter>
+									<name>objectA</name>
+									<type name="Sample1 *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+								</parameter>
+								<parameter>
+									<name>objectB</name>
+									<type name="Sample1 *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+								</parameter>
+							</parameters>
+							<variables />
+							<cppClass>Sample1</cppClass>
+						</value>
+					</entry>
+				</methods>
+				<baseClasses>
+					<baseClass name="SampleParent" virtual="false" visibility="PUBLIC">
+						<baseClass name="helloGrandParent::SampleGrandParent" virtual="false" visibility="PUBLIC" />
+					</baseClass>
+					<baseClass name="SampleParent2" virtual="false" visibility="PRIVATE" />
+				</baseClasses>
+				<annotations>
+					<annotation name="MetadataAnnotation">
+						<properties>
+							<entry>
+								<key>meta2</key>
+								<value>3</value>
+							</entry>
+							<entry>
+								<key>meta1</key>
+								<value>hello world</value>
+							</entry>
+							<entry>
+								<key>meta3</key>
+								<value></value>
+							</entry>
+						</properties>
+					</annotation>
+					<annotation name="AnotherMetadataAnnotation">
+						<properties>
+							<entry>
+								<key>meta2</key>
+								<value>3</value>
+							</entry>
+							<entry>
+								<key>meta1</key>
+								<value>hello world</value>
+							</entry>
+							<entry>
+								<key>meta3</key>
+								<value></value>
+							</entry>
+						</properties>
+					</annotation>
+					<annotation name="EmptyAnnotation">
+						<properties />
+					</annotation>
+				</annotations>
+			</value>
+		</entry>
+		<entry>
+			<key>sampleNs::Sample2</key>
+			<value>
+				<namespace>sampleNs</namespace>
+				<name>sampleNs::Sample2</name>
+				<namespaceName>sampleNs</namespaceName>
+				<simpleName>Sample2</simpleName>
+				<fields>
+					<field>
+						<name>strInternal</name>
+						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+						<visibility>PRIVATE</visibility>
+						<cppClass>sampleNs::Sample2</cppClass>
+					</field>
+				</fields>
+				<methods>
+					<entry>
+						<key>sayHello(char *)</key>
+						<value>
+							<name>sayHello</name>
+							<signature>sayHello(char *)</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters>
+								<parameter>
+									<name>strMessage</name>
+									<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+								</parameter>
+							</parameters>
+							<variables />
+							<cppClass>sampleNs::Sample2</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>Sample2()</key>
+						<value>
+							<name>Sample2</name>
+							<signature>Sample2()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>true</constructor>
+							<parameters />
+							<variables />
+							<cppClass>sampleNs::Sample2</cppClass>
+						</value>
+					</entry>
+					<entry>
+						<key>~Sample2()</key>
+						<value>
+							<name>~Sample2</name>
+							<signature>~Sample2()</signature>
+							<visibility>PUBLIC</visibility>
+							<constructor>false</constructor>
+							<parameters />
+							<variables />
+							<cppClass>sampleNs::Sample2</cppClass>
+						</value>
+					</entry>
+				</methods>
+				<baseClasses />
+				<annotations />
+			</value>
+		</entry>
+	</classes>
+	<classForwardDeclarations>
+		<name>UndefindedClass</name>
+		<namespace>helloNamespace</namespace>
+	</classForwardDeclarations>
+	<globalVariables>
+		<globalVariable>
+			<name>strGlobal1</name>
+			<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+		</globalVariable>
+		<globalVariable>
+			<name>strGlobal2</name>
+			<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+		</globalVariable>
+		<globalVariable>
+			<name>strHelloGlobal</name>
+			<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+		</globalVariable>
+		<globalVariable>
+			<name>internalHello</name>
+			<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
+		</globalVariable>
+	</globalVariables>
+	<functions />
+</cppFile>

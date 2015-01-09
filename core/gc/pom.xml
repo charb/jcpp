@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp</groupId>
+		<artifactId>core</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>charb.jcpp.core</groupId>
+	<artifactId>core-gc</artifactId>
+	<packaging>nar</packaging>
+	<name>${charb.project.name.template}</name>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+				<artifactId>pre-mavenplugin</artifactId>
+				<executions>
+					<execution>
+						<id>process-sources</id>
+						<goals>
+							<goal>pre-compilation</goal>
+							<goal>post-compilation</goal>
+						</goals>
+						<configuration>
+							<addGcCode>false</addGcCode>
+							<addReflectionCode>false</addReflectionCode>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<configuration>
+					<tests>   
+						<test>
+							<name>InfoTest</name>
+							<link>shared</link>
+							<run>true</run>
+						</test> 
+					</tests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>core-gc-sunos-test</id>
+			<activation>
+				<os>
+					<name>sunos</name>
+					<family>unix</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.maven-nar</groupId>
+						<artifactId>nar-maven-plugin</artifactId>
+						<configuration>
+							<linker>
+								<name>CC</name>
+								<options combine.self="override">
+								</options>
+							</linker>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>charb.jcpp.native</groupId>
+			<artifactId>native-api</artifactId>
+			<type>nar</type>
+		</dependency>
+	</dependencies>
+
+</project>

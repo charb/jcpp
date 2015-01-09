@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp</groupId>
+		<artifactId>native</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>charb.jcpp.native</groupId>
+	<artifactId>native-unix</artifactId>
+	<packaging>nar</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<profiles>
+		<profile>
+			<id>native-unix-sunos</id>
+			<activation>
+				<os>
+					<name>sunos</name>
+					<family>unix</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.maven-nar</groupId>
+						<artifactId>nar-maven-plugin</artifactId>
+						<configuration>
+							<linker>
+								<name>CC</name>
+								<options combine.self="override">
+									<option>-G</option>
+									<option>-hlib${project.artifactId}-${project.version}.so</option>
+									<option>-lrt</option> <!-- sched_yield | sched_get_priority_min | sched_get_priority_max -->
+									<option>-lnsl</option>
+									<option>-lsocket</option>
+								</options>
+							</linker>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>native-unix-linux</id>
+			<activation>
+				<os>
+					<name>linux</name>
+					<family>unix</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.maven-nar</groupId>
+						<artifactId>nar-maven-plugin</artifactId>
+						<configuration>
+							<linker>
+								<name>g++</name>
+								<options>
+									<option>-lpthread</option>
+									<option>-ldl</option>
+								</options>
+							</linker>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+				<profile>
+			<id>aix</id>
+			<activation>
+				<os>
+					<name>aix</name>
+					<family>unix</family>
+				</os>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.maven-nar</groupId>
+						<artifactId>nar-maven-plugin</artifactId>
+						<configuration>
+							<linker>
+								<name>xlC</name>
+								<options>
+									<option>-lpthread</option>
+									<option>-ldl</option>
+								</options>
+							</linker>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<dependency>
+			<groupId>charb.jcpp.native</groupId>
+			<artifactId>native-include</artifactId>
+			<type>nar</type>
+		</dependency>
+	</dependencies>
+
+</project>

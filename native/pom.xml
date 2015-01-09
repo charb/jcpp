@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>charb</groupId>
+		<artifactId>jcpp</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<groupId>charb.jcpp</groupId>
+	<artifactId>native</artifactId>
+	<packaging>pom</packaging>
+	<name>${charb.project.name.template}</name>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+				<artifactId>pre-mavenplugin</artifactId>
+				<executions>
+					<execution>
+						<id>process-sources</id>
+						<goals>
+							<goal>pre-compilation</goal>
+							<goal>post-compilation</goal>
+						</goals>
+						<configuration>
+							<addGcCode>false</addGcCode>
+							<addReflectionCode>false</addReflectionCode>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<modules>
+		<module>include</module>
+		<module>api</module>
+		<module>tests</module>
+	</modules>
+	
+	<profiles>
+		<profile>
+			<id>native-windows-modules</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<modules>
+				<module>windows</module>
+			</modules>
+		</profile>
+		
+		<profile>
+			<id>native-unix-modules</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<modules>
+				<module>unix</module>
+			</modules>
+		</profile>
+	</profiles>
+	
+</project>

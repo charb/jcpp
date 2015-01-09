@@ -1,0 +1,1 @@
+d:\java\jdk1.7.0_51-x64\bin\java -cp target\tools-converter-1.0-jar-with-dependencies.jar jcpp.converter.Main E:\boulot\java\commons\logging\commons-logging-1.2\org  E:\boulot\java\commons\logging\commons-logging-1.2-src\src\main\java\org ..\..\commons\logging\src\main\include ..\..\commons\logging\src\main\c++

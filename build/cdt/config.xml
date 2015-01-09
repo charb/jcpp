@@ -1,0 +1,7 @@
+<astTranslationUnitConfig>
+	<filePath>..\..\core\lang\src\main</filePath>
+	<includesPaths>
+		<includesPath>..\..\core\lang\src\main\include</includesPath>
+		<includesPath>..\..\native\include\src\main\include</includesPath>
+	</includesPaths>
+</astTranslationUnitConfig>	
