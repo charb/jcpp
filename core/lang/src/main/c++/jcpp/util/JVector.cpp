@@ -21,102 +21,6 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
-        class JVectorClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJVector(jcpp::util::JList* args){
-                return new JVector();
-            }
-
-            static JObject* invokeWriteObject(JObject* object,JList* args){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                arrayList->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* staticGetElementCount(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return arrayList->elementCount;
-            }
-
-            static void staticSetElementCount(JObject* object,JObject* value){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                arrayList->elementCount=dynamic_cast<JPrimitiveInt*>(value);
-            }
-
-            static JObject** adrElementCount(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return (JObject**)&arrayList->elementCount;
-            }
-
-            static JObject* staticGetCapacityIncrement(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return arrayList->capacityIncrement;
-            }
-
-            static void staticSetCapacityIncrement(JObject* object,JObject* value){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                arrayList->capacityIncrement=dynamic_cast<JPrimitiveInt*>(value);
-            }
-
-            static JObject** adrCapacityIncrement(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return (JObject**)&arrayList->capacityIncrement;
-            }
-
-            static JObject* staticGetElementData(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return arrayList->items;
-            }
-
-            static void staticSetElementData(JObject* object,JObject* value){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                arrayList->items=dynamic_cast<JPrimitiveObjectArray*>(value);
-            }
-
-            static JObject** adrElementData(JObject* object){
-                JVector* arrayList=dynamic_cast<JVector*>(object);
-                return (JObject**)&arrayList->items;
-            }
-
-        public:
-            JVectorClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Vector");
-                this->name=new JString("java.util.Vector");
-                this->simpleName=new JString("Vector");
-                this->serialVersionUID=-2767605614048989439LL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JList::getClazz());
-                addInterface(JRandomAccess::getClazz());
-                addInterface(JCloneable::getClazz());
-
-                addConstructor(new JConstructor(JVector::getClazz(),JModifier::PUBLIC,createJVector));
-
-                addField(new JField(new JString("elementData"),JPrimitiveObjectArray::getClazz(JObject::getClazz()),this,staticGetElementData,staticSetElementData,adrElementData));
-                addField(new JField(new JString("elementCount"),JPrimitiveInt::getClazz(),this,staticGetElementCount,staticSetElementCount,adrElementCount));
-                addField(new JField(new JString("capacityIncrement"),JPrimitiveInt::getClazz(),this,staticGetCapacityIncrement,staticSetCapacityIncrement,adrCapacityIncrement));
-
-                JMethod* m=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                m->addParameterType(JObjectOutputStream::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JAbstractList::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JVector::getClazz(){
-            if (clazz==null){
-                clazz=new JVectorClass();
-            }
-            return clazz;
-        }
 
         JVector::JVector(jint i,jint c):JAbstractList(getClazz()){
             items=new JPrimitiveObjectArray(JObject::getClazz(),i);
@@ -221,47 +125,19 @@ namespace jcpp{
             })
         }
 
-        static jcpp::lang::JClass* enumerationImplClazz;
-
+        // @Class(canonicalName="java.util.Vector$Enumeration", simpleName="Vector$Enumeration");
         class JEnumerationImpl : public JObject ,public JEnumeration{
         protected:
             JVector* v;
             jint count;
 
-            class JEnumerationImplClass : public jcpp::lang::JClass{
-            public:
-                JEnumerationImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Vector$Enumeration");
-                    this->name=new JString("java.util.Vector$Enumeration");
-                    this->simpleName=new JString("Vector$Enumeration");
-                }
-
-                virtual void initialize(){
-                    addInterface(JEnumeration::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JVector::getClazz();
-                }
-            };
-
         public:
-
             JEnumerationImpl(JVector* v):JObject(getClazz()){
                 this->v=v;
                 count = 0;
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (enumerationImplClazz==NULL){
-                    enumerationImplClazz=new JEnumerationImplClass();
-                }
-                return enumerationImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasMoreElements() {
                 return count < v->size();
@@ -629,29 +505,9 @@ namespace jcpp{
             out->writeFields();
         }
 
-        static jcpp::lang::JClass* vectorJItrClazz;
+        // @Class(canonicalName="java.util.Vector$Itr", simpleName="Vector$Itr");
         class JVectorItr : public JObject, public JIterator {
         protected:
-            class JVectorItrClass : public jcpp::lang::JClass{
-            public:
-              JVectorItrClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.Vector$Itr");
-                  this->name=new JString("java.util.Vector$Itr");
-                  this->simpleName=new JString("Vector$Itr");
-              }
-
-              virtual void initialize(){
-                  addInterface(JIterator::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JObject::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JVector::getClazz();
-              }
-            };
             JVector* v;
             jint cursor;
             jint lastRet;
@@ -665,12 +521,7 @@ namespace jcpp{
             }
 
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (vectorJItrClazz==null){
-                    vectorJItrClazz=new JVectorItrClass();
-                }
-                return vectorJItrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JVectorItr(JVector* v):JObject(getClazz()){
                 this->v=v;
@@ -716,37 +567,10 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* vectorListItrClazz;
+        // @Class(canonicalName="java.util.Vector$ListItr", simpleName="Vector$ListItr");
         class JVectorListItr : public JVectorItr , public JListIterator {
-        protected:
-            class JVectorListItrClass : public jcpp::lang::JClass{
-            public:
-              JVectorListItrClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.Vector$ListItr");
-                  this->name=new JString("java.util.Vector$ListItr");
-                  this->simpleName=new JString("Vector$ListItr");
-              }
-
-              virtual void initialize(){
-                  addInterface(JListIterator::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JVectorItr::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JVector::getClazz();
-              }
-            };
-
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (vectorListItrClazz==null){
-                    vectorListItrClazz=new JVectorListItrClass();
-                }
-                return vectorListItrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JVectorListItr(JVector* v, jint index):JVectorItr(getClazz(),v) {
                 cursor = index;
@@ -827,12 +651,6 @@ namespace jcpp{
             synchronized(this,{
                 return new JVectorItr(this);
             })
-        }
-
-        void JVectorClass::fillDeclaredClasses(){
-            addDeclaredClass(JEnumerationImpl::getClazz());
-            addDeclaredClass(JVectorItr::getClazz());
-            addDeclaredClass(JVectorListItr::getClazz());
         }
 
         JVector::~JVector(){

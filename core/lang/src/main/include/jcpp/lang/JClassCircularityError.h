@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.ClassCircularityError", simpleName="ClassCircularityError");
         class JCPP_EXPORT JClassCircularityError : public JLinkageError {
+        private:
+        	static const jlong serialVersionUID = 1054362542914539689LL;
+
         protected:
             JClassCircularityError(jcpp::lang::JClass* _class);
 

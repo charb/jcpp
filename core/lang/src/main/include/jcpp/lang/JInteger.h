@@ -8,18 +8,17 @@
 
 namespace jcpp{
     namespace lang{
-    	class JIntegerClass;
 
+    	// @Class(canonicalName="java.lang.Integer", simpleName="Integer");
         class JCPP_EXPORT JInteger : public JNumber, public JComparable{
-
         	private:
+        		static const jlong serialVersionUID = 1360826667806852920LL;
     			static JString* toUnsignedString(jint i, jint shift);
 
             protected:
                 JPrimitiveInt* value;
                 void setPrimitiveInt(JPrimitiveInt* value);
                 JPrimitiveInt* getPrimitiveInt();
-                friend class JIntegerClass;
 
             public:
                 JInteger();

@@ -1,7 +1,6 @@
 #include "jcpp/lang/JClassLoader.h"
 #include "jcpp/util/JHashMap.h"
 #include "jcpp/util/JList.h"
-#include "jcpp/JCPP_PACKAGE.h"
 #include "jcpp/lang/JClassNotFoundException.h"
 #include "jcpp/lang/JIllegalArgumentException.h"
 #include "jcpp/lang/JPrimitiveByte.h"
@@ -15,11 +14,14 @@
 #include "jcpp/lang/JInternalError.h"
 #include "jcpp/lang/JStringBuilder.h"
 #include "jcpp/lang/JSystem.h"
+#include "jcpp/CHARB_JCPP_CORE_CORE_LANG_JCPP_PACKAGE.h"
 
 using namespace jcpp::util;
 
 namespace jcpp{
     namespace lang{
+
+    	// @IgnoreReflection()
         class JClassLoaderClass : public jcpp::lang::JClass{
           public:
             JClassLoaderClass():jcpp::lang::JClass(){
@@ -77,7 +79,7 @@ namespace jcpp{
         void JClassLoader::init(){
             if (!initialized){
                 initialized=true;
-                getBootClassLoader()->initClasses(JCPP_PACKAGE::getPackage());
+                getBootClassLoader()->initClasses(CHARB_JCPP_CORE_CORE_LANG_JCPP_PACKAGE::getPackage());
             }
         }
 

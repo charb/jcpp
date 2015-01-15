@@ -7,6 +7,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace security{
+
+    	// @Class(canonicalName="java.security.SecureClassLoader", simpleName="SecureClassLoader");
         class JCPP_EXPORT JSecureClassLoader : public JClassLoader{
             protected:
                 JSecureClassLoader(jcpp::lang::JClass* _class,JClassLoader* parent);

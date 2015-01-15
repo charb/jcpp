@@ -7,31 +7,6 @@
 
 namespace jcpp{
     namespace util{
-        class JAbstractCollectionClass : public jcpp::lang::JClass{
-        public:
-            JAbstractCollectionClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.AbstractCollection");
-                this->name=new JString("java.util.AbstractCollection");
-                this->simpleName=new JString("AbstractCollection");
-            }
-
-            virtual void initialize(){
-                addInterface(JCollection::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JAbstractCollection::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractCollectionClass();
-            }
-            return clazz;
-        }
 
         JAbstractCollection::JAbstractCollection(jcpp::lang::JClass* _class):JObject(_class){
         }

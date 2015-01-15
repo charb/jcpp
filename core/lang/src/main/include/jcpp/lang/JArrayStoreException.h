@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.ArrayStoreException", simpleName="ArrayStoreException");
         class JCPP_EXPORT JArrayStoreException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = -4522193890499838241LL;
+
         public:
 
             JArrayStoreException();

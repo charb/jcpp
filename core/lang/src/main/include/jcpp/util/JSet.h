@@ -9,6 +9,8 @@
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Set", simpleName="Set");
         class JCPP_EXPORT JSet : public virtual JCollection{
         public:
             static jcpp::lang::JClass* getClazz();

@@ -13,6 +13,8 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace lang{
         namespace reflect{
+
+        	// @Class(canonicalName="java.lang.reflect.InvocationHandler", simpleName="InvocationHandler");
             class JCPP_EXPORT JInvocationHandler : public JInterface{
             public:
                 static jcpp::lang::JClass* getClazz();

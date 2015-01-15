@@ -7,7 +7,12 @@
 namespace jcpp{
     namespace lang{
     	namespace reflect{
+
+    		// @Class(canonicalName="java.lang.reflect.MalformedParameterizedTypeException", simpleName="MalformedParameterizedTypeException");
 	        class JCPP_EXPORT JMalformedParameterizedTypeException : public JRuntimeException{
+	        private:
+	        	static const jlong serialVersionUID = -5696557788586220964LL;
+
 	        public:
 	            JMalformedParameterizedTypeException();
 

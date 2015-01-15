@@ -6,7 +6,7 @@
 namespace jcpp{
     namespace io{
 
-    	//@Class(canonicalName="java.io.ObjectOutputStream", simpleName="FileNotFoundException");
+    	//@Class(canonicalName="java.io.FileNotFoundException", simpleName="FileNotFoundException");
         class JCPP_EXPORT JFileNotFoundException : public JIOException  {
         private:
        				static const jlong serialVersionUID = 897856973823710492LL;

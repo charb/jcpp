@@ -18,7 +18,12 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.HashSet", simpleName="HashSet");
         class JCPP_EXPORT JHashSet : public JAbstractSet, public JCloneable, public JSerializable{
+        private:
+        	static const jlong serialVersionUID = -5024744406713321676LL;
+
         protected:
             JHashMap* map;
             virtual void writeObject(JObjectOutputStream* out);

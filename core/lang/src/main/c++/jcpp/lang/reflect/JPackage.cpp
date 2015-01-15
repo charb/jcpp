@@ -10,28 +10,6 @@ using namespace jcpp::util;
 namespace jcpp{
     namespace lang{
         namespace reflect{
-            class JPackageClass : public jcpp::lang::JClass{
-                public:
-                    JPackageClass():jcpp::lang::JClass(){
-                        canonicalName=new JString("java.lang.Package");
-                        name=new JString("java.lang.Package");
-                        simpleName=new JString("Package");
-                        bIsPackage=true;
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return null;
-                    }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JPackage::getClazz(){
-                if (clazz==null){
-                    clazz=new JPackageClass();
-                }
-                return clazz;
-            }
 
             JPackage::JPackage(JString* name,jcpp::lang::JClass* _class):JObject(_class){
                 this->name=name;

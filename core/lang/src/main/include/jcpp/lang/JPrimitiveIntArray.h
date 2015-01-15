@@ -7,6 +7,8 @@
 
 namespace jcpp {
 	namespace lang {
+
+		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveIntArray: public JPrimitiveArray {
 		protected:
 			jint* data;

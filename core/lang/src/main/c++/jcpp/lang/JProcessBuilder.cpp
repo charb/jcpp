@@ -12,100 +12,40 @@ using namespace jcpp::native::api::process;
 namespace jcpp {
     namespace lang {
 
-    	class JProcessBuilderClass : public jcpp::lang::JClass {
-    		// TODO fill
-    	public:
-    		JProcessBuilderClass():jcpp::lang::JClass() {
-    			this->canonicalName=new JString("java.lang.ProcessBuilder");
-    			this->name=new JString("java.lang.ProcessBuilder");
-    			this->simpleName=new JString("ProcessBuilder");
-    		}
+    	JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::JType::APPEND = new JType(new JString("APPEND"),new JPrimitiveInt(0));
+    	JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::JType::INHERIT = new JType(new JString("INHERIT"),new JPrimitiveInt(1));
+    	JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::JType::PIPE = new JType(new JString("PIPE"),new JPrimitiveInt(2));
+    	JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::JType::READ = new JType(new JString("READ"),new JPrimitiveInt(3));
+    	JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::JType::WRITE = new JType(new JString("WRITE"),new JPrimitiveInt(4));
 
-    		virtual jcpp::lang::JClass* getSuperclass() {
-    			return JObject::getClazz();
-    		}
+    	JProcessBuilder::JRedirect::JType::JType(JString* name, JPrimitiveInt* ordinal) : JEnum(dynamic_cast<JEnumClass*>(getClazz()),name,ordinal){
+        }
 
-    	};
+    	JProcessBuilder::JRedirect::JType::~JType(){
+    	}
 
-    	class JRedirectClass : public jcpp::lang::JClass {
-			// TODO fill
-		public:
-    		JRedirectClass():jcpp::lang::JClass() {
-				this->canonicalName=new JString("java.lang.ProcessBuilder.Redirect");
-				this->name=new JString("java.lang.ProcessBuilder$Redirect");
-				this->simpleName=new JString("Redirect");
-			}
+    	JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::INHERIT_STREAM = new JProcessBuilder::JRedirect(JProcessBuilder::JRedirect::JType::INHERIT, null);
 
-			virtual jcpp::lang::JClass* getSuperclass() {
-				return JObject::getClazz();
-			}
+    	JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::PIPE_STREAM = new JProcessBuilder::JRedirect(JProcessBuilder::JRedirect::JType::PIPE, null);
 
-		};
-
-    	class JForkedProcessClass : public jcpp::lang::JClass {
-			// TODO fill
-		public:
-    		JForkedProcessClass():jcpp::lang::JClass() {
-				this->canonicalName=new JString("java.lang.ForkedProcess");
-				this->name=new JString("java.lang.ForkedProcess");
-				this->simpleName=new JString("ForkedProcess");
-			}
-
-			virtual jcpp::lang::JClass* getSuperclass() {
-				return JObject::getClazz();
-			}
-
-		};
-
-    	static jcpp::lang::JClass * jProcessBuilderClass;
-
-    	jcpp::lang::JClass* JProcessBuilder::getClazz() {
-			if (jProcessBuilderClass==null){
-				jProcessBuilderClass=new JProcessBuilderClass();
-			}
-			return jProcessBuilderClass;
-		}
-
-    	static jcpp::lang::JClass * jRedirectClass;
-
-    	jcpp::lang::JClass* JProcessBuilder::JRedirect::getClazz() {
-			if (jRedirectClass==null){
-				jRedirectClass=new JRedirectClass();
-			}
-			return jRedirectClass;
-		}
-
-    	static jcpp::lang::JClass * jForkedProcessClass;
-
-		jcpp::lang::JClass* JForkedProcess::getClazz() {
-			if (jForkedProcessClass==null){
-				jForkedProcessClass=new JForkedProcessClass();
-			}
-			return jForkedProcessClass;
-		}
-
-    	JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::INHERIT_STREAM = new JProcessBuilder::JRedirect(INHERIT, null);
-
-    	JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::PIPE_STREAM = new JProcessBuilder::JRedirect(PIPE, null);
-
-    	JProcessBuilder::JRedirect::JRedirect(JProcessBuilder::JRedirect::JType _type, JFile* _file) : JObject(getClazz()) {
+    	JProcessBuilder::JRedirect::JRedirect(JProcessBuilder::JRedirect::JType* _type, JFile* _file) : JObject(getClazz()) {
 			type = _type;
 			file = _file;
 		}
 
 		JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::appendTo(JFile* file) {
-			return new JRedirect(APPEND, file);
+			return new JRedirect(JProcessBuilder::JRedirect::JType::APPEND, file);
 		}
 
 		JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::from(JFile* file) {
-			return new JRedirect(READ, file);
+			return new JRedirect(JProcessBuilder::JRedirect::JType::READ, file);
 		}
 
 		JProcessBuilder::JRedirect* JProcessBuilder::JRedirect::to(JFile* file) {
-			return new JRedirect(WRITE, file);
+			return new JRedirect(JProcessBuilder::JRedirect::JType::WRITE, file);
 		}
 
-		JProcessBuilder::JRedirect::JType JProcessBuilder::JRedirect::getType() const {
+		JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::getType() const {
 			return type;
 		}
 
@@ -118,22 +58,21 @@ namespace jcpp {
 
 		NativeProcessBuilderRedirect JProcessBuilder::createNativeRedirect(JProcessBuilder::JRedirect* redirect) {
 			NativeString path("null");
-			switch (redirect->type) {
-				case INHERIT:
-					return NativeProcessBuilderRedirect::INHERIT;
-				case PIPE:
-					return NativeProcessBuilderRedirect::REDIRECT_PIPE;
-				case APPEND:
-					path = redirect->file->getPath()->getNativeString();
-					return NativeProcessBuilderRedirect::appendTo(path);
-				case READ:
-					path = redirect->file->getPath()->getNativeString();
-					return NativeProcessBuilderRedirect::from(path);
-				case WRITE:
-					path = redirect->file->getPath()->getNativeString();
-					return NativeProcessBuilderRedirect::to(path);
-				default:
-					return NativeProcessBuilderRedirect::REDIRECT_PIPE;
+			if(redirect->type == JProcessBuilder::JRedirect::JType::INHERIT) {
+				return NativeProcessBuilderRedirect::INHERIT;
+			} else if(redirect->type == JProcessBuilder::JRedirect::JType::PIPE) {
+				return NativeProcessBuilderRedirect::REDIRECT_PIPE;
+			} else if(redirect->type == JProcessBuilder::JRedirect::JType::APPEND) {
+				path = redirect->file->getPath()->getNativeString();
+				return NativeProcessBuilderRedirect::appendTo(path);
+			} else if(redirect->type == JProcessBuilder::JRedirect::JType::READ) {
+				path = redirect->file->getPath()->getNativeString();
+				return NativeProcessBuilderRedirect::from(path);
+			} else if(redirect->type == JProcessBuilder::JRedirect::JType::WRITE) {
+				path = redirect->file->getPath()->getNativeString();
+				return NativeProcessBuilderRedirect::to(path);
+			} else {
+				return NativeProcessBuilderRedirect::REDIRECT_PIPE;
 			}
 		}
 

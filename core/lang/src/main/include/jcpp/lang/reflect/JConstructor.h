@@ -16,15 +16,20 @@ namespace jcpp{
         class JStringBuilder;
         namespace reflect{
 
+        	// @Class(canonicalName="java.lang.reflect.Constructor", simpleName="Constructor");
             class JCPP_EXPORT JConstructor : public JExecutable{
             public:
                 typedef JObject* (*instantiator)(jcpp::util::JList* args);
 
             protected:
+                // @IgnoreReflection()
                 instantiator inst;
+
                 virtual void specificToStringHeader(JStringBuilder* sb);
 
             public:
+
+                // @IgnoreReflection()
                 JConstructor(jcpp::lang::JClass* declaringClass,jint modifiers,instantiator inst);
                 
                 static jcpp::lang::JClass* getClazz();

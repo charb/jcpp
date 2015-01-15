@@ -19,13 +19,15 @@ namespace jcpp{
         class JObjectOutputStream;
     }
     namespace lang{
-    	class JStringBuilderClass;
 
+    	// @Class(canonicalName="java.lang.StringBuilder", simpleName="StringBuilder");
         class JCPP_EXPORT JStringBuilder : public JAbstractStringBuilder  , public JSerializable{
+        	private:
+        		static const jlong serialVersionUID = 4383685877147921099LL;
+
             protected:
                 virtual void writeObject(jcpp::io::JObjectOutputStream* out);
                 virtual void readObject(jcpp::io::JObjectInputStream* in);
-                friend class JStringBuilderClass;
 
             public:
                 static jcpp::lang::JClass* getClazz();
@@ -50,8 +52,10 @@ namespace jcpp{
 
                 virtual JStringBuilder* append(JString* str,jint offset,jint len);
 
+                // @IgnoreReflection()
                 virtual JStringBuilder* append(const char * str);
 
+                // @IgnoreReflection()
                 virtual JStringBuilder* append(const wchar_t* wstr);
 
                 virtual JStringBuilder* append(jbool b);
@@ -82,8 +86,10 @@ namespace jcpp{
 
                 virtual JStringBuilder* insert(jint offset,JCharSequence* s,jint start,jint end);
 
+                // @IgnoreReflection()
                 virtual JStringBuilder* insert(jint offset,const char * str);
 
+                // @IgnoreReflection()
                 virtual JStringBuilder* insert(jint offset,const wchar_t* wstr);
 
                 virtual JStringBuilder* insert(jint offset,jbool b);

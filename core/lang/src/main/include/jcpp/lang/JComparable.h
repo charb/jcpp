@@ -8,6 +8,7 @@ namespace jcpp{
         class JClass;
         class JObject;
 
+        // @Class(canonicalName="java.lang.Comparable", simpleName="Comparable");
         class JCPP_EXPORT JComparable : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

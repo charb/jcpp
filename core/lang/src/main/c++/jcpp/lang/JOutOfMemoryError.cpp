@@ -6,37 +6,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace lang{
-        class JOutOfMemoryErrorClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJOutOfMemoryError(jcpp::util::JList* args){
-                return new JOutOfMemoryError();
-            }
-
-        public:
-            JOutOfMemoryErrorClass():jcpp::lang::JClass(){
-                canonicalName=new JString("java.lang.OutOfMemoryError");
-                name=new JString("java.lang.OutOfMemoryError");
-                simpleName=new JString("OutOfMemoryError");
-                serialVersionUID=8228564086184010517LL;
-            }
-
-            virtual void initialize(){
-                addConstructor(new JConstructor(JOutOfMemoryError::getClazz(),JModifier::PUBLIC,createJOutOfMemoryError));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JVirtualMachineError::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JOutOfMemoryError::getClazz(){
-            if (clazz==null){
-                clazz=new JOutOfMemoryErrorClass();
-            }
-            return clazz;
-        }
 
         JOutOfMemoryError::JOutOfMemoryError():JVirtualMachineError(getClazz()){
         }

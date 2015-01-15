@@ -12,27 +12,30 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @IgnoreReflection()
         class JCPP_EXPORT JEnum: public JObject, public JComparable, public JSerializable{
+        public:
+        	// @IgnoreReflection()
+			class JEnumClass : public jcpp::lang::JClass{
+			  public:
+				JEnumClass(){
+					this->canonicalName=new JString("java.lang.Enum");
+					this->name=new JString("java.lang.Enum");
+					this->simpleName=new JString("Enum");
+					this->bIsEnum=true;
+				}
+
+				virtual void initialize(){
+					addInterface(JComparable::getClazz());
+					addInterface(JSerializable::getClazz());
+				}
+
+				virtual jcpp::lang::JClass* getSuperclass(){
+					return JObject::getClazz();
+				}
+			};
         protected:
-            class JEnumClass : public jcpp::lang::JClass{
-              public:
-                JEnumClass(){
-                    this->canonicalName=new JString("java.lang.Enum");
-                    this->name=new JString("java.lang.Enum");
-                    this->simpleName=new JString("Enum");
-                    this->bIsEnum=true;
-                }
-
-                virtual void initialize(){
-                    addInterface(JComparable::getClazz());
-                    addInterface(JSerializable::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-            };
-
             JPrimitiveInt* ord;
             JString* name;
 

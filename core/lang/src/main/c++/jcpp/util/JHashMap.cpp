@@ -18,94 +18,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace util{
-        class JHashMapClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJHashMap(jcpp::util::JList* args){
-                return new JHashMap();
-            }
-
-            static JObject* invokeWriteObject(JObject* object,JList* args){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                hashMap->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* invokeReadObject(JObject* object,JList* args){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                hashMap->readObject(dynamic_cast<JObjectInputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* staticGetThreshold(JObject* object){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                return hashMap->threshold;
-            }
-
-            static void staticSetThreshold(JObject* object,JObject* value){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                hashMap->threshold=dynamic_cast<JPrimitiveInt*>(value);
-            }
-
-            static JObject** adrThreshold(JObject* object){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                return (JObject**)(&hashMap->threshold);
-            }
-
-            static JObject* staticGetLoadFactor(JObject* object){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                return hashMap->loadFactor;
-            }
-
-            static void staticSetLoadFactor(JObject* object,JObject* value){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                hashMap->loadFactor=dynamic_cast<JPrimitiveFloat*>(value);
-            }
-
-            static JObject** adrLoadFactor(JObject* object){
-                JHashMap* hashMap=dynamic_cast<JHashMap*>(object);
-                return (JObject**)(&hashMap->loadFactor);
-            }
-
-        public:
-            JHashMapClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.HashMap");
-                this->name=new JString("java.util.HashMap");
-                this->simpleName=new JString("HashMap");
-                this->serialVersionUID=362498820763181265LL;
-            }
-
-            virtual void initialize(){
-                addInterface(JMap::getClazz());
-                addInterface(JSerializable::getClazz());
-                addInterface(JCloneable::getClazz());
-
-                addConstructor(new JConstructor(JHashMap::getClazz(),JModifier::PUBLIC,createJHashMap));
-
-                addField(new JField(new JString("threshold"),JPrimitiveInt::getClazz(),this,staticGetThreshold,staticSetThreshold,adrThreshold));
-                addField(new JField(new JString("loadFactor"),JPrimitiveFloat::getClazz(),this,staticGetLoadFactor,staticSetLoadFactor,adrLoadFactor));
-
-                JMethod* m=addMethod(new JMethod(new JString("readObject"),this,JVoid::TYPE,invokeReadObject));
-                m->addParameterType(JObjectInputStream::getClazz());
-
-                m=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                m->addParameterType(JObjectOutputStream::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JAbstractMap::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JHashMap::getClazz(){
-            if (clazz==null){
-                clazz=new JHashMapClass();
-            }
-            return clazz;
-        }
 
         static jint DEFAULT_INITIAL_CAPACITY = 16;
 
@@ -121,29 +33,8 @@ namespace jcpp{
 
         static jcpp::lang::JClass* nodeClazz = null;
 
+        // @Class(canonicalName="java.util.HashMap$Node", simpleName="HashMap$Node");
         class JNode : public JMap::JEntry, public JObject{
-            protected:
-            class JNodeClass : public jcpp::lang::JClass{
-            public:
-                JNodeClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$Node");
-                    this->name=new JString("java.util.HashMap$Node");
-                    this->simpleName=new JString("HashMap$Node");
-                }
-
-                virtual void initialize(){
-                    addInterface(JEntry::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
-
             public:
                 jint hash;
                 JObject* key;
@@ -164,12 +55,7 @@ namespace jcpp{
                     this->next=next;
                 }
 
-                static jcpp::lang::JClass* getClazz(){
-                    if (nodeClazz==null){
-                        nodeClazz=new JNodeClass();
-                    }
-                    return nodeClazz;
-                }
+                static jcpp::lang::JClass* getClazz();
 
                 virtual JObject* getKey() {
                     return key;
@@ -226,27 +112,8 @@ namespace jcpp{
         };
 
 
-        static jcpp::lang::JClass* treeNodeClazz = null;
-
+        // @Class(canonicalName="java.util.HashMap$TreeNode", simpleName="HashMap$TreeNode");
         class JTreeNode : public JNode {
-        protected:
-            class JTreeNodeClass : public jcpp::lang::JClass{
-            public:
-                JTreeNodeClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$TreeNode");
-                    this->name=new JString("java.util.HashMap$TreeNode");
-                    this->simpleName=new JString("HashMap$TreeNode");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JNode::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
-
         public:
             JNode* before;
             JNode* after;
@@ -266,12 +133,7 @@ namespace jcpp{
                 red=false;
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (treeNodeClazz==null){
-                    treeNodeClazz=new JTreeNodeClass();
-                }
-                return treeNodeClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual JTreeNode* root() {
                 JTreeNode* p=null;
@@ -1359,31 +1221,9 @@ namespace jcpp{
             return new JHashMap(this);
         }
 
-        static jcpp::lang::JClass* hashMapHashIteratorClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$HashIterator", simpleName="HashMap$HashIterator");
         class JHashIterator : public JObject, public JIterator {
         protected:
-            class JHashIteratorClass : public jcpp::lang::JClass{
-            public:
-                JHashIteratorClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$HashIterator");
-                    this->name=new JString("java.util.HashMap$HashIterator");
-                    this->simpleName=new JString("HashMap$HashIterator");
-                }
-
-                virtual void initialize(){
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
-
             JHashMap* hashMap;
             JNode* next;
             JNode* current;
@@ -1403,12 +1243,7 @@ namespace jcpp{
             }
 
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapHashIteratorClass==null){
-                    hashMapHashIteratorClass=new JHashIteratorClass();
-                }
-                return hashMapHashIteratorClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JHashIterator(JHashMap* hashMap):JObject(getClazz()) {
                 this->hashMap=hashMap;
@@ -1457,33 +1292,10 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* hashMapValueIteratorClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$ValueIterator", simpleName="HashMap$ValueIterator");
         class JValueIterator : public JHashIterator {
-        protected:
-            class JValueIteratorClass : public jcpp::lang::JClass{
-            public:
-                JValueIteratorClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$ValueIterator");
-                    this->name=new JString("java.util.HashMap$ValueIterator");
-                    this->simpleName=new JString("HashMap$ValueIterator");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JHashIterator::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapValueIteratorClass==null){
-                    hashMapValueIteratorClass=new JValueIteratorClass();
-                }
-                return hashMapValueIteratorClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JValueIterator(JHashMap* hashMap):JHashIterator(getClazz(),hashMap){
             }
@@ -1493,33 +1305,10 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* hashMapKeyIteratorClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$KeyIterator", simpleName="HashMap$KeyIterator");
         class JKeyIterator : public JHashIterator {
-        protected:
-            class JKeyIteratorClass : public jcpp::lang::JClass{
-            public:
-                JKeyIteratorClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$KeyIterator");
-                    this->name=new JString("java.util.HashMap$KeyIterator");
-                    this->simpleName=new JString("HashMap$KeyIterator");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JHashIterator::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapKeyIteratorClass==null){
-                    hashMapKeyIteratorClass=new JKeyIteratorClass();
-                }
-                return hashMapKeyIteratorClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JKeyIterator(JHashMap* hashMap):JHashIterator(getClazz(),hashMap){
             }
@@ -1529,33 +1318,10 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* hashMapEntryIteratorClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$EntryIterator", simpleName="HashMap$EntryIterator");
         class JEntryIterator : public JHashIterator{
-        protected:
-            class JEntryIteratorClass : public jcpp::lang::JClass{
-            public:
-                JEntryIteratorClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$EntryIterator");
-                    this->name=new JString("java.util.HashMap$EntryIterator");
-                    this->simpleName=new JString("HashMap$EntryIterator");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JHashIterator::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapEntryIteratorClass==null){
-                    hashMapEntryIteratorClass=new JEntryIteratorClass();
-                }
-                return hashMapEntryIteratorClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JEntryIterator(JHashMap* hashMap):JHashIterator(getClazz(),hashMap){
             }
@@ -1577,34 +1343,12 @@ namespace jcpp{
             return new JEntryIterator(this);
         }
 
-        static jcpp::lang::JClass* hashMapKeySetImplClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$KeySet", simpleName="HashMap$KeySet");
         class JHashMapKeySetImpl : public JAbstractSet {
         protected:
-            class JHashMapKeySetImplClass : public jcpp::lang::JClass{
-            public:
-                JHashMapKeySetImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$KeySet");
-                    this->name=new JString("java.util.HashMap$KeySet");
-                    this->simpleName=new JString("HashMap$KeySet");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractSet::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
             JHashMap* map;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapKeySetImplClass==null){
-                    hashMapKeySetImplClass=new JHashMapKeySetImplClass();
-                }
-                return hashMapKeySetImplClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JHashMapKeySetImpl(JHashMap* map):JAbstractSet(getClazz()){
                 this->map=map;
@@ -1635,34 +1379,12 @@ namespace jcpp{
             return new JHashMapKeySetImpl(this);
         }
 
-        static jcpp::lang::JClass* hashMapValuesClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$Values", simpleName="HashMap$Values");
         class JHashMapValues : public JAbstractCollection {
         protected:
-            class JValuesClass : public jcpp::lang::JClass{
-            public:
-                JValuesClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$Values");
-                    this->name=new JString("java.util.HashMap$Values");
-                    this->simpleName=new JString("HashMap$Values");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractCollection::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
             JHashMap* map;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapValuesClass==null){
-                    hashMapValuesClass=new JValuesClass();
-                }
-                return hashMapValuesClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JHashMapValues(JHashMap* map):JAbstractCollection(getClazz()){
                 this->map=map;
@@ -1689,34 +1411,12 @@ namespace jcpp{
             return new JHashMapValues(this);
         }
 
-        static jcpp::lang::JClass* hashMapEntrySetClass = null;
-
+        // @Class(canonicalName="java.util.HashMap$EntrySet", simpleName="HashMap$EntrySet");
         class JHashMapEntrySetImpl : public JAbstractSet{
         protected:
-            class JEntrySetImplClass : public jcpp::lang::JClass{
-            public:
-                JEntrySetImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.HashMap$EntrySet");
-                    this->name=new JString("java.util.HashMap$EntrySet");
-                    this->simpleName=new JString("HashMap$EntrySet");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractSet::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JHashMap::getClazz();
-                }
-            };
             JHashMap* map;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (hashMapEntrySetClass==null){
-                    hashMapEntrySetClass=new JEntrySetImplClass();
-                }
-                return hashMapEntrySetClass;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JHashMapEntrySetImpl(JHashMap* map):JAbstractSet(getClazz()){
                 this->map=map;
@@ -1808,18 +1508,6 @@ namespace jcpp{
                     putVal(hash(key), key, value, false, false);
                 }
             }
-        }
-
-        void JHashMapClass::fillDeclaredClasses(){
-            addDeclaredClass(JHashIterator::getClazz());
-            addDeclaredClass(JValueIterator::getClazz());
-            addDeclaredClass(JKeyIterator::getClazz());
-            addDeclaredClass(JEntryIterator::getClazz());
-            addDeclaredClass(JHashMapKeySetImpl::getClazz());
-            addDeclaredClass(JHashMapValues::getClazz());
-            addDeclaredClass(JHashMapEntrySetImpl::getClazz());
-            addDeclaredClass(JNode::getClazz());
-            addDeclaredClass(JTreeNode::getClazz());
         }
 
         JHashMap::~JHashMap(){

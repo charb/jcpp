@@ -14,7 +14,7 @@ namespace jcpp {
 		public:
 			static JClass* getClazz();
 
-			void close();
+			virtual void close() = 0;
 
 			~JInterruptibleChannel();
 		};

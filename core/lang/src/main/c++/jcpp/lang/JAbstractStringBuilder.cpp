@@ -16,33 +16,6 @@ using jcpp::native::api::NativeString;
 
 namespace jcpp{
     namespace lang{
-        class JAbstractStringBuilderClass : public jcpp::lang::JClass{
-            public:
-                JAbstractStringBuilderClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.lang.AbstractStringBuilder");
-                    this->name=new JString("java.lang.AbstractStringBuilder");
-                    this->simpleName=new JString("AbstractStringBuilder");
-                }
-
-                virtual void initialize(){
-                    addInterface(JAppendable::getClazz());
-                    addInterface(JCharSequence::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JAbstractStringBuilder::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractStringBuilderClass();
-            }
-            return clazz;
-        }
-
         JAbstractStringBuilder::JAbstractStringBuilder(jcpp::lang::JClass* _class):JObject(_class){
         	count = new JPrimitiveInt(0);
         	bufferCapacity = 16;

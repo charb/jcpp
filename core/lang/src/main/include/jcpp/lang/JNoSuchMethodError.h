@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NoSuchMethodError", simpleName="NoSuchMethodError");
         class JCPP_EXPORT JNoSuchMethodError : public JIncompatibleClassChangeError {
+        private:
+        	static const jlong serialVersionUID = -3765521442372831335LL;
+
         protected:
             JNoSuchMethodError(jcpp::lang::JClass* _class);
 

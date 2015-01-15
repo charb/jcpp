@@ -7,7 +7,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.CloneNotSupportedException", simpleName="CloneNotSupportedException");
         class JCPP_EXPORT JCloneNotSupportedException : public JException{
+        private:
+        	static const jlong serialVersionUID = 5195511250079656443LL;
+
         protected:
             JCloneNotSupportedException(jcpp::lang::JClass* _class);
 

@@ -11,6 +11,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="char", simpleName="char");
         class JCPP_EXPORT JPrimitiveChar : public JObject, public JComparable, public JSerializable{
             protected:
                 jchar value;

@@ -9,27 +9,16 @@ using namespace jcpp::native::api;
 
 namespace jcpp{
     namespace lang{
-        class JThreadClass : public jcpp::lang::JClass{
-        public:
-        	JThreadClass() : jcpp::lang::JClass() {
-                canonicalName=new JString("java.lang.Thread");
-                name=new JString("java.lang.Thread");
-                simpleName=new JString("Thread");
-            }
 
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JRunnable::getClazz();
-            }
-        };
+    	JThread::JState* JThread::JState::NEW = new JState(new JString("NEW"),new JPrimitiveInt(0));
+    	JThread::JState* JThread::JState::RUNNABLE = new JState(new JString("RUNNABLE"),new JPrimitiveInt(1));
+    	JThread::JState* JThread::JState::TERMINATED = new JState(new JString("TERMINATED"),new JPrimitiveInt(2));
 
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JThread::getClazz(){
-            if (clazz==null){
-                clazz=new JThreadClass();
-            }
-            return clazz;
+    	JThread::JState::JState(JString* name, JPrimitiveInt* ordinal) : JEnum(dynamic_cast<JEnumClass*>(getClazz()),name,ordinal){
         }
+
+    	JThread::JState::~JState(){
+    	}
 
         JThread* JThread::mainJThread = new JThread(NativeFactory::getNativeThreadFactory()->mainThread());
 
@@ -129,16 +118,16 @@ namespace jcpp{
         	this->contextClassLoader=c;
         }
 
-        JThread::JState JThread::getState() {
+        JThread::JState* JThread::getState() {
 			switch(nativeThread->getState()) {
 				case NTH_NEW:
-					return NEW;
+					return JThread::JState::NEW;
 				case NTH_RUNNABLE:
-					return RUNNABLE;
+					return JThread::JState::RUNNABLE;
 				case NTH_TERMINATED:
-					return TERMINATED;
+					return JThread::JState::TERMINATED;
 				default:
-					return TERMINATED;
+					return JThread::JState::TERMINATED;
 			}
 		}
 

@@ -11,7 +11,7 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace io{
 
-        //@Class(canonicalName="java.io.ObjectOutputStream", simpleName="ObjectOutputStream");
+        //@Class(canonicalName="java.io.DataInput", simpleName="DataInput");
         class JCPP_EXPORT JDataInput : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

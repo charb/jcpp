@@ -16,6 +16,7 @@ using namespace jcpp::net;
 namespace jcpp{
     namespace lang{
 
+    	// @Class(canonicalName="java.lang.Bootstrap", simpleName="Bootstrap");
         class JCPP_EXPORT JBootstrap : public JObject{
         protected:
             JList* classpaths;

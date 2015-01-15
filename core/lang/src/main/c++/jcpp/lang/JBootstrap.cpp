@@ -3,29 +3,8 @@
 
 namespace jcpp{
     namespace lang{
-        class JBootstrapClass : public jcpp::lang::JClass{
-        public:
-            JBootstrapClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Bootstrap");
-                this->name=new JString("java.lang.Bootstrap");
-                this->simpleName=new JString("Bootstrap");
-            }
 
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JBootstrap::getClazz(){
-            if (clazz==null){
-                clazz=new JBootstrapClass();
-            }
-            return clazz;
-        }
-
-        JBootstrap::JBootstrap(){
+        JBootstrap::JBootstrap(): JObject(getClazz()) {
             classpaths=new JArrayList();
             arguments=null;
             classLoader=null;

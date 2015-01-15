@@ -22,9 +22,11 @@ namespace jcpp{
     	class JArrayListSubList;
     	class JArrayListSubListIterator;
 
+    	// @Class(canonicalName="java.util.AbstractList", simpleName="AbstractList");
         class JCPP_EXPORT JAbstractList : public JAbstractCollection, public virtual JList{
         private:
-    		JAbstractList(const JAbstractList& list);
+        	// @IgnoreReflection()
+        	JAbstractList(const JAbstractList& list);
         protected:
             jint modCount;
             JAbstractList(jcpp::lang::JClass* _class);

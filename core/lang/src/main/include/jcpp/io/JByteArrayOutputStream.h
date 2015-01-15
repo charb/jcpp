@@ -10,7 +10,7 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace io{
 
-    	//@Class(canonicalName="java.io.ObjectOutputStream", simpleName="ObjectOutputStream");
+    	//@Class(canonicalName="java.io.ByteArrayOutputStream", simpleName="ByteArrayOutputStream");
         class JCPP_EXPORT JByteArrayOutputStream : public JOutputStream  {
             protected:
                 JPrimitiveByteArray* buf;

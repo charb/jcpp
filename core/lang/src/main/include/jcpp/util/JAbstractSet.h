@@ -10,6 +10,8 @@
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.AbstractSet", simpleName="AbstractSet");
         class JCPP_EXPORT JAbstractSet : public JAbstractCollection, public JSet{
         protected:
             JAbstractSet(jcpp::lang::JClass* _class);

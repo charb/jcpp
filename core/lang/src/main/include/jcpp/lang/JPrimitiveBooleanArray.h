@@ -7,6 +7,8 @@
 
 namespace jcpp {
 	namespace lang {
+
+		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveBooleanArray: public JPrimitiveArray {
 		protected:
 			jbool* data;

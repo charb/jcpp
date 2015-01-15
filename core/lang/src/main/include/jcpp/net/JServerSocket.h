@@ -20,6 +20,8 @@ namespace jcpp {
 		class JCPP_EXPORT JServerSocket: public JObject {
 
 		protected:
+
+			// @IgnoreReflection()
 			NativeServerSocket* nativeServerSocket;
 
 			JServerSocket(JClass* _class);

@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.UnsatisfiedLinkError", simpleName="UnsatisfiedLinkError");
         class JCPP_EXPORT JUnsatisfiedLinkError : public JLinkageError {
+        private:
+        	static const jlong serialVersionUID = -4019343241616879428LL;
+
         protected:
             JUnsatisfiedLinkError(jcpp::lang::JClass* _class);
 

@@ -12,9 +12,9 @@ namespace jcpp {
 		public:
 			static JClass* getClazz();
 
-			jlong read(JPrimitiveObjectArray* dsts, jint offset, jint length);
+			virtual jlong read(JPrimitiveObjectArray* dsts, jint offset, jint length) = 0;
 
-			jlong read(JPrimitiveObjectArray* dsts);
+			virtual jlong read(JPrimitiveObjectArray* dsts) = 0;
 
 			virtual ~JScatteringByteChannel();
 		};

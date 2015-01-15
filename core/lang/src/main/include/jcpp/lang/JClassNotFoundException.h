@@ -8,7 +8,11 @@ namespace jcpp{
     namespace lang{
     	class JClassNotFoundExceptionClass;
 
+    	// @Class(canonicalName="java.lang.ClassNotFoundException", simpleName="ClassNotFoundException");
         class JCPP_EXPORT JClassNotFoundException : public JReflectiveOperationException{
+        private:
+        	static const jlong serialVersionUID = 9176873029745254542LL;
+
         protected:
         	JThrowable* ex;
         	friend class JClassNotFoundExceptionClass;

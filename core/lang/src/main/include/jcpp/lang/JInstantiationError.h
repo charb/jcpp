@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.InstantiationError", simpleName="InstantiationError");
         class JCPP_EXPORT JInstantiationError : public JIncompatibleClassChangeError {
+        private:
+        	static const jlong serialVersionUID = -4885810657349421204LL;
+
         protected:
             JInstantiationError(jcpp::lang::JClass* _class);
 

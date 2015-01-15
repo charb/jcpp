@@ -11,57 +11,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JIntegerClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJInteger(jcpp::util::JList* args){
-                return new JInteger();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JInteger* b=(JInteger*)object;
-                return b->getPrimitiveInt();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JInteger* b=(JInteger*)obj;
-                b->setPrimitiveInt((JPrimitiveInt*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JInteger* b=(JInteger*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JIntegerClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Integer");
-                this->name=new JString("java.lang.Integer");
-                this->simpleName=new JString("Integer");
-                this->serialVersionUID=1360826667806852920ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                addConstructor(new JConstructor(JInteger::getClazz(),JModifier::PUBLIC,createJInteger));
-
-                addField(new JField(new JString("value"),JPrimitiveInt::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JInteger::getClazz(){
-            if (clazz==null){
-                clazz=new JIntegerClass();
-            }
-            return clazz;
-        }
 
         jint JInteger::hashCode(jint i){
             return i;

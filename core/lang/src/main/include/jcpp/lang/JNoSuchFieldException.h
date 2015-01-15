@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NoSuchFieldException", simpleName="NoSuchFieldException");
         class JCPP_EXPORT JNoSuchFieldException : public JReflectiveOperationException{
+        private:
+        	static const jlong serialVersionUID = -6143714805279938260LL;
+
         public:
             JNoSuchFieldException();
 

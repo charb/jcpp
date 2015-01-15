@@ -10,6 +10,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="float", simpleName="float");
         class JCPP_EXPORT JPrimitiveFloat : public JObject, public JComparable, public JSerializable{
             protected:
                 jfloat value;

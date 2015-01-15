@@ -16,7 +16,9 @@ namespace jcpp{
     	//@Class(canonicalName="java.io.FileInputStream", simpleName="FileInputStream");
         class JCPP_EXPORT JFileInputStream : public JInputStream  {
             protected:
+        		// @IgnoreReflection()
         		NativeFileInputStream * nativeStream;
+
                 JObject* closeLock;
                 jbool bIsClosed;
 

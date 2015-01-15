@@ -7,28 +7,6 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
-            class JModifierClass : public jcpp::lang::JClass{
-            public:
-                JModifierClass():jcpp::lang::JClass(){
-                    canonicalName=new JString("java.lang.reflect.Modifier");
-                    name=new JString("java.lang.reflect.Modifier");
-                    simpleName=new JString("Modifier");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JModifier::getClazz(){
-                if (clazz==null){
-                    clazz= new JModifierClass();
-                }
-                return clazz;
-            }
-
             jint JModifier::PUBLIC = 0x00000001;
 
             jint JModifier::PRIVATE = 0x00000002;

@@ -9,6 +9,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="byte", simpleName="byte");
         class JCPP_EXPORT JPrimitiveByte : public JObject, public JComparable, public JSerializable{
             protected:
                 jbyte value;

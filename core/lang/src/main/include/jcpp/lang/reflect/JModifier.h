@@ -7,6 +7,7 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
+        	// @Class(canonicalName="java.lang.reflect.Modifier", simpleName="Modifier");
             class JCPP_EXPORT JModifier: public JObject{
             public:
 

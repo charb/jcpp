@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.UnsupportedOperationException", simpleName="UnsupportedOperationException");
         class JCPP_EXPORT JUnsupportedOperationException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = -1242599979055084673LL;
+
         protected:
             JUnsupportedOperationException(jcpp::lang::JClass* _class);
         public:

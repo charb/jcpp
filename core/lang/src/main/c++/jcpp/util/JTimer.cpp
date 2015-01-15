@@ -9,55 +9,6 @@
 
 namespace jcpp{
     namespace util{
-        class JTimerClass : public JClass{
-        public:
-            JTimerClass():JClass(){
-                this->canonicalName=new JString("java.util.Timer");
-                this->name=new JString("java.util.Timer");
-                this->simpleName=new JString("Timer");
-            }
-
-            virtual JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static JClass* clazz;
-
-        JClass* JTimer::getClazz(){
-            if (clazz==null){
-                clazz=new JTimerClass();
-            }
-            return clazz;
-        }
-
-        class JTaskQueueClass : public JClass{
-        public:
-            JTaskQueueClass():JClass(){
-                this->canonicalName=new JString("java.util.TaskQueue");
-                this->name=new JString("java.util.TaskQueue");
-                this->simpleName=new JString("TaskQueue");
-            }
-
-            virtual JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JTimer::getClazz();
-            }
-        };
-
-        static JClass* taskQueueClazz=null;
-
-        JClass* JTimer::JTaskQueue::getClazz(){
-            if (taskQueueClazz==null){
-                taskQueueClazz=new JTaskQueueClass();
-            }
-            return taskQueueClazz;
-        }
 
         JTimer::JTaskQueue::JTaskQueue():JObject(JTimer::JTaskQueue::getClazz()){
             queue=new JPrimitiveObjectArray(JTimerTask::getClazz(),128);
@@ -147,32 +98,6 @@ namespace jcpp{
         }
 
         JTimer::JTaskQueue::~JTaskQueue(){
-        }
-
-        class JTimerThreadClass : public JClass{
-        public:
-            JTimerThreadClass():JClass(){
-                this->canonicalName=new JString("java.util.TimerThread");
-                this->name=new JString("java.util.TimerThread");
-                this->simpleName=new JString("TimerThread");
-            }
-
-            virtual JClass* getSuperclass(){
-                return JThread::getClazz();
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JTimer::getClazz();
-            }
-        };
-
-        static JClass* timerThreadClazz=null;
-
-        JClass* JTimer::JTimerThread::getClazz(){
-            if (timerThreadClazz==null){
-                timerThreadClazz=new JTimerThreadClass();
-            }
-            return timerThreadClazz;
         }
 
         JTimer::JTimerThread::JTimerThread(JTaskQueue* queue):JThread(JTimer::JTimerThread::getClazz()){
@@ -362,11 +287,6 @@ namespace jcpp{
             })
 
             return result;
-        }
-
-        void JTimerClass::fillDeclaredClasses(){
-            addDeclaredClass(JTimer::JTaskQueue::getClazz());
-            addDeclaredClass(JTimer::JTimerThread::getClazz());
         }
 
         JTimer::~JTimer(){

@@ -4,33 +4,6 @@
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveDoubleClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveDoubleClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("double");
-                this->name=new JString("double");
-                this->simpleName=new JString("double");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JComparable::getClazz());
-                addInterface(JSerializable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveDouble::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveDoubleClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveDouble::JPrimitiveDouble(jdouble value):JObject(getClazz()){
             this->value=value;

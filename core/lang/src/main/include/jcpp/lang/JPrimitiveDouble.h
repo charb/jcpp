@@ -10,6 +10,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="double", simpleName="double");
         class JCPP_EXPORT JPrimitiveDouble : public JObject, public JComparable, public JSerializable{
             protected:
                 jdouble value;

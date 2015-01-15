@@ -8,14 +8,16 @@
 
 namespace jcpp{
     namespace lang{
-    	class JShortClass;
 
+    	// @Class(canonicalName="java.lang.Short", simpleName="Short");
         class JCPP_EXPORT JShort : public JNumber, public JComparable{
+        	private:
+        		static const jlong serialVersionUID = 7515723908773894738LL;
+
             protected:
                 JPrimitiveShort* value;
                 void setPrimitiveShort(JPrimitiveShort* value);
                 JPrimitiveShort* getPrimitiveShort();
-                friend class JShortClass;
 
             public:
                 JShort();

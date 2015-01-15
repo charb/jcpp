@@ -7,6 +7,8 @@ namespace jcpp{
     namespace lang{
     	class JClass;
     	namespace reflect{        	
+
+    		// @Class(canonicalName="java.lang.reflect.AnnotatedType", simpleName="AnnotatedType");
 	        class JCPP_EXPORT JAnnotatedType : public JAnnotatedElement{
 	            public:
 	                static jcpp::lang::JClass* getClazz();

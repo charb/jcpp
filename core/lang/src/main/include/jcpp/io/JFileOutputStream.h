@@ -17,6 +17,8 @@ namespace jcpp{
             protected:
                 JObject* closeLock;
                 jbool bIsClosed;
+
+                // @IgnoreReflection()
                 NativeFileOutputStream* nativeStream;
                 
             public:

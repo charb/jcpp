@@ -8,14 +8,16 @@
 
 namespace jcpp{
     namespace lang{
-    	class JDoubleClass;
 
+    	// @Class(canonicalName="java.lang.Double", simpleName="Double");
         class JCPP_EXPORT JDouble : public JNumber, public JComparable{
+        	private:
+        		static const jlong serialVersionUID = -9172774392245257468LL;
+
             protected:
                 JPrimitiveDouble* value;
                 void setPrimitiveDouble(JPrimitiveDouble* value);
                 JPrimitiveDouble* getPrimitiveDouble();
-                friend class JDoubleClass;
 
             public:
                 JDouble();

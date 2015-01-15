@@ -22,7 +22,11 @@ namespace jcpp{
     	class JVectorItr;
     	class JVectorListItr;
 
+    	// @Class(canonicalName="java.util.Vector", simpleName="Vector");
         class JCPP_EXPORT JVector : public JAbstractList, public JRandomAccess, public JSerializable, public JCloneable{
+        private:
+        	static const jlong serialVersionUID = -2767605614048989439LL;
+
         protected:
             JPrimitiveObjectArray* items;
             JPrimitiveInt* elementCount;

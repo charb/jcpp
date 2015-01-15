@@ -70,7 +70,7 @@ namespace jcpp {
 			JCoderResult* decode(JByteBuffer* in, JCharBuffer* out, jbool endOfInput);
 			JCoderResult* flush(JCharBuffer* out);
 			JCharsetDecoder* reset();
-			JCharBuffer* decode(JByteBuffer* in);
+//			JCharBuffer* decode(JByteBuffer* in);
 
 		};
 

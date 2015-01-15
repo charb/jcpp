@@ -42,7 +42,11 @@ namespace jcpp{
     	class JProcessBuilder;
     	class JThrowableClass;
 
+    	// @Class(canonicalName="java.lang.Throwable", simpleName="Throwable");
         class JCPP_EXPORT JThrowable: public JObject, public JSerializable {
+        private:
+        	static const jlong serialVersionUID = -3042686055658047285LL;
+
         protected:
             JString* message;
             JThrowable* cause;
@@ -51,6 +55,7 @@ namespace jcpp{
             JThrowable(jcpp::lang::JClass* _class);
             friend class JThrowableClass;
 
+			// @IgnoreReflection()
             static void throwJException(const NativeException& e);
 
         public:

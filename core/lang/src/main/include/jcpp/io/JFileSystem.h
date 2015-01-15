@@ -36,21 +36,21 @@ namespace jcpp{
 
                 virtual jchar getPathSeparator()=0;
 
-                virtual JString normalize(JString path)=0;
+                virtual JString* normalize(JString* path)=0;
                 
-                virtual jint prefixLength(JString path)=0;
+                virtual jint prefixLength(JString* path)=0;
                 
-                virtual JString resolve(JString parent, JString child)=0;
+                virtual JString* resolve(JString* parent, JString* child)=0;
                 
-                virtual JString getDefaultParent()=0;
+                virtual JString* getDefaultParent()=0;
                 
-                virtual JString fromURIPath(JString path)=0;
+                virtual JString* fromURIPath(JString* path)=0;
                 
                 virtual jbool isAbsolute(JFile* f)=0;
                 
-                virtual JString resolve(JFile* f)=0;
+                virtual JString* resolve(JFile* f)=0;
                 
-                virtual JString canonicalize(JString path)=0;
+                virtual JString* canonicalize(JString* path)=0;
                 
                 virtual jint getBooleanAttributes(JFile* f)=0;
                 
@@ -62,7 +62,7 @@ namespace jcpp{
                 
                 virtual jlong getLength(JFile* f)=0;
                 
-                virtual jbool createFileExclusively(JString pathname)=0;
+                virtual jbool createFileExclusively(JString* pathname)=0;
                 
                 virtual jbool deleteFile(JFile* f)=0;
                 

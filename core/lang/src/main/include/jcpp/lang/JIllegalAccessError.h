@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.IllegalAccessError", simpleName="IllegalAccessError");
         class JCPP_EXPORT JIllegalAccessError : public JIncompatibleClassChangeError {
+        private:
+        	static const jlong serialVersionUID = -8988904074992417891LL;
+
         protected:
             JIllegalAccessError(jcpp::lang::JClass* _class);
 

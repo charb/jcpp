@@ -9,6 +9,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Collection", simpleName="Collection");
         class JCPP_EXPORT JCollection : public JIterable{
         public:
             static jcpp::lang::JClass* getClazz();

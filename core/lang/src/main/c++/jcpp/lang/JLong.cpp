@@ -11,57 +11,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JLongClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJLong(jcpp::util::JList* args){
-                return new JLong();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JLong* b=(JLong*)object;
-                return b->getPrimitiveLong();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JLong* b=(JLong*)obj;
-                b->setPrimitiveLong((JPrimitiveLong*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JLong* b=(JLong*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JLongClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Long");
-                this->name=new JString("java.lang.Long");
-                this->simpleName=new JString("Long");
-                this->serialVersionUID=4290774380558885855ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                addConstructor(new JConstructor(JLong::getClazz(),JModifier::PUBLIC,createJLong));
-
-                addField(new JField(new JString("value"),JPrimitiveLong::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JLong::getClazz(){
-            if (clazz==null){
-                clazz=new JLongClass();
-            }
-            return clazz;
-        }
 
         jint JLong::hashCode(jlong l){
             return (jint)l;

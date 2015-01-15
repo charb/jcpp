@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NoSuchMethodException", simpleName="NoSuchMethodException");
         class JCPP_EXPORT JNoSuchMethodException : public JReflectiveOperationException{
+        private:
+        	static const jlong serialVersionUID = 5034388446362600923LL;
+
         public:
             JNoSuchMethodException();
 

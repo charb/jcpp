@@ -16,6 +16,8 @@ namespace jcpp {
 		class JInetAddress;
 	}
 	namespace lang {
+
+		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveByteArray: public JPrimitiveArray {
 		protected:
 			jbyte* data;

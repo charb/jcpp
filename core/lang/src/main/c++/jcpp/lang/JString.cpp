@@ -23,36 +23,6 @@ using namespace jcpp::native::api;
 namespace jcpp{
     namespace lang{
 
-        class JStringClass : public jcpp::lang::JClass{
-        public:
-            JStringClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.String");
-                this->name=new JString("java.lang.String");
-                this->simpleName=new JString("String");
-                this->serialVersionUID=-6849794470754667710ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-                addInterface(JCloneable::getClazz());
-                addInterface(JCharSequence::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JString::getClazz(){
-            if (clazz==null){
-                clazz=new JStringClass();
-            }
-            return clazz;
-        }
-
         static JMap* internStrings = null;
 
         JString* JString::staticIntern(JString* s){
@@ -368,39 +338,16 @@ namespace jcpp{
             return compare(this,s);
         }
 
-        class JCaseInsensitiveComparatorClass : public JClass{
-        public:
-            JCaseInsensitiveComparatorClass():JClass(){
-                this->canonicalName=new JString("java.lang.String$CaseInsensitiveComparator");
-                this->name=new JString("java.lang.String$CaseInsensitiveComparator");
-                this->simpleName=new JString("String$CaseInsensitiveComparator");
-                this->serialVersionUID=8575799808933029326LL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparator::getClazz());
-            }
-
-            virtual JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static JClass* caseInsensitiveComparatorClazz;
-
+        // @Class(canonicalName="java.lang.String$CaseInsensitiveComparator", simpleName="String$CaseInsensitiveComparator");
         class JCaseInsensitiveComparator : public JObject, public JComparator, public JSerializable {
+        private:
+        	static const jlong serialVersionUID = 8575799808933029326LL;
         public:
 
             JCaseInsensitiveComparator():JObject(getClazz()){
             }
 
-            static JClass* getClazz(){
-                if (caseInsensitiveComparatorClazz==null){
-                    caseInsensitiveComparatorClazz=new JCaseInsensitiveComparatorClass();
-                }
-                return caseInsensitiveComparatorClazz;
-            }
+            static JClass* getClazz();
     
             virtual jint compare(JObject* o1, JObject* o2) {
                 JString* s1=dynamic_cast<JString*>(o1);

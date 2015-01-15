@@ -11,10 +11,15 @@
 namespace jcpp{
     namespace lang{
         class JStringBuffer;
+
+        // @Class(canonicalName="java.lang.AbstractStringBuilder", simpleName="AbstractStringBuilder");
         class JCPP_EXPORT JAbstractStringBuilder : public JObject, public JAppendable, public JCharSequence  {
         	private:
         		void ensureCapacityInternal(jint c);
+
+        		// @IgnoreReflection()
         		void append(const std::string& str);
+        		// @IgnoreReflection()
         		void insert(jint offset, const std::string& str);
             protected:
         		JPrimitiveCharArray * value;
@@ -55,8 +60,10 @@ namespace jcpp{
 
                 virtual JAbstractStringBuilder* append(JString* str,jint offset,jint length);
 
+                // @IgnoreReflection()
                 virtual JAbstractStringBuilder* append(const char * str);
 
+                // @IgnoreReflection()
                 virtual JAbstractStringBuilder* append(const wchar_t* wstr);
 
                 virtual JAbstractStringBuilder* append(jbool b);
@@ -93,8 +100,10 @@ namespace jcpp{
 
                 virtual JAbstractStringBuilder* insert(jint offset,JCharSequence* s,jint start,jint end);
 
+                // @IgnoreReflection()
                 virtual JAbstractStringBuilder* insert(jint offset,const char * str);
 
+                // @IgnoreReflection()
                 virtual JAbstractStringBuilder* insert(jint offset,const wchar_t* wstr);
 
                 virtual JAbstractStringBuilder* insert(jint offset,jbool b);

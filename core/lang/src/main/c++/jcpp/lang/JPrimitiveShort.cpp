@@ -4,33 +4,6 @@
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveShortClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveShortClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("short");
-                this->name=new JString("short");
-                this->simpleName=new JString("short");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JComparable::getClazz());
-                addInterface(JSerializable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveShort::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveShortClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveShort::JPrimitiveShort(jshort value):JObject(getClazz()){
             this->value=value;

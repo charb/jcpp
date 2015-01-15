@@ -25,6 +25,13 @@ namespace jcpp {
 			}
 		}
 
+		JPrimitiveCharArray::JPrimitiveCharArray(jint len, const jchar * data) : JPrimitiveArray(JPrimitiveChar::getClazz(), len){
+			this->data = new jchar[len];
+			for (jint i=0; i<len; i++) {
+				this->data[i] = data[i];
+			}
+		}
+
 		JPrimitiveCharArray::JPrimitiveCharArray(JPrimitiveCharArray* a) : JPrimitiveArray(a) {
 			data = new jchar[a->size()];
 			for (jint i = 0; i < size(); i++) {

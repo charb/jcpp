@@ -6,6 +6,9 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @IgnoreReflection()
+    	// @IgnorePackageReflection()
         class JCPP_EXPORT JPrimitiveArray : public JObject{
         protected:
             jcpp::lang::JClass* componentType;

@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.IllegalThreadStateException", simpleName="IllegalThreadStateException");
         class JCPP_EXPORT JIllegalThreadStateException : public JIllegalArgumentException{
+        private:
+        	static const jlong serialVersionUID = -7626246362397460174LL;
+
         protected:
             JIllegalThreadStateException(jcpp::lang::JClass* _class);
 

@@ -7,6 +7,8 @@
 
 namespace jcpp {
 	namespace lang {
+
+		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveShortArray: public JPrimitiveArray {
 		protected:
 			jshort* data;

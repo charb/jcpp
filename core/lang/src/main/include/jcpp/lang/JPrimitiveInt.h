@@ -10,6 +10,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="int", simpleName="int");
         class JCPP_EXPORT JPrimitiveInt : public JObject, public JComparable, public JSerializable{
             protected:
                 jint value;

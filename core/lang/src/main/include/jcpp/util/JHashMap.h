@@ -29,7 +29,11 @@ namespace jcpp{
         class JHashMapClass;
         class JHashSet;
 
+        // @Class(canonicalName="java.util.HashMap", simpleName="HashMap");
         class JCPP_EXPORT JHashMap : public JAbstractMap, public JCloneable, public JSerializable{
+        private:
+        	static const jlong serialVersionUID = 362498820763181265LL;
+
         protected:
             JPrimitiveObjectArray* table;
             jint isize;

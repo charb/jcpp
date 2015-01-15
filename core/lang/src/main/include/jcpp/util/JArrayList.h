@@ -21,7 +21,11 @@ namespace jcpp{
     	class JArrayListClass;
     	class JArrayListSubList;
 
+    	// @Class(canonicalName="java.util.ArrayList", simpleName="ArrayList");
         class JCPP_EXPORT JArrayList : public JAbstractList, public JRandomAccess, public JCloneable, public JSerializable{
+        private:
+        	static const jlong serialVersionUID = 8683452581122892189LL;
+
         protected:
             JPrimitiveObjectArray* items;
             JPrimitiveInt* isize;

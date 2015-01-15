@@ -7,6 +7,8 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.AutoCloseable", simpleName="AutoCloseable");
         class JCPP_EXPORT JAutoCloseable : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

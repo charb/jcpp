@@ -19,9 +19,13 @@ using namespace jcpp::nio;
 
 namespace jcpp{
 	namespace lang{
+
+		// @Class(canonicalName="java.lang.StringCoding", simpleName="StringCoding");
 		class JCPP_EXPORT JStringCoding  : public JObject{
 
 		private:
+
+			// @Class(canonicalName="java.lang.StringCoding$StringEncoder", simpleName="StringCoding$StringEncoder");
 			class JCPP_EXPORT JStringEncoder : JObject{
 				private:
 					JCharset* cs;
@@ -31,6 +35,8 @@ namespace jcpp{
 				public:
 					JStringEncoder(JCharset* cs, JString* rcn);
 
+					static jcpp::lang::JClass* getClazz();
+
 					JString* charsetName();
 
 					const JString* requestedCharsetName();
@@ -38,6 +44,7 @@ namespace jcpp{
 					JPrimitiveByteArray* encode(JPrimitiveCharArray* ca, jint off, jint len);
 			};
 
+			// @Class(canonicalName="java.lang.StringCoding$StringDecoder", simpleName="StringCoding$StringDecoder");
 			class JCPP_EXPORT JStringDecoder{
 				private:
 					const JString* reqCharsetName;
@@ -47,6 +54,8 @@ namespace jcpp{
 
 				public:
 					JStringDecoder(JCharset* cs, JString* rcn);
+
+					static jcpp::lang::JClass* getClazz();
 
 					JString* charsetName();
 

@@ -10,6 +10,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="short", simpleName="short");
         class JCPP_EXPORT JPrimitiveShort : public JObject, public JComparable, public JSerializable{
             protected:
                 jshort value;

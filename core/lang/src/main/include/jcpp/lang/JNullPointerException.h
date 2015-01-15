@@ -5,7 +5,11 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NullPointerException", simpleName="NullPointerException");
         class JCPP_EXPORT JNullPointerException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = 5162710183389028792LL;
 
         public:
             JNullPointerException();

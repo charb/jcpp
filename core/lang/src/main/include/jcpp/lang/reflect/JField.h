@@ -18,6 +18,8 @@ namespace jcpp{
         class JClass;
 
         namespace reflect{
+
+        	// @Class(canonicalName="java.lang.reflect.Field", simpleName="Field");
             class JCPP_EXPORT JField: public JAccessibleObject, public JMember{
             public:
                 typedef JObject* (*getter)(JObject* objet);
@@ -27,9 +29,16 @@ namespace jcpp{
             protected:
                 JString* name;
                 jcpp::lang::JClass* type;
+
+                // @IgnoreReflection()
                 getter g;
+
+                // @IgnoreReflection()
                 setter s;
+
+                // @IgnoreReflection()
                 adressReference adr;
+
                 jint iModifiers;
                 jcpp::lang::JClass* declaringClass;
                 jcpp::util::JList* annotations;
@@ -37,6 +46,8 @@ namespace jcpp{
 				friend class jcpp::lang::JClass;
 
             public:
+
+				// @IgnoreReflection()
                 JField(JString* name,jcpp::lang::JClass* type,jcpp::lang::JClass* declaringClass,getter g,setter s, adressReference adr);
 
                 static jcpp::lang::JClass* getClazz();

@@ -6,27 +6,6 @@
 
 namespace jcpp{
     namespace util{
-        class JArraysClass : public jcpp::lang::JClass{
-        public:
-            JArraysClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Arrays");
-                this->name=new JString("java.util.Arrays");
-                this->simpleName=new JString("Arrays");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JArrays::getClazz(){
-            if (clazz==null){
-                clazz=new JArraysClass();
-            }
-            return clazz;
-        }
 
         JList* JArrays::asList(JPrimitiveObjectArray* a){
             JList* args=new JArrayList();
@@ -100,6 +79,9 @@ namespace jcpp{
                 this->c=c;
             }
 
+            static jcpp::lang::JClass* getClazz();
+
+            // @IgnoreReflection()
             jbool operator()(JObject* f1, JObject* f2){
                 return c->compare(f1,f2)<0;
             }

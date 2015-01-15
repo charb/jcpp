@@ -29,8 +29,11 @@ namespace jcpp{
             class JPackage;
         }
 
+        // @Class(canonicalName="java.lang.Class", simpleName="Class");
         class JCPP_EXPORT JClass : public JObject{
         private:
+//        	static const jlong serialVersionUID = 3206093459760846163LL; // TODO
+
             jbool initialized;
             void init(JClassLoader* cl);
             void initInternal();
@@ -42,6 +45,20 @@ namespace jcpp{
             void initInheritedPublicClasses();
             void initEnumConstants();
             void initInterfaces();
+
+		   jcpp::util::JList* getFieldsFromInterfaces();
+		   jcpp::util::JList* getDeclaredMethodsFromInterfaces();
+		   JMethod* searchForMethodInList(jcpp::util::JList* methods, JString* name, jcpp::util::JList* parameterTypes);
+		   JConstructor* searchForConstructorInList(jcpp::util::JList* constructors, jcpp::util::JList* parameterTypes);
+		   JField* searchForFieldInList(jcpp::util::JList* fields, JString* name);
+		   JMethod* getMethodNoException(JString* name, jcpp::util::JList* parameterTypes);
+		   JMethod* getDeclaredMethodNoException(JString* name, jcpp::util::JList* parameterTypes);
+		   JConstructor* getDeclaredConstructorNoException(jcpp::util::JList* parameterTypes);
+		   JConstructor* getConstructorNoException(jcpp::util::JList* parameterTypes);
+		   JField* getDeclaredFieldNoException(JString* name);
+		   JField* getFieldNoException(JString* name);
+
+
 
         protected:
             static JPrimitiveObjectArray* serialPersistentFields;
@@ -57,17 +74,8 @@ namespace jcpp{
             jcpp::util::JList* enumConstants;
             jcpp::util::JMap* fields;
             jcpp::util::JList* fieldsList;
-            jcpp::util::JMap* declaredFields;
-            jcpp::util::JList* declaredFieldsList;
-            JConstructor* defaultConstructor;
-            jcpp::util::JMap* constructors;
             jcpp::util::JList* constructorsList;
-            jcpp::util::JMap* declaredConstructors;
-            jcpp::util::JList* declaredConstructorsList;
-            jcpp::util::JMap* methods;
             jcpp::util::JList* methodsList;
-            jcpp::util::JMap* declaredMethods;
-            jcpp::util::JList* declaredMethodsList;
             jcpp::util::JList* interfaces;
             jcpp::util::JList* publicClasses;
             jcpp::util::JList* inheritedPublicClasses;

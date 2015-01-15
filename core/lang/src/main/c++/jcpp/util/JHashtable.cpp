@@ -26,116 +26,9 @@ namespace jcpp{
         static jint ENTRIES=2;
         static jint MAX_ARRAY_SIZE = JInteger::MAX_VALUE - 8;
 
-        class JHashtableClass : public JClass{
-            static JObject* createJHashtable(jcpp::util::JList* args){
-                return new JHashtable();
-            }
-
-            static JObject* invokeWriteObject(JObject* object,JList* args){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                hashtable->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* invokeReadObject(JObject* object,JList* args){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                hashtable->readObject(dynamic_cast<JObjectInputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* staticGetThreshold(JObject* object){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                return hashtable->threshold;
-            }
-
-            static void staticSetThreshold(JObject* object,JObject* value){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                hashtable->threshold=dynamic_cast<JPrimitiveInt*>(value);
-            }
-
-            static JObject** adrThreshold(JObject* object){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                return (JObject**)(&hashtable->threshold);
-            }
-
-            static JObject* staticGetLoadFactor(JObject* object){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                return hashtable->loadFactor;
-            }
-
-            static void staticSetLoadFactor(JObject* object,JObject* value){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                hashtable->loadFactor=dynamic_cast<JPrimitiveFloat*>(value);
-            }
-
-            static JObject** adrLoadFactor(JObject* object){
-                JHashtable* hashtable=dynamic_cast<JHashtable*>(object);
-                return (JObject**)(&hashtable->loadFactor);
-            }
-
-        public:
-            JHashtableClass(){
-                this->canonicalName=new JString("java.util.Hashtable");
-                this->name=new JString("java.util.Hashtable");
-                this->simpleName=new JString("Hashtable");
-                this->serialVersionUID=1421746759512286392L;
-            }
-
-            virtual void initialize(){
-                addInterface(JMap::getClazz());
-                addInterface(JSerializable::getClazz());
-                addInterface(JCloneable::getClazz());
-
-                addConstructor(new JConstructor(JHashtable::getClazz(),JModifier::PUBLIC,createJHashtable));
-
-                addField(new JField(new JString("threshold"),JPrimitiveInt::getClazz(),this,staticGetThreshold,staticSetThreshold,adrThreshold));
-                addField(new JField(new JString("loadFactor"),JPrimitiveFloat::getClazz(),this,staticGetLoadFactor,staticSetLoadFactor,adrLoadFactor));
-
-                JMethod* m=addMethod(new JMethod(new JString("readObject"),this,JVoid::TYPE,invokeReadObject));
-                m->addParameterType(JObjectInputStream::getClazz());
-
-                m=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                m->addParameterType(JObjectOutputStream::getClazz());
-            }
-
-            JClass* getSuperclass(){
-                return JDictionary::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static JClass* clazz;
-
-        JClass* JHashtable::getClazz(){
-            if (clazz==null){
-                clazz=new JHashtableClass();
-            }
-            return clazz;
-        }
-
+        // @Class(canonicalName="java.util.Hashtable$Entry", simpleName="Hashtable$Entry");
         class JEntryImpl : public JMap::JEntry, public JObject{
         protected:
-        class JEntryImplClass : public JClass{
-        public:
-            JEntryImplClass(){
-                this->canonicalName=new JString("java.util.Hashtable$Entry");
-                this->name=new JString("java.util.Hashtable$Entry");
-                this->simpleName=new JString("Hashtable$Entry");
-            }
-
-            virtual void initialize(){
-                addInterface(JMap::JEntry::getClazz());
-            }
-
-            JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual JClass* getDeclaringClass(){
-                return JHashtable::getClazz();
-            }
-        };
         jint hash;
         JObject* key;
         JObject* value;
@@ -459,34 +352,13 @@ namespace jcpp{
             })
         }
 
-        static JClass* hashtableKeySetImplClass;
+        // @Class(canonicalName="java.util.Hashtable$KeySet", simpleName="Hashtable$KeySet");
         class JHashtableKeySetImpl : public JAbstractSet {
         protected:
-            class JKeySetImplClass : public JClass{
-            public:
-                JKeySetImplClass(){
-                    this->canonicalName=new JString("java.util.Hashtable$KeySet");
-                    this->name=new JString("java.util.Hashtable$KeySet");
-                    this->simpleName=new JString("Hashtable$KeySet");
-                }
-
-                JClass* getSuperclass(){
-                    return JAbstractSet::getClazz();
-                }
-
-                virtual JClass* getDeclaringClass(){
-                    return JHashtable::getClazz();
-                }
-            };
             JHashtable* map;
 
         public:
-            static JClass* getClazz(){
-                if (hashtableKeySetImplClass==null){
-                    hashtableKeySetImplClass=new JKeySetImplClass();
-                }
-                return hashtableKeySetImplClass;
-            }
+            static JClass* getClazz();
 
             JHashtableKeySetImpl(JHashtable* map):JAbstractSet(getClazz()){
                 this->map=map;
@@ -517,34 +389,13 @@ namespace jcpp{
             return JCollections::synchronizedSet(new JHashtableKeySetImpl(this),this);
         }
 
-        static JClass* hashtableEntrySetClass;
+        // @Class(canonicalName="java.util.Hashtable$EntrySet", simpleName="Hashtable$EntrySet");
         class JHashtableEntrySetImpl : public JAbstractSet{
         protected:
-            class JEntrySetImplClass : public JClass{
-            public:
-                JEntrySetImplClass(){
-                    this->canonicalName=new JString("java.util.Hashtable$EntrySet");
-                    this->name=new JString("java.util.Hashtable$EntrySet");
-                    this->simpleName=new JString("Hashtable$EntrySet");
-                }
-
-                JClass* getSuperclass(){
-                    return JAbstractSet::getClazz();
-                }
-
-                virtual JClass* getDeclaringClass(){
-                    return JHashtable::getClazz();
-                }
-            };
             JHashtable* map;
 
         public:
-            static JClass* getClazz(){
-                if (hashtableEntrySetClass==null){
-                    hashtableEntrySetClass=new JEntrySetImplClass();
-                }
-                return hashtableEntrySetClass;
-            }
+            static JClass* getClazz();
 
             JHashtableEntrySetImpl(JHashtable* map):JAbstractSet(getClazz()){
                 this->map=map;
@@ -617,34 +468,13 @@ namespace jcpp{
             return JCollections::synchronizedSet(new JHashtableEntrySetImpl(this),this);
         }
 
-        static JClass* hashtableValuesClass;
+        // @Class(canonicalName="java.util.Hashtable$ValueCollection", simpleName="Hashtable$ValueCollection");
         class JHashtableValues : public JAbstractCollection {
         protected:
-            class JValuesClass : public JClass{
-            public:
-                JValuesClass(){
-                    this->canonicalName=new JString("java.util.Hashtable$ValueCollection");
-                    this->name=new JString("java.util.Hashtable$ValueCollection");
-                    this->simpleName=new JString("Hashtable$ValueCollection");
-                }
-
-                JClass* getSuperclass(){
-                    return JAbstractCollection::getClazz();
-                }
-
-                virtual JClass* getDeclaringClass(){
-                    return JHashtable::getClazz();
-                }
-            };
             JHashtable* map;
 
         public:
-            static JClass* getClazz(){
-                if (hashtableValuesClass==null){
-                    hashtableValuesClass=new JValuesClass();
-                }
-                return hashtableValuesClass;
-            }
+            static JClass* getClazz();
 
             JHashtableValues(JHashtable* map):JAbstractCollection(getClazz()){
                 this->map=map;
@@ -798,38 +628,9 @@ namespace jcpp{
             count++;
         }
 
-        static JClass* hashtableEntryImplClass;
-        JClass* JEntryImpl::getClazz(){
-            if (hashtableEntryImplClass==null){
-                hashtableEntryImplClass=new JEntryImplClass();
-            }
-            return hashtableEntryImplClass;
-        }
-
-        static JClass* hashtableEnumeratorImplClazz;
+        // @Class(canonicalName="java.util.Hashtable$Enumerator", simpleName="Hashtable$Enumerator");
         class JHashtableEnumeratorImpl: public JObject, public JEnumeration, public JIterator {
         protected:
-            class JHashtableEnumeratorImplClass : public JClass{
-            public:
-                JHashtableEnumeratorImplClass(){
-                    this->canonicalName=new JString("java.util.Hashtable$Enumerator");
-                    this->name=new JString("java.util.Hashtable$Enumerator");
-                    this->simpleName=new JString("Hashtable$Enumerator");
-                }
-
-                virtual void initialize(){
-                    addInterface(JEnumeration::getClazz());
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual JClass* getDeclaringClass(){
-                    return JHashtable::getClazz();
-                }
-            };
             JHashtable* hashtable;
             JPrimitiveObjectArray* table;
             jint index;
@@ -840,12 +641,7 @@ namespace jcpp{
             jint expectedModCount;
 
         public:
-            static JClass* getClazz(){
-                if (hashtableEnumeratorImplClazz==null){
-                    hashtableEnumeratorImplClazz=new JHashtableEnumeratorImplClass();
-                }
-                return hashtableEnumeratorImplClazz;
-            }
+            static JClass* getClazz();
 
             JHashtableEnumeratorImpl(JHashtable* hashtable,jint type, jbool isIterator):JObject(getClazz()) {
                 this->hashtable=hashtable;
@@ -948,15 +744,6 @@ namespace jcpp{
             } else {
                 return new JHashtableEnumeratorImpl(this,type, true);
             }
-        }
-
-        void JHashtableClass::fillDeclaredClasses(){
-            addDeclaredClass(JHashtableKeySetImpl::getClazz());
-            addDeclaredClass(JHashtableEntrySetImpl::getClazz());
-            addDeclaredClass(JHashtableValues::getClazz());
-            addDeclaredClass(JEntryImpl::getClazz());
-            addDeclaredClass(JHashtableEntrySetImpl::getClazz());
-            addDeclaredClass(JHashtableEnumeratorImpl::getClazz());
         }
 
         JHashtable::~JHashtable(){

@@ -9,15 +9,16 @@
 
 namespace jcpp{
     namespace lang{
-    	class JByteClass;
 
+    	// @Class(canonicalName="java.lang.Byte", simpleName="Byte");
         class JCPP_EXPORT JByte : public JNumber, public JComparable{
+        	private:
+        		static const jlong serialVersionUID = -7183698231559129828LL;
 
             protected:
                 JPrimitiveByte* value;
                 void setPrimitiveByte(JPrimitiveByte* value);
                 JPrimitiveByte* getPrimitiveByte();
-                friend class JByteClass;
 
             public:
                 JByte();

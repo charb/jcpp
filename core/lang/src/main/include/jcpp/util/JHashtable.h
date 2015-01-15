@@ -17,7 +17,12 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Hashtable", simpleName="Hashtable");
         class JCPP_EXPORT JHashtable : public JDictionary, public JMap, public JCloneable, public JSerializable{
+        private:
+        	static const jlong serialVersionUID = 1421746759512286392LL;
+
         protected:
             JPrimitiveObjectArray* table;
             jint count;

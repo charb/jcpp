@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NegativeArraySizeException", simpleName="NegativeArraySizeException");
         class JCPP_EXPORT JNegativeArraySizeException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = -8960118058596991861LL;
+
         protected:
             JNegativeArraySizeException(jcpp::lang::JClass* _class);
 

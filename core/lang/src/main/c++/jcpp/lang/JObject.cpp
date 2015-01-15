@@ -13,27 +13,6 @@ using namespace jcpp::native::api::nthread;
 
 namespace jcpp{
     namespace lang{
-        class JObjectClass : public jcpp::lang::JClass{
-            public:
-                JObjectClass():jcpp::lang::JClass(){
-                    canonicalName=new JString("java.lang.Object");
-                    name=new JString("java.lang.Object");
-                    simpleName=new JString("Object");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return null;
-                }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JObject::getClazz(){
-            if (clazz==null){
-                clazz=new JObjectClass();
-            }
-            return clazz;
-        }
 
         JObject::JObject(){
             this->_class=null;

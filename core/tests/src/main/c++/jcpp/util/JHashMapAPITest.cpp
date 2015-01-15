@@ -15,7 +15,6 @@
 #include "jcpp/lang/JPrimitiveFloat.h"
 #include "jcpp/util/JHashMap.h"
 
-#include "jcpp/JCPPPackageLoader.h"
 #include "jcpp/lang/JSystem.h"
 #include "jcpp/lang/JNoSuchMethodException.h"
 #include "jcpp/lang/JNoSuchFieldException.h"

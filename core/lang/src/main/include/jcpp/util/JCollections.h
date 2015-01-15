@@ -13,6 +13,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Collections", simpleName="Collections");
         class JCPP_EXPORT JCollections : public JObject{
         public:
             static jcpp::lang::JClass* getClazz();

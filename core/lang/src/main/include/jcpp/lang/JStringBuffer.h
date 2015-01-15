@@ -18,15 +18,17 @@ namespace jcpp{
         class JObjectInputStream;
     }
     namespace lang{
-    	class JStringBufferClass;
 
+    	// @Class(canonicalName="java.lang.StringBuffer", simpleName="StringBuffer");
         class JCPP_EXPORT JStringBuffer : public JAbstractStringBuilder  , public JSerializable{
+        	private:
+        		static const jlong serialVersionUID = 3388685877147921107LL;
+
             protected:
                 static JPrimitiveObjectArray* serialPersistentFields;
                 static JPrimitiveObjectArray* getSerialPersistentFields();
                 virtual void writeObject(JObjectOutputStream* s);
                 virtual void readObject(JObjectInputStream* s);
-                friend class JStringBufferClass;
 
             public:
                 static jcpp::lang::JClass* getClazz();
@@ -67,8 +69,10 @@ namespace jcpp{
 
                 virtual JStringBuffer* append(JString* str,jint offset,jint length);
 
+                // @IgnoreReflection()
                 virtual JStringBuffer* append(const char * str);
 
+                // @IgnoreReflection()
                 virtual JStringBuffer* append(const wchar_t* wstr);
 
                 virtual JStringBuffer* append(jbool b);
@@ -105,8 +109,10 @@ namespace jcpp{
 
                 virtual JStringBuffer* insert(jint offset,JCharSequence* s,jint start,jint end);
 
+                // @IgnoreReflection()
                 virtual JStringBuffer* insert(jint offset,const char * str);
 
+                // @IgnoreReflection()
                 virtual JStringBuffer* insert(jint offset,const wchar_t* wstr);
 
                 virtual JStringBuffer* insert(jint offset,jbool b);

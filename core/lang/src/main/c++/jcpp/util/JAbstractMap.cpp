@@ -7,51 +7,6 @@
 
 namespace jcpp{
     namespace util{
-        class JAbstractMapClass : public jcpp::lang::JClass{
-        public:
-            JAbstractMapClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.AbstractMap");
-                this->name=new JString("java.util.AbstractMap");
-                this->simpleName=new JString("AbstractMap");
-            }
-
-            virtual void initialize(){
-                addInterface(JMap::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz = null;
-
-        jcpp::lang::JClass* JAbstractMap::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractMapClass();
-            }
-            return clazz;
-        }
-
-        static jcpp::lang::JClass* simpleEntryClazz = null;
-
-        jcpp::lang::JClass* JAbstractMap::JSimpleEntry::getClazz(){
-            if (simpleEntryClazz==null){
-                simpleEntryClazz=new JSimpleEntryClass();
-            }
-            return simpleEntryClazz;
-        }
-
-        static jcpp::lang::JClass* simpleImmutableEntryClazz = null;
-
-        jcpp::lang::JClass* JAbstractMap::JSimpleImmutableEntry::getClazz(){
-            if (simpleImmutableEntryClazz==null){
-                simpleImmutableEntryClazz=new JSimpleImmutableEntryClass();
-            }
-            return simpleImmutableEntryClazz;
-        }
 
         JAbstractMap::JAbstractMap(jcpp::lang::JClass* _class):JObject(_class){
         }
@@ -168,36 +123,12 @@ namespace jcpp{
             entrySet()->clear();
         }
 
-        static jcpp::lang::JClass* abstractSetIteratorImplClazz;
+        // @Class(canonicalName="java.util.AbstractMap$AbstractSet$Iterator", simpleName="AbstractMap$AbstractSet$Iterator");
         class JAbstractSetIteratorImpl : public JIterator, public JObject{
         protected:
-            class JAbstractSetIteratorImplClass : public jcpp::lang::JClass{
-            public:
-                JAbstractSetIteratorImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractMap$AbstractSet$Iterator");
-                    this->name=new JString("java.util.AbstractMap$AbstractSet$Iterator");
-                    this->simpleName=new JString("AbstractMap$AbstractSet$Iterator");
-                }
-
-                virtual void initialize(){
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass();
-            };
-
             JIterator* i;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (abstractSetIteratorImplClazz==null){
-                    abstractSetIteratorImplClazz=new JAbstractSetIteratorImplClass();
-                }
-                return abstractSetIteratorImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JAbstractSetIteratorImpl(JAbstractMap* map):JObject(getClazz()){
                 i=map->entrySet()->iterator();
@@ -220,38 +151,13 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* abstractSetImplClazz;
+        // @Class(canonicalName="java.util.AbstractMap$AbstractSet", simpleName="AbstractMap$AbstractSet");
         class JAbstractSetImpl : public JAbstractSet{
         protected:
             JAbstractMap* map;
-            class JAbstractSetImplClass : public jcpp::lang::JClass{
-            public:
-                JAbstractSetImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractMap$AbstractSet");
-                    this->name=new JString("java.util.AbstractMap$AbstractSet");
-                    this->simpleName=new JString("AbstractMap$AbstractSet");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractSet::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JAbstractMap::getClazz();
-                }
-
-                virtual void fillDeclaredClasses(){
-                    addDeclaredClass(JAbstractSetIteratorImpl::getClazz());
-                }
-            };
         public:
 
-            static jcpp::lang::JClass* getClazz(){
-                if (abstractSetImplClazz==null){
-                    abstractSetImplClazz=new JAbstractSetImplClass();
-                }
-                return abstractSetImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JAbstractSetImpl(JAbstractMap* map):JAbstractSet(getClazz()){
                 this->map=map;
@@ -278,44 +184,16 @@ namespace jcpp{
             }
         };
 
-        jcpp::lang::JClass* JAbstractSetIteratorImpl::JAbstractSetIteratorImplClass::getDeclaringClass(){
-            return JAbstractSetImpl::getClazz();
-        }
-
         JSet* JAbstractMap::keySet(){
             return new JAbstractSetImpl(this);
         }
 
-        static jcpp::lang::JClass* abstractCollectionIteratorImplClazz;
+        // @Class(canonicalName="java.util.AbstractMap$AbstractCollection$Iterator", simpleName="AbstractMap$AbstractCollection$Iterator");
         class JAbstractCollectionIteratorImpl : public JIterator, public JObject{
         protected:
-            class JAbstractCollectionIteratorImplClass : public jcpp::lang::JClass{
-            public:
-                JAbstractCollectionIteratorImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractMap$AbstractCollection$Iterator");
-                    this->name=new JString("java.util.AbstractMap$AbstractCollection$Iterator");
-                    this->simpleName=new JString("AbstractMap$AbstractCollection$Iterator");
-                }
-
-                virtual void initialize(){
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass();
-            };
-
             JIterator* i;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (abstractCollectionIteratorImplClazz==null){
-                    abstractCollectionIteratorImplClazz=new JAbstractCollectionIteratorImplClass();
-                }
-                return abstractCollectionIteratorImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JAbstractCollectionIteratorImpl(JAbstractMap* map):JObject(getClazz()){
                 i=map->entrySet()->iterator();
@@ -338,38 +216,13 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* abstractCollectionImplClazz;
+        // @Class(canonicalName="java.util.AbstractMap$AbstractCollection", simpleName="AbstractMap$AbstractCollection");
         class JAbstractCollectionImpl : public JAbstractCollection{
         protected:
             JAbstractMap* map;
-            class JAbstractCollectionImplClass : public jcpp::lang::JClass{
-            public:
-                JAbstractCollectionImplClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractMap$AbstractCollection");
-                    this->name=new JString("java.util.AbstractMap$AbstractCollection");
-                    this->simpleName=new JString("AbstractMap$AbstractCollection");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractCollection::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JAbstractMap::getClazz();
-                }
-
-                virtual void fillDeclaredClasses(){
-                    addDeclaredClass(JAbstractCollectionIteratorImpl::getClazz());
-                }
-            };
         public:
 
-            static jcpp::lang::JClass* getClazz(){
-                if (abstractCollectionImplClazz==null){
-                    abstractCollectionImplClazz=new JAbstractCollectionImplClass();
-                }
-                return abstractCollectionImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JAbstractCollectionImpl(JAbstractMap* map):JAbstractCollection(getClazz()){
                 this->map=map;
@@ -403,10 +256,6 @@ namespace jcpp{
                 return JObject::hashCode();
             }
         };
-
-        jcpp::lang::JClass* JAbstractCollectionIteratorImpl::JAbstractCollectionIteratorImplClass::getDeclaringClass(){
-            return JAbstractCollectionImpl::getClazz();
-        }
 
         JCollection* JAbstractMap::values(){
             return new JAbstractCollectionImpl(this);
@@ -480,13 +329,6 @@ namespace jcpp{
                 builder->append(", ");
             }
             return builder->toString();
-        }
-
-        void JAbstractMapClass::fillDeclaredClasses(){
-            addDeclaredClass(JAbstractMap::JSimpleEntry::getClazz());
-            addDeclaredClass(JAbstractMap::JSimpleImmutableEntry::getClazz());
-            addDeclaredClass(JAbstractCollectionImpl::getClazz());
-            addDeclaredClass(JAbstractSetImpl::getClazz());
         }
 
         JAbstractMap::~JAbstractMap(){

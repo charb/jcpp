@@ -8,6 +8,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Enumeration", simpleName="Enumeration");
         class JCPP_EXPORT JEnumeration : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

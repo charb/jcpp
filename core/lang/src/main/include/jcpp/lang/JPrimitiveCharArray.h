@@ -7,6 +7,8 @@
 
 namespace jcpp {
 	namespace lang {
+
+		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveCharArray: public JPrimitiveArray {
 		protected:
 			jchar* data;
@@ -14,6 +16,8 @@ namespace jcpp {
 
 		public:
 			JPrimitiveCharArray(jint len);
+
+			JPrimitiveCharArray(jint len, const jchar* data);
 
 			JPrimitiveCharArray(JPrimitiveCharArray* a);
 

@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.OutOfMemoryError", simpleName="OutOfMemoryError");
         class JCPP_EXPORT JOutOfMemoryError : public JVirtualMachineError {
+        private:
+        	static const jlong serialVersionUID = 8228564086184010517LL;
+
         protected:
             JOutOfMemoryError(jcpp::lang::JClass* _class);
 

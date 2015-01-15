@@ -10,6 +10,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="long", simpleName="long");
         class JCPP_EXPORT JPrimitiveLong : public JObject, public JComparable, public JSerializable{
             protected:
                 jlong value;

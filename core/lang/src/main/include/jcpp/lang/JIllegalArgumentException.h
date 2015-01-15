@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.IllegalArgumentException", simpleName="IllegalArgumentException");
         class JCPP_EXPORT JIllegalArgumentException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = -5365630128856068164LL;
+
         protected:
             JIllegalArgumentException(jcpp::lang::JClass* _class);
 

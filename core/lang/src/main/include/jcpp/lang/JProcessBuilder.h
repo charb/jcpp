@@ -9,6 +9,8 @@
 #include "jcpp/lang/JProcess.h"
 #include "jcpp/io/JNativeOutputStream.h"
 #include "jcpp/io/JNativeInputStream.h"
+#include "jcpp/lang/JEnum.h"
+
 
 using namespace jcpp::util;
 using namespace jcpp::native::api::process;
@@ -18,20 +20,42 @@ namespace jcpp{
     namespace lang{
     	class JForkedProcess;
 
+    	// @Class(canonicalName="java.lang.ProcessBuilder", simpleName="ProcessBuilder");
     	class JCPP_EXPORT JProcessBuilder : public JObject {
     	public:
 
+    		// @Class(canonicalName="java.lang.ProcessBuilder$Redirect", simpleName="ProcessBuilder$Redirect");
     		class JCPP_EXPORT JRedirect : public JObject {
     		public:
-    			enum JType {
-					APPEND, INHERIT, PIPE, READ, WRITE
-				};
+
+    			// @Class(canonicalName="java.lang.ProcessBuilder$Redirect$Type", simpleName="ProcessBuilder$Redirect$Type");
+    			class JCPP_EXPORT JType : public JEnum {
+    			    protected:
+
+    					JType(JString* name, JPrimitiveInt* ordinal);
+
+    			    public:
+
+    			        static JClass* getClazz();
+
+    			        static JType* APPEND;
+
+    			        static JType* INHERIT;
+
+    			        static JType* PIPE;
+
+    			        static JType* READ;
+
+    			        static JType* WRITE;
+
+    			        virtual ~JType();
+    			    };
 
 			private:
-    			JType type;
+    			JType* type;
 				JFile* file;
 
-				JRedirect(JType type, JFile* file);
+				JRedirect(JType* type, JFile* file);
 
 			public:
 				static jcpp::lang::JClass* getClazz();
@@ -43,7 +67,7 @@ namespace jcpp{
 				static JRedirect* from(JFile* file);
 				static JRedirect* to(JFile* file);
 
-				JType getType() const;
+				JType* getType() const;
 				JFile* getFile() const;
 
 				virtual ~JRedirect();
@@ -62,6 +86,7 @@ namespace jcpp{
         		JRedirect* inputRedirect;
         		JRedirect* outputRedirect;
 
+        		// @IgnoreReflection()
         		static NativeProcessBuilderRedirect createNativeRedirect(JRedirect* redirect);
 
         	public:
@@ -103,6 +128,7 @@ namespace jcpp{
 
     	};
 
+    	// @Class(canonicalName="java.lang.ForkedProcess", simpleName="ForkedProcess");
     	class JCPP_EXPORT JForkedProcess : public JObject {
     	private:
     		JProcess* process;

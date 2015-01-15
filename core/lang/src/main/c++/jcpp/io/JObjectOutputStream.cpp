@@ -31,31 +31,6 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace io{
 
-        class JPutFieldClass : public jcpp::lang::JClass{
-        public:
-            JPutFieldClass():jcpp::lang::JClass(){
-                canonicalName=new JString("java.io.ObjectOutputStream$PutField");
-                name=new JString("java.io.ObjectOutputStream$PutField");
-                simpleName=new JString("ObjectOutputStream$PutField");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JObjectOutputStream::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* putFieldClazz;
-        jcpp::lang::JClass* JObjectOutputStream::JPutField::getClazz(){
-            if (putFieldClazz==null){
-                putFieldClazz=new JPutFieldClass();
-            }
-            return putFieldClazz;
-        }
-
         JObjectOutputStream::JPutField::~JPutField(){
         }
 
@@ -68,6 +43,8 @@ namespace jcpp{
             JPrimitiveObjectArray* objVals;
 
         public:
+            static jcpp::lang::JClass* getClazz();
+
             JPutFieldImpl(JObjectOutputStream* s,JObjectStreamClass* desc):JPutField(getClazz()){
                 this->s=s;
                 this->desc=desc;

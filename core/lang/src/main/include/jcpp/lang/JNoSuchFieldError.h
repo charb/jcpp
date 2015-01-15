@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NoSuchFieldError", simpleName="NoSuchFieldError");
         class JCPP_EXPORT JNoSuchFieldError : public JIncompatibleClassChangeError {
+        private:
+        	static const jlong serialVersionUID = -3456430195886129035LL;
+
         protected:
             JNoSuchFieldError(jcpp::lang::JClass* _class);
 

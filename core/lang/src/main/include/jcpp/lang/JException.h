@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.Exception", simpleName="Exception");
         class JCPP_EXPORT JException: public JThrowable {
+        private:
+        	static const jlong serialVersionUID = -3387516993124229948LL;
+
         protected:
             JException(jcpp::lang::JClass* _class);
 

@@ -6,6 +6,8 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.Appendable", simpleName="Appendable");
         class JCPP_EXPORT JAppendable : public JInterface  {
         public:
             static jcpp::lang::JClass* getClazz();
