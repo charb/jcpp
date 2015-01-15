@@ -25,6 +25,12 @@ import jcpp.parser.cpp.CPPNamespace;
 
 public class ReflectionModelBuilder {
 
+    private static final String OBJECT_CLASS = "jcpp::lang::JObject";
+    public static final String INTERFACE_CLASS = "jcpp::lang::JInterface";
+    public static final String ENUM_CLASS = "jcpp::lang::JEnum";
+
+    public static final String IGNORE_REFLECTION_ANNOTATION = "IgnoreReflection";
+    public static final String PRIMITIVE_ANNOTATION = "Primitive";
     public static final String CLASS_ANNOTATION = "Class";
     public static final String SIMPLE_NAME_PROPERTY = "simpleName";
     public static final String CANONICAL_NAME_PROPERTY = "canonicalName";
@@ -68,12 +74,14 @@ public class ReflectionModelBuilder {
 
             for (CPPClass classDeclaration : headerCppFile.getClasses()) {
                 classModel = buildClassModel(updaterContext, classDeclaration, model.getIncludes());
-                model.addClass(classModel);
-                classModelBySimpleName.put(classModel.getClassName(), classModel);
+                if (classModel != null) {
+                    model.addClass(classModel);
+                    classModelBySimpleName.put(classModel.getClassName(), classModel);
 
-                String declaredParentClassName = Utils.getDeclaredParentClassName(classDeclaration);
-                if (declaredParentClassName != null) {
-                    classesDeclaredInClasses.put(classModel.getClassName(), declaredParentClassName);
+                    String declaredParentClassName = Utils.getClassName(classDeclaration);
+                    if (declaredParentClassName != null) {
+                        classesDeclaredInClasses.put(classModel.getClassName(), declaredParentClassName);
+                    }
                 }
             }
 
@@ -88,9 +96,11 @@ public class ReflectionModelBuilder {
 
         if (cppCppFile != null) {
             for (CPPClass classDefinition : cppCppFile.getClasses()) {
-                if (headerCppFile.getClass(classDefinition.getName()) == null) {
+                if ((headerCppFile == null) || (headerCppFile.getClass(classDefinition.getName()) == null)) {
                     classModel = buildClassModel(updaterContext, classDefinition, model.getIncludes());
-                    model.addClass(classModel);
+                    if (classModel != null) {
+                        model.addClass(classModel);
+                    }
                 }
             }
         }
@@ -107,6 +117,11 @@ public class ReflectionModelBuilder {
     }
 
     protected static MethodModel buildMethodModel(CPPMethod method) {
+        CPPAnnotation ignoreReflectionAnnotation = method.getAnnotation(IGNORE_REFLECTION_ANNOTATION);
+        if (ignoreReflectionAnnotation != null) {
+            return null;
+        }
+
         String returnType = method.getFunction().getType().toString().split("[(]")[0].trim();
         if (returnType.isEmpty()) {
             returnType = "void";
@@ -136,25 +151,35 @@ public class ReflectionModelBuilder {
     }
 
     protected static ClassModel buildClassModel(UpdaterContext updaterContext, CPPClass classDeclaration, Set<String> includes) {
-        ClassModel classModel = new ClassModel(classDeclaration.getSimpleName());
-        classModel.setAbstractClass(classDeclaration.isAbstractClass());
-
-        CPPAnnotation annotation = classDeclaration.getAnnotation(CLASS_ANNOTATION);
+        CPPAnnotation ignoreAnnotation = classDeclaration.getAnnotation(IGNORE_REFLECTION_ANNOTATION);
+        if (ignoreAnnotation != null) {
+            return null;
+        }
 
         String simpleName = classDeclaration.getSimpleName();
+        ClassModel classModel = new ClassModel(simpleName);
+        classModel.setAbstractClass(classDeclaration.isAbstractClass());
+
+        CPPAnnotation primitiveAnnotation = classDeclaration.getAnnotation(PRIMITIVE_ANNOTATION);
+        if (primitiveAnnotation != null) {
+            classModel.setPrimitive(true);
+        }
+
+        CPPAnnotation classAnnotation = classDeclaration.getAnnotation(CLASS_ANNOTATION);
         String canonicalName = classDeclaration.getName().replace("::", ".");
 
-        if (annotation != null) {
-            String value = annotation.getProperty(CANONICAL_NAME_PROPERTY);
+        if (classAnnotation != null) {
+            String value = classAnnotation.getProperty(CANONICAL_NAME_PROPERTY);
             if (value != null) {
                 canonicalName = value;
             }
 
-            value = annotation.getProperty(SIMPLE_NAME_PROPERTY);
+            value = classAnnotation.getProperty(SIMPLE_NAME_PROPERTY);
             if (value != null) {
                 simpleName = value;
             }
         }
+
         classModel.setAnnotatedSimpleName(simpleName);
         classModel.setAnnotatedCanonicalName(canonicalName);
 
@@ -167,12 +192,15 @@ public class ReflectionModelBuilder {
         }
 
         for (CPPField field : classDeclaration.getFields()) {
-            if (field.getName().equals("serialVersionUID")) {
+            if (field.getName().equals("serialVersionUID") && field.isConst() && field.getType().isStatic()) {
                 classModel.setSerialVersionUID(field.getField().getInitialValue().numericalValue());
             }
-        }
 
-        for (CPPField field : classDeclaration.getFields()) {
+            CPPAnnotation ignoreReflectionAnnotation = field.getAnnotation(IGNORE_REFLECTION_ANNOTATION);
+            if (ignoreReflectionAnnotation != null) {
+                continue;
+            }
+
             FieldModel fieldModel = new FieldModel(field.getType().getName(), field.getName());
             classModel.addField(fieldModel);
             fieldModel.setStaticField(field.getType().isStatic());
@@ -197,6 +225,9 @@ public class ReflectionModelBuilder {
             Map<String, Integer> methodNameCount = new HashMap<String, Integer>();
             for (CPPMethod method : classDeclaration.getMethods()) {
                 MethodModel methodModel = buildMethodModel(method);
+                if (methodModel == null) {
+                    continue;
+                }
 
                 Integer count = methodNameCount.get(method.getName());
                 if (count == null) {
@@ -214,51 +245,69 @@ public class ReflectionModelBuilder {
             }
         }
 
+        boolean isObject = false;
+        boolean isInterface = false;
+        boolean isEnum = false;
+
         List<CPPBaseClass> baseClasses = classDeclaration.getBaseClasses();
         for (CPPBaseClass baseClass : baseClasses) {
-            if (hasJObject(baseClass)) {
+            if (isEnum(baseClass)) {
+                isEnum = true;
+            } else if (isObject(baseClass)) {
+                isObject = true;
                 String includeFilePath = createInclude(updaterContext.getOriginalHeaderBaseDir(), baseClass);
                 if (includeFilePath != null) {
                     includes.add(includeFilePath);
                 }
                 classModel.setSuperClass(baseClass.getName());
             } else if (isInterface(baseClass)) {
+                isInterface = true;
                 String includeFilePath = createInclude(updaterContext.getOriginalHeaderBaseDir(), baseClass);
                 if (includeFilePath != null) {
                     includes.add(includeFilePath);
                 }
-                classModel.addInterface(baseClass.getName());
+                if (!baseClass.getName().equals(INTERFACE_CLASS)) {
+                    classModel.addInterface(baseClass.getName());
+                }
+            }
+        }
+
+        if (isEnum) {
+            classModel.setEnumClass(true);
+        } else if (isInterface && !isObject) {
+            classModel.setInterfaceClass(true);
+        }
+
+        if (classModel.isEnumClass()) {
+            for (FieldModel fieldModel : classModel.getFields()) {
+                if (fieldModel.getStaticField() && fieldModel.getTypeClass().equals(classDeclaration.getName())) {
+                    classModel.addEnumConstant(fieldModel.getName());
+                }
             }
         }
 
         return classModel;
     }
 
-    protected static boolean isInterface(CPPBaseClass baseClass) {
-        return hasJInterface(baseClass) && !hasJObject(baseClass);
+    protected static boolean isObject(CPPBaseClass baseClass) {
+        return hasClassInHierarchy(OBJECT_CLASS, baseClass);
     }
 
-    protected static boolean hasJObject(CPPBaseClass baseClass) {
-        if (baseClass.getName().equals("jcpp::lang::JObject")) {
+    protected static boolean isInterface(CPPBaseClass baseClass) {
+        return hasClassInHierarchy(INTERFACE_CLASS, baseClass) && !hasClassInHierarchy(OBJECT_CLASS, baseClass);
+    }
+
+    protected static boolean isEnum(CPPBaseClass baseClass) {
+        return hasClassInHierarchy(ENUM_CLASS, baseClass);
+    }
+
+    protected static boolean hasClassInHierarchy(String className, CPPBaseClass baseClass) {
+        if (baseClass.getName().equals(className)) {
             return true;
         }
         List<CPPBaseClass> baseClasses = baseClass.getBaseClasses();
         for (CPPBaseClass parentBaseClass : baseClasses) {
-            if (hasJObject(parentBaseClass)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected static boolean hasJInterface(CPPBaseClass baseClass) {
-        if (baseClass.getName().equals("jcpp::lang::JInterface")) {
-            return false;
-        }
-        List<CPPBaseClass> baseClasses = baseClass.getBaseClasses();
-        for (CPPBaseClass parentBaseClass : baseClasses) {
-            if (hasJInterface(parentBaseClass)) {
+            if (hasClassInHierarchy(className, parentBaseClass)) {
                 return true;
             }
         }

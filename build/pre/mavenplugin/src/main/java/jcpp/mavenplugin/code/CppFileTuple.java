@@ -35,11 +35,13 @@ import org.apache.maven.plugin.logging.Log;
 
 public class CppFileTuple implements Comparable<CppFileTuple> {
 
-    private static final String JCPP_IMPORT = "JCPP_IMPORT";
+    public static final String IGNORE_PACKAGE_REFLECTION = "IgnorePackageReflection";
 
-    private static final String JCPP_EXPORT = "JCPP_EXPORT";
+    public static final String JCPP_IMPORT = "JCPP_IMPORT";
 
-    private static final String GC_INFO_INCLUDE = "jcpp/gc/info/GcInfoInclude.h";
+    public static final String JCPP_EXPORT = "JCPP_EXPORT";
+
+    public static final String GC_INFO_INCLUDE = "jcpp/gc/info/GcInfoInclude.h";
 
     private final String name;
     private final String namespace;
@@ -365,7 +367,7 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
 
         if (headerCPPFile != null) {
             for (CPPClass cppClass : headerCPPFile.getClasses()) {
-                if (!Utils.isDeclaredClass(cppClass)) {
+                if (!Utils.isDeclaredClass(cppClass) && (cppClass.getAnnotation(IGNORE_PACKAGE_REFLECTION) == null)) {
                     tupleHistoryInfo.addClassHistoryInfo(new ClassHistoryInfo(cppClass.getSimpleName(), cppClass.getNamespaceName()));
                 }
             }

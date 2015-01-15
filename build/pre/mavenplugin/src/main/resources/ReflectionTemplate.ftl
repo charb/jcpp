@@ -32,7 +32,7 @@ using namespace ${usingNamespaceDeclaration};
 namespace ${namespace} {
 </#list>
 
-	class JCPP_EXPORT ${class.simpleName}Class : public jcpp::lang::JClass 
+	class JCPP_EXPORT ${class.simpleName}Class : public <#if class.enumClass>JEnum::JEnumClass<#else>jcpp::lang::JClass</#if> 
 	{
 	protected:
 		<#list class.constructors as constructor>
@@ -58,7 +58,7 @@ namespace ${namespace} {
 		<#list class.fields as field>
 		static JObject* staticGet${field.name}(JObject* object){
 			<#if field.staticField>
-			return (JObject*)(<#if field.primitive>new ${field.typeClass}(${class.simpleName}::${field.name})<#else>${class.simpleName}::${field.name}</#if>);
+			return (JObject*)(<#if field.primitive>new ${field.typeClass}(${class.className}::${field.name})<#else>${class.className}::${field.name}</#if>);
 			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
 			return (JObject*)(<#if field.primitive>new ${field.typeClass}(o->${field.name})<#else>o->${field.name}</#if>);
@@ -67,13 +67,13 @@ namespace ${namespace} {
 		
 		static void staticSet${field.name}(JObject* object, JObject* value){
 			<#if field.constField>
-			throw new JIllegalAccessException(new JString("Field ${field.name} in Class ${class.simpleName} is Const!"));
+			throw new JIllegalAccessException(new JString("Field ${field.name} in Class ${class.className} is Const!"));
 			<#else>
 			<#if field.staticField>
-			${class.simpleName}::${field.name} = <#if field.primitive>(${field.type})<#else>dynamic_cast<${field.type}></#if>(value);
+			${class.className}::${field.name} = <#if field.primitive>(dynamic_cast<${field.typeClass}*>(value))->get()<#else>dynamic_cast<${field.type}>(value)</#if>;
 			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
-			o->${field.name} = <#if field.primitive>(${field.type})<#else>dynamic_cast<${field.type}></#if>(value);
+			o->${field.name} = <#if field.primitive>(dynamic_cast<${field.typeClass}*>(value))->get()<#else>dynamic_cast<${field.type}>(value)</#if>;
 			</#if>
 			</#if>
 		}
@@ -95,22 +95,44 @@ namespace ${namespace} {
 					throw new JIllegalArgumentException(new JString("wrong argument count"));
 				}
 			}
+			
+			<#if method.staticMethod>
+				<#if method.voidReturnType>
+			${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>);
+			return null;
+				<#elseif method.primitiveReturnType>
+			return (JObject*) (new ${method.returnTypeClass}(${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)));
+				<#else>
+			return (JObject*) (${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>));
+				</#if>	
+			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
+				<#if method.voidReturnType>
 			o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>);
 			return null;
+				<#elseif method.primitiveReturnType>
+			return (JObject*) (new ${method.returnTypeClass}(o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)));
+				<#else>
+			return (JObject*) (o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>));
+				</#if>
+			</#if>
 		}
 		
 		</#list>
 	
 	public:
-		${class.simpleName}Class() : JClass() {
+		${class.simpleName}Class() : <#if class.enumClass>JEnum::JEnumClass()<#else>JClass()</#if> {
 			this->canonicalName = new JString("${class.annotatedCanonicalName}");
 			this->name = new JString("${class.annotatedCanonicalName}");
 			this->simpleName = new JString("${class.annotatedSimpleName}");
 			<#if class.serialVersionUIDFound>this->serialVersionUID = ${class.serialVersionUID?c}ULL;</#if>
+			<#if class.primitive>this->bIsPrimitive=true;</#if>
+			<#if class.enumClass>this->bIsEnum=true;</#if>
+			<#if class.interfaceClass>this->bIsInterface=true;</#if>
 		}
 		
 		virtual void initialize() {
+			<#if class.enumClass>JEnum::JEnumClass::initialize();</#if>
 			<#list class.constructors as constructor>
 			JConstructor* cons${constructor_index} = addConstructor(new JConstructor(${class.className}::getClazz(), JModifier::PUBLIC, create${class.simpleName}${constructor_index}));
 			<#list constructor.parameters as param>
@@ -143,7 +165,7 @@ namespace ${namespace} {
 			</#list>
 			
 			<#list class.methods as method>
-			JMethod* m${method_index}=addMethod(new JMethod(new JString("${method.name}"),this,${method.returnType}::getClazz(),invoke${method.modifiedName}));
+			JMethod* m${method_index}=addMethod(new JMethod(new JString("${method.name}"),this,${method.returnTypeClass}::getClazz(),invoke${method.modifiedName}));
 			<#list method.parameters as param>
 			m${method_index}->addParameterType(${param.typeClass}::getClazz());
 			</#list>
@@ -176,7 +198,14 @@ namespace ${namespace} {
 		virtual JClass* getDeclaringClass() {
 			return ${class.declaringClass}::getClazz();
 		}
-</#if>	
+</#if>
+<#if class.enumClass>
+    	virtual void fillEnumConstants(){
+    		<#list class.enumConstants as enumConstant>
+        	addEnumConstant(${class.className}::${enumConstant});
+        	</#list>
+    	}
+</#if>
 	};
 	
 	static jcpp::lang::JClass* ${class.simpleName}Clazz;

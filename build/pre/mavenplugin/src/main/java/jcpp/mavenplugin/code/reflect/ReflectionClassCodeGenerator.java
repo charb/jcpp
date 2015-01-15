@@ -24,7 +24,7 @@ public class ReflectionClassCodeGenerator implements ICodeGenerator<CPPClass> {
             sb.append("\nfriend class ").append(construct.getSimpleName()).append("Class;\n");
 
             for (CPPClass classDeclaration : cppFile.getClasses()) {
-                String declaredParentClassName = Utils.getDeclaredParentClassName(classDeclaration);
+                String declaredParentClassName = Utils.getDeclaredParentSimpleClassName(classDeclaration);
                 if ((declaredParentClassName != null) && declaredParentClassName.equals(construct.getSimpleName())) {
                     sb.append("\nfriend class ").append(classDeclaration.getSimpleName()).append("Class;\n");
                 }

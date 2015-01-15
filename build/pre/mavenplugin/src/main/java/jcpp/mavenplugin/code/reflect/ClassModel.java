@@ -13,6 +13,8 @@ public class ClassModel {
     private List<String> namespaces;
 
     private String superClass;
+
+    private boolean interfaceClass;
     private List<String> interfaces;
 
     private Long serialVersionUID;
@@ -24,6 +26,10 @@ public class ClassModel {
     private List<String> declaredClasses;
     private boolean abstractClass;
     private String declaringClass;
+    private boolean primitive;
+
+    private boolean enumClass;
+    private List<String> enumConstants;
 
 
     public ClassModel(String simpleName) {
@@ -34,6 +40,7 @@ public class ClassModel {
         methods = new ArrayList<MethodModel>();
         interfaces = new ArrayList<String>();
         declaredClasses = new ArrayList<String>();
+        enumConstants = new ArrayList<String>();
     }
 
 
@@ -183,6 +190,42 @@ public class ClassModel {
 
     public boolean isHasDeclaringClass() {
         return declaringClass != null;
+    }
+
+    public boolean isPrimitive() {
+        return primitive;
+    }
+
+    public void setPrimitive(boolean primitive) {
+        this.primitive = primitive;
+    }
+
+    public boolean isEnumClass() {
+        return enumClass;
+    }
+
+    public void setEnumClass(boolean enumClass) {
+        this.enumClass = enumClass;
+    }
+
+    public List<String> getEnumConstants() {
+        return enumConstants;
+    }
+
+    public void setEnumConstants(List<String> enumConstants) {
+        this.enumConstants = enumConstants;
+    }
+
+    public void addEnumConstant(String enumConstant) {
+        enumConstants.add(enumConstant);
+    }
+
+    public boolean isInterfaceClass() {
+        return interfaceClass;
+    }
+
+    public void setInterfaceClass(boolean interfaceClass) {
+        this.interfaceClass = interfaceClass;
     }
 
 }

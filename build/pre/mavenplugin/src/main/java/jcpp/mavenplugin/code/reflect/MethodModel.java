@@ -21,10 +21,22 @@ public class MethodModel {
 
     public MethodModel(String name, String returnType) {
         this.name = name;
-        setReturnType(returnType);
+        this.returnType = returnType;
         this.parameters = new ArrayList<ParameterModel>();
     }
 
+
+    public boolean isVoidReturnType() {
+        return Utils.getTypeClass(returnType) == Utils.J_PRIMITIVE_VOID;
+    }
+
+    public boolean isPrimitiveReturnType() {
+        return Utils.isPrimitive(returnType);
+    }
+
+    public String getReturnTypeClass() {
+        return Utils.getTypeClass(returnType);
+    }
 
     public boolean getProtectedMethod() {
         return protectedMethod;
@@ -79,16 +91,13 @@ public class MethodModel {
     }
 
     public void setReturnType(String returnType) {
-        if (returnType != null) {
-            returnType = Utils.getTypeClass(returnType);
-        }
         this.returnType = returnType;
     }
 
     public String getModifiedName() {
         String modifiedName = name.replace("~", "Destructor");
         if (index > 0) {
-            modifiedName += index;
+            modifiedName += "_" + index;
         }
         return modifiedName;
     }

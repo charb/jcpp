@@ -16,14 +16,18 @@ import org.apache.maven.project.MavenProject;
 
 public class Utils {
 
-    private static final String J_PRIMITIVE_VOID = "JPrimitiveVoid";
-    private static final String J_PRIMITIVE_BOOLEAN = "JPrimitiveBoolean";
-    private static final String J_PRIMITIVE_CHAR = "JPrimitiveChar";
-    private static final String J_PRIMITIVE_DOUBLE = "JPrimitiveDouble";
-    private static final String J_PRIMITIVE_FLOAT = "JPrimitiveFloat";
-    private static final String J_PRIMITIVE_BYTE = "JPrimitiveByte";
-    private static final String J_PRIMITIVE_LONG = "JPrimitiveLong";
-    private static final String J_PRIMITIVE_SHORT = "JPrimitiveShort";
+    private static final String FORWARD_SLASH = "/";
+    private static final String DOUBLE_COLON = "::";
+    private static final String CONST_PRIFIX = "const ";
+
+    public static final String J_PRIMITIVE_VOID = "JPrimitiveVoid";
+    public static final String J_PRIMITIVE_BOOLEAN = "JPrimitiveBoolean";
+    public static final String J_PRIMITIVE_CHAR = "JPrimitiveChar";
+    public static final String J_PRIMITIVE_DOUBLE = "JPrimitiveDouble";
+    public static final String J_PRIMITIVE_FLOAT = "JPrimitiveFloat";
+    public static final String J_PRIMITIVE_BYTE = "JPrimitiveByte";
+    public static final String J_PRIMITIVE_LONG = "JPrimitiveLong";
+    public static final String J_PRIMITIVE_SHORT = "JPrimitiveShort";
 
     private static final String JVOID = "void";
     private static final String JLONG1 = "long long";
@@ -70,13 +74,13 @@ public class Utils {
     }
 
     public static String getNamespace(File codeFile, File baseDir) throws IOException {
-        String fileRelativePath = codeFile.getCanonicalPath().substring(baseDir.getPath().length() + 1).replace("\\", "/").replace("/", "::");
-        int index = fileRelativePath.lastIndexOf("::");
+        String fileRelativePath = codeFile.getCanonicalPath().substring(baseDir.getPath().length() + 1).replace("\\", FORWARD_SLASH).replace(FORWARD_SLASH, DOUBLE_COLON);
+        int index = fileRelativePath.lastIndexOf(DOUBLE_COLON);
         return (index < 0) ? "" : fileRelativePath.substring(0, index);
     }
 
     public static String getFileRelativePath(File file, File baseDir) throws IOException {
-        return file.getCanonicalPath().substring(baseDir.getPath().length() + 1).replace("\\", "/");
+        return file.getCanonicalPath().substring(baseDir.getPath().length() + 1).replace("\\", FORWARD_SLASH);
     }
 
     public static File getNoArchDirectory(File baseDir, MavenProject mp) {
@@ -98,19 +102,19 @@ public class Utils {
     public static boolean isDeclaredClass(CPPClass cppClass) {
         String namespaceName = cppClass.getNamespaceName();
         String fullName = ((namespaceName != null) && !namespaceName.isEmpty()) ? cppClass.getName().substring(namespaceName.length() + 2) : cppClass.getName();
-        return fullName.indexOf("::") > 0;
+        return fullName.indexOf(DOUBLE_COLON) > 0;
     }
 
-    public static String getDeclaredParentClassName(CPPClass cppClass) {
+    public static String getDeclaredParentSimpleClassName(CPPClass cppClass) {
         String namespaceName = cppClass.getNamespaceName();
         String fullName = ((namespaceName != null) && !namespaceName.isEmpty()) ? cppClass.getName().substring(namespaceName.length() + 2) : cppClass.getName();
-        int index = fullName.lastIndexOf("::");
+        int index = fullName.lastIndexOf(DOUBLE_COLON);
         if (index < 0) {
             return null;
         }
 
         String parentFullName = fullName.substring(0, index);
-        index = parentFullName.lastIndexOf("::");
+        index = parentFullName.lastIndexOf(DOUBLE_COLON);
 
         return (index > 0) ? parentFullName.substring(index + 2) : parentFullName;
     }
@@ -125,7 +129,7 @@ public class Utils {
 
         String namespace = cppFileTuple.getNamespace();
         if (namespace != null) {
-            pathBuilder.append(namespace.replace("::", "/")).append("/");
+            pathBuilder.append(namespace.replace(DOUBLE_COLON, FORWARD_SLASH)).append(FORWARD_SLASH);
         }
         pathBuilder.append(cppFileTuple.getName()).append("_Reflection.h");
 
@@ -137,7 +141,7 @@ public class Utils {
 
         String namespace = cppFileTuple.getNamespace();
         if (namespace != null) {
-            pathBuilder.append(namespace.replace("::", "/")).append("/");
+            pathBuilder.append(namespace.replace(DOUBLE_COLON, FORWARD_SLASH)).append(FORWARD_SLASH);
         }
         pathBuilder.append(cppFileTuple.getName()).append(".h");
 
@@ -147,6 +151,7 @@ public class Utils {
     // TODO update for JPrimitiveObjectArray::getClazz(TYPE::getClazz());
     public static String getTypeClass(String type) {
         String typeClass = type.replace("*", "").trim();
+        typeClass = typeClass.startsWith(CONST_PRIFIX) ? typeClass.substring(6) : typeClass;
         if (typeClass.equals(JVOID)) {
             typeClass = J_PRIMITIVE_VOID;
         } else if (typeClass.equals(JINT1) || typeClass.equals(JINT2)) {
