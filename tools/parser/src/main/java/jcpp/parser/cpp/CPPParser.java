@@ -101,6 +101,7 @@ public class CPPParser extends ASTVisitor {
         IncludeFileContentProvider fileCreator = new FileProvider();
         IParserLogService log = new StdoutLogService();
 
+        log.traceLog("Parsing File: " + file.getAbsolutePath());
         translationUnit = GPPLanguage.getDefault().getASTTranslationUnit(fileContent, scannerInfo, fileCreator, null, 0, log);
         translationUnit.accept(this);
         return translationUnit;
@@ -139,7 +140,7 @@ public class CPPParser extends ASTVisitor {
                 getCPPClass(compositeTypeSpecifier); //will create the CPPClass object if it doesn't exist.
             } else if (declSpec instanceof ICPPASTElaboratedTypeSpecifier) {
                 ICPPASTElaboratedTypeSpecifier elaboratedTypeSpecifier = (ICPPASTElaboratedTypeSpecifier) declSpec;
-                if (elaboratedTypeSpecifier.getKind() == ICPPASTElaboratedTypeSpecifier.k_class && !elaboratedTypeSpecifier.isFriend()) {
+                if ((elaboratedTypeSpecifier.getKind() == ICPPASTElaboratedTypeSpecifier.k_class) && !elaboratedTypeSpecifier.isFriend()) {
                     CPPFile cppFile = getCPPFile();
                     CPPClassForwardDeclaration classForwardDeclaration = new CPPClassForwardDeclaration(elaboratedTypeSpecifier, cppFile.getNamespace(getFullNamespace()));
                     cppFile.addClassForwardDeclaration(classForwardDeclaration);
@@ -172,51 +173,58 @@ public class CPPParser extends ASTVisitor {
 
     @Override
     public int visit(IASTDeclaration declaration) {
-        if (file.equals(new File(declaration.getContainingFilename()))) {
-            if (declaration instanceof IASTSimpleDeclaration) {
-                IASTSimpleDeclaration simpleDeclaration = (IASTSimpleDeclaration) declaration;
-                for (IASTDeclarator declarator : simpleDeclaration.getDeclarators()) {
-                    IBinding binding = declarator.getName().resolveBinding();
-                    if (binding instanceof IField) {
-                        // casting to the concrete class CPPField because the method getPrimaryDeclaration is not part of the IField interface
-                        org.eclipse.cdt.internal.core.dom.parser.cpp.CPPField field = (org.eclipse.cdt.internal.core.dom.parser.cpp.CPPField) binding;
-                        if (field.getPrimaryDeclaration() == simpleDeclaration) { //if "simpleDeclaration" is not the primary declaration then skip it. 
-                            CPPClass cppClass = getCPPClass(declarator.getName());
-                            cppClass.addField(new CPPField(simpleDeclaration, field));
-                        }
-                    } else if (binding instanceof IVariable) {
-                        CPPMethod method = getCPPMethod();
-                        if (method != null) {
-                            method.addVariable(new CPPVariable(declarator.getName(), declaration));
-                        } else {
-                            getCPPFile().addGlobalVariable(new CPPVariable(declarator.getName(), declaration));
-                        }
-                    } else if (binding instanceof ICPPFunction) {
-                        IASTFunctionDeclarator funcDeclarator = (IASTFunctionDeclarator) declarator;
-                        CPPClass cppClass = getCPPClass(funcDeclarator.getName());
-                        if (cppClass != null) {
-                            cppClass.addMethod(new CPPMethod(funcDeclarator));
-                        } else {
-                            getCPPFile().addFunction(new CPPMethod(funcDeclarator));
+        try {
+            if (file.equals(new File(declaration.getContainingFilename()))) {
+                if (declaration instanceof IASTSimpleDeclaration) {
+                    IASTSimpleDeclaration simpleDeclaration = (IASTSimpleDeclaration) declaration;
+                    for (IASTDeclarator declarator : simpleDeclaration.getDeclarators()) {
+                        IBinding binding = declarator.getName().resolveBinding();
+                        if (binding instanceof IField) {
+                            // casting to the concrete class CPPField because the method getPrimaryDeclaration is not part of the IField interface
+                            org.eclipse.cdt.internal.core.dom.parser.cpp.CPPField field = (org.eclipse.cdt.internal.core.dom.parser.cpp.CPPField) binding;
+                            if (field.getPrimaryDeclaration() == simpleDeclaration) { //if "simpleDeclaration" is not the primary declaration then skip it.
+                                CPPClass cppClass = getCPPClass(declarator.getName());
+                                cppClass.addField(new CPPField(simpleDeclaration, field));
+                            }
+                        } else if (binding instanceof IVariable) {
+                            CPPMethod method = getCPPMethod();
+                            if (method != null) {
+                                method.addVariable(new CPPVariable(declarator.getName(), declaration));
+                            } else {
+                                getCPPFile().addGlobalVariable(new CPPVariable(declarator.getName(), declaration));
+                            }
+                        } else if (binding instanceof ICPPFunction) {
+                            IASTFunctionDeclarator funcDeclarator = (IASTFunctionDeclarator) declarator;
+                            CPPClass cppClass = getCPPClass(funcDeclarator.getName());
+                            if (cppClass != null) {
+                                cppClass.addMethod(new CPPMethod(funcDeclarator));
+                            } else {
+                                getCPPFile().addFunction(new CPPMethod(funcDeclarator));
+                            }
                         }
                     }
+                } else if (declaration instanceof ICPPASTFunctionDefinition) {
+                    ICPPASTFunctionDefinition functionDefinition = (ICPPASTFunctionDefinition) declaration;
+                    functionsDefinitions.push(functionDefinition);
+                    IASTFunctionDeclarator funcDeclarator = functionDefinition.getDeclarator();
+                    CPPClass cppClass = getCPPClass(funcDeclarator.getName());
+                    if (cppClass != null) {
+                        cppClass.addMethod(new CPPMethod(functionDefinition));
+                    } else {
+                        getCPPFile().addFunction(new CPPMethod(functionDefinition));
+                    }
                 }
-            } else if (declaration instanceof ICPPASTFunctionDefinition) {
-                ICPPASTFunctionDefinition functionDefinition = (ICPPASTFunctionDefinition) declaration;
-                functionsDefinitions.push(functionDefinition);
-                IASTFunctionDeclarator funcDeclarator = functionDefinition.getDeclarator();
-                CPPClass cppClass = getCPPClass(funcDeclarator.getName());
-                if (cppClass != null) {
-                    cppClass.addMethod(new CPPMethod(functionDefinition));
-                } else {
-                    getCPPFile().addFunction(new CPPMethod(functionDefinition));
+            } else {
+                if (log.isDebugEnabled()) {
+                    log.debug("Skipped declaration  " + declaration + " in file " + declaration.getContainingFilename() + " (current file: " + file.getAbsolutePath() + ")");
                 }
             }
-        } else {
+        } catch (Throwable e) {
             if (log.isDebugEnabled()) {
-                log.debug("Skipped declaration  " + declaration + " in file " + declaration.getContainingFilename() + " (current file: " + file.getAbsolutePath() + ")");
+                log.debug("An exception was thrown while visiting: " + declaration, e);
             }
         }
+
         return ASTVisitor.PROCESS_CONTINUE;
     }
 
@@ -234,7 +242,7 @@ public class CPPParser extends ASTVisitor {
     public int visit(IASTProblem problem) {
         if (file.equals(new File(problem.getContainingFilename()))) {
             if (log.isWarnEnabled()) {
-                log.warn(problem.getMessageWithLocation());  //note: requires dependency on com.ibm.icu
+                log.warn(problem.getMessageWithLocation()); //note: requires dependency on com.ibm.icu
             }
         }
         return ASTVisitor.PROCESS_CONTINUE;
@@ -255,6 +263,9 @@ public class CPPParser extends ASTVisitor {
         CPPClass cppClass = cppFile.getClass(name);
         if (cppClass == null) {
             cppClass = new CPPClass(name, cppFile.getNamespace(getFullNamespace()));
+            if (cppClass.getSimpleName().isEmpty()) {
+                return null;
+            }
             cppFile.addClass(cppClass);
         }
         return cppClass;
@@ -265,12 +276,16 @@ public class CPPParser extends ASTVisitor {
         if (n.trim().length() > 0) {
             n += "::";
         }
+        List<String> parentNames = new ArrayList<String>();
         IASTNode parent = type;
         while ((parent = parent.getParent()) != null) { //TODO: is there a better way to include the containing class names?
             if (parent instanceof ICPPASTCompositeTypeSpecifier) {
                 ICPPASTCompositeTypeSpecifier parentType = (ICPPASTCompositeTypeSpecifier) parent;
-                n += parentType.getName().getLastName() + "::";
+                parentNames.add(parentType.getName().getLastName().toString());
             }
+        }
+        for (int i = parentNames.size() - 1; i >= 0; i--) {
+            n += parentNames.get(i) + "::";
         }
         n += type.getName().getLastName();
         CPPClass cppClass = getCPPClass(n);

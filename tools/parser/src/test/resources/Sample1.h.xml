@@ -44,6 +44,7 @@
 						<name>childValue</name>
 						<type name="int" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPBasicType" isStatic="false" isPointer="false" />
 						<visibility>PUBLIC</visibility>
+						<annotations />
 						<cppClass>sampleNs::Sample2::SampleChild</cppClass>
 					</field>
 				</fields>
@@ -57,6 +58,7 @@
 							<constructor>false</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>sampleNs::Sample2::SampleChild</cppClass>
 						</value>
 					</entry>
@@ -69,6 +71,7 @@
 							<constructor>true</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>sampleNs::Sample2::SampleChild</cppClass>
 						</value>
 					</entry>
@@ -88,18 +91,34 @@
 						<name>value</name>
 						<type name="int" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPBasicType" isStatic="false" isPointer="false" />
 						<visibility>PRIVATE</visibility>
+						<annotations />
 						<cppClass>Sample1</cppClass>
 					</field>
 					<field>
 						<name>strField</name>
 						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
 						<visibility>PRIVATE</visibility>
+						<annotations>
+							<annotation name="FieldAnnotation">
+								<properties>
+									<entry>
+										<key>meta2</key>
+										<value>world</value>
+									</entry>
+									<entry>
+										<key>meta1</key>
+										<value>hello</value>
+									</entry>
+								</properties>
+							</annotation>
+						</annotations>
 						<cppClass>Sample1</cppClass>
 					</field>
 					<field>
 						<name>strStaticField</name>
 						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="true" isPointer="true" />
 						<visibility>PRIVATE</visibility>
+						<annotations />
 						<cppClass>Sample1</cppClass>
 					</field>
 				</fields>
@@ -113,6 +132,7 @@
 							<constructor>false</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>Sample1</cppClass>
 						</value>
 					</entry>
@@ -125,6 +145,7 @@
 							<constructor>true</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>Sample1</cppClass>
 						</value>
 					</entry>
@@ -137,6 +158,7 @@
 							<constructor>false</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>Sample1</cppClass>
 						</value>
 					</entry>
@@ -154,6 +176,7 @@
 								</parameter>
 							</parameters>
 							<variables />
+							<annotations />
 							<cppClass>Sample1</cppClass>
 						</value>
 					</entry>
@@ -175,6 +198,20 @@
 								</parameter>
 							</parameters>
 							<variables />
+							<annotations>
+								<annotation name="MethodAnnotation">
+									<properties>
+										<entry>
+											<key>meta2</key>
+											<value>world</value>
+										</entry>
+										<entry>
+											<key>meta1</key>
+											<value>hello</value>
+										</entry>
+									</properties>
+								</annotation>
+							</annotations>
 							<cppClass>Sample1</cppClass>
 						</value>
 					</entry>
@@ -236,6 +273,7 @@
 						<name>strInternal</name>
 						<type name="char *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
 						<visibility>PRIVATE</visibility>
+						<annotations />
 						<cppClass>sampleNs::Sample2</cppClass>
 					</field>
 				</fields>
@@ -254,6 +292,7 @@
 								</parameter>
 							</parameters>
 							<variables />
+							<annotations />
 							<cppClass>sampleNs::Sample2</cppClass>
 						</value>
 					</entry>
@@ -266,6 +305,7 @@
 							<constructor>true</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>sampleNs::Sample2</cppClass>
 						</value>
 					</entry>
@@ -278,6 +318,7 @@
 							<constructor>false</constructor>
 							<parameters />
 							<variables />
+							<annotations />
 							<cppClass>sampleNs::Sample2</cppClass>
 						</value>
 					</entry>
