@@ -9,7 +9,12 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.Number", simpleName="Number");
         class JCPP_EXPORT JNumber: public JObject, public JSerializable{
+        	private:
+        		static const jlong serialVersionUID = -8742448824652078965LL;
+
             protected :
                 JNumber(jcpp::lang::JClass* _class);
 

@@ -8,31 +8,6 @@
 
 namespace jcpp{
     namespace util{
-        class JAbstractQueueClass : public JClass{
-        public:
-            JAbstractQueueClass():JClass(){
-                this->canonicalName=new JString("java.util.AbstractQueue");
-                this->name=new JString("java.util.AbstractQueue");
-                this->simpleName=new JString("AbstractQueue");
-            }
-
-            virtual void initialize(){
-                addInterface(JQueue::getClazz());
-            }
-
-            JClass* getSuperclass(){
-                return JAbstractCollection::getClazz();
-            }
-        };
-
-        static JClass* clazz;
-
-        JClass* JAbstractQueue::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractQueueClass();
-            }
-            return clazz;
-        }
 
         JAbstractQueue::JAbstractQueue(jcpp::lang::JClass* _class):JAbstractCollection(_class){
         }

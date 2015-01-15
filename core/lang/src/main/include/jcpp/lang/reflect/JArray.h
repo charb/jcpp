@@ -8,7 +8,9 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace lang{
-    	namespace reflect{        	
+    	namespace reflect{
+
+    		// @Class(canonicalName="java.lang.reflect.Array", simpleName="Array");
 	        class JCPP_EXPORT JArray : public JObject{
 	            public:
 	                static jcpp::lang::JClass* getClazz();

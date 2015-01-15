@@ -6,9 +6,13 @@
 
 namespace jcpp{
     namespace lang{
-        class JCPP_EXPORT JArithmeticException : public JRuntimeException{
-        public:
 
+    	// @Class(canonicalName="java.lang.ArithmeticException", simpleName="ArithmeticException");
+        class JCPP_EXPORT JArithmeticException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = 2256477558314496007LL;
+
+        public:
             JArithmeticException();
 
             JArithmeticException(JString* message);

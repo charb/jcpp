@@ -6,7 +6,10 @@
 namespace jcpp{
     namespace lang{
         namespace reflect{
-            class JPackageLoader{
+
+        	// @IgnoreReflection()
+        	// @IgnorePackageReflection()
+            class JPackageLoader {
                 public:
                     virtual JPackage* getPackage() = 0;
                     virtual ~JPackageLoader() {

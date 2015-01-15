@@ -21,10 +21,14 @@ namespace jcpp{
         class JClass;
         class JString;
 
+        // @Class(canonicalName="java.lang.Object", simpleName="Object");
         class JCPP_EXPORT JObject{
             private:
+        		// @IgnoreReflection()
                 NativeMutex* mutex;
+                // @IgnoreReflection()
                 NativeCondition* condition;
+
                 void internalLock();
                 jbool internalTryLock();
                 jbool internalTryLock(jlong l);
@@ -67,15 +71,18 @@ namespace jcpp{
                 virtual ~JObject();
         };
 
+        // @Class(canonicalName="java.lang.ScopedObjectLock", simpleName="ScopedObjectLock");
         class JCPP_EXPORT ScopedObjectLock {
             private:
                 JObject* obj;
 
-                ScopedObjectLock();
+                // @IgnoreReflection()
                 ScopedObjectLock(const ScopedObjectLock&);
+                // @IgnoreReflection()
                 ScopedObjectLock& operator =(const ScopedObjectLock&);
 
             public:
+                static jcpp::lang::JClass* getClazz();
                 ScopedObjectLock(JObject* obj);
                 ~ScopedObjectLock();
         };

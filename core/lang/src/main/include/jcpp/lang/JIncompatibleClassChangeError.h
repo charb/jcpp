@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.IncompatibleClassChangeError", simpleName="IncompatibleClassChangeError");
         class JCPP_EXPORT JIncompatibleClassChangeError : public JLinkageError {
+        private:
+        	static const jlong serialVersionUID = -4914975503642802119LL;
+
         protected:
             JIncompatibleClassChangeError(jcpp::lang::JClass* _class);
 

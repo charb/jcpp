@@ -17,17 +17,23 @@ namespace jcpp{
         
         namespace reflect{
 
+        	// @Class(canonicalName="java.lang.reflect.Method", simpleName="Method");
             class JCPP_EXPORT JMethod : public JExecutable{
             public:
                 typedef JObject* (*invocation)(JObject* objet,jcpp::util::JList* args);
 
             protected:
                 jcpp::lang::JClass* returnType;
+
+                // @IgnoreReflection()
                 invocation inv;
+
                 virtual void specificToStringHeader(JStringBuilder* sb);
                 friend class jcpp::lang::JClass;
 
             public:
+
+                // @IgnoreReflection()
                 JMethod(JString* name,jcpp::lang::JClass* declaringClass,jcpp::lang::JClass* returnType,invocation inv);
 
                 virtual void setPublic();

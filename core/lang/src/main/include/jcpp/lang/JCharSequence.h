@@ -7,6 +7,7 @@ namespace jcpp{
     namespace lang{
         class JString;
 
+        // @Class(canonicalName="java.lang.CharSequence", simpleName="CharSequence");
         class JCPP_EXPORT JCharSequence : public JInterface  {
             public:
                 static jcpp::lang::JClass* getClazz();

@@ -10,6 +10,8 @@ using namespace jcpp::util;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.Iterable", simpleName="Iterable");
         class JCPP_EXPORT JIterable : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

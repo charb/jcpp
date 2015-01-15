@@ -3,6 +3,7 @@
 
 #include "jcpp/lang/JRunnable.h"
 #include "jcpp/lang/JObject.h"
+#include "jcpp/lang/JEnum.h"
 #include "jcpp/native/api/nthread/NativeThread.h"
 #include "jcpp/lang/JPrimitiveObjectArray.h"
 #include "jcpp/lang/JClassLoader.h"
@@ -10,34 +11,55 @@
 
 using jcpp::native::api::nthread::NativeThread;
 
+/**
+ *  TODO check:
+ *  - ThreadGroup
+ *  - interrupt
+ *  - Thread State
+ *  - UncaughtExceptionHandler
+ *  - Stack Trace
+ */
 namespace jcpp{
 	namespace lang{
 
-		/**
-		 *  TODO check:
-		 *  - ThreadGroup
-		 *  - interrupt
-		 *  - Thread State
-		 *  - UncaughtExceptionHandler
-		 *  - Stack Trace
-		 */
+		// @Class(canonicalName="java.lang.Thread", simpleName="Thread");
         class JCPP_EXPORT JThread : public JObject, public JRunnable {
 
         public:
-        	enum JState { NEW, RUNNABLE, TERMINATED };
+			// @Class(canonicalName="java.lang.Thread$State", simpleName="Thread$State");
+			class JCPP_EXPORT JState : public JEnum {
+			    protected:
+
+        		JState(JString* name, JPrimitiveInt* ordinal);
+
+			    public:
+
+			        static JClass* getClazz();
+
+			        static JState* NEW;
+
+			        static JState* RUNNABLE;
+
+			        static JState* TERMINATED;
+
+			        virtual ~JState();
+			    };
 
         private:
         	static JThread* mainJThread;
 
+        	// @IgnoreReflection()
 			NativeThread* nativeThread;
 
 			JRunnable* target;
             JClassLoader* contextClassLoader;
             jbool bDaemon;
 
+            // @IgnoreReflection()
 			JThread(const JThread&);
+			// @IgnoreReflection()
 			JThread& operator =(const JThread&);
-
+			// @IgnoreReflection()
 			JThread(NativeThread* mainThread);
         protected:
 			JThread(jcpp::lang::JClass* _class);
@@ -71,7 +93,7 @@ namespace jcpp{
 
             void setContextClassLoader(JClassLoader* c);
 
-            JState getState();
+            JState* getState();
 
             void start();
 

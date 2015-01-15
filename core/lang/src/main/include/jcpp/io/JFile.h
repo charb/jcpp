@@ -25,7 +25,9 @@ namespace jcpp{
             protected:
                 static jcpp::io::JFileSystem* fs;//TODO maybe useless
 
+                // @IgnoreReflection()
                 NativeFile* nativeFile;
+
                 JString* name;
                 JString* path;
                 JString* absolutePath;

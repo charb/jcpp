@@ -21,52 +21,7 @@ namespace jcpp{
     	class JUnmodifiableCollectionClass;
     	class JUnmodifiableListClass;
 
-        class JCollectionsClass : public jcpp::lang::JClass{
-
-        public:
-            JCollectionsClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections");
-                this->name=new JString("java.util.Collections");
-                this->simpleName=new JString("Collections");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JCollections::getClazz(){
-            if (clazz==null){
-                clazz=new JCollectionsClass();
-            }
-            return clazz;
-        }
-
-        class JUnmodifiableCollectionIteratorClass : public jcpp::lang::JClass{
-        public:
-            JUnmodifiableCollectionIteratorClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections$UnmodifiableCollection$Iterator");
-                this->name=new JString("java.util.Collections$UnmodifiableCollection$Iterator");
-                this->simpleName=new JString("Collections$UnmodifiableCollection$Iterator");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void initialize(){
-                addInterface(JIterator::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass();
-        };
-
-        static jcpp::lang::JClass* unmodifiableCollectionIteratorClazz = null;
-
+    	// @Class(canonicalName="java.util.Collections$UnmodifiableCollection$Iterator", simpleName="Collections$UnmodifiableCollection$Iterator");
         class JUnmodifiableCollectionIterator : public JObject, public JIterator{
         protected:
             JCollection* c;
@@ -78,12 +33,7 @@ namespace jcpp{
                 this->i=c->iterator();
             }   
 
-            static jcpp::lang::JClass* getClazz(){
-                if (unmodifiableCollectionIteratorClazz==null){
-                    unmodifiableCollectionIteratorClazz=new JUnmodifiableCollectionIteratorClass();
-                }
-                return unmodifiableCollectionIteratorClazz; 
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasNext() {
                 return i->hasNext();
@@ -98,8 +48,7 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* unmodifiableCollectionClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$UnmodifiableCollection", simpleName="Collections$UnmodifiableCollection");
         class JUnmodifiableCollection : public JObject, public JCollection, public JSerializable {
         protected:
             JCollection* c;
@@ -191,93 +140,11 @@ namespace jcpp{
             }
         };
 
-        class JUnmodifiableCollectionClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJUnmodifiableCollection(jcpp::util::JList* args){
-                return new JUnmodifiableCollection();
-            }
-
-            static JObject* staticGetCollection(JObject* object){
-                JUnmodifiableCollection* s=dynamic_cast<JUnmodifiableCollection*>(object);
-                return dynamic_cast<JObject*>(s->c);
-            }
-
-            static void staticSetCollection(JObject* object,JObject* value){
-                JUnmodifiableCollection* s=dynamic_cast<JUnmodifiableCollection*>(object);
-                s->c=dynamic_cast<JCollection*>(value);
-            }
-
-            static JObject** adrCollection(JObject* object){
-                JUnmodifiableCollection* s=dynamic_cast<JUnmodifiableCollection*>(object);
-                return (JObject**)(&s->c);
-            }
-
-        public:
-            JUnmodifiableCollectionClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections$UnmodifiableCollection");
-                this->name=new JString("java.util.Collections$UnmodifiableCollection");
-                this->simpleName=new JString("Collections$UnmodifiableCollection");
-                this->serialVersionUID = 1820017752578914078LL;
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void initialize(){
-                addInterface(JCollection::getClazz());
-                addInterface(JSerializable::getClazz());
-
-                addConstructor(new JConstructor(JUnmodifiableCollection::getClazz(),JModifier::PUBLIC,createJUnmodifiableCollection));
-
-                addField(new JField(new JString("c"),JCollection::getClazz(),this,staticGetCollection,staticSetCollection,adrCollection));
-            }
-
-            virtual void fillDeclaredClasses(){
-                addDeclaredClass(JUnmodifiableCollectionIterator::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JCollections::getClazz();
-            }
-        };
-
-        jcpp::lang::JClass* JUnmodifiableCollection::getClazz(){
-            if (unmodifiableCollectionClazz==null){
-                unmodifiableCollectionClazz=new JUnmodifiableCollectionClass();
-            }
-            return unmodifiableCollectionClazz;
-        }
-
-        jcpp::lang::JClass* JUnmodifiableCollectionIteratorClass::getDeclaringClass(){
-            return JUnmodifiableCollection::getClazz();
-        }
-
         JCollection* JCollections::unmodifiableCollection(JCollection* c){
             return new JUnmodifiableCollection(c);
         }
 
-        class JUnmodifiableListIteratorClass : public jcpp::lang::JClass{
-        public:
-            JUnmodifiableListIteratorClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections$UnmodifiableList$ListIterator");
-                this->name=new JString("java.util.Collections$UnmodifiableList$ListIterator");
-                this->simpleName=new JString("Collections$UnmodifiableList$ListIterator");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            virtual void initialize(){
-                addInterface(JListIterator::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass();
-        };
-
-        static jcpp::lang::JClass* unmodifiableListIteratorClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$UnmodifiableList$ListIterator", simpleName="Collections$UnmodifiableList$ListIterator");
         class JUnmodifiableListIterator : public JObject, public JListIterator{
         protected:
             JList* list;
@@ -289,12 +156,7 @@ namespace jcpp{
                 i=list->listIterator(index);
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (unmodifiableListIteratorClazz==null){
-                    unmodifiableListIteratorClazz=new JUnmodifiableListIteratorClass();
-                }
-                return unmodifiableListIteratorClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasNext(){
                 return i->hasNext();
@@ -333,9 +195,11 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* unmodifiableListClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$UnmodifiableList", simpleName="Collections$UnmodifiableList");
         class JUnmodifiableList : public JUnmodifiableCollection, public JList{
+        private:
+        	static const jlong serialVersionUID = -283967356065247728LL;
+
         protected:
             JList* list;
 
@@ -459,77 +323,11 @@ namespace jcpp{
             }
         };
 
-        class JUnmodifiableListClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJUnmodifiableList(jcpp::util::JList* args){
-                return new JUnmodifiableList();
-            }
-
-            static JObject* staticGetList(JObject* object){
-                JUnmodifiableList* s=dynamic_cast<JUnmodifiableList*>(object);
-                return dynamic_cast<JObject*>(s->list);
-            }
-
-            static void staticSetList(JObject* object,JObject* value){
-                JUnmodifiableList* s=dynamic_cast<JUnmodifiableList*>(object);
-                s->list=dynamic_cast<JList*>(value);
-            }
-
-            static JObject** adrList(JObject* object){
-                JUnmodifiableList* s=dynamic_cast<JUnmodifiableList*>(object);
-                return (JObject**)(&s->list);
-            }
-
-            static JObject* invokeReadResolve(JObject* object,JList* args){
-                JUnmodifiableList* l=dynamic_cast<JUnmodifiableList*>(object);
-                return l->readResolve();
-            }
-        public:
-            JUnmodifiableListClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections$UnmodifiableList");
-                this->name=new JString("java.util.Collections$UnmodifiableList");
-                this->simpleName=new JString("Collections$UnmodifiableList");
-                this->serialVersionUID = -283967356065247728LL;
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JUnmodifiableCollection::getClazz();
-            }
-
-            virtual void initialize(){
-                addInterface(JList::getClazz());
-
-                addConstructor(new JConstructor(JUnmodifiableList::getClazz(),JModifier::PUBLIC,createJUnmodifiableList));
-
-                addField(new JField(new JString("list"),JList::getClazz(),this,staticGetList,staticSetList,adrList));
-
-                JMethod* method=addMethod(new JMethod(new JString("readResolve"),this,JObject::getClazz(),invokeReadResolve));
-                setPublic(method);
-            }
-
-            virtual void fillDeclaredClasses(){
-                addDeclaredClass(JUnmodifiableListIterator::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JCollections::getClazz();
-            }
-        };
-
-        jcpp::lang::JClass* JUnmodifiableList::getClazz(){
-            if (unmodifiableListClazz==null){
-                unmodifiableListClazz=new JUnmodifiableListClass();
-            }
-            return unmodifiableListClazz;
-        }
-
-        jcpp::lang::JClass* JUnmodifiableListIteratorClass::getDeclaringClass(){
-            return JUnmodifiableList::getClazz();
-        }
-
-        static jcpp::lang::JClass* unmodifiableRandomAccessListClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$UnmodifiableRandomAccessList", simpleName="Collections$UnmodifiableRandomAccessList");
         class JUnmodifiableRandomAccessList : public JUnmodifiableList, public JRandomAccess{
+        private:
+        	static const jlong serialVersionUID = -2542308836966382001LL;
+
         public:
             JUnmodifiableRandomAccessList(JList* list) : JUnmodifiableList(getClazz(),list){
             }
@@ -545,43 +343,6 @@ namespace jcpp{
             }
         };
 
-        class UnmodifiableRandomAccessListClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* invokeWriteReplace(JObject* object,JList* args){
-                JUnmodifiableRandomAccessList* l=dynamic_cast<JUnmodifiableRandomAccessList*>(object);
-                return l->writeReplace();
-            }
-        public:
-            UnmodifiableRandomAccessListClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.Collections$UnmodifiableRandomAccessList");
-                this->name=new JString("java.util.Collections$UnmodifiableRandomAccessList");
-                this->simpleName=new JString("Collections$UnmodifiableRandomAccessList");
-                this->serialVersionUID = -2542308836966382001LL;
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JUnmodifiableList::getClazz();
-            }
-
-            virtual void initialize(){
-                addInterface(JRandomAccess::getClazz());
-
-                JMethod* method=addMethod(new JMethod(new JString("writeReplace"),this,JObject::getClazz(),invokeWriteReplace));
-                setPublic(method);
-            }
-
-            virtual jcpp::lang::JClass* getDeclaringClass(){
-                return JCollections::getClazz();
-            }
-        };
-
-        jcpp::lang::JClass* JUnmodifiableRandomAccessList::getClazz(){
-            if (unmodifiableRandomAccessListClazz==null){
-                unmodifiableRandomAccessListClazz=new UnmodifiableRandomAccessListClass();
-            }
-            return unmodifiableRandomAccessListClazz;
-        }
-
         JObject* JUnmodifiableList::readResolve() {
             return (dynamic_cast<JObject*>(list)->isInstanceOf(JRandomAccess::getClazz()) ? new JUnmodifiableRandomAccessList(list) : this);
         }
@@ -592,41 +353,16 @@ namespace jcpp{
 
         static jcpp::lang::JClass* synchronizedCollectionClazz = null;
 
+        // @Class(canonicalName="java.util.Collections$SynchronizedCollection", simpleName="Collections$SynchronizedCollection");
         class JSynchronizedCollection : public JObject, public JCollection, public JSerializable {
+        private:
+        	static const jlong serialVersionUID = 3053995032091335093LL;
         protected:
-            class JSynchronizedCollectionClass : public jcpp::lang::JClass{
-
-            public:
-                JSynchronizedCollectionClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$SynchronizedCollection");
-                    this->name=new JString("java.util.Collections$SynchronizedCollection");
-                    this->simpleName=new JString("Collections$SynchronizedCollection");
-                    this->serialVersionUID=3053995032091335093ULL;
-                }
-
-                virtual void initialize(){
-                    addInterface(JSerializable::getClazz());
-                    addInterface(JCollection::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
             JCollection* c;
             JObject* mutex;
 
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (synchronizedCollectionClazz==null){
-                    synchronizedCollectionClazz=new JSynchronizedCollectionClass();
-                }
-                return synchronizedCollectionClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JSynchronizedCollection(JCollection* c):JObject(getClazz()) {
                 if (c==null){
@@ -757,37 +493,14 @@ namespace jcpp{
 
         static jcpp::lang::JClass* synchronizedListClazz = null;
 
+        // @Class(canonicalName="java.util.Collections$SynchronizedList", simpleName="Collections$SynchronizedList");
         class JSynchronizedList : public JSynchronizedCollection, public JList{
+        private:
+        	static const jlong serialVersionUID = -7754090372962971524LL;
         protected:
-            class JSynchronizedListClass : public jcpp::lang::JClass{
-            public:
-                JSynchronizedListClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$SynchronizedList");
-                    this->name=new JString("java.util.Collections$SynchronizedList");
-                    this->simpleName=new JString("Collections$SynchronizedList");
-                    this->serialVersionUID=-7754090372962971524ULL;
-                }
-
-                virtual void initialize(){
-                    addInterface(JList::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JSynchronizedCollection::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
             JList* list;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (synchronizedListClazz==null){
-                    synchronizedListClazz=new JSynchronizedListClass();
-                }
-                return synchronizedListClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JSynchronizedList(JList* list):JSynchronizedCollection(getClazz(),list){
                 this->list = list;
@@ -929,40 +642,13 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* synchronizedRandomAccessListClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$SynchronizedRandomAccessList", simpleName="Collections$SynchronizedRandomAccessList");
         class JSynchronizedRandomAccessList : public JSynchronizedList, public JRandomAccess{
-        protected:
-            class JSynchronizedRandomAccessListClass : public jcpp::lang::JClass{
-
-            public:
-                JSynchronizedRandomAccessListClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$SynchronizedRandomAccessList");
-                    this->name=new JString("java.util.Collections$SynchronizedRandomAccessList");
-                    this->simpleName=new JString("Collections$SynchronizedRandomAccessList");
-                    this->serialVersionUID=1530674583602358482ULL;
-                }
-
-                virtual void initialize(){
-                    addInterface(JRandomAccess::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JSynchronizedList::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
+        private:
+        	static const jlong serialVersionUID = 1530674583602358482LL;
 
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (synchronizedRandomAccessListClazz==null){
-                    synchronizedRandomAccessListClazz=new JSynchronizedRandomAccessListClass();
-                }
-                return synchronizedRandomAccessListClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JSynchronizedRandomAccessList(JList* list):JSynchronizedList(getClazz(),list) {
             }
@@ -987,38 +673,10 @@ namespace jcpp{
             return (JRandomAccess::getClazz()->isAssignableFrom(o->getClass()) ? new JSynchronizedRandomAccessList(list,mutex) : new JSynchronizedList(list,mutex));
         }
 
-        static jcpp::lang::JClass* emptyIteratorClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$EmptyIterator", simpleName="Collections$EmptyIterator");
         class JEmptyIterator : public JObject, public JIterator{
-        protected:
-            class JEmptyIteratorClass : public jcpp::lang::JClass{
-            public:
-                JEmptyIteratorClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$EmptyIterator");
-                    this->name=new JString("java.util.Collections$EmptyIterator");
-                    this->simpleName=new JString("Collections$EmptyIterator");
-                }
-
-                virtual void initialize(){
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
-
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (emptyIteratorClazz==null){
-                    emptyIteratorClazz=new JEmptyIteratorClass();
-                }
-                return emptyIteratorClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JEmptyIterator():JObject(getClazz()){
             }
@@ -1039,39 +697,12 @@ namespace jcpp{
             }
         };
 
-
-        static jcpp::lang::JClass* synchronizedSetClazz = null;
+        // @Class(canonicalName="java.util.Collections$SynchronizedSet", simpleName="Collections$SynchronizedSet");
         class JSynchronizedSet : public JSynchronizedCollection, public JSet {
-        protected:
-            class JSynchronizedSetClass : public jcpp::lang::JClass{
-            public:
-                JSynchronizedSetClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$SynchronizedSet");
-                    this->name=new JString("java.util.Collections$SynchronizedSet");
-                    this->simpleName=new JString("Collections$SynchronizedSet");
-                    this->serialVersionUID=487447009682186044L;
-                }
-
-                virtual void initialize(){
-                    addInterface(JSet::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JSynchronizedCollection::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
-        
+        private:
+        	static const jlong serialVersionUID = 487447009682186044LL;
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (synchronizedSetClazz==null){
-                    synchronizedSetClazz=new JSynchronizedSetClass();
-                }
-                return synchronizedSetClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JSynchronizedSet(JSet* s):JSynchronizedCollection(getClazz(),s) {
             }
@@ -1159,37 +790,10 @@ namespace jcpp{
             return new JEmptyIterator();
         }
 
-        static jcpp::lang::JClass* emptyEnumerationClazz = null;
-
+        // @Class(canonicalName="java.util.Collections$EmptyEnumeration", simpleName="Collections$EmptyEnumeration");
         class JEmptyEnumeration : public JObject, public JEnumeration{
-        protected:
-            class JEmptyEnumerationClass : public jcpp::lang::JClass{
-            public:
-                JEmptyEnumerationClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.Collections$EmptyEnumeration");
-                    this->name=new JString("java.util.Collections$EmptyEnumeration");
-                    this->simpleName=new JString("Collections$EmptyEnumeration");
-                }
-
-                virtual void initialize(){
-                    addInterface(JEnumeration::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JCollections::getClazz();
-                }
-            };
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (emptyEnumerationClazz==null){
-                    emptyEnumerationClazz=new JEmptyEnumerationClass();
-                }
-                return emptyEnumerationClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JEmptyEnumeration():JObject(getClazz()){
             }
@@ -1243,17 +847,6 @@ namespace jcpp{
 
         void JCollections::swap(JList* l, jint i, jint j) {
             l->set(i, l->set(j, l->get(i)));
-        }
-
-        void JCollectionsClass::fillDeclaredClasses(){
-            addDeclaredClass(JUnmodifiableCollection::getClazz());
-            addDeclaredClass(JUnmodifiableList::getClazz());
-            addDeclaredClass(JUnmodifiableRandomAccessList::getClazz());
-            addDeclaredClass(JSynchronizedCollection::getClazz());
-            addDeclaredClass(JSynchronizedList::getClazz());
-            addDeclaredClass(JSynchronizedRandomAccessList::getClazz());
-            addDeclaredClass(JEmptyIterator::getClazz());
-            addDeclaredClass(JEmptyEnumeration::getClazz());
         }
 
         JCollections::~JCollections(){

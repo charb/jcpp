@@ -10,6 +10,7 @@ using jcpp::native::api::nthread::NativeRunnable;
 namespace jcpp{
 	namespace lang{
 
+		// @Class(canonicalName="java.lang.Runnable", simpleName="Runnable");
         class JCPP_EXPORT JRunnable : public JInterface, public NativeRunnable {
         public:
             static jcpp::lang::JClass* getClazz();

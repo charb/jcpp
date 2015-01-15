@@ -4,32 +4,6 @@
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveIntClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveIntClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("int");
-                this->name=new JString("int");
-                this->simpleName=new JString("int");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JComparable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveInt::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveIntClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveInt::JPrimitiveInt(jint value):JObject(getClazz()){
             this->value=value;

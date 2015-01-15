@@ -17,6 +17,7 @@ namespace jcpp{
 
         namespace reflect{
 
+        	// @Class(canonicalName="java.lang.Package", simpleName="Package");
             class JCPP_EXPORT JPackage : public JObject{
                 protected:
                     JString* name;

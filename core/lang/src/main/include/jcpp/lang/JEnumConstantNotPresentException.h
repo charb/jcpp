@@ -6,13 +6,15 @@
 
 namespace jcpp{
     namespace lang{
-    	class JEnumConstantNotPresentExceptionClass;
 
+    	// @Class(canonicalName="java.lang.EnumConstantNotPresentException", simpleName="EnumConstantNotPresentException");
         class JCPP_EXPORT JEnumConstantNotPresentException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = -6046998521960521108LL;
+
         protected:
             jcpp::lang::JClass* enumType;
             JString* constantName;
-            friend class JEnumConstantNotPresentExceptionClass;
 
             JEnumConstantNotPresentException();
             

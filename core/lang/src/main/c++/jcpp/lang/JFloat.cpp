@@ -11,57 +11,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JFloatClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJFloat(jcpp::util::JList* args){
-                return new JFloat();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JFloat* b=(JFloat*)object;
-                return b->getPrimitiveFloat();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JFloat* b=(JFloat*)obj;
-                b->setPrimitiveFloat((JPrimitiveFloat*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JFloat* b=(JFloat*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JFloatClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Float");
-                this->name=new JString("java.lang.Float");
-                this->simpleName=new JString("Float");
-                this->serialVersionUID=-2671257302660747028ULL;
-            }
-            
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                addConstructor(new JConstructor(JFloat::getClazz(),JModifier::PUBLIC,createJFloat));
-
-                addField(new JField(new JString("value"),JPrimitiveFloat::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JFloat::getClazz(){
-            if (clazz==null){
-                clazz=new JFloatClass();
-            }
-            return clazz;
-        }
 
         jint JFloat::hashCode(jfloat f){
             return (jint)f;

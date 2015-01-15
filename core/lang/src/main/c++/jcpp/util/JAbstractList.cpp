@@ -13,63 +13,14 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
-        class JAbstractListClass : public jcpp::lang::JClass{
-        public:
-            JAbstractListClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.AbstractList");
-                this->name=new JString("java.util.AbstractList");
-                this->simpleName=new JString("AbstractList");
-            }
 
-            virtual void initialize(){
-                addInterface(JList::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JAbstractCollection::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JAbstractList::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractListClass();
-            }
-            return clazz;
-        }
-
-        static jcpp::lang::JClass* itrClazz;
-
+        // @Class(canonicalName="java.util.AbstractList$Itr", simpleName="AbstractList$Itr");
         class JItr : public JObject ,public JIterator{
         protected:
             JAbstractList* list;
             jint cursor;
             jint lastRet;
             jint expectedModCount;
-
-            class JAbstractListItrClass : public jcpp::lang::JClass{
-            public:
-                JAbstractListItrClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractList$Itr");
-                    this->name=new JString("java.util.AbstractList$Itr");
-                    this->simpleName=new JString("AbstractList$Itr");
-                }
-
-                virtual void initialize(){
-                    addInterface(JIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JAbstractList::getClazz();
-                }
-            };
 
         public:
 
@@ -87,12 +38,7 @@ namespace jcpp{
                 expectedModCount = list->modCount;
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (itrClazz==null){
-                    itrClazz=new JAbstractListItrClass();
-                }
-                return itrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasNext() {
                 return cursor != list->size();
@@ -136,43 +82,15 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* listItrClazz;
-
+        // @Class(canonicalName="java.util.AbstractList$ListItr", simpleName="AbstractList$ListItr");
         class JListItr : public JItr, public JListIterator {
-        protected:
-            class JAbstractListListItrClass : public jcpp::lang::JClass{
-            public:
-                JAbstractListListItrClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.AbstractList$ListItr");
-                    this->name=new JString("java.util.AbstractList$ListItr");
-                    this->simpleName=new JString("AbstractList$ListItr");
-                }
-
-                virtual void initialize(){
-                    addInterface(JListIterator::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JItr::getClazz();
-                }
-
-                virtual jcpp::lang::JClass* getDeclaringClass(){
-                    return JAbstractList::getClazz();
-                }
-            };
-
         public:
 
             JListItr(JAbstractList* list,jint index) : JItr(list,getClazz()){
                 cursor = index;
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (listItrClazz==null){
-                    listItrClazz=new JAbstractListListItrClass();
-                }
-                return listItrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasNext(){
                 return JItr::hasNext();
@@ -238,37 +156,16 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* subListClazz;
+        // @Class(canonicalName="java.util.SubList", simpleName="SubList");
         class JSubList : public JAbstractList {
         protected:
             JAbstractList* l;
             jint offset;
             jint isize;
             jint expectedModCount;
-
-            class JSubListClass : public jcpp::lang::JClass{
-            public:
-                JSubListClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.SubList");
-                    this->name=new JString("java.util.SubList");
-                    this->simpleName=new JString("SubList");
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractList::getClazz();
-                }
-
-                virtual void fillDeclaredClasses();
-            };
-
         public:
 
-            static jcpp::lang::JClass* getClazz(){
-                if (subListClazz==null){
-                    subListClazz=new JSubListClass();
-                }
-                return subListClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JSubList(JAbstractList* list, jint fromIndex, jint toIndex) : JAbstractList(getClazz()){
                 if (fromIndex < 0){
@@ -403,74 +300,29 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* randomAccessSubListClazz;
+        // @Class(canonicalName="java.util.RandomAccessSubList", simpleName="RandomAccessSubList");
         class JRandomAccessSubList: public JSubList, public JRandomAccess {
-        protected:
-            class JRandomAccessSubListClass : public jcpp::lang::JClass{
-
-            public:
-                JRandomAccessSubListClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.RandomAccessSubList");
-                    this->name=new JString("java.util.RandomAccessSubList");
-                    this->simpleName=new JString("RandomAccessSubList");
-                    addInterface(JRandomAccess::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JSubList::getClazz();
-                }
-            };
-
         public:
             JRandomAccessSubList(JAbstractList* list, jint fromIndex, jint toIndex) : JSubList(getClazz(),list,fromIndex,toIndex){
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (randomAccessSubListClazz==null){
-                    randomAccessSubListClazz=new JRandomAccessSubListClass();
-                }
-                return randomAccessSubListClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual JList* subList(jint fromIndex, jint toIndex) {
                 return new JRandomAccessSubList(this, fromIndex, toIndex);
             }
         };
 
-        static jcpp::lang::JClass* listIteratorClazzImpl;
-
+        // @Class(canonicalName="java.util.SubList$ListIterator", simpleName="SubList$ListIterator");
         class JListIteratorImpl : public JListIterator, public JObject {
             protected:
-                class JListIteratorImplClass : public jcpp::lang::JClass{
-
-                public:
-                    JListIteratorImplClass():jcpp::lang::JClass(){
-                        this->canonicalName=new JString("java.util.SubList$ListIterator");
-                        this->name=new JString("java.util.SubList$ListIterator");
-                        this->simpleName=new JString("SubList$ListIterator");
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JObject::getClazz();
-                    }
-
-                    virtual jcpp::lang::JClass* getDeclaringClass(){
-                        return JSubList::getClazz();
-                    }
-                };
-
                 JSubList* l;
                 JListIterator* i;
                 jint index;
                 jint offset;
 
             public:
-                static jcpp::lang::JClass* getClazz(){
-                    if (listIteratorClazzImpl==null){
-                        listIteratorClazzImpl=new JListIteratorImplClass();
-                    }
-                    return listIteratorClazzImpl;
-                }
+                static jcpp::lang::JClass* getClazz();
 
                 JListIteratorImpl(JSubList* l,jint index,jint offset):JObject(getClazz()){
                     this->l=l;
@@ -532,10 +384,6 @@ namespace jcpp{
                 ~JListIteratorImpl(){
                 }
         };
-
-        void JSubList::JSubListClass::fillDeclaredClasses(){
-            addDeclaredClass(JListIteratorImpl::getClazz());
-        }
 
         JListIterator* JSubList::listIterator(jint index) {
             checkForComodification();
@@ -715,11 +563,6 @@ namespace jcpp{
                 it->next();
                 it->remove();
             }
-        }
-
-        void JAbstractListClass::fillDeclaredClasses(){
-            addDeclaredClass(JItr::getClazz());
-            addDeclaredClass(JListItr::getClazz());
         }
 
         JAbstractList::~JAbstractList(){

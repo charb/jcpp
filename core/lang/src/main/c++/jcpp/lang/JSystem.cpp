@@ -11,27 +11,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JSystemClass : public jcpp::lang::JClass{
-        public:
-            JSystemClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.System");
-                this->name=new JString("java.lang.System");
-                this->simpleName=new JString("System");
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JSystem::getClazz(){
-            if (clazz==null){
-                clazz=new JSystemClass();
-            }
-            return clazz;
-        }
 
         static NativeSystem* nativeSystem = NativeFactory::getNativeSystem();
 

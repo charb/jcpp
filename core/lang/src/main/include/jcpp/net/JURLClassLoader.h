@@ -17,8 +17,12 @@ namespace jcpp{
 		//@Class(canonicalName="java.net.URLClassLoader", simpleName="URLClassLoader");
         class JCPP_EXPORT JURLClassLoader : public JSecureClassLoader{
         protected:
+
+        	// @IgnoreReflection()
+        	NativeLibrary** libraries;
+
             JList* files;
-            NativeLibrary** libraries;
+
             void loadClasses();
 
         public:

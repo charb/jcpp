@@ -9,6 +9,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.ListIterator", simpleName="ListIterator");
         class JCPP_EXPORT JListIterator : public JIterator{
         public:
             static jcpp::lang::JClass* getClazz();

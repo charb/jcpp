@@ -8,15 +8,16 @@
 
 namespace jcpp{
     namespace lang{
-    	class JLongClass;
 
+    	// @Class(canonicalName="java.lang.Long", simpleName="Long");
         class JCPP_EXPORT JLong : public JNumber, public JComparable{
+        	private:
+        		static const jlong serialVersionUID = 4290774380558885855LL;
 
             protected:
                 JPrimitiveLong* value;
                 void setPrimitiveLong(JPrimitiveLong* value);
                 JPrimitiveLong* getPrimitiveLong();
-                friend class JLongClass;
 
             public:
                 JLong();

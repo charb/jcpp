@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.UnsupportedClassVersionError", simpleName="UnsupportedClassVersionError");
         class JCPP_EXPORT JUnsupportedClassVersionError : public jcpp::lang::JClassFormatError {
+        private:
+        	static const jlong serialVersionUID = -7123279212883497373LL;
+
         protected:
             JUnsupportedClassVersionError(jcpp::lang::JClass* _class);
 

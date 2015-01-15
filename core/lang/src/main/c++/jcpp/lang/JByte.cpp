@@ -12,57 +12,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JByteClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJByte(jcpp::util::JList* args){
-                return new JByte();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JByte* b=(JByte*)object;
-                return b->getPrimitiveByte();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JByte* b=(JByte*)obj;
-                b->setPrimitiveByte((JPrimitiveByte*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JByte* b=(JByte*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JByteClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Byte");
-                this->name=new JString("java.lang.Byte");
-                this->simpleName=new JString("Byte");
-                this->serialVersionUID=-7183698231559129828ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                JConstructor* cons=addConstructor(new JConstructor(JByte::getClazz(),JModifier::PUBLIC,createJByte));
-
-                addField(new JField(new JString("value"),JPrimitiveByte::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JByte::getClazz(){
-            if (clazz==null){
-                clazz=new JByteClass();
-            }
-            return clazz;
-        }
 
         jint JByte::hashCode(jbyte b){
             return (jint)b;

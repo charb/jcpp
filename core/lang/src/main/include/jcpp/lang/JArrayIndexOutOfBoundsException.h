@@ -6,6 +6,8 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.ArrayIndexOutOfBoundsException", simpleName="ArrayIndexOutOfBoundsException");
         class JCPP_EXPORT JArrayIndexOutOfBoundsException : public JIndexOutOfBoundsException {
         public:
             JArrayIndexOutOfBoundsException();

@@ -7,7 +7,11 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.NoSuchElementException", simpleName="NoSuchElementException");
         class JCPP_EXPORT JNoSuchElementException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = 6769829250639411880LL;
 
         public:
             JNoSuchElementException();

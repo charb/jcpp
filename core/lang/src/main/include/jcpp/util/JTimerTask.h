@@ -12,6 +12,7 @@ namespace jcpp{
     namespace util{
         class JTimer;
 
+        // @Class(canonicalName="java.util.TimerTask", simpleName="TimerTask");
         class JCPP_EXPORT JTimerTask : public JRunnable, public JObject{
         protected:
             JObject* lockObject;

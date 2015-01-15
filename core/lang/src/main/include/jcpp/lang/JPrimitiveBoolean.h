@@ -9,6 +9,9 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="boolean", simpleName="boolean");
+    	// @Primitive()
         class JCPP_EXPORT JPrimitiveBoolean : public JObject, public JComparable, public JSerializable{
             protected:
                 jbool value;

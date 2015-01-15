@@ -6,36 +6,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace lang{
-        class JAbstractMethodErrorClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJAbstractMethodError(jcpp::util::JList* args){
-                return new JAbstractMethodError();
-            }
-        public:
-            JAbstractMethodErrorClass():jcpp::lang::JClass(){
-                canonicalName=new JString("java.lang.AbstractMethodError");
-                name=new JString("java.lang.AbstractMethodError");
-                simpleName=new JString("AbstractMethodError");
-                serialVersionUID=-1654391082989018462LL;
-            }
-
-            virtual void initialize(){
-                JConstructor* cons=addConstructor(new JConstructor(JAbstractMethodError::getClazz(),JModifier::PUBLIC,createJAbstractMethodError));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JIncompatibleClassChangeError::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz = null;
-
-        jcpp::lang::JClass* JAbstractMethodError::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractMethodErrorClass();
-            }
-            return clazz;
-        }
 
         JAbstractMethodError::JAbstractMethodError():JIncompatibleClassChangeError(getClazz()){
         }

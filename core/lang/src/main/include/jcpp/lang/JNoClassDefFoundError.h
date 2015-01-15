@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NoClassDefFoundError", simpleName="NoClassDefFoundError");
         class JCPP_EXPORT JNoClassDefFoundError : public JLinkageError {
+        private:
+        	static const jlong serialVersionUID = 9095859863287012458LL;
+
         protected:
             JNoClassDefFoundError(jcpp::lang::JClass* _class);
 

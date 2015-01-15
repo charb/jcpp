@@ -7,7 +7,12 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.ConcurrentModificationException", simpleName="ConcurrentModificationException");
         class JCPP_EXPORT JConcurrentModificationException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = 3666751008965953603LL;
+
         protected:
             JConcurrentModificationException(jcpp::lang::JClass* _class);
 

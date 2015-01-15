@@ -7,7 +7,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.ReflectiveOperationException", simpleName="ReflectiveOperationException");
         class JCPP_EXPORT JReflectiveOperationException : public JException{
+        private:
+        	static const jlong serialVersionUID = 123456789LL;
+
         protected:
             JReflectiveOperationException(jcpp::lang::JClass* _class);
 

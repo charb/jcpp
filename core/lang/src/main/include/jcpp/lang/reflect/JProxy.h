@@ -10,8 +10,10 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
+        	// @IgnoreReflection()
             class JCPP_EXPORT JProxy : public JObject{
-            protected:
+            public:
+            	// @IgnoreReflection()
                 class JCPP_EXPORT JProxyClass : public jcpp::lang::JClass{
                 protected:
                     static JObject** staticAdrInvocationHandler(JObject* obj);
@@ -22,6 +24,8 @@ namespace jcpp{
 
                     virtual jcpp::lang::JClass* getSuperclass();
                 };
+
+            protected:
 
                 JInvocationHandler *invocationHandler;
 

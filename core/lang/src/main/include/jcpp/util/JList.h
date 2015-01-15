@@ -12,7 +12,7 @@ using namespace std;
 namespace jcpp{
     namespace util{
 
-
+    	// @Class(canonicalName="java.util.List", simpleName="List");
         class JCPP_EXPORT JList : public JCollection{
         public:
             static jcpp::lang::JClass* getClazz();

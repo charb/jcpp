@@ -6,7 +6,12 @@
 //TODO implement all missing methods
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Properties", simpleName="Properties");
         class JCPP_EXPORT JProperties : public JHashtable{
+        private:
+        	static const jlong serialVersionUID = 4112578634029874840LL;
+
         protected:
             JProperties* defaults;
             virtual void enumerate(JHashtable* h);

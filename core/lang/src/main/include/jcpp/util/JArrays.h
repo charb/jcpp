@@ -11,6 +11,8 @@
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Arrays", simpleName="Arrays");
         class JCPP_EXPORT JArrays : public JObject{
         public:
             static jcpp::lang::JClass* getClazz();

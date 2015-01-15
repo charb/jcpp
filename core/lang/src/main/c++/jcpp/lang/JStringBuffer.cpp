@@ -18,68 +18,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JStringBufferClass : public jcpp::lang::JClass{
-            protected:
-                static JObject* createJStringBuffer(jcpp::util::JList* args){
-                    return new JStringBuffer();
-                }
-
-                static JObject* staticGetserialPersistentFields(JObject*){
-                    return JStringBuffer::getSerialPersistentFields();
-                }
-
-                static JObject** adrSerialPersistentFields(JObject*){
-                    return (JObject**)&JStringBuffer::serialPersistentFields;
-                }
-
-                static JObject* invokeWriteObject(JObject* object,JList* args){
-                    JStringBuffer* b=dynamic_cast<JStringBuffer*>(object);
-                    b->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                    return null;
-                }
-
-                static JObject* invokeReadObject(JObject* object,JList* args){
-                    JStringBuffer* b=dynamic_cast<JStringBuffer*>(object);
-                    b->readObject(dynamic_cast<JObjectInputStream*>(args->get(0)));
-                    return null;
-                }
-
-            public:
-                JStringBufferClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.lang.StringBuffer");
-                    this->name=new JString("java.lang.StringBuffer");
-                    this->simpleName=new JString("StringBuffer");
-                    this->serialVersionUID=3388685877147921107LL;
-                }
-
-                virtual void initialize(){
-                    addInterface(JSerializable::getClazz());
-                    addInterface(JCharSequence::getClazz());
-
-                    addConstructor(new JConstructor(JStringBuffer::getClazz(),JModifier::PUBLIC,createJStringBuffer));
-
-                    addField(new JField(new JString("serialPersistentFields"),JPrimitiveArray::getClazz(JObjectStreamField::getClazz()),this,staticGetserialPersistentFields,null,adrSerialPersistentFields));
-
-                    JMethod* m=addMethod(new JMethod(new JString("readObject"),this,JVoid::TYPE,invokeReadObject));
-                    m->addParameterType(JObjectInputStream::getClazz());
-
-                    m=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                    m->addParameterType(JObjectOutputStream::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractStringBuilder::getClazz();
-                }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JStringBuffer::getClazz(){
-            if (clazz==null){
-                clazz=new JStringBufferClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveObjectArray* JStringBuffer::serialPersistentFields = null;
 

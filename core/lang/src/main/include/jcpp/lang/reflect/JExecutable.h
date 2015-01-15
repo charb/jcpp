@@ -18,6 +18,8 @@ namespace jcpp{
         class JClass;
 
         namespace reflect{
+
+        	// @Class(canonicalName="java.lang.reflect.Executable", simpleName="Executable");
             class JCPP_EXPORT JExecutable: public JAccessibleObject, public JMember{
             protected:
                 jint modifiers;

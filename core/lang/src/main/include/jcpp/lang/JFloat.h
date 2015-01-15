@@ -8,14 +8,16 @@
 
 namespace jcpp{
     namespace lang{
-    	class JFloatClass;
 
+    	// @Class(canonicalName="java.lang.Float", simpleName="Float");
         class JCPP_EXPORT JFloat : public JNumber, public JComparable{
+        	private:
+        		static const jlong serialVersionUID = -2671257302660747028LL;
+
             protected:
                 JPrimitiveFloat* value;
                 void setPrimitiveFloat(JPrimitiveFloat* value);
                 JPrimitiveFloat* getPrimitiveFloat();
-                friend class JFloatClass;
 
             public:
                 JFloat();

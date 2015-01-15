@@ -21,78 +21,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace util{
-        class JArrayListClass : public jcpp::lang::JClass{
-            static JObject* createJArrayList(jcpp::util::JList* args){
-                return new JArrayList();
-            }
-
-            static JObject* invokeWriteObject(JObject* object,JList* args){
-                JArrayList* arrayList=dynamic_cast<JArrayList*>(object);
-                arrayList->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* invokeReadObject(JObject* object,JList* args){
-                JArrayList* arrayList=dynamic_cast<JArrayList*>(object);
-                arrayList->readObject(dynamic_cast<JObjectInputStream*>(args->get(0)));
-                return null;
-            }
-
-            static JObject* staticGetSize(JObject* object){
-                JArrayList* s=dynamic_cast<JArrayList*>(object);
-                return s->isize;
-            }
-
-            static void staticSetSize(JObject* object,JObject* value){
-                JArrayList* s=dynamic_cast<JArrayList*>(object);
-                s->isize=dynamic_cast<JPrimitiveInt*>(value);
-            }
-
-            static JObject** adrSize(JObject* object){
-                JArrayList* s=dynamic_cast<JArrayList*>(object);
-                return (JObject**)(&s->isize);
-            }
-
-        public:
-            JArrayListClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.ArrayList");
-                this->name=new JString("java.util.ArrayList");
-                this->simpleName=new JString("ArrayList");
-                this->serialVersionUID=8683452581122892189ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JList::getClazz());
-                addInterface(JSerializable::getClazz());
-                addInterface(JRandomAccess::getClazz());
-                addInterface(JCloneable::getClazz());
-
-                addConstructor(new JConstructor(JArrayList::getClazz(),JModifier::PUBLIC,createJArrayList));
-
-                JMethod* method=addMethod(new JMethod(new JString("readObject"),this,JVoid::TYPE,invokeReadObject));
-                method->addParameterType(JObjectInputStream::getClazz());
-
-                method=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                method->addParameterType(JObjectOutputStream::getClazz());
-
-                addField(new JField(new JString("size"),JPrimitiveInt::getClazz(),this,staticGetSize,staticSetSize,adrSize));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JAbstractList::getClazz();
-            }
-
-            virtual void fillDeclaredClasses();
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JArrayList::getClazz(){
-            if (clazz==null){
-                clazz=new JArrayListClass();
-            }
-            return clazz;
-        }
 
         JArrayList::JArrayList(jint c):JAbstractList(getClazz()){
             items=new JPrimitiveObjectArray(JObject::getClazz(),c);
@@ -390,29 +318,9 @@ namespace jcpp{
 
         static jcpp::lang::JClass* arrayListItrClazz = null;
 
+        // @Class(canonicalName="java.util.ArrayList$Itr", simpleName="ArrayList$Itr");
         class JArrayListItr : public JIterator, public JObject {
         protected:
-            class JArrayListItrClass : public jcpp::lang::JClass{
-            public:
-              JArrayListItrClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.ArrayList$Itr");
-                  this->name=new JString("java.util.ArrayList$Itr");
-                  this->simpleName=new JString("ArrayList$Itr");
-              }
-
-              virtual void initialize(){
-                  addInterface(JIterator::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JObject::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JArrayList::getClazz();
-              }
-            };
-
             JArrayList* list;
             jint cursor;
             jint lastRet;
@@ -433,12 +341,7 @@ namespace jcpp{
                 this->expectedModCount=list->modCount;
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (arrayListItrClazz==null){
-                    arrayListItrClazz=new JArrayListItrClass();
-                }
-                return arrayListItrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual jbool hasNext() {
                 return cursor != list->size();
@@ -478,36 +381,10 @@ namespace jcpp{
 
         static jcpp::lang::JClass* arrayListListItrClazz = null;
 
+        // @Class(canonicalName="java.util.ArrayList$ListItr", simpleName="ArrayList$ListItr");
         class JArrayListListItr : public JArrayListItr , public JListIterator {
-        protected:
-            class JArrayListListItrClass : public jcpp::lang::JClass{
-            public:
-              JArrayListListItrClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.ArrayList$ListItr");
-                  this->name=new JString("java.util.ArrayList$ListItr");
-                  this->simpleName=new JString("ArrayList$ListItr");
-              }
-
-              virtual void initialize(){
-                  addInterface(JListIterator::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JArrayListItr::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JArrayList::getClazz();
-              }
-            };
-
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (arrayListListItrClazz==null){
-                    arrayListListItrClazz=new JArrayListListItrClass();
-                }
-                return arrayListListItrClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JArrayListListItr(JArrayList* list,jint index):JArrayListItr(list,getClazz()){
                 cursor = index;
@@ -572,33 +449,9 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* arrayListSubListClazz = null;
-
+        // @Class(canonicalName="java.util.ArrayList$SubList", simpleName="ArrayList$SubList");
         class JArrayListSubList : public JAbstractList, public JRandomAccess {
         protected:
-            class JArrayListSubListClass : public jcpp::lang::JClass{
-            public:
-              JArrayListSubListClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.ArrayList$SubList");
-                  this->name=new JString("java.util.ArrayList$SubList");
-                  this->simpleName=new JString("ArrayList$SubList");
-              }
-
-              virtual void initialize(){
-                  addInterface(JRandomAccess::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JAbstractList::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JArrayList::getClazz();
-              }
-
-              virtual void fillDeclaredClasses();
-            };
-
             JArrayList* list;
             JAbstractList* parent;
             jint parentOffset;
@@ -607,13 +460,7 @@ namespace jcpp{
             friend class JArrayListSubListIterator;
 
         public:
-
-            static jcpp::lang::JClass* getClazz(){
-                if (arrayListSubListClazz==null){
-                    arrayListSubListClazz=new JArrayListSubListClass();
-                }
-                return arrayListSubListClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JArrayListSubList(JArrayList* list,JAbstractList* parent, jint offset, jint fromIndex, jint toIndex) : JAbstractList(getClazz()){
                 this->list=list;
@@ -723,8 +570,7 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* arrayListSubListListIteratorClazz = null;
-
+        // @Class(canonicalName="java.util.ArrayList$SubList$ListIterator", simpleName="ArrayList$SubList$ListIterator");
         class JArrayListSubListIterator : public JObject, public JListIterator {
         protected:
             JArrayList* list;
@@ -733,35 +579,8 @@ namespace jcpp{
             jint lastRet;
             jint expectedModCount;
             jint offset;
-
-            class JArrayListSubListListIteratorClass : public jcpp::lang::JClass{
-            public:
-              JArrayListSubListListIteratorClass():jcpp::lang::JClass(){
-                  this->canonicalName=new JString("java.util.ArrayList$SubList$ListIterator");
-                  this->name=new JString("java.util.ArrayList$SubList$ListIterator");
-                  this->simpleName=new JString("ArrayList$SubList$ListIterator");
-              }
-
-              virtual void initialize(){
-                  addInterface(JListIterator::getClazz());
-              }
-
-              virtual jcpp::lang::JClass* getSuperclass(){
-                  return JObject::getClazz();
-              }
-
-              virtual jcpp::lang::JClass* getDeclaringClass(){
-                  return JArrayListSubList::getClazz();
-              }
-            };
-
         public:
-            static jcpp::lang::JClass* getClazz(){
-                if (arrayListSubListListIteratorClazz==null){
-                    arrayListSubListListIteratorClazz=new JArrayListSubListListIteratorClass();
-                }
-                return arrayListSubListListIteratorClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             JArrayListSubListIterator(JArrayList* list,JArrayListSubList* sublist,jint index,jint offset):JObject(getClazz()){
                 this->list=list;
@@ -855,10 +674,6 @@ namespace jcpp{
             }
         };
 
-        void JArrayListSubList::JArrayListSubListClass::fillDeclaredClasses(){
-            addDeclaredClass(JArrayListSubListIterator::getClazz());
-        }
-
         JListIterator* JArrayListSubList::listIterator(jint index) {
             checkForComodification();
             rangeCheckForAdd(index);
@@ -886,12 +701,6 @@ namespace jcpp{
                 throw new JIllegalArgumentException(builder->toString());
             }
             return new JArrayListSubList(this,this, 0, fromIndex, toIndex);
-        }
-
-        void JArrayListClass::fillDeclaredClasses(){
-            addDeclaredClass(JArrayListItr::getClazz());
-            addDeclaredClass(JArrayListListItr::getClazz());
-            addDeclaredClass(JArrayListSubList::getClazz());
         }
 
         JArrayList::~JArrayList(){

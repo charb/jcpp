@@ -14,7 +14,8 @@ namespace jcpp {
 	JCharsetDecoder::JCharsetDecoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageCharsPerByte, jfloat maxCharsPerByte)
 		: JObject(_class)
 	{
-		construct(cs, averageCharsPerByte, maxCharsPerByte, new JString("\uFFFD"));
+		jchar buf[] = {0xFFFD};
+		construct(cs, averageCharsPerByte, maxCharsPerByte, new JString(new JPrimitiveCharArray(1,buf)));
 	}
 
 	JCharsetDecoder::~JCharsetDecoder()
@@ -113,7 +114,6 @@ namespace jcpp {
 	JCodingErrorAction* JCharsetDecoder::getMalformedInputAction() {
 		return malformedInputAction;
 	}
-
 
 	JCoderResult* JCharsetDecoder::decode(JByteBuffer* in, JCharBuffer* out, jbool endOfInput)
 	{

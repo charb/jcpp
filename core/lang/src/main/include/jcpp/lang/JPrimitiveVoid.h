@@ -6,6 +6,9 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Primitive()
+    	// @Class(canonicalName="void", simpleName="void");
         class JCPP_EXPORT JPrimitiveVoid : public JObject{
         public:
                 static jcpp::lang::JClass* getClazz();

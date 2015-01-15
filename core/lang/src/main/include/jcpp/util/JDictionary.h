@@ -8,6 +8,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Dictionary", simpleName="Dictionary");
         class JCPP_EXPORT JDictionary : public JObject{
         protected:
             JDictionary(JClass* _class);

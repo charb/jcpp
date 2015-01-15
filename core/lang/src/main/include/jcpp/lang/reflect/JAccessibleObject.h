@@ -11,6 +11,7 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
+        	// @Class(canonicalName="java.lang.reflect.AccessibleObject", simpleName="AccessibleObject");
             class JCPP_EXPORT JAccessibleObject: public JObject, public JAnnotatedElement{
 
             protected:

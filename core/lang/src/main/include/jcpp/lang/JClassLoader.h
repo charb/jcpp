@@ -12,6 +12,7 @@ using namespace jcpp::lang::reflect;
 namespace jcpp{
     namespace lang{
 
+    	// @IgnoreReflection()
         class JCPP_EXPORT JClassLoader : public JObject{
         private:
             JClassLoader(jbool root);

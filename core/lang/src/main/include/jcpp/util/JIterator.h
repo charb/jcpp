@@ -8,6 +8,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Iterator", simpleName="Iterator");
         class JCPP_EXPORT JIterator : public JInterface{
         public:
             static jcpp::lang::JClass* getClazz();

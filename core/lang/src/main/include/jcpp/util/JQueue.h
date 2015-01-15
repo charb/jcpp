@@ -11,6 +11,8 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Queue", simpleName="Queue");
         class JCPP_EXPORT JQueue : public virtual JCollection{
         public:
             static JClass* getClazz();

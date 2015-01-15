@@ -14,32 +14,6 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
-            class JExecutableClass : public jcpp::lang::JClass{
-            public:
-                JExecutableClass():jcpp::lang::JClass(){
-                    canonicalName=new JString("java.lang.reflect.Executable");
-                    name=new JString("java.lang.reflect.Executable");
-                    simpleName=new JString("Executable");
-                }
-
-                virtual void initialize(){
-                    addInterface(JMember::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAccessibleObject::getClazz();
-                }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JExecutable::getClazz(){
-                if (clazz==null){
-                    clazz= new JExecutableClass();
-                }
-                return clazz;
-            }
-
             JExecutable::JExecutable():JAccessibleObject(JExecutable::getClazz()){
                 modifiers=0;
                 name=null;

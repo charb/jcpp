@@ -14,22 +14,31 @@
 using namespace jcpp::io;
 using namespace jcpp::util;
 
+// @IgnoreReflection()
 int main(int argc, char* argv[]);
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.System", simpleName="System");
         class JCPP_EXPORT JSystem : public JObject{
         protected:
             static JString* lSeparator;
             static JProperties* props;
             static JProperties* initProperties(JProperties* props);
 
+            // @Class(canonicalName="java.lang.ExitListener", simpleName="ExitListener");
             class ExitListener{
             public:
+            	static jcpp::lang::JClass* getClazz();
+            	// @IgnoreReflection()
                 virtual void exit(jint code)=0;
             };
+
+            // @IgnoreReflection()
             static ExitListener* exitListener;
 
+            // @IgnoreReflection()
             friend int ::main(int argc, char* argv[]);
 
         public:

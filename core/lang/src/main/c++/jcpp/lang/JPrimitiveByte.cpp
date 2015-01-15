@@ -5,32 +5,6 @@
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveByteClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveByteClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("byte");
-                this->name=new JString("byte");
-                this->simpleName=new JString("byte");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JComparable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveByte::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveByteClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveByte::JPrimitiveByte(jbyte value):JObject(getClazz()){
             this->value=value;

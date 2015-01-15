@@ -7,13 +7,15 @@
 
 namespace jcpp{
     namespace lang{
-    	class JTypeNotPresentExceptionClass;
 
+    	// @Class(canonicalName="java.lang.TypeNotPresentException", simpleName="TypeNotPresentException");
         class JCPP_EXPORT JTypeNotPresentException : public JRuntimeException{
+    	private:
+    		static const jlong serialVersionUID = -5101214195716534496LL;
+
         protected:
             JTypeNotPresentException(jcpp::lang::JClass* _class);
             JString* typeName;
-            friend class JTypeNotPresentExceptionClass;
 
         public:
             JTypeNotPresentException();

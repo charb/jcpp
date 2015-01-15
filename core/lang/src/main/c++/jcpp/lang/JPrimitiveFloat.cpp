@@ -4,33 +4,6 @@
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveFloatClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveFloatClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("float");
-                this->name=new JString("float");
-                this->simpleName=new JString("float");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JComparable::getClazz());
-                addInterface(JSerializable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveFloat::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveFloatClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveFloat::JPrimitiveFloat(jfloat value):JObject(getClazz()){
             this->value=value;

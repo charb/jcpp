@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.NumberFormatException", simpleName="NumberFormatException");
         class JCPP_EXPORT JNumberFormatException : public JIllegalArgumentException{
+        private:
+        	static const jlong serialVersionUID = -2848938806368998894LL;
+
         protected:
             JNumberFormatException(jcpp::lang::JClass* _class);
 

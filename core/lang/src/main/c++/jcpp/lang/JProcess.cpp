@@ -11,31 +11,6 @@ using namespace jcpp::native::api::process;
 namespace jcpp {
     namespace lang {
 
-    	class JProcessClass : public jcpp::lang::JClass {
-    		// TODO fill
-    	public:
-    		JProcessClass():jcpp::lang::JClass() {
-    			this->canonicalName=new JString("java.lang.Process");
-    			this->name=new JString("java.lang.Process");
-    			this->simpleName=new JString("Process");
-    		}
-
-    		virtual jcpp::lang::JClass* getSuperclass() {
-    			return JObject::getClazz();
-    		}
-
-    	};
-
-
-    	static jcpp::lang::JClass* jClass;
-
-    	jcpp::lang::JClass* JProcess::getClazz() {
-    		if(jClass == null) {
-    			jClass = new JProcessClass();
-    		}
-    		return jClass;
-    	}
-
     	JProcess::JProcess(NativeProcess* nativeProcess) : JObject(getClazz()) {
     		this->nativeProcess = nativeProcess;
     		pidStr = null;

@@ -170,14 +170,9 @@ namespace jcpp{
             JObjectStreamClass* getVariantFor(jcpp::lang::JClass* cl);
             static JConstructor* getExternalizableConstructor(jcpp::lang::JClass* cl);
             static JConstructor* getSerializableConstructor(jcpp::lang::JClass* cl);
-            static JMethod* getInheritableMethod(jcpp::lang::JClass* cl, JString* name,JList* argTypes,jcpp::lang::JClass* returnType);
-            static JMethod* getPrivateMethod(jcpp::lang::JClass* cl, JString* name,JList* argTypes,jcpp::lang::JClass* returnType);
-            static jbool packageEquals(jcpp::lang::JClass* cl1, jcpp::lang::JClass* cl2);
-            static JString* getPackageName(jcpp::lang::JClass* cl);
             static JPrimitiveObjectArray* getSerialFields(jcpp::lang::JClass* cl);
             static JPrimitiveObjectArray* getDeclaredSerialFields(jcpp::lang::JClass* cl);
             static JPrimitiveObjectArray* getDefaultSerialFields(jcpp::lang::JClass* cl);
-            static jlong getDeclaredSUID(jcpp::lang::JClass* cl);
             static JFieldReflector* getReflector(JPrimitiveObjectArray* fields,JObjectStreamClass* localDesc);
             friend class JObjectInputStream;
             friend class JObjectOutputStream;

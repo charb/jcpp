@@ -11,57 +11,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JCharacterClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJCharacter(jcpp::util::JList* args){
-                return new JCharacter();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JCharacter* b=(JCharacter*)object;
-                return b->getPrimitiveChar();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JCharacter* b=(JCharacter*)obj;
-                b->setPrimitiveChar((JPrimitiveChar*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JCharacter* b=(JCharacter*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JCharacterClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Character");
-                this->name=new JString("java.lang.Character");
-                this->simpleName=new JString("Character");
-                this->serialVersionUID=3786198910865385080ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                JConstructor* cons=addConstructor(new JConstructor(JCharacter::getClazz(),JModifier::PUBLIC,createJCharacter));
-
-                addField(new JField(new JString("value"),JPrimitiveChar::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JCharacter::getClazz(){
-            if (clazz==null){
-                clazz=new JCharacterClass();
-            }
-            return clazz;
-        }
 
         jint JCharacter::hashCode(jchar c){
             return (jint)c;
@@ -72,7 +21,11 @@ namespace jcpp{
         }
 
         jbool JCharacter::isJavaIdentifierPart(jchar c){
-            return false;//TODO!!!!!!!!!!!!!!!
+            return isJavaIdentifierPart((jint)c);
+        }
+
+        jbool JCharacter::isJavaIdentifierPart(jint codePoint) {
+        	return (JCharacterData::of(codePoint))->isJavaIdentifierPart(codePoint);
         }
 
         jbool JCharacter::isSupplementaryCodePoint(jint codePoint) {
@@ -92,25 +45,51 @@ namespace jcpp{
         	return ch >= MIN_SURROGATE && ch < (MAX_SURROGATE + 1);
         }
 
-        // TODO update with CharacterData
+
         jchar JCharacter::toUpperCase(jchar ch){
-        	return (97 <= ch) && (ch <= 122) ? ch - 32 : ch;
+        	return (jchar)toUpperCase((jint)ch);
         }
 
-        // TODO update with CharacterData
+        jint JCharacter::toUpperCase(jint codePoint){
+        	return JCharacterData::of(codePoint)->toUpperCase(codePoint);
+        }
+
         jchar JCharacter::toLowerCase(jchar ch){
-        	return (65 <= ch) && (ch <= 90) ? ch + 32 : ch;
+        	return (jchar)toLowerCase((jint)ch);
         }
 
-        // TODO update with CharacterData
+        jint JCharacter::toLowerCase(jint codePoint) {
+        	return JCharacterData::of(codePoint)->toLowerCase(codePoint);
+        }
+
         jbool JCharacter::isWhitespace(jchar c){
-            return c == 0x00A0 || c == 0x2007 || c == 0x202F || c == 0x0009 || c == 0x000A || c == 0x000B || c == 0x000C || c == 0x000D || c == 0x001C || c == 0x001D || c == 0x001E || c == 0x001F;
+        	return isWhitespace((jint)c);
+        }
+
+        jbool JCharacter::isWhitespace(jint codePoint) {
+        	return JCharacterData::of(codePoint)->isWhitespace(codePoint);
         }
 
         jint JCharacter::toCodePoint(jchar high, jchar low) {
         	return ((high<<10) + low) + (MIN_SUPPLEMENTARY_CODE_POINT
         								 -	(MIN_HIGH_SURROGATE << 10)
         								 -	MIN_LOW_SURROGATE);
+        }
+
+        jint JCharacter::getType(jchar c) {
+        	return JCharacter::getType((jint)c);
+        }
+
+        jint JCharacter::getType(jint codePoint) {
+        	return JCharacterData::of(codePoint)->getType(codePoint);
+        }
+
+        jbool JCharacter::isDigit(jchar c) {
+        	return JCharacter::isDigit((jint)c);
+        }
+
+        jbool JCharacter::isDigit(jint codePoint) {
+        	return ( JCharacter::getType(codePoint) == JCharacter::DECIMAL_DIGIT_NUMBER );
         }
 
         jchar JCharacter::highSurrogate(jint codePoint){

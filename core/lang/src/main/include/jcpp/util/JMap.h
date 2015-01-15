@@ -9,8 +9,12 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Map", simpleName="Map");
         class JCPP_EXPORT JMap : public JInterface{
         public:
+
+        	// @Class(canonicalName="java.util.Map$Entry", simpleName="Map$Entry");
             class JCPP_EXPORT JEntry : public JInterface {
             public:
                 static jcpp::lang::JClass* getClazz();

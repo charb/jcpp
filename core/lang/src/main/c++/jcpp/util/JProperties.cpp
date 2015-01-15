@@ -7,53 +7,6 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
-        class JPropertiesClass : public JClass{
-        protected:
-            static JObject* createJProperties(jcpp::util::JList* args){
-                return new JProperties();
-            }
-
-            static JObject* staticGetDefaults(JObject* object){
-                JProperties* prop=dynamic_cast<JProperties*>(object);
-                return prop->defaults;
-            }
-
-            static void staticSetDefaults(JObject* object,JObject* value){
-                JProperties* prop=dynamic_cast<JProperties*>(object);
-                prop->defaults=dynamic_cast<JProperties*>(value);
-            }
-
-            static JObject** adrDefaults(JObject* object){
-                JProperties* prop=dynamic_cast<JProperties*>(object);
-                return (JObject**)(&prop->defaults);
-            }
-
-        public:
-            JPropertiesClass(){
-                this->canonicalName=new JString("java.util.Properties");
-                this->name=new JString("java.util.Properties");
-                this->simpleName=new JString("Properties");
-                this->serialVersionUID=4112578634029874840L;
-            }
-
-            virtual void initialize(){
-                addConstructor(new JConstructor(JProperties::getClazz(),JModifier::PUBLIC,createJProperties));
-                addField(new JField(new JString("defaults"),JProperties::getClazz(),this,staticGetDefaults,staticSetDefaults,adrDefaults));
-            }
-
-            JClass* getSuperclass(){
-                return JHashtable::getClazz();
-            }
-        };
-
-        static JClass* clazz;
-
-        JClass* JProperties::getClazz(){
-            if (clazz==null){
-                clazz=new JPropertiesClass();
-            }
-            return clazz;
-        }
 
         JProperties::JProperties():JHashtable(getClazz()){
             defaults=null;

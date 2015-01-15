@@ -12,56 +12,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JShortClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJShort(jcpp::util::JList* args){
-                return new JShort();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JShort* s=dynamic_cast<JShort*>(object);
-                return s->getPrimitiveShort();
-            }
-
-            static void staticSetValue(JObject* object,JObject* value){
-                JShort* s=dynamic_cast<JShort*>(object);
-                s->setPrimitiveShort(dynamic_cast<JPrimitiveShort*>(value));
-            }
-
-            static JObject** adrValue(JObject* object){
-                JShort* s=dynamic_cast<JShort*>(object);
-                return (JObject**)(&s->value);
-            }
-        public:
-            JShortClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Short");
-                this->name=new JString("java.lang.Short");
-                this->simpleName=new JString("Short");
-                this->serialVersionUID=7515723908773894738ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                addConstructor(new JConstructor(JShort::getClazz(),JModifier::PUBLIC,createJShort));
-
-                addField(new JField(new JString("value"),JPrimitiveShort::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JShort::getClazz(){
-            if (clazz==null){
-                clazz=new JShortClass();
-            }
-            return clazz;
-        }
 
         jint JShort::hashCode(jshort s){
             return (jint)s;

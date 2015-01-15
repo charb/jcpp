@@ -62,12 +62,7 @@ namespace jcpp{
                 objHandles=new JPrimitiveIntArray(desc->getNumObjFields());
             }
 
-            static jcpp::lang::JClass* getClazz(){
-                if (getFieldImplClazz==null){
-                    getFieldImplClazz=new JGetFieldImplClass();
-                }
-                return getFieldImplClazz;
-            }
+            static jcpp::lang::JClass* getClazz();
 
             virtual JObjectStreamClass* getObjectStreamClass(){
                 return desc;

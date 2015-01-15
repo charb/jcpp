@@ -7,37 +7,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace lang{
-        class JErrorClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJError(jcpp::util::JList* args){
-                return new JError();
-            }
-
-        public :
-            JErrorClass():jcpp::lang::JClass(){
-                canonicalName=new JString("java.lang.Error");
-                name=new JString("java.lang.Error");
-                simpleName=new JString("Error");
-                serialVersionUID=4980196508277280342ULL;
-            }
-
-            virtual void initialize(){
-                addConstructor(new JConstructor(JError::getClazz(),JModifier::PUBLIC,createJError));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JThrowable::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JError::getClazz(){
-            if (clazz==null){
-                clazz=new JErrorClass();
-            }
-            return clazz;
-        }
 
         JError::JError():JThrowable(getClazz()){
         }

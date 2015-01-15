@@ -16,6 +16,7 @@ namespace jcpp{
 
     	class JProcessBuilder;
 
+    	// @Class(canonicalName="java.lang.Process", simpleName="Process");
     	class JCPP_EXPORT JProcess : public JObject {
 
     	private:
@@ -26,8 +27,10 @@ namespace jcpp{
     		JMap* env;
     		JList* processTree;
 
+    		// @IgnoreReflection()
     		NativeProcess* nativeProcess;
 
+    		// @IgnoreReflection()
     		JProcess(NativeProcess* nativeProcess);
 
     	public:

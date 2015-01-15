@@ -4,32 +4,6 @@
 
 namespace jcpp{
     namespace util{
-        class JTimerTaskClass : public JClass{
-        public:
-            JTimerTaskClass():JClass(){
-                this->canonicalName=new JString("java.util.TimerTask");
-                this->name=new JString("java.util.TimerTask");
-                this->simpleName=new JString("TimerTask");
-            }
-
-            virtual void initialize(){
-                addInterface(JRunnable::getClazz());
-            }
-
-            virtual JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static JClass* clazz;
-
-        JClass* JTimerTask::getClazz(){
-            if (clazz==null){
-                clazz=new JTimerTaskClass();
-            }
-            return clazz;
-        }
-
         jint JTimerTask::VIRGIN = 0;
 
         jint JTimerTask::SCHEDULED = 1;

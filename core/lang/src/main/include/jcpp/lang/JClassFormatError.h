@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.ClassFormatError", simpleName="ClassFormatError");
         class JCPP_EXPORT JClassFormatError : public JLinkageError {
+        private:
+        	static const jlong serialVersionUID = -8420114879011949195LL;
+
         protected:
             JClassFormatError(jcpp::lang::JClass* _class);
 

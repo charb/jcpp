@@ -13,59 +13,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JStringBuilderClass : public jcpp::lang::JClass{
-            protected:
-                static JObject* createJStringBuilder(jcpp::util::JList* args){
-                    return new JStringBuilder();
-                }
-
-                static JObject* invokeWriteObject(JObject* object,JList* args){
-                    JStringBuilder* b=dynamic_cast<JStringBuilder*>(object);
-                    b->writeObject(dynamic_cast<JObjectOutputStream*>(args->get(0)));
-                    return null;
-                }
-
-                static JObject* invokeReadObject(JObject* object,JList* args){
-                    JStringBuilder* b=dynamic_cast<JStringBuilder*>(object);
-                    b->readObject(dynamic_cast<JObjectInputStream*>(args->get(0)));
-                    return null;
-                }
-
-            public:
-                JStringBuilderClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.lang.StringBuilder");
-                    this->name=new JString("java.lang.StringBuilder");
-                    this->simpleName=new JString("StringBuilder");
-                    this->serialVersionUID=4383685877147921099LL;
-                }
-
-                virtual void initialize(){
-                    addInterface(JSerializable::getClazz());
-                    addInterface(JCharSequence::getClazz());
-
-                    addConstructor(new JConstructor(JStringBuilder::getClazz(),JModifier::PUBLIC,createJStringBuilder));
-
-                    JMethod* m=addMethod(new JMethod(new JString("readObject"),this,JVoid::TYPE,invokeReadObject));
-                    m->addParameterType(JObjectInputStream::getClazz());
-
-                    m=addMethod(new JMethod(new JString("writeObject"),this,JVoid::TYPE,invokeWriteObject));
-                    m->addParameterType(JObjectOutputStream::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAbstractStringBuilder::getClazz();
-                }
-
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JStringBuilder::getClazz(){
-            if (clazz==null){
-                clazz=new JStringBuilderClass();
-            }
-            return clazz;
-        }
 
         JStringBuilder::JStringBuilder():JAbstractStringBuilder(getClazz()){
         }

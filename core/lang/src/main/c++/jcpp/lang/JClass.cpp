@@ -29,55 +29,13 @@
 #include "jcpp/lang/JSystem.h"
 #include "jcpp/io/JObjectStreamField.h"
 
+#include <iostream>
+
 using namespace jcpp::util;
 using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-
-        class JClassClass : public JClass{
-        protected:
-            static JObject* staticGetserialPersistentFields(JObject*){
-                return JClass::getSerialPersistentFields();
-            }
-
-            static JObject** adrSerialPersistentFields(JObject*){
-                return (JObject**)&JClass::serialPersistentFields;
-            }
-
-        public:
-            JClassClass():JClass(){
-                this->canonicalName=new JString("java.lang.Class");
-                this->name=new JString("java.lang.Class");
-                this->simpleName=new JString("Class");
-                this->serialVersionUID=3206093459760846163ULL;
-            }
-
-            virtual void initialize(){
-                addField(new JField(new JString("serialPersistentFields"),JPrimitiveArray::getClazz(JObjectStreamField::getClazz()),this,staticGetserialPersistentFields,null,adrSerialPersistentFields));
-            }
-
-            JClassLoader* getClassLoader(){
-                return JClassLoader::getBootClassLoader();
-            }
-
-            virtual JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-
-            void fillInterfaces(){
-                addInterface(JSerializable::getClazz());
-            }
-        };
-
-        static JClass* clazz;
-
-        JClass* JClass::getClazz(){
-            if (clazz==null){
-                clazz=new JClassClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveObjectArray* JClass::serialPersistentFields = null;
 
@@ -93,7 +51,104 @@ namespace jcpp{
         }
 
         JClass::JClass():JObject(){
-            init(null);
+
+        	init(null);
+        }
+
+		JList* JClass::getFieldsFromInterfaces(){
+
+			JList* result = new JArrayList();
+			JList* interfacesList = this->getInterfaces();
+
+
+			for (int i = 0; i < interfacesList->size(); ++i){
+				JClass* interface = dynamic_cast<JClass*>(interfacesList->get(i));
+				JList *interFields = interface->getFields();
+				result->addAll(interFields);
+			}
+			return result;
+		}
+
+		JList* JClass::getDeclaredMethodsFromInterfaces(){
+			JList* declaredMethods = new JArrayList();
+			JIterator* interfaceIterator = this->getInterfaces()->iterator();
+			while (interfaceIterator->hasNext()){
+				JClass* clas = dynamic_cast<JClass*>(interfaceIterator->next());
+				if (clas != this)
+					declaredMethods->addAll(clas->getDeclaredMethods());
+			}
+			return declaredMethods;
+		}
+
+		JMethod* JClass::searchForMethodInList(jcpp::util::JList* methods, JString* name, jcpp::util::JList* parameterTypes){
+			if (parameterTypes==null)
+				parameterTypes = new JArrayList();
+			JIterator* methodsIterator = methods->iterator();
+			while (methodsIterator->hasNext()){
+				JMethod* method = dynamic_cast<JMethod*>(methodsIterator->next());
+				if (method->name->equals(name) &&
+						method->getParameterTypes()->equals(dynamic_cast<JObject*>(parameterTypes)))
+				return method;
+			}
+			return null;
+		}
+
+		JConstructor* JClass::searchForConstructorInList(jcpp::util::JList* constructors, jcpp::util::JList* parameterTypes){
+        	if (parameterTypes == null)
+        		parameterTypes = new JArrayList();
+			JIterator* constructorsIterator = constructors->iterator();
+			while (constructorsIterator->hasNext()){
+				JConstructor* constructor = dynamic_cast<JConstructor*>(constructorsIterator->next());
+				if (constructor->getParameterTypes()->equals(dynamic_cast<JObject*>(parameterTypes)))
+					return constructor;
+			}
+			return null;
+		}
+
+
+        JConstructor* JClass::getConstructorNoException(jcpp::util::JList* parameterTypes){
+        	initInternal();
+        	initConstructors();
+        	return searchForConstructorInList(this->getConstructors(), parameterTypes);
+        }
+
+        JConstructor* JClass::getDeclaredConstructorNoException(jcpp::util::JList* parameterTypes){
+        	initInternal();
+        	initDeclaredConstructors();
+        	if (parameterTypes == null)
+        	    parameterTypes = new JArrayList();
+        	return searchForConstructorInList(constructorsList, parameterTypes);
+        }
+
+        JField* JClass::searchForFieldInList(jcpp::util::JList* fields, JString* name){
+        	JIterator* iterator = fields->iterator();
+        	while (iterator->hasNext()){
+        		JField* field = dynamic_cast<JField*>(iterator->next());
+        		if (field->getName()->equals(name))
+        			return field;
+        	}
+        	return null;
+        }
+
+        JField* JClass::getDeclaredFieldNoException(JString* name){
+        	return searchForFieldInList(getDeclaredFields(), name);
+        }
+
+        JField* JClass::getFieldNoException(JString* name){
+			return searchForFieldInList(getFields(), name);
+		}
+
+        JMethod* JClass::getMethodNoException(JString* name, jcpp::util::JList* parameterTypes){
+			initInternal();
+			initMethods();
+        	return searchForMethodInList(getMethods(), name, parameterTypes);
+
+        }
+
+        JMethod* JClass::getDeclaredMethodNoException(JString* name, jcpp::util::JList* parameterTypes){
+        	initInternal();
+        	initDeclaredMethods();
+			return searchForMethodInList(getDeclaredMethods(), name, parameterTypes);
         }
 
         void JClass::init(JClassLoader* cl){
@@ -116,7 +171,6 @@ namespace jcpp{
             this->bIsPackage=false;
             this->componentType=null;
             this->initialized=false;
-            this->defaultConstructor=null;
             this->modifier=0;
         }
 
@@ -127,16 +181,8 @@ namespace jcpp{
                 this->enumConstants=new JArrayList();
                 this->fields=new JHashMap();
                 this->fieldsList=new JArrayList();
-                this->declaredFields=new JHashMap();
-                this->declaredFieldsList=new JArrayList();
-                this->constructors=new JHashMap();
                 this->constructorsList=new JArrayList();
-                this->declaredConstructors=new JHashMap();
-                this->declaredConstructorsList=new JArrayList();
-                this->methods=new JHashMap();
                 this->methodsList=new JArrayList();
-                this->declaredMethods=new JHashMap();
-                this->declaredMethodsList=new JArrayList();
                 this->interfaces=new JArrayList();
                 this->publicClasses=new JArrayList();
                 this->inheritedPublicClasses=new JArrayList();
@@ -150,83 +196,22 @@ namespace jcpp{
 
         void JClass::initFields(){
             initInternal();
-            if (fieldsList->size()==0){
-                JClass* current=this;
-                while (current!=null){
-                    for (jint i=0;i<current->declaredFieldsList->size();i++){
-                        JField* f=dynamic_cast<JField*>(current->declaredFieldsList->get(i));
-                        fieldsList->add(f);
-                        fields->put(f->getName(),f);
-                    }
-                    current=current->getSuperclass();
-                }
-            }
         }
 
         void JClass::initConstructors(){
             initInternal();
-            if (constructorsList->size()==0){
-                JClass* current=this;
-                while (current!=null){
-                    current->initDeclaredConstructors();
-                    for (jint i=0;i<current->declaredConstructorsList->size();i++){
-                        JConstructor* c=dynamic_cast<JConstructor*>(current->declaredConstructorsList->get(i));
-                        constructorsList->add(c);
-                        constructors->put(dynamic_cast<JObject*>(c->getParameterTypes()),c);
-                    }
-                    JList* interf=current->getInterfaces();
-                    for (jint i=0;i<interf->size();i++){
-                        JClass* c=dynamic_cast<JClass*>(interf->get(i));
-                        c->initDeclaredConstructors();
-                        for (jint j=0;j<c->declaredConstructorsList->size();j++){
-                            JConstructor* ctr=dynamic_cast<JConstructor*>(c->declaredConstructorsList->get(j));
-                            constructorsList->add(ctr);
-                            constructors->put(dynamic_cast<JObject*>(ctr->getParameterTypes()),ctr);
-                        }
-                    }
-                    current=current->getSuperclass();
-                }
-            }
         }
 
         void JClass::initDeclaredConstructors(){
             initInternal();
-            if (declaredConstructors->size()==0){
-                fillDeclaredConstructors();
-            }
         }
         
         void JClass::initMethods(){
             initInternal();
-            if (methodsList->size()==0){
-                JClass* current=this;
-                while (current!=null){
-                    current->initDeclaredMethods();
-                    for (jint i=0;i<current->declaredMethodsList->size();i++){
-                        JMethod* m=dynamic_cast<JMethod*>(current->declaredMethodsList->get(i));
-                        methodsList->add(m);
-                        methods->put(m->getName(),m);//TODO add parameterTypes as addition key with the method name
-                    }
-                    JList* interf=current->getInterfaces();
-                    for (jint i=0;i<interf->size();i++){
-                        JClass* c=dynamic_cast<JClass*>(interf->get(i));
-                        c->initDeclaredMethods();
-                        for (jint j=0;j<c->declaredMethodsList->size();j++){
-                            JMethod* m=dynamic_cast<JMethod*>(c->declaredMethodsList->get(j));
-                            methodsList->add(m);
-                            methods->put(m->getName(),m);//TODO add parameterTypes as addition key with the method name
-                        }
-                    }
-                    current=current->getSuperclass();
-                }
-            }
         }
 
         void JClass::initDeclaredMethods(){
             initInternal();
-            if (declaredMethods->size()==0){
-                fillDeclaredMethods();
-        }
         }
 
         void JClass::initInheritedPublicClasses(){
@@ -276,19 +261,15 @@ namespace jcpp{
 
         JField* JClass::addField(JField* field){
             initInternal();
-            declaredFieldsList->add(field);
-            declaredFields->put(field->getName(),field);
+            fields->put(field->getName(), field);
+			fieldsList->add(field);
             return field;
         }
 
         JConstructor* JClass::addConstructor(JConstructor* constructor){
-            initInternal();
-            if (constructor->getParameterTypes()->size()==0){
-                defaultConstructor=constructor;
-            }
-            declaredConstructorsList->add(constructor);
-            declaredConstructors->put(dynamic_cast<JObject*>(constructor->getParameterTypes()),constructor);
-            return constructor;
+            	initInternal();
+            	constructorsList->add(constructor);
+            	return constructor;
         }
 
         void JClass::setPublic(JConstructor* c){
@@ -297,8 +278,7 @@ namespace jcpp{
         
         JMethod* JClass::addMethod(JMethod* method){
             initInternal();
-            declaredMethodsList->add(method);
-            declaredMethods->put(method->getName(),method);
+            methodsList->add(method);
             return method;
         }
 
@@ -317,7 +297,8 @@ namespace jcpp{
                 builder->append("class ")->append(inter->getName())->append(" is not typed as an interface");
                 throw new JIllegalArgumentException(builder->toString());
             }
-            if (!inter->getSuperclass()->isInterface()){
+            JClass* superClass = inter->getSuperclass();
+            if (superClass != null && !superClass->isInterface()){
                 JStringBuilder* builder=new JStringBuilder();
                 builder->append("class ")->append(inter->getName());
                 builder->append(" doesnt not declare ")->append(JInterface::getClazz()->getName())->append(" as its parent class");
@@ -457,21 +438,22 @@ namespace jcpp{
         }
 
         JConstructor* JClass::getConstructor(JList* parameterTypes){
-            initInternal();
-            initConstructors();
-            if (parameterTypes==null){//TODO use static empty list
-                parameterTypes=new JArrayList();
-            }
-            JConstructor* cons=dynamic_cast<JConstructor*>(constructors->get(dynamic_cast<JObject*>(parameterTypes)));
-            if (cons==null){
-                throw new JNoSuchMethodException(new JString("<init>"));
-            }
-            return cons;
+        	JConstructor* constructor = this->getConstructorNoException(parameterTypes);
+        	if (constructor != null)
+        		return constructor;
+        	throw new JNoSuchMethodException(new JString("<init>"));
         }
 
         JList* JClass::getConstructors(){
             initInternal();
-            return constructorsList;
+            JList* constructors = new JArrayList();
+            JIterator* declaredConstructorsIterator = this->getDeclaredConstructors()->iterator();
+            while (declaredConstructorsIterator->hasNext()){
+            	JConstructor* constructor = dynamic_cast<JConstructor*>(declaredConstructorsIterator->next());
+            	if (JModifier::isPublic(constructor->getModifiers()))
+            		constructors->add(constructor);
+            }
+            return constructors;
         }
 
         JList* JClass::getDeclaredClasses(){
@@ -483,58 +465,54 @@ namespace jcpp{
         }
 
         JConstructor* JClass::getDeclaredConstructor(JList* parameterTypes){
-            initInternal();
-            initDeclaredConstructors();
-            if (parameterTypes==null){//TODO use static empty list
-                parameterTypes=new JArrayList();
-            }
-            JConstructor* cons=dynamic_cast<JConstructor*>(declaredConstructors->get(dynamic_cast<JObject*>(parameterTypes)));
-            if (cons==null){
-                throw new JNoSuchMethodException(new JString("<init>"));
-            }
-            return cons;
+        	JConstructor* constructor = this->getDeclaredConstructorNoException(parameterTypes);
+			if (constructor != null)
+				return constructor;
+			throw new JNoSuchMethodException(new JString("<init>"));
         }
 
         JList* JClass::getDeclaredConstructors(){
-            initInternal();
-            initDeclaredConstructors();
-            return declaredConstructorsList;
-        }
+			initInternal();
+			initDeclaredConstructors();
+			return constructorsList;
+		}
             
         JField* JClass::getDeclaredField(JString* name){
-            initInternal();
-            initFields();
-            JField* field=dynamic_cast<JField*>(declaredFields->get(name));
-            if (field==null){
-                JStringBuilder* builder=new JStringBuilder();
-                builder->append("field ")->append(name)->append(" not delared in ")->append(getName());
-                throw new JNoSuchFieldException(builder->toString());
-            }
-            return field;
+        	initInternal();
+			initFields();
+			JField* field=dynamic_cast<JField*>(fields->get(name));
+			if (field==null){
+				JStringBuilder* builder=new JStringBuilder();
+				builder->append("field ")->append(name)->append(" not delared in ")->append(getName());
+				throw new JNoSuchFieldException(builder->toString());
+			}
+			return field;
         }
 
         JList* JClass::getDeclaredFields(){
             initInternal();
             initFields();
-            return declaredFieldsList;
+            JList* result = new JArrayList();
+            result->addAll(fieldsList);
+            return result;
         }
                         
         JMethod* JClass::getDeclaredMethod(JString* name, JList* parameterTypes){
-            initInternal();
-            initDeclaredMethods();
-            JMethod* method=dynamic_cast<JMethod*>(declaredMethods->get(name));
-            if (method==null){
-                JStringBuilder* builder=new JStringBuilder();
-                builder->append("method ")->append(name)->append(" not delared in ")->append(getName());
-                throw new JNoSuchMethodException(builder->toString());
-            }
-            return method;
+        	JMethod* method = this->getDeclaredMethodNoException(name, parameterTypes);
+        	if (method != null)
+        		return method;
+
+        	JStringBuilder* builder=new JStringBuilder();
+        	builder->append("method ")->append(name)->append(" not delared in ")->append(getName());
+        	throw new JNoSuchMethodException(builder->toString());
         }
 
         JList* JClass::getDeclaredMethods(){
             initInternal();
             initDeclaredMethods();
-            return declaredMethodsList;
+            JList* declaredMethods = new JArrayList();
+            declaredMethods->addAll(methodsList);
+            return declaredMethods;
         }
 
         JClass* JClass::getDeclaringClass(){
@@ -560,21 +538,44 @@ namespace jcpp{
         }
 
         JField* JClass::getField(JString* name){
-            initInternal();
-            initFields();
-            JField* field=dynamic_cast<JField*>(fields->get(name));
-            if (field==null){
-                JStringBuilder* builder=new JStringBuilder();
-                builder->append("field ")->append(name)->append(" not delared in ")->append(getName());
-                throw new JNoSuchFieldException(builder->toString());
-            }
-            return field;
+
+
+        	JField* field = dynamic_cast<JField*>(this->fields->get(name));
+            if (field != null && JModifier::isPublic(field->getModifiers()))
+            	return field;
+
+
+            JList* fields = this->getFields();
+            field = this->searchForFieldInList(fields, name);
+            if (field != null && JModifier::isPublic(field->getModifiers()))
+            	return field;
+
+            JStringBuilder* builder=new JStringBuilder();
+            builder->append("field ")->append(name)->append(" not delared in ")->append(getName());
+            throw new JNoSuchFieldException(builder->toString());
         }
-            
+
         JList* JClass::getFields(){
             initInternal();
             initFields();
-            return fieldsList;
+
+            JList* fieldsToAdd = new JArrayList();
+
+            JIterator* iterator = fieldsList->iterator();
+            while (iterator->hasNext()){
+            	JField* set = dynamic_cast<JField*>(iterator->next());
+            	if (JModifier::isPublic(set->getModifiers()))
+            		fieldsToAdd->add(set);
+            }
+
+            fieldsToAdd->addAll(getFieldsFromInterfaces());
+
+            JClass* super = this->getSuperclass();
+            if (super!=null)
+				fieldsToAdd->addAll(super->getFields());
+
+
+            return fieldsToAdd;
         }
 
         JList* JClass::getInterfaces(){
@@ -584,21 +585,40 @@ namespace jcpp{
         }
     
         JMethod* JClass::getMethod(JString* name, JList* parameterTypes){
-            initInternal();
-            initMethods();
-            JMethod* method=dynamic_cast<JMethod*>(methods->get(name));
-            if (method==null){
-                JStringBuilder* builder=new JStringBuilder();
-                builder->append("method ")->append(name)->append(" not delared in ")->append(getName());
-                throw new JNoSuchMethodException(builder->toString());
-            }
-            return method;
+			JMethod* result = getMethodNoException(name, parameterTypes);
+        	if (result != null)
+        		return result;
+
+			JStringBuilder* builder=new JStringBuilder();
+			builder->append("method ")->append(name)->append(" not delared in ")->append(getName());
+			throw new JNoSuchMethodException(builder->toString());
         }
 
         JList* JClass::getMethods(){
             initInternal();
             initMethods();
-            return methodsList;
+            JList* methods = new JArrayList();
+            JList* methodsList = this->getDeclaredMethods();
+            methodsList->addAll(this->getDeclaredMethodsFromInterfaces());
+			JIterator* methodsIterator = methodsList->iterator();
+			while (methodsIterator->hasNext()){
+				JMethod* method = dynamic_cast<JMethod*>(methodsIterator->next());
+				if (true||JModifier::isPublic(method->modifiers)) // TODO Remove
+					methods->add(method);
+			}
+
+			JClass* superclass = this->getSuperclass();
+			if (superclass != null){
+				JIterator *superMethodsIterator = superclass->getMethods()->iterator();
+				while (superMethodsIterator->hasNext()){
+					JMethod* superMethod = dynamic_cast<JMethod*>(superMethodsIterator->next());
+					JMethod* existingMethod = searchForMethodInList(methods, superMethod->getName(), superMethod->getParameterTypes());
+					if (existingMethod == null)
+						methods->add(superMethod);
+				}
+			}
+
+			return methods;
         }
 
         jint JClass::getModifiers(){
@@ -645,42 +665,31 @@ namespace jcpp{
         jbool JClass::hasDeclaredField(JString* name){
             initInternal();
             initFields();
-            JField* field=dynamic_cast<JField*>(declaredFields->get(name));
-            return (field!=null);
+            return fields->get(name) != null;
         }
             
         jbool JClass::hasConstructor(JList* parameterTypes){
-            initInternal();
-            initConstructors();
-            if (parameterTypes==null){//TODO use static empty list
-                parameterTypes=new JArrayList();
-            }
-            JConstructor* cons=dynamic_cast<JConstructor*>(constructors->get(dynamic_cast<JObject*>(parameterTypes)));
-            return (cons!=null);
+        	initInternal();
+        	initConstructors();
+            return getConstructorNoException(parameterTypes) != null;
         }
 
         jbool JClass::hasDeclaredConstructor(JList* parameterTypes){
-            initInternal();
+        	initInternal();
             initDeclaredConstructors();
-            if (parameterTypes==null){//TODO use static empty list
-                parameterTypes=new JArrayList();
-            }
-            JConstructor* cons=dynamic_cast<JConstructor*>(declaredConstructors->get(dynamic_cast<JObject*>(parameterTypes)));
-            return (cons!=null);
+        	return getDeclaredConstructorNoException(parameterTypes) != null;
         }
 
         jbool JClass::hasMethod(JString* name, JList* parameterTypes){
-            initInternal();
-            initMethods();
-            JMethod* method=dynamic_cast<JMethod*>(methods->get(name));//TODO review key of methods map
-            return (method!=null);
+        	initInternal();
+        	initMethods();
+            return getMethodNoException(name, parameterTypes) != null;
         }
 
         jbool JClass::hasDeclaredMethod(JString* name, JList* parameterTypes){
-            initInternal();
-            initDeclaredMethods();
-            JMethod* method=dynamic_cast<JMethod*>(declaredMethods->get(name));
-            return (method!=null);
+        	initInternal();
+        	initDeclaredMethods();
+            return getDeclaredMethodNoException(name, parameterTypes) != null;
         }
         
         jbool JClass::isProxy(){
@@ -763,6 +772,7 @@ namespace jcpp{
         }
 
         JObject* JClass::newInstance(){
+        	JConstructor* defaultConstructor = this->getConstructor(null);
             if (defaultConstructor==null){
                 JStringBuilder* builder=new JStringBuilder();
                 builder->append("no default constructor found in class ")->append(getName());

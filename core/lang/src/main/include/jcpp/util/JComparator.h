@@ -8,6 +8,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Comparator", simpleName="Comparator");
         class JCPP_EXPORT JComparator : public JInterface{
         public:
             static JClass* getClazz();

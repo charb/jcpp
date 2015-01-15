@@ -13,27 +13,6 @@ using namespace jcpp::util;
 namespace jcpp{
     namespace lang{
         namespace reflect{
-            class JConstructorClass : public jcpp::lang::JClass{
-                public:
-                    JConstructorClass():jcpp::lang::JClass(){
-                        canonicalName=new JString("java.lang.reflect.Constructor");
-                        name=new JString("java.lang.reflect.Constructor");
-                        simpleName=new JString("Constructor");
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JExecutable::getClazz();
-                    }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JConstructor::getClazz(){
-                if (clazz==null){
-                    clazz= new JConstructorClass();
-                }
-                return clazz;
-            }
 
             JConstructor::JConstructor(jcpp::lang::JClass* declaringClass,jint modifiers,instantiator inst):JExecutable(getClazz()){
                 this->declaringClass=declaringClass;

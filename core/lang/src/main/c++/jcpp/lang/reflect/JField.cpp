@@ -29,32 +29,6 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
-            class JFieldClass : public jcpp::lang::JClass{
-            public:
-                JFieldClass():jcpp::lang::JClass(){
-                    canonicalName=new JString("java.lang.reflect.Field");
-                    name=new JString("java.lang.reflect.Field");
-                    simpleName=new JString("Field");
-                }
-
-                virtual void initialize(){
-                    addInterface(JMember::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JAccessibleObject::getClazz();
-                }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JField::getClazz(){
-                if (clazz==null){
-                    clazz= new JFieldClass();
-                }
-                return clazz;
-            }
-
             void JField::setPublic(){
             	iModifiers|=JModifier::PUBLIC;
             }

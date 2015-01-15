@@ -15,6 +15,8 @@ namespace jcpp{
         class JClass;
 
         namespace reflect{
+
+        	// @Class(canonicalName="java.lang.reflect.Member", simpleName="Member");
             class JCPP_EXPORT JMember: public JInterface{
 
             public:

@@ -8,7 +8,7 @@ using namespace jcpp::io;
 namespace jcpp{
     namespace net{
 
-		//@Class(canonicalName="java.net.Inet4Address", simpleName="Inet4Address");
+		//@Class(canonicalName="java.net.UnknownHostException", simpleName="UnknownHostException");
         class JCPP_EXPORT JUnknownHostException : public JIOException  {
         private:
         		static const jlong serialVersionUID = -4639126076052875403LL;

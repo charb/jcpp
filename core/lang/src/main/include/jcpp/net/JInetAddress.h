@@ -46,9 +46,12 @@ namespace jcpp {
 			JInetAddress();
 			JInetAddress(JClass* _clazz, JPrimitiveInt* _family);
 			virtual JString* getHostNameWithoutResolving();
-			virtual NativeInetAddress createNativeInetAddress();
 
+			// @IgnoreReflection()
+			virtual NativeInetAddress createNativeInetAddress();
+			// @IgnoreReflection()
 			static JInetAddress* createInetAddress(const NativeInetAddress& nativeInetAddress);
+
 			static JInetAddress* anyLocalAddress();
 			static jbool isIPv4MappedAddress(JPrimitiveByteArray* addr);
 			static JPrimitiveByteArray* convertFromIPv4MappedAddress(JPrimitiveByteArray* addr);

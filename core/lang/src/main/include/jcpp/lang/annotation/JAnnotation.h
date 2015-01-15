@@ -8,6 +8,8 @@ namespace jcpp{
         class JClass;
 
         namespace annotation{
+
+        	// @Class(canonicalName="java.lang.annotation.Annotation", simpleName="Annotation");
 	        class JCPP_EXPORT JAnnotation{
 	            public:
 	                static jcpp::lang::JClass* getClazz();

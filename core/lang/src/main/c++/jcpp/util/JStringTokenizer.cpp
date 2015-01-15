@@ -7,32 +7,7 @@
 
 namespace jcpp{
     namespace util{
-        class JStringTokenizerClass : public jcpp::lang::JClass{
-            public:
-                JStringTokenizerClass():jcpp::lang::JClass(){
-                    this->canonicalName=new JString("java.util.StringTokenizer");
-                    this->name=new JString("java.util.StringTokenizer");
-                    this->simpleName=new JString("StringTokenizer");
-                }
 
-                virtual void initialize(){
-                    addInterface(JEnumeration::getClazz());
-                }
-
-                virtual jcpp::lang::JClass* getSuperclass(){
-                    return JObject::getClazz();
-                }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JStringTokenizer::getClazz(){
-            if (clazz==null){
-                clazz=new JStringTokenizerClass();
-            }
-            return clazz;
-        }
-    
         JStringTokenizer::JStringTokenizer(JString* str, JString* delim, jbool returnDelims):JObject(getClazz()){
             currentPosition = 0;
             newPosition = -1;

@@ -14,6 +14,8 @@ namespace jcpp{
     namespace lang{
     	class JClass;
     	namespace reflect{        	
+
+    		// @Class(canonicalName="java.lang.reflect.AnnotatedElement", simpleName="AnnotatedElement");
 	        class JCPP_EXPORT JAnnotatedElement : public JInterface{
 	            public:
 	                static jcpp::lang::JClass* getClazz();

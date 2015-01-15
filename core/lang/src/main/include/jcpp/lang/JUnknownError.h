@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.UnknownError", simpleName="UnknownError");
         class JCPP_EXPORT JUnknownError : public JVirtualMachineError {
+        private:
+        	static const jlong serialVersionUID = 2524784860676771849LL;
+
         protected:
             JUnknownError(jcpp::lang::JClass* _class);
 

@@ -8,33 +8,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JPrimitiveBooleanClass : public jcpp::lang::JClass{
-          public:
-            JPrimitiveBooleanClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("boolean");
-                this->name=new JString("boolean");
-                this->simpleName=new JString("boolean");
-                this->bIsPrimitive=true;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JPrimitiveBoolean::getClazz(){
-            if (clazz==null){
-                clazz=new JPrimitiveBooleanClass();
-            }
-            return clazz;
-        }
 
         JPrimitiveBoolean::JPrimitiveBoolean(jbool value):JObject(getClazz()){
             this->value=value;

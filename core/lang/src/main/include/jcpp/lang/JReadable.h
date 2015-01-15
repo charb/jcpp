@@ -5,6 +5,8 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.Readable", simpleName="Readable");
         class JCPP_EXPORT JReadable : public JInterface  {
             public:
                 static jcpp::lang::JClass* getClazz();

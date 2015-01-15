@@ -26,27 +26,6 @@ using jcpp::native::api::NativeString;
 namespace jcpp{
     namespace lang{
         namespace reflect{
-            class JArrayClass : public jcpp::lang::JClass{
-                public:
-                    JArrayClass():jcpp::lang::JClass(){
-                        canonicalName=new JString("java.lang.reflect.Array");
-                        name=new JString("java.lang.reflect.Array");
-                        simpleName=new JString("Array");
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JObject::getClazz();
-                    }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JArray::getClazz(){
-                if (clazz==null){
-                    clazz=new JArrayClass();
-                }
-                return clazz;
-            }
 
             JObject* JArray::newInstance(jcpp::lang::JClass* componentType, jint length){
             	if (componentType->isPrimitive()) {

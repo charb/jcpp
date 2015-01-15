@@ -6,31 +6,6 @@
 
 namespace jcpp{
     namespace util{
-        class JAbstractSetClass : public jcpp::lang::JClass{
-        public:
-            JAbstractSetClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.util.AbstractSet");
-                this->name=new JString("java.util.AbstractSet");
-                this->simpleName=new JString("AbstractSet");
-            }
-
-            virtual void initialize(){
-                addInterface(JSet::getClazz());
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JAbstractCollection::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JAbstractSet::getClazz(){
-            if (clazz==null){
-                clazz=new JAbstractSetClass();
-            }
-            return clazz;
-        }
 
         JAbstractSet::JAbstractSet(jcpp::lang::JClass* _class):JAbstractCollection(_class){
         }

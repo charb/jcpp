@@ -8,6 +8,8 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @IgnoreReflection()
         class JCPP_EXPORT JPrimitiveObjectArray : public JPrimitiveArray{
         protected:
             JObject** objects;

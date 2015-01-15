@@ -7,7 +7,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.RuntimeException", simpleName="RuntimeException");
         class JCPP_EXPORT JRuntimeException : public JException{
+        private:
+        	static const jlong serialVersionUID = -7034897190745766939LL;
+
         protected:
             JRuntimeException(jcpp::lang::JClass* _class);
 

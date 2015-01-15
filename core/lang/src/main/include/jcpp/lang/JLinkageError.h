@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.LinkageError", simpleName="LinkageError");
         class JCPP_EXPORT JLinkageError : public JError {
+        private:
+        	static const jlong serialVersionUID = 3579600108157160122LL;
+
         protected:
             JLinkageError(jcpp::lang::JClass* _class);
 

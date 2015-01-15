@@ -10,17 +10,18 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-    	class JStackTraceElementClass;
 
+    	// @Class(canonicalName="java.lang.StackTraceElement", simpleName="StackTraceElement");
         class JCPP_EXPORT JStackTraceElement: public JObject, public JSerializable {
         private:
+        	static const jlong serialVersionUID = 6992337162326171013LL;
+
             JString* declaringClass;
             JString* methodName;
             JString* fileName;
             JPrimitiveInt* lineNumber;
             JPrimitiveInt* getPLineNumber();
             void setPLineNumber(JPrimitiveInt* lineNumber);
-            friend class JStackTraceElementClass;
 
         public:
             JStackTraceElement();

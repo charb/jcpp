@@ -12,10 +12,13 @@ namespace jcpp{
     	//@Class(canonicalName="java.io.NativeInputStream", simpleName="NativeInputStream");
         class JCPP_EXPORT JNativeInputStream : public JInputStream  {
             protected:
+        		// @IgnoreReflection()
         		NativeInputStream* stream;
+
         		jbool deleteNativeStreamAtFinalize;
 
             public:
+        		// @IgnoreReflection()
         		JNativeInputStream(NativeInputStream* stream, jbool deleteNativeStreamAtFinalize);
 
                 static jcpp::lang::JClass* getClazz();

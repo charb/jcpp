@@ -18,7 +18,6 @@ namespace jcpp{
             JPrimitiveByteArray* writeBuffer;
             jint written;
             void incCount(jint value);
-            void setOutputStream(JOutputStream* out);
             virtual jint writeUTF(JString* str, JDataOutput* out);
 
         public:

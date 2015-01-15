@@ -16,6 +16,8 @@ namespace jcpp{
 	}
 
     namespace util{
+
+    	// @Class(canonicalName="java.util.AbstractCollection", simpleName="AbstractCollection");
         class JCPP_EXPORT JAbstractCollection: public JObject, public virtual JCollection{
         protected:
             JAbstractCollection(jcpp::lang::JClass* _class);

@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.InstantiationException", simpleName="InstantiationException");
         class JCPP_EXPORT JInstantiationException : public JReflectiveOperationException{
+        private:
+        	static const jlong serialVersionUID = -8441929162975509110LL;
+
         public:
             JInstantiationException();
 

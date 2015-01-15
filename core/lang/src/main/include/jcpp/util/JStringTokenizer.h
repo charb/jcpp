@@ -9,6 +9,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.StringTokenizer", simpleName="StringTokenizer");
         class JCPP_EXPORT JStringTokenizer : public JObject, public JEnumeration{
         protected:
         	jint currentPosition;

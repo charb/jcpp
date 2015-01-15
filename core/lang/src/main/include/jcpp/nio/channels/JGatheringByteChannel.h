@@ -12,9 +12,9 @@ namespace jcpp {
 		public:
 			static JClass* getClazz();
 
-			jlong write(JPrimitiveObjectArray* srcs, jint offset, jint lenght);
+			virtual jlong write(JPrimitiveObjectArray* srcs, jint offset, jint lenght) = 0;
 
-			jlong write(JPrimitiveObjectArray* srcs);
+			virtual jlong write(JPrimitiveObjectArray* srcs) = 0;
 
 			virtual ~JGatheringByteChannel();
 		};

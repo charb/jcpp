@@ -21,14 +21,19 @@ namespace jcpp {
 		class JCPP_EXPORT JSocket: public JObject {
 
 		protected:
+
+			// @IgnoreReflection()
 			NativeSocket* nativeSocket;
+
 			JInputStream* inputStream;
 			JOutputStream* outputStream;
 
 			JSocket(JClass* _class);
 
+			// @IgnoreReflection()
 			JSocket(NativeSocket* socket);
 
+			// @IgnoreReflection()
 			void init(JInetSocketAddress* address, JInetSocketAddress* localAddress, NativeSocket* nativeSocket);
 
 		public:

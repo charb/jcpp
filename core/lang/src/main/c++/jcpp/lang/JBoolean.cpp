@@ -11,57 +11,6 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace lang{
-        class JBooleanClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJBoolean(jcpp::util::JList* args){
-                return new JBoolean();
-            }
-
-            static JObject* getValue(JObject* object){
-                JBoolean* b=(JBoolean*)object;
-                return b->getPrimitiveBoolean();
-            }
-
-            static void setValue(JObject* obj,JObject* value){
-                JBoolean* b=(JBoolean*)obj;
-                b->setPrimitiveBoolean((JPrimitiveBoolean*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JBoolean* b=(JBoolean*)obj;
-                return (JObject**)(&b->value);
-            }
-
-          public:
-            JBooleanClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Boolean");
-                this->name=new JString("java.lang.Boolean");
-                this->simpleName=new JString("Boolean");
-                this->serialVersionUID=-3665804199014368530ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                JConstructor* cons=addConstructor(new JConstructor(JBoolean::getClazz(),JModifier::PUBLIC,createJBoolean));
-
-                addField(new JField(new JString("value"),JPrimitiveBoolean::getClazz(),this,getValue,setValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JObject::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JBoolean::getClazz(){
-            if (clazz==null){
-                clazz=new JBooleanClass();
-            }
-            return clazz;
-        }
 
         JBoolean* JBoolean::TRUE = new JBoolean(true);
 

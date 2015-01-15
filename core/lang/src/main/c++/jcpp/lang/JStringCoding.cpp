@@ -3,28 +3,6 @@
 namespace jcpp {
 	namespace lang {
 
-	class JStringCodingClass : public jcpp::lang::JClass {
-	public:
-		JStringCodingClass():JClass(){
-			canonicalName = new JString("java.lang.StringCoding");
-			name = new JString("java.lang.StringCoding");
-			simpleName= new JString("StringCoding");
-		}
-
-		virtual JClass* getSuperclass(){
-			return JObject::getClazz();
-		}
-	};
-
-	static jcpp::lang::JClass* clazz;
-
-	jcpp::lang::JClass* JStringCoding::getClazz()
-	{
-		if (clazz==null)
-			clazz = new JStringCodingClass();
-		return clazz;
-	}
-
 	JStringCoding::JStringCoding():JObject(getClazz())
 	{	}
 

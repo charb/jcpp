@@ -25,10 +25,10 @@ namespace jcpp {
 
 			virtual jint read(JByteBuffer* dst) = 0;
 			virtual jlong read(JPrimitiveObjectArray* dsts, jint offset, jint length) = 0;
-			jlong read(JPrimitiveObjectArray* dsts);
+			virtual jlong read(JPrimitiveObjectArray* dsts);
 			virtual jint write(JByteBuffer* src) = 0;
 			virtual jlong write(JPrimitiveObjectArray* srcs, jint offset, jint length) = 0;
-			jlong write(JPrimitiveObjectArray* srcs);
+			virtual jlong write(JPrimitiveObjectArray* srcs);
 			virtual jlong position() = 0;
 			virtual JFileChannel* position(jlong newPosition) = 0;
 			virtual jlong size() = 0;

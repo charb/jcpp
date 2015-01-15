@@ -15,6 +15,7 @@ using namespace jcpp::io;
 namespace jcpp{
     namespace util{
 
+    	// @Class(canonicalName="java.util.AbstractMap", simpleName="AbstractMap");
         class JCPP_EXPORT JAbstractMap: public JObject, public JMap{
         public:
         	class JSimpleEntry;
@@ -61,32 +62,12 @@ namespace jcpp{
 
             virtual ~JAbstractMap();
 
+            // @Class(canonicalName="java.util.AbstractMap$SimpleEntry", simpleName="AbstractMap$SimpleEntry");
             class JCPP_EXPORT JSimpleEntry : public JEntry, public JObject, public JSerializable{
+            private:
+            	static const jlong serialVersionUID = -8499721149061103585LL;
+
             protected:
-                class JSimpleEntryClass : public jcpp::lang::JClass{
-
-                public:
-                    JSimpleEntryClass():jcpp::lang::JClass(){
-                        this->canonicalName=new JString("java.util.AbstractMap$SimpleEntry");
-                        this->name=new JString("java.util.AbstractMap$SimpleEntry");
-                        this->simpleName=new JString("AbstractMap$SimpleEntry");
-                        this->serialVersionUID=-8499721149061103585ULL;
-                    }
-
-                    virtual void initialize(){
-                        addInterface(JEntry::getClazz());
-                        addInterface(JSerializable::getClazz());
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JObject::getClazz();
-                    }
-
-                    virtual jcpp::lang::JClass* getDeclaringClass(){
-                        return JAbstractMap::getClazz();
-                    }
-                };
-
                 JObject* key;
                 JObject* value;
 
@@ -146,34 +127,13 @@ namespace jcpp{
                 }
             };
 
-
+            // @Class(canonicalName="java.util.AbstractMap$SimpleImmutableEntry", simpleName="AbstractMap$SimpleImmutableEntry");
             class JCPP_EXPORT JSimpleImmutableEntry : public JObject, public JEntry , public JSerializable{
+            private:
+            	static const jlong serialVersionUID = 7138329143949025153LL;
             protected:
                 JObject* key;
                 JObject* value;
-                class JSimpleImmutableEntryClass : public jcpp::lang::JClass{
-
-                public:
-                    JSimpleImmutableEntryClass():jcpp::lang::JClass(){
-                        this->canonicalName=new JString("java.util.AbstractMap$SimpleImmutableEntry");
-                        this->name=new JString("java.util.AbstractMap$SimpleImmutableEntry");
-                        this->simpleName=new JString("AbstractMap$SimpleImmutableEntry");
-                        this->serialVersionUID=7138329143949025153ULL;
-                    }
-
-                    virtual void initialize(){
-                        addInterface(JEntry::getClazz());
-                        addInterface(JSerializable::getClazz());
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JObject::getClazz();
-                    }
-
-                    virtual jcpp::lang::JClass* getDeclaringClass(){
-                        return JAbstractMap::getClazz();
-                    }
-                };
 
             public:
                 static jcpp::lang::JClass* getClazz();

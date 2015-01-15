@@ -14,57 +14,6 @@ using namespace jcpp::io;
 
 namespace jcpp{
     namespace lang{
-        class JDoubleClass : public jcpp::lang::JClass{
-        protected:
-            static JObject* createJDouble(jcpp::util::JList* args){
-                return new JDouble();
-            }
-
-            static JObject* staticGetValue(JObject* object){
-                JDouble* b=(JDouble*)object;
-                return b->getPrimitiveDouble();
-            }
-
-            static void staticSetValue(JObject* obj,JObject* value){
-                JDouble* b=(JDouble*)obj;
-                b->setPrimitiveDouble((JPrimitiveDouble*)value);
-            }
-
-            static JObject** adrValue(JObject* obj){
-                JDouble* b=(JDouble*)obj;
-                return (JObject**)(&b->value);
-            }
-
-        public:
-            JDoubleClass():jcpp::lang::JClass(){
-                this->canonicalName=new JString("java.lang.Double");
-                this->name=new JString("java.lang.Double");
-                this->simpleName=new JString("Double");
-                this->serialVersionUID=-9172774392245257468ULL;
-            }
-
-            virtual void initialize(){
-                addInterface(JSerializable::getClazz());
-                addInterface(JComparable::getClazz());
-
-                JConstructor* cons=addConstructor(new JConstructor(JDouble::getClazz(),JModifier::PUBLIC,createJDouble));
-
-                addField(new JField(new JString("value"),JPrimitiveDouble::getClazz(),this,staticGetValue,staticSetValue,adrValue));
-            }
-
-            virtual jcpp::lang::JClass* getSuperclass(){
-                return JNumber::getClazz();
-            }
-        };
-
-        static jcpp::lang::JClass* clazz;
-
-        jcpp::lang::JClass* JDouble::getClazz(){
-            if (clazz==null){
-                clazz=new JDoubleClass();
-            }
-            return clazz;
-        }
 
         jint JDouble::hashCode(jdouble d){
             return (jint)d;

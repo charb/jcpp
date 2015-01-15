@@ -7,6 +7,7 @@ namespace jcpp{
     namespace lang{
         class JClass;
 
+        // @Class(canonicalName="java.lang.Interface", simpleName="Interface");
         class JCPP_EXPORT JInterface{
             public:
                 static jcpp::lang::JClass* getClazz();

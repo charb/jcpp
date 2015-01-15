@@ -15,8 +15,12 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace util{
         class JTimerTask;
+
+        // @Class(canonicalName="java.util.Timer", simpleName="Timer");
         class JCPP_EXPORT JTimer : public JObject{
         protected:
+
+        	// @Class(canonicalName="java.util.TaskQueue", simpleName="TaskQueue");
             class JCPP_EXPORT JTaskQueue : public JObject{
             protected:
                 JPrimitiveObjectArray* queue;
@@ -42,6 +46,7 @@ namespace jcpp{
 
             };
 
+            // @Class(canonicalName="java.util.TimerThread", simpleName="TimerThread");
             class JCPP_EXPORT JTimerThread : public JThread{
             protected:
                 jbool newTasksMayBeScheduled;

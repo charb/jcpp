@@ -7,7 +7,11 @@
 namespace jcpp{
     namespace lang{
     	namespace reflect{
+    		// @Class(canonicalName="java.lang.reflect.MalformedParametersException", simpleName="MalformedParametersException");
 	        class JCPP_EXPORT JMalformedParametersException : public JRuntimeException{
+	        private:
+	        	static const jlong serialVersionUID = 20130919LL;
+
 	        public:
 	            JMalformedParametersException();
 

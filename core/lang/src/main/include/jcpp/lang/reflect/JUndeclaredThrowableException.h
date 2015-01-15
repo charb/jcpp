@@ -8,12 +8,14 @@
 namespace jcpp{
     namespace lang{
     	namespace reflect{
-    		class JUndeclaredThrowableExceptionClass;
 
+    		// @Class(canonicalName="java.lang.reflect.UndeclaredThrowableException", simpleName="UndeclaredThrowableException");
 	        class JCPP_EXPORT JUndeclaredThrowableException : public JRuntimeException{
+	        private:
+	        	static const jlong serialVersionUID = 330127114055056639LL;
+
 	        protected:
 	        	JThrowable* undeclaredThrowable;
-	        	friend class JUndeclaredThrowableExceptionClass;
 
 	        public:
 	            JUndeclaredThrowableException();

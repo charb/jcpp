@@ -55,15 +55,21 @@ namespace jcpp{
         class JProcess;
         class JAbstractStringBuilder;
 
+        // @Class(canonicalName="java.lang.String", simpleName="String");
         class JCPP_EXPORT JString : public JObject, public JComparable, public JCloneable, public jcpp::io::JSerializable, public JCharSequence{
         private:
+        	static const jlong serialVersionUID = -6849794470754667710LL;
         	static void checkBounds(JPrimitiveByteArray* bytes, jint offset, jint length);
 
         protected:
+
+        	// @IgnoreReflection()
             NativeString nativeString;
 
+            // @IgnoreReflection()
             NativeString getNativeString();
 
+            // @IgnoreReflection()
             JString(const NativeString& string);
 
             static JString* staticIntern(JString* s);
@@ -95,10 +101,12 @@ namespace jcpp{
 
             JString();
 
+            // @IgnoreReflection()
             JString(string str);
 
             JString(JString* str);
 
+            // @IgnoreReflection()
             JString(const char* c);
 
             JString(JPrimitiveCharArray* chars);

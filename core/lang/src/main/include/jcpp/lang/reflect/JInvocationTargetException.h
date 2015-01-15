@@ -8,12 +8,14 @@
 namespace jcpp{
     namespace lang{
     	namespace reflect{
-    		class JInvocationTargetExceptionClass;
 
+    		// @Class(canonicalName="java.lang.reflect.InvocationTargetException", simpleName="InvocationTargetException");
 	        class JCPP_EXPORT JInvocationTargetException : public JReflectiveOperationException{
+	        private:
+	        	static const jlong serialVersionUID = 4085088731926701167LL;
+
 	        protected:
 	        	JThrowable* target;
-	        	friend class JInvocationTargetExceptionClass;
 
 	        public:
 	            JInvocationTargetException();

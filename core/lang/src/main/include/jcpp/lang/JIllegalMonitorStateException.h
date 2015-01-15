@@ -6,7 +6,12 @@
 
 namespace jcpp{
     namespace lang{
+
+    	// @Class(canonicalName="java.lang.IllegalMonitorStateException", simpleName="IllegalMonitorStateException");
         class JCPP_EXPORT JIllegalMonitorStateException : public JRuntimeException{
+        private:
+        	static const jlong serialVersionUID = 3713306369498869069LL;
+
         protected:
             JIllegalMonitorStateException(jcpp::lang::JClass* _class);
 

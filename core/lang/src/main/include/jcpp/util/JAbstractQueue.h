@@ -10,6 +10,8 @@ using namespace jcpp::lang;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.AbstractQueue", simpleName="AbstractQueue");
         class JCPP_EXPORT JAbstractQueue : public JAbstractCollection, public JQueue{
         protected:
             JAbstractQueue(JClass* _class);

@@ -11,28 +11,6 @@ namespace jcpp{
     namespace lang{
         namespace reflect{
 
-            class JMethodClass : public jcpp::lang::JClass{
-                public:
-                    JMethodClass():jcpp::lang::JClass(){
-                        canonicalName=new JString("java.lang.reflect.Method");
-                        name=new JString("java.lang.reflect.Method");
-                        simpleName=new JString("Method");
-                    }
-
-                    virtual jcpp::lang::JClass* getSuperclass(){
-                        return JExecutable::getClazz();
-                    }
-            };
-
-            static jcpp::lang::JClass* clazz;
-
-            jcpp::lang::JClass* JMethod::getClazz(){
-                if (clazz==null){
-                    clazz= new JMethodClass();
-                }
-                return clazz;
-            }
-
             JMethod::JMethod(JString* name,jcpp::lang::JClass* declaringClass,jcpp::lang::JClass* returnType,invocation inv):JExecutable(getClazz()){
                 this->name=name;
                 this->declaringClass=declaringClass;
@@ -41,7 +19,7 @@ namespace jcpp{
             }
 
             jbool JMethod::equals(JObject* obj) {
-                if (obj != null && !getClazz()->equals(obj->getClass())) {
+                if (obj != null && getClazz()->equals(obj->getClass())) {
                     JMethod* other = dynamic_cast<JMethod*>(obj);
                     if (getDeclaringClass()->equals(other->getDeclaringClass()) && getName()->equals(other->getName())) {
                         if (!returnType->equals(other->getReturnType())){
@@ -90,13 +68,13 @@ namespace jcpp{
                 JExecutable::setPublic();
             }
              
-            void JMethod::setPrivate() {
-            	JExecutable::setPrivate();
-            }
+            void JMethod::setPrivate(){
+				JExecutable::setPrivate();
+			}
 
-            void JMethod::setProtected() {
-            	JExecutable::setProtected();
-            }
+            void JMethod::setProtected(){
+				JExecutable::setProtected();
+			}
 
             void JMethod::setStatic(){
                 JExecutable::setStatic();
