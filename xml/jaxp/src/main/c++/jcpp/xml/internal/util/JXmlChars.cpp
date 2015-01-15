@@ -50,18 +50,17 @@ namespace jcpp{
                     }
                     return false;
 
-                    //TODO
-                    // switch (JCharacter::getType(c)) {
-                    //     case JCharacter::LOWERCASE_LETTER:      // Ll
-                    //     case JCharacter::UPPERCASE_LETTER:      // Lu
-                    //     case JCharacter::OTHER_LETTER:          // Lo
-                    //     case JCharacter::TITLECASE_LETTER:      // Lt
-                    //     case JCharacter::LETTER_NUMBER:         // Nl
-                    //         return !isCompatibilityChar (c) && !(c >= 0x20dd && c <= 0x20e0);
+                     switch (JCharacter::getType(c)) {
+                         case JCharacter::LOWERCASE_LETTER:      // Ll
+                         case JCharacter::UPPERCASE_LETTER:      // Lu
+                         case JCharacter::OTHER_LETTER:          // Lo
+                         case JCharacter::TITLECASE_LETTER:      // Lt
+                         case JCharacter::LETTER_NUMBER:         // Nl
+                             return !isCompatibilityChar (c) && !(c >= 0x20dd && c <= 0x20e0);
 
-                    //     default:
-                    //         return ((c >= 0x02bb && c <=  0x02c1) || c == 0x0559 || c == 0x06e5 || c == 0x06e6);
-                    // }
+                         default:
+                             return ((c >= 0x02bb && c <=  0x02c1) || c == 0x0559 || c == 0x06e5 || c == 0x06e6);
+                     }
                 }
 
                 jbool JXmlChars::isCompatibilityChar(jchar c){
@@ -171,27 +170,26 @@ namespace jcpp{
                     }
                     return false;
 
-                    //TODO
-                    // switch (JCharacter::getType (c)) {
-                    //     case JCharacter::LOWERCASE_LETTER:      // Ll
-                    //     case JCharacter::UPPERCASE_LETTER:      // Lu
-                    //     case JCharacter::OTHER_LETTER:          // Lo
-                    //     case JCharacter::TITLECASE_LETTER:      // Lt
-                    //     case JCharacter::LETTER_NUMBER:         // Nl
-                    //     case JCharacter::COMBINING_SPACING_MARK:    // Mc
-                    //     case JCharacter::ENCLOSING_MARK:        // Me
-                    //     case JCharacter::NON_SPACING_MARK:      // Mn
-                    //     case JCharacter::MODIFIER_LETTER:       // Lm
-                    //     case JCharacter::DECIMAL_DIGIT_NUMBER:      // Nd
-                    //         return !isCompatibilityChar(c) && !(c >= 0x20dd && c <= 0x20e0);
+                     switch (JCharacter::getType (c)) {
+                         case JCharacter::LOWERCASE_LETTER:      // Ll
+                         case JCharacter::UPPERCASE_LETTER:      // Lu
+                         case JCharacter::OTHER_LETTER:          // Lo
+                         case JCharacter::TITLECASE_LETTER:      // Lt
+                         case JCharacter::LETTER_NUMBER:         // Nl
+                         case JCharacter::COMBINING_SPACING_MARK:    // Mc
+                         case JCharacter::ENCLOSING_MARK:        // Me
+                         case JCharacter::NON_SPACING_MARK:      // Mn
+                         case JCharacter::MODIFIER_LETTER:       // Lm
+                         case JCharacter::DECIMAL_DIGIT_NUMBER:      // Nd
+                             return !isCompatibilityChar(c) && !(c >= 0x20dd && c <= 0x20e0);
 
-                    //     default:
-                    //         return c == 0x0387;
-                    // }
+                         default:
+                             return c == 0x0387;
+                     }
                 }
 
                 jbool JXmlChars::isDigit(jchar c){
-                    return !( (c >= 0xff10) && (c <= 0xff19)); //TODO && JCharacter::isDigit(c)
+                    return !( (c >= 0xff10) && (c <= 0xff19)) && JCharacter::isDigit(c);
                 }
 
                 jbool JXmlChars::isExtender(jchar c){

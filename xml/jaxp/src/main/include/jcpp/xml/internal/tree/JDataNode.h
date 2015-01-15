@@ -18,7 +18,7 @@ namespace jcpp{
             namespace tree{
 
             	// @Class(canonicalName="javax.xml.internal.tree.DataNode", simpleName="DataNode");
-                class JCPP_EXPORT JDataNode : public JNodeBase, public virtual JCharacterData{
+                class JCPP_EXPORT JDataNode : public JNodeBase, public virtual org::w3c::dom::JCharacterData {
                 protected:
 
                 	// @Class(canonicalName="javax.xml.internal.tree.DataNode$NodeListImpl", simpleName="DataNode$NodeListImpl");
