@@ -41,6 +41,10 @@ public class CPPMethod { //TODO: add file location in toString() ?
     @XmlElementWrapper(name = "variables")
     private List<CPPVariable> variables;
 
+    @XmlElement(name = "annotation")
+    @XmlElementWrapper(name = "annotations")
+    private List<CPPAnnotation> annotations;
+
     @XmlIDREF
     private CPPClass cppClass;
 
@@ -52,7 +56,7 @@ public class CPPMethod { //TODO: add file location in toString() ?
     private IASTFunctionDefinition functionDefinition;
 
     @XmlTransient
-    private  IASTFunctionDeclarator functionDeclarator;
+    private IASTFunctionDeclarator functionDeclarator;
 
     @XmlTransient
     private IFunction function;
@@ -61,6 +65,7 @@ public class CPPMethod { //TODO: add file location in toString() ?
     public CPPMethod() {
         this.parameters = new ArrayList<CPPMethodParameter>();
         this.variables = new ArrayList<CPPVariable>();
+        this.annotations = new ArrayList<CPPAnnotation>();
     }
 
     public CPPMethod(IASTFunctionDefinition functionDefinition) {
@@ -77,9 +82,8 @@ public class CPPMethod { //TODO: add file location in toString() ?
             try {
                 this.function = (IFunction) this.astName.resolveBinding();
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException("An Exception was thrown while resolving the binding of fuction: " + functionDeclarator.getName().toString());
             }
-
         }
         this.constructor = function instanceof ICPPConstructor;
         this.signature = this.function.toString();
@@ -97,6 +101,7 @@ public class CPPMethod { //TODO: add file location in toString() ?
             //TODO: what about ICASTKnRFunctionDeclarator (see subinterfaces of IASTFunctionDeclarator)
         }
 
+        this.annotations.addAll(CPPAnnotation.createAnnotations(this.functionDeclarator.getParent()));
 //      below is another way of getting the parameters from the IParameter "CDT semantic" interface
 //        IParameter[] parameters = this.function.getParameters();
 //        for (IParameter parameter : parameters) {
@@ -136,6 +141,19 @@ public class CPPMethod { //TODO: add file location in toString() ?
 
     public void addVariable(CPPVariable cppVariable) {
         variables.add(cppVariable);
+    }
+
+    public List<CPPAnnotation> getAnnotations() {
+        return annotations;
+    }
+
+    public CPPAnnotation getAnnotation(String name) {
+        for (CPPAnnotation annotation : annotations) {
+            if (annotation.getName().equals(name)) {
+                return annotation;
+            }
+        }
+        return null;
     }
 
     public CPPClass getCppClass() {
@@ -192,6 +210,7 @@ public class CPPMethod { //TODO: add file location in toString() ?
         result = (prime * result) + ((cppClass == null) ? 0 : cppClass.getName().hashCode());
         result = (prime * result) + ((parameters == null) ? 0 : parameters.hashCode());
         result = (prime * result) + ((variables == null) ? 0 : variables.hashCode());
+        result = (prime * result) + ((annotations == null) ? 0 : annotations.hashCode());
         return result;
     }
 
@@ -246,6 +265,13 @@ public class CPPMethod { //TODO: add file location in toString() ?
                 return false;
             }
         } else if (!variables.equals(other.variables)) {
+            return false;
+        }
+        if (annotations == null) {
+            if (other.annotations != null) {
+                return false;
+            }
+        } else if (!annotations.equals(other.annotations)) {
             return false;
         }
         return true;

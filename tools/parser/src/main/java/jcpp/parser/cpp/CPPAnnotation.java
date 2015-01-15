@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.cdt.core.dom.ast.IASTComment;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
 
 
 @XmlRootElement
@@ -38,6 +39,31 @@ public class CPPAnnotation {
         this.astComment = astComment;
     }
 
+
+    public static List<CPPAnnotation> createAnnotations(IASTNode node) {
+        IASTNode parent = node.getParent();
+        int startCommentOffset = parent.getFileLocation().getNodeOffset();
+        int endCommentOffset = node.getFileLocation().getNodeOffset();
+        IASTNode[] children = parent.getChildren();
+        int i = 0;
+        while (children[i] != node) {
+            i++;
+        }
+        if ((i - 1) >= 0) {
+            startCommentOffset = children[i - 1].getFileLocation().getNodeOffset() + children[i - 1].getFileLocation().getNodeLength();
+        }
+        String fileName = node.getFileLocation().getFileName();
+        List<CPPAnnotation> annotations = new ArrayList<CPPAnnotation>(4);
+        for (IASTComment astComment : parent.getTranslationUnit().getComments()) {
+            if (astComment.getFileLocation().getFileName().equals(fileName)) {
+                int commentOffset = astComment.getFileLocation().getNodeOffset();
+                if ((commentOffset > startCommentOffset) && (commentOffset < endCommentOffset)) {
+                    annotations.addAll(parseAnnotations(astComment));
+                }
+            }
+        }
+        return annotations;
+    }
 
     public static List<CPPAnnotation> parseAnnotations(IASTComment astComment) {
         String comment = new String(astComment.getComment());

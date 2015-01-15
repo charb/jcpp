@@ -27,11 +27,13 @@ public:
 	virtual ~Sample1();
 
 	void addValue(Sample1* object);
+	// @MethodAnnotation(meta1=hello , meta2= "world")
 	void addValue(Sample1* objectA, Sample1* objectB);
 	Sample1* getCopy();
 
 private:
 	int value;
+	// @FieldAnnotation(meta1=hello , meta2= "world")
 	char *strField;
 	static char *strStaticField; 
 

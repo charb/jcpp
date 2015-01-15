@@ -25,6 +25,8 @@ void Sample1::addValue(Sample1* object) {
 	}
 }
 
+// @MethodDefinitionAnnotation(meta1=hello , meta2= "world", isDefinition=true)
+// @AnotherMethodDefinitionAnnotation(meta1=hello , meta2 = "world", isDefinition=true)
 void Sample1::addValue(Sample1* objectA, Sample1* objectB) {
     Sample1* someOtherObject = new Sample1();
 	value += objectA->value;

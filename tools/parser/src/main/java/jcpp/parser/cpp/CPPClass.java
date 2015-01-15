@@ -15,8 +15,6 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.eclipse.cdt.core.dom.ast.IASTComment;
-import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IBinding;
 import org.eclipse.cdt.core.dom.ast.IType;
 import org.eclipse.cdt.core.dom.ast.cpp.ICPPASTCompositeTypeSpecifier;
@@ -255,27 +253,7 @@ public class CPPClass {
     }
 
     private void initAnnotations() {
-        IASTNode parent = compositeTypeSpecifier.getParent();
-        IASTNode grandParent = parent.getParent();
-        int startCommentOffset = 0;
-        int endCommentOffset = parent.getFileLocation().getNodeOffset();
-        IASTNode[] children = grandParent.getChildren();
-        int i = 0;
-        while (children[i] != parent) {
-            i++;
-        }
-        if ((i - 1) >= 0) {
-            startCommentOffset = children[i - 1].getFileLocation().getNodeOffset() + children[i - 1].getFileLocation().getNodeLength();
-        }
-        String fileName = compositeTypeSpecifier.getFileLocation().getFileName();
-        for (IASTComment astComment : grandParent.getTranslationUnit().getComments()) {
-            if (astComment.getFileLocation().getFileName().equals(fileName)) {
-                int commentOffset = astComment.getFileLocation().getNodeOffset();
-                if ((commentOffset > startCommentOffset) && (commentOffset < endCommentOffset)) {
-                    this.annotations.addAll(CPPAnnotation.parseAnnotations(astComment));
-                }
-            }
-        }
+        this.annotations.addAll(CPPAnnotation.createAnnotations(compositeTypeSpecifier.getParent()));
     }
 
     private void checkIfAbstract() {
