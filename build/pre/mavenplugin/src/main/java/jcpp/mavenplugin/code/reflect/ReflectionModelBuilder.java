@@ -78,7 +78,7 @@ public class ReflectionModelBuilder {
                     model.addClass(classModel);
                     classModelBySimpleName.put(classModel.getClassName(), classModel);
 
-                    String declaredParentClassName = Utils.getClassName(classDeclaration);
+                    String declaredParentClassName = Utils.getDeclaredParentClassName(classDeclaration);
                     if (declaredParentClassName != null) {
                         classesDeclaredInClasses.put(classModel.getClassName(), declaredParentClassName);
                     }
@@ -253,6 +253,7 @@ public class ReflectionModelBuilder {
         for (CPPBaseClass baseClass : baseClasses) {
             if (isEnum(baseClass)) {
                 isEnum = true;
+                classModel.setSuperClass(baseClass.getName());
             } else if (isObject(baseClass)) {
                 isObject = true;
                 String includeFilePath = createInclude(updaterContext.getOriginalHeaderBaseDir(), baseClass);
