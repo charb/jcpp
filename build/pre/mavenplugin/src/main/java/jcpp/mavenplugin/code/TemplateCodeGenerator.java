@@ -48,6 +48,7 @@ public abstract class TemplateCodeGenerator<T> implements ICppCodeGenerator<T> {
             dataModel.put(MODEL, model);
 
             generatedFile = new File(baseDir, relativePath);
+            generatedFile.getParentFile().mkdirs();
 
             FileWriter generatedFileWriter = new FileWriter(generatedFile);
             try {
