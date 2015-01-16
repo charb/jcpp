@@ -12,7 +12,7 @@ namespace jcpp{
             }
 
             JParserConfigurationException::JParserConfigurationException(JString* message):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JParserConfigurationException::~JParserConfigurationException(){

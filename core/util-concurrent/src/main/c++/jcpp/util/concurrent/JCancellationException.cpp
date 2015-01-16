@@ -14,11 +14,11 @@ namespace jcpp{
             }
 
             JCancellationException::JCancellationException(JString* message):JIllegalStateException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JCancellationException::JCancellationException(JString* message,JThrowable* cause):JIllegalStateException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=cause;
             }
 

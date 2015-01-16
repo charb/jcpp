@@ -4,7 +4,7 @@ import java.io.File;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -48,6 +48,9 @@ public class ReflectionModelBuilder {
         CPPFile cppCppFile = cppFileTuple.getCppCPPFile();
 
         ReflectionModel model = new ReflectionModel();
+        Map<String, ClassModel> classModelBySimpleName = new TreeMap<String, ClassModel>();
+        Map<String, ClassModel> classModelByCanName = new TreeMap<String, ClassModel>();
+        Map<String, String> classesDeclaredInClasses = new TreeMap<String, String>();
 
         ClassModel classModel = null;
         if (headerCppFile != null) {
@@ -69,28 +72,30 @@ public class ReflectionModelBuilder {
 
             model.addInclude(Utils.createRelativeHeaderFilePath(cppFileTuple));
 
-            Map<String, ClassModel> classModelBySimpleName = new HashMap<String, ClassModel>();
-            Map<String, String> classesDeclaredInClasses = new HashMap<String, String>();
-
             for (CPPClass classDeclaration : headerCppFile.getClasses()) {
                 classModel = buildClassModel(updaterContext, classDeclaration, model.getIncludes());
                 if (classModel != null) {
                     model.addClass(classModel);
                     classModelBySimpleName.put(classModel.getClassName(), classModel);
+                    classModelByCanName.put(classModel.getAnnotatedCanonicalName(), classModel);
 
-                    String declaredParentClassName = Utils.getDeclaredParentClassName(classDeclaration);
+                    String declaredParentClassName = Utils.getDeclaredParentClassName(classModel);
                     if (declaredParentClassName != null) {
-                        classesDeclaredInClasses.put(classModel.getClassName(), declaredParentClassName);
+                        classesDeclaredInClasses.put(classModel.getAnnotatedCanonicalName(), declaredParentClassName);
                     }
                 }
             }
 
-            for (Entry<String, String> entry : classesDeclaredInClasses.entrySet()) {
-                String declaredClassName = entry.getKey();
-                String declaredParentClassName = entry.getValue();
+            for (String entry : classesDeclaredInClasses.keySet()) {
+                String declaredClassName = entry;
+                ClassModel cm1=classModelByCanName.get(declaredClassName);
+                String declaredParentClassName = classesDeclaredInClasses.get(declaredClassName);
+                ClassModel cm2=classModelByCanName.get(declaredParentClassName);
 
-                classModelBySimpleName.get(declaredParentClassName).addDeclaredClass(declaredClassName);
-                classModelBySimpleName.get(declaredClassName).setDeclaringClass(declaredParentClassName);
+                if (cm1!=null && cm2!=null){
+                    cm2.addDeclaredClass(cm1.getClassName());
+                    cm1.setDeclaringClass(cm2.getClassName());
+                }
             }
         }
 
@@ -100,7 +105,26 @@ public class ReflectionModelBuilder {
                     classModel = buildClassModel(updaterContext, classDefinition, model.getIncludes());
                     if (classModel != null) {
                         model.addClass(classModel);
+                        classModelBySimpleName.put(classModel.getClassName(), classModel);
+                        classModelByCanName.put(classModel.getAnnotatedCanonicalName(), classModel);
+
+                        String declaredParentClassName = Utils.getDeclaredParentClassName(classModel);
+                        if (declaredParentClassName != null) {
+                            classesDeclaredInClasses.put(classModel.getAnnotatedCanonicalName(), declaredParentClassName);
+                        }
                     }
+                }
+            }
+
+            for (String entry : classesDeclaredInClasses.keySet()) {
+                String declaredClassName = entry;
+                ClassModel cm1=classModelByCanName.get(declaredClassName);
+                String declaredParentClassName = classesDeclaredInClasses.get(declaredClassName);
+                ClassModel cm2=classModelByCanName.get(declaredParentClassName);
+
+                if (cm1!=null && cm2!=null){
+                    cm2.addDeclaredClass(cm1.getClassName());
+                    cm1.setDeclaringClass(cm2.getClassName());
                 }
             }
         }

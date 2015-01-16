@@ -48,7 +48,7 @@ namespace jcpp{
         	static const jlong serialVersionUID = -3042686055658047285LL;
 
         protected:
-            JString* message;
+            JString* detailMessage;
             JThrowable* cause;
             JPrimitiveObjectArray* stackTrace;
             JList* suppressedExceptions;

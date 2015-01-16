@@ -15,7 +15,7 @@ namespace org{
                 }
 
                 JParseException::JParseException(JString* message):JException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                 }
 
                 JParseException::~JParseException(){

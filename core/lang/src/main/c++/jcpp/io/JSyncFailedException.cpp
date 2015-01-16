@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JSyncFailedException::JSyncFailedException(JString* message):JIOException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JSyncFailedException::~JSyncFailedException(){

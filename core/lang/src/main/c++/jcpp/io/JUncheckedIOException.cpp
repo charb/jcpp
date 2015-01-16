@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JUncheckedIOException::JUncheckedIOException(JString* m):JRuntimeException(getClazz()){
-            this->message=m;
+            this->detailMessage=m;
         }
 
         JUncheckedIOException::~JUncheckedIOException(){

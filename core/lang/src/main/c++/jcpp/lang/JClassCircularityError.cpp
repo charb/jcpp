@@ -15,7 +15,7 @@ namespace jcpp{
         }
 
         JClassCircularityError::JClassCircularityError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JClassCircularityError::~JClassCircularityError(){

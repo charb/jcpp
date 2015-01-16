@@ -19,7 +19,7 @@ namespace junit{
         }
 
         JAssertionFailedError::JAssertionFailedError(JString* message):JAssertionError(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JAssertionFailedError::~JAssertionFailedError(){

@@ -18,7 +18,7 @@ namespace org{
 
             JSAXException::JSAXException(JString* message):JException(getClazz()){
                 this->exception=null;
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JSAXException::JSAXException(JException* exception):JException(getClazz()){
@@ -28,7 +28,7 @@ namespace org{
 
             JSAXException::JSAXException(JString* message,JException* cause):JException(getClazz()){
                 this->exception=exception;
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=exception;
             }
 

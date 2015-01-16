@@ -15,7 +15,7 @@ namespace jcpp{
         }
 
         JNotActiveException::JNotActiveException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JNotActiveException::~JNotActiveException(){

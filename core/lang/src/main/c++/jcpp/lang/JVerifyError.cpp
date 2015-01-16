@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JVerifyError::JVerifyError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JVerifyError::~JVerifyError(){

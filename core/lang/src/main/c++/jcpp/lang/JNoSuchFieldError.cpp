@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JNoSuchFieldError::JNoSuchFieldError(JString* message):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JNoSuchFieldError::JNoSuchFieldError(JString* message, JThrowable *cause):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

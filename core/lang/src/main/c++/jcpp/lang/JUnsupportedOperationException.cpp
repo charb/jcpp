@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JUnsupportedOperationException::JUnsupportedOperationException(JString* message):JRuntimeException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JUnsupportedOperationException::~JUnsupportedOperationException(){

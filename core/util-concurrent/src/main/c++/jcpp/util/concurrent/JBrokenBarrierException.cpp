@@ -15,11 +15,11 @@ namespace jcpp{
             }
 
             JBrokenBarrierException::JBrokenBarrierException(JString* message):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JBrokenBarrierException::JBrokenBarrierException(JString* message,JThrowable* cause):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=cause;
             }
 

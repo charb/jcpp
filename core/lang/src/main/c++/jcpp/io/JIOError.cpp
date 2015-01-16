@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JIOError::JIOError(JString* message):JError(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JIOError::JIOError(JThrowable* cause):JError(getClazz()){

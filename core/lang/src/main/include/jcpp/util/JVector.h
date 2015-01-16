@@ -28,7 +28,7 @@ namespace jcpp{
         	static const jlong serialVersionUID = -2767605614048989439LL;
 
         protected:
-            JPrimitiveObjectArray* items;
+            JPrimitiveObjectArray* elementData;
             JPrimitiveInt* elementCount;
             JPrimitiveInt* capacityIncrement;
             static jint MAX_ARRAY_SIZE;
@@ -43,9 +43,13 @@ namespace jcpp{
             friend class JVectorListItr;
 
         public:
-            JVector(jint initialCapacity = 10, jint capacityIncrement=0);
+            JVector(jint initialCapacity);
+
+            JVector(jint initialCapacity, jint capacityIncrement);
 
             JVector(JCollection* c);
+
+            JVector();
 
             static jcpp::lang::JClass* getClazz();
 

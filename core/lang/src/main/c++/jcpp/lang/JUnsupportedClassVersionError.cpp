@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JUnsupportedClassVersionError::JUnsupportedClassVersionError(JString* message):jcpp::lang::JClassFormatError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JUnsupportedClassVersionError::~JUnsupportedClassVersionError(){

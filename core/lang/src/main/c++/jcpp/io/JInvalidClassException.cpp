@@ -11,12 +11,12 @@ namespace jcpp{
         }
 
         JInvalidClassException::JInvalidClassException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JInvalidClassException::JInvalidClassException(JString* classname,JString* message) : JObjectStreamException(getClazz()){
             this->classname=classname;
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JString* JInvalidClassException::getClassname(){

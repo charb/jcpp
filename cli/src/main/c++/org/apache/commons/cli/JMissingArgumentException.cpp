@@ -9,7 +9,7 @@ namespace org{
             namespace cli{
 
                 JMissingArgumentException::JMissingArgumentException(JString* message):JParseException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     option=null;
                 }
 

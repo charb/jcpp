@@ -9,7 +9,7 @@ namespace org{
             namespace cli{
 
                 JAlreadySelectedException::JAlreadySelectedException(JString* message):JParseException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     group=null;
                     option=null;
                 }

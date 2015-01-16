@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JSocketException::JSocketException(JString* message) : JIOException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JSocketException::~JSocketException(){

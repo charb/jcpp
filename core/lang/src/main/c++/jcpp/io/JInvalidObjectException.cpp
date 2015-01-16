@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JInvalidObjectException::JInvalidObjectException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JInvalidObjectException::~JInvalidObjectException(){

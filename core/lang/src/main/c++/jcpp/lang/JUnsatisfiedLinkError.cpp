@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JUnsatisfiedLinkError::JUnsatisfiedLinkError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JUnsatisfiedLinkError::~JUnsatisfiedLinkError(){

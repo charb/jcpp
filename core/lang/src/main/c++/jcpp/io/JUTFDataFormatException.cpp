@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JUTFDataFormatException::JUTFDataFormatException(JString* message) : JIOException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JUTFDataFormatException::~JUTFDataFormatException(){

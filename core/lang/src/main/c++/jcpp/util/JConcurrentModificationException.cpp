@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JConcurrentModificationException::JConcurrentModificationException(JString* message):JRuntimeException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JConcurrentModificationException::~JConcurrentModificationException(){

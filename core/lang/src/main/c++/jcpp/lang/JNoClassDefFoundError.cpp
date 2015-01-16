@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JNoClassDefFoundError::JNoClassDefFoundError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JNoClassDefFoundError::JNoClassDefFoundError(JString* message, JThrowable *cause):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

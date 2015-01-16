@@ -15,7 +15,7 @@ namespace org{
             }
 
             JSAXNotRecognizedException::JSAXNotRecognizedException(JString* message):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JSAXNotRecognizedException::~JSAXNotRecognizedException(){

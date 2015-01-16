@@ -15,11 +15,11 @@ namespace jcpp{
             }
 
             JExecutionException::JExecutionException(JString* message):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JExecutionException::JExecutionException(JString* message,JThrowable* cause):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=cause;
             }
 

@@ -15,7 +15,7 @@ namespace jcpp{
         }
 
         JBootstrapMethodError::JBootstrapMethodError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JBootstrapMethodError::~JBootstrapMethodError(){

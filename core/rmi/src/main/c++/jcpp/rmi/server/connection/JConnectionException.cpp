@@ -16,11 +16,11 @@ namespace jcpp{
                 }
 
                 JConnectionException::JConnectionException(JString* message):JException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                 }
 
                 JConnectionException::JConnectionException(JString* message,JThrowable* cause):JException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     this->cause=cause;
                 }
 

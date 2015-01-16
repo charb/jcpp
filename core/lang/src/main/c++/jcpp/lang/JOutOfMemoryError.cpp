@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JOutOfMemoryError::JOutOfMemoryError(JString* message):JVirtualMachineError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JOutOfMemoryError::JOutOfMemoryError(JString* message, JThrowable *cause):JVirtualMachineError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

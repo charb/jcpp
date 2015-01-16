@@ -22,6 +22,11 @@ using namespace jcpp::lang::reflect;
 namespace jcpp{
     namespace util{
 
+        JArrayList::JArrayList():JAbstractList(getClazz()){
+            items=new JPrimitiveObjectArray(JObject::getClazz(),10);
+            isize=new JPrimitiveInt(0);
+        }
+
         JArrayList::JArrayList(jint c):JAbstractList(getClazz()){
             items=new JPrimitiveObjectArray(JObject::getClazz(),c);
             isize=new JPrimitiveInt(0);
@@ -30,6 +35,17 @@ namespace jcpp{
         JArrayList::JArrayList(JCollection* c):JAbstractList(getClazz()){
             items=c->toArray();
             isize=new JPrimitiveInt(items->size());
+        }
+
+        JPrimitiveObjectArray* JArrayList::serialPersistentFields = null;
+
+        JPrimitiveObjectArray* JArrayList::getSerialPersistentFields(){
+            if (serialPersistentFields==null){
+                serialPersistentFields=new JPrimitiveObjectArray(JObjectStreamField::getClazz(),2);
+                serialPersistentFields->set(0,new JObjectStreamField(new JString("elementData"),JPrimitiveObjectArray::getClazz()));
+                serialPersistentFields->set(1,new JObjectStreamField(new JString("size"),JPrimitiveInt::getClazz()));
+            }
+            return serialPersistentFields;
         }
 
         jint JArrayList::size(){
@@ -297,7 +313,10 @@ namespace jcpp{
         }
 
         void JArrayList::writeObject(JObjectOutputStream* out){
-            out->defaultWriteObject();
+            JObjectOutputStream::JPutField* fields = out->putFields();
+            fields->put(new JString("elementData"), items);
+            fields->put(new JString("size"), isize->get());
+            out->writeFields();
             out->writeInt(isize->get());
             for (jint i=0;i<items->size();i++){
                 out->writeObject(items->get(i));
@@ -305,7 +324,9 @@ namespace jcpp{
         }
 
         void JArrayList::readObject(JObjectInputStream* in){
-            in->defaultReadObject();
+            JObjectInputStream::JGetField* fields = in->readFields();
+            fields->get(new JString("elementData"), (JObject*)null);
+            fields->get(new JString("size"), (jint)0);
             in->readInt();
             
             if (isize->get() > 0) {

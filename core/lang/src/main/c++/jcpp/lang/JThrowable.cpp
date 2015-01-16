@@ -28,28 +28,28 @@ namespace jcpp{
     namespace lang{
 
         JThrowable::JThrowable(jcpp::lang::JClass* _class):JObject(_class){
-            this->message=null;
+            this->detailMessage=null;
             this->cause=null;
             this->stackTrace=null;
             this->suppressedExceptions=null;
         }
 
         JThrowable::JThrowable():JObject(getClazz()){
-            this->message=null;
+            this->detailMessage=null;
             this->cause=null;
             this->stackTrace=null;
             this->suppressedExceptions=null;
         }
 
-        JThrowable::JThrowable(JString* message):JObject(getClazz()){
-            this->message = message;
+        JThrowable::JThrowable(JString* detailMessage):JObject(getClazz()){
+            this->detailMessage = detailMessage;
             this->cause=null;
             this->stackTrace=null;
             this->suppressedExceptions=null;
         }
 
-        JThrowable::JThrowable(JString* message, JThrowable *cause):JObject(getClazz()){
-            this->message = message;
+        JThrowable::JThrowable(JString* detailMessage, JThrowable *cause):JObject(getClazz()){
+            this->detailMessage = detailMessage;
             this->cause = cause;
             this->stackTrace=null;
             this->suppressedExceptions=null;
@@ -61,10 +61,10 @@ namespace jcpp{
             }
             JThrowable* other=dynamic_cast<JThrowable*>(o);
             jbool eq=true;
-            if (other->message!=null && message!=null){
-                eq=other->message->equals(message);
+            if (other->detailMessage!=null && detailMessage!=null){
+                eq=other->detailMessage->equals(detailMessage);
             }else{
-                eq=other->message==null && message==null;
+                eq=other->detailMessage==null && detailMessage==null;
             }
             if (!eq){
                 return false;
@@ -93,12 +93,12 @@ namespace jcpp{
             this->cause=cause;
         }
 
-        void JThrowable::setMessage(JString* message){
-            this->message = message;
+        void JThrowable::setMessage(JString* detailMessage){
+            this->detailMessage = detailMessage;
         }
 
         JString* JThrowable::getMessage(){
-            return this->message;
+            return this->detailMessage;
         }
 
         JPrimitiveObjectArray* JThrowable::getStackTrace(){
@@ -159,8 +159,8 @@ namespace jcpp{
         JString* JThrowable::toString(){
             JStringBuilder* builder=new JStringBuilder();
             builder->append(getClass()->getName())->append(":");
-            if (message!=null){
-                builder->append(message);
+            if (detailMessage!=null){
+                builder->append(detailMessage);
             }
             return builder->toString();
         }

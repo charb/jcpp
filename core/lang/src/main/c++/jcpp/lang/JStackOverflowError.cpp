@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JStackOverflowError::JStackOverflowError(JString* message):JVirtualMachineError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JStackOverflowError::~JStackOverflowError(){

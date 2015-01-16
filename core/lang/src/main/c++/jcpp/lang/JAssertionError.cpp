@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JAssertionError::JAssertionError(JString* message):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JAssertionError::JAssertionError(JString* message, JThrowable *cause):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

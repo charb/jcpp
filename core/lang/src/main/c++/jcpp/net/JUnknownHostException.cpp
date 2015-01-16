@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JUnknownHostException::JUnknownHostException(JString* message) : JIOException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JUnknownHostException::~JUnknownHostException(){

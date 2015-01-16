@@ -861,6 +861,14 @@ namespace jcpp{
             return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
         }
 
+        JHashMap::JHashMap():JAbstractMap(getClazz()){
+            table=null;
+            isize=0;
+            modCount=0;
+            this->loadFactor =new JPrimitiveFloat(DEFAULT_LOAD_FACTOR);
+            this->threshold =new JPrimitiveInt(0);
+        }
+
         JHashMap::JHashMap(jint initialCapacity, jfloat loadFactor):JAbstractMap(getClazz()){
             table=null;
             isize=0;

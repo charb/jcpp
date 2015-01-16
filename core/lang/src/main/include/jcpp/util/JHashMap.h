@@ -78,9 +78,11 @@ namespace jcpp{
             friend class JHashSet;
 
         public:
-            JHashMap(jint initialCapacity = 10, jfloat loadFactor=0.75);
+            JHashMap(jint initialCapacity, jfloat loadFactor);
 
             JHashMap(JMap* c);
+
+            JHashMap();
 
             static jcpp::lang::JClass* getClazz();
 

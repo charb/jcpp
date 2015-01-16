@@ -31,6 +31,8 @@ namespace jcpp{
             JPrimitiveInt* isize;
             static jint MAX_ARRAY_SIZE;
 
+            static JPrimitiveObjectArray* serialPersistentFields;
+            static JPrimitiveObjectArray* getSerialPersistentFields();
             virtual void ensureExplicitCapacity(jint c);
             virtual void grow(jint c);
             virtual jint hugeCapacity(jint c);
@@ -45,7 +47,9 @@ namespace jcpp{
             friend class JArrayListSubList;
 
         public:
-            JArrayList(jint initialCapacity = 10);
+            JArrayList();
+
+            JArrayList(jint initialCapacity);
             
             JArrayList(JCollection* c);
 

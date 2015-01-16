@@ -15,7 +15,7 @@ namespace org{
             }
 
             JSAXNotSupportedException::JSAXNotSupportedException(JString* message):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JSAXNotSupportedException::~JSAXNotSupportedException(){

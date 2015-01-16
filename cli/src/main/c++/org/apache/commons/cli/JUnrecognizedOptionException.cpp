@@ -17,12 +17,12 @@ namespace org{
                 }
 
                 JUnrecognizedOptionException::JUnrecognizedOptionException(JString* message):JParseException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     this->option=null;
                 }
 
                 JUnrecognizedOptionException::JUnrecognizedOptionException(JString* message,JString* option):JParseException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     this->option=option;
                 }
 

@@ -24,7 +24,7 @@ namespace org{
             }
 
             JSAXParseException::JSAXParseException(JString* message):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->publicId=null;
                 this->systemId=null;
                 lineNumber=new JPrimitiveInt(-1);
@@ -32,7 +32,7 @@ namespace org{
             }
 
             JSAXParseException::JSAXParseException(JString* message,JException* exception):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->exception=exception;
                 this->cause=exception;
                 this->publicId=null;
@@ -42,7 +42,7 @@ namespace org{
             }
 
             JSAXParseException::JSAXParseException(JString* message, JString* publicId, JString* systemId,jint lineNumber, jint columnNumber):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->publicId=publicId;
                 this->systemId=systemId;
                 this->lineNumber=new JPrimitiveInt(lineNumber);
@@ -50,7 +50,7 @@ namespace org{
             }
 
             JSAXParseException::JSAXParseException(JString* message, JString* publicId, JString* systemId,jint lineNumber, jint columnNumber, JException* exception):JSAXException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->exception=exception;
                 this->cause=exception;
                 this->publicId=publicId;

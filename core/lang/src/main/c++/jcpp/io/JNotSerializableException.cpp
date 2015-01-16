@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JNotSerializableException::JNotSerializableException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JNotSerializableException::~JNotSerializableException(){

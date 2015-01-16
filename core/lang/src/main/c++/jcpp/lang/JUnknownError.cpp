@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JUnknownError::JUnknownError(JString* message):JVirtualMachineError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JUnknownError::~JUnknownError(){

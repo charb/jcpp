@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JObjectStreamException::JObjectStreamException(JString* message) : JIOException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JObjectStreamException::~JObjectStreamException(){

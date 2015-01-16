@@ -8,7 +8,7 @@ namespace jcpp {
 			}
 
 			JIllegalCharsetNameException::JIllegalCharsetNameException(JString* charsetName) :JIllegalArgumentException(getClazz()) {
-				this->message = charsetName;
+				this->detailMessage = charsetName;
 				this->charsetName = charsetName;
 			}
 

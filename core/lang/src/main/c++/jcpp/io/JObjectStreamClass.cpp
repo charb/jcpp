@@ -50,7 +50,7 @@ namespace jcpp{
 
         JString* JObjectStreamClass::READ_RESOLVE_STRING = new JString("readResolve");
 
-        JString* JObjectStreamClass::SERIAL_PF_STRING = new JString("serialPersistentFields");
+        JString* JObjectStreamClass::SERIAL_PF_STRING = new JString("getSerialPersistentFields");
 
 
         JObjectStreamClass* JObjectStreamClass::lookup(jcpp::lang::JClass* cl) {
@@ -176,17 +176,19 @@ namespace jcpp{
                 }else{
                     cons = getSerializableConstructor(_class);
 
-                    if (_class->hasMethod(WRITE_OBJECT_STRING,null)){
-                        JList* par=new JArrayList();
-                        par->add(JObjectOutputStream::getClazz());
+                    JList* par=new JArrayList();
+                    par->add(JObjectOutputStream::getClazz());
+                    if (_class->hasMethod(WRITE_OBJECT_STRING,par)){
                         this->writeObjectMethod=_class->getDeclaredMethod(WRITE_OBJECT_STRING,par);
                         writeObjectData=writeObjectMethod!=null;
                     }
-                    if (_class->hasMethod(READ_OBJECT_STRING,null)){
-                        JList* par=new JArrayList();
-                        par->add(JObjectInputStream::getClazz());
+
+                    par=new JArrayList();
+                    par->add(JObjectInputStream::getClazz());
+                    if (_class->hasMethod(READ_OBJECT_STRING,par)){
                         this->readObjectMethod=_class->getDeclaredMethod(READ_OBJECT_STRING,par);
                     }
+
                     if (_class->hasMethod(READ_OBJECT_STRING_NO_DATA,null)){
                         this->readObjectNoDataMethod=_class->getDeclaredMethod(READ_OBJECT_STRING_NO_DATA,null);
                     }
@@ -602,6 +604,7 @@ namespace jcpp{
         }
 
         void JObjectStreamClass::setObjFieldValues(JObject* obj, JPrimitiveObjectArray* vals) {
+            cout<<"JObjectStreamClass::setObjFieldValues"<<endl;cout.flush();
             fieldRefl->setObjFieldValues(obj, vals);
         }
 
@@ -678,20 +681,21 @@ namespace jcpp{
         }
 
         JConstructor* JObjectStreamClass::getSerializableConstructor(jcpp::lang::JClass* cl) {
+            cout<<" serializable constructor for ";cout.flush();
+            JSystem::out->println(cl);
             JClass* initCl = cl;
-            while (JSerializable::getClazz()->isAssignableFrom(initCl)) {
-                if ((initCl = initCl->getSuperclass()) == null) {
-                    return null;
-                }
-            }
             try {
                 JConstructor* cons = initCl->getDeclaredConstructor(null);
                 jint mods = cons->getModifiers();
                 if ((mods & JModifier::PRIVATE) != 0){
                     return null;
                 }
+                cout<<" found== ";cout.flush();
+                JSystem::out->println(cons);
                 return cons;
             } catch (JNoSuchMethodException* ex) {
+                cout<<" not found! ";cout.flush();
+                JSystem::out->println(ex);
                 return null;
             }
         }
@@ -744,10 +748,11 @@ namespace jcpp{
 
         JPrimitiveObjectArray* JObjectStreamClass::getDeclaredSerialFields(jcpp::lang::JClass* cl){
             JPrimitiveObjectArray* serialPersistentFields = null;
-            if (cl->hasDeclaredField(SERIAL_PF_STRING)){
-                JField* f = cl->getDeclaredField(SERIAL_PF_STRING);
-                serialPersistentFields= dynamic_cast<JPrimitiveObjectArray*>(f->get(null));
+            if (cl->hasDeclaredMethod(SERIAL_PF_STRING,null)){
+                JMethod* m = cl->getDeclaredMethod(SERIAL_PF_STRING,null);
+                serialPersistentFields= dynamic_cast<JPrimitiveObjectArray*>(m->invoke(null,null));
             }
+            cout<<"serialPersistentFields found == "<<serialPersistentFields<<endl;cout.flush();
             if (serialPersistentFields == null) {
                 return null;
             } else if (serialPersistentFields->size() == 0) {
@@ -758,6 +763,7 @@ namespace jcpp{
 
             for (jint i = 0; i < serialPersistentFields->size(); i++) {
                 JObjectStreamField* spf = dynamic_cast<JObjectStreamField*>(serialPersistentFields->get(i));
+                cout<<"serialPersistentFields i=="<<i<<endl;cout.flush();
 
                 JString* fname = spf->getName();
                 try{
@@ -772,6 +778,7 @@ namespace jcpp{
                 if (boundFields->get(i) == null) {
                     boundFields->set(i, new JObjectStreamField(fname, spf->getType(), spf->isUnshared()));
                 }
+                JSystem::out->println(fname);
             }
             return boundFields;
         }
@@ -813,7 +820,7 @@ namespace jcpp{
             jint pos = 0;
             for (jint i = 0; i < numPrimFields; ++i) {
                 JObjectStreamField* f = dynamic_cast<JObjectStreamField*>(fields->get(i));
-                JField* field=obj->getClass()->getField(f->getName());
+                JField* field=f->getField(obj);
                 switch (f->getTypeCode()) {
                     case 'Z': {
                         JPrimitiveBoolean* jPrimitiveBoolean=new JPrimitiveBoolean(JBits::getBoolean(buf,pos++));
@@ -874,7 +881,7 @@ namespace jcpp{
             }
             for (jint i=0 ; i< numPrimFields ; i++){
                 JObjectStreamField* f=dynamic_cast<JObjectStreamField*>(fields->get(i));
-                JField* field=obj->getClass()->getField(f->getName());
+                JField* field=f->getField(obj);
                 jint off=f->getOffset();
 
                 switch(f->getTypeCode()){
@@ -935,7 +942,7 @@ namespace jcpp{
             }
             for (jint i=numPrimFields;i<fields->size();i++){
                 JObjectStreamField* f=dynamic_cast<JObjectStreamField*>(fields->get(i));
-                JField* field=jobject->getClass()->getField(f->getName());
+                JField* field=f->getField(jobject);
                 switch (f->getTypeCode() ){
                     case 'L':
                     case '[':{
@@ -949,22 +956,27 @@ namespace jcpp{
         }
 
         void JObjectStreamClass::JFieldReflector::setObjFieldValues(JObject* jObject,JPrimitiveObjectArray* values) {
+            cout<<"JFieldReflector::setObjFieldValues 1"<<endl;cout.flush();
             if (jObject == null) {
                 throw new JNullPointerException();
             }
+            cout<<"JFieldReflector::setObjFieldValues 2"<<endl;cout.flush();
             for (jint i = numPrimFields; i < fields->size(); ++i) {
                 JObjectStreamField* f=dynamic_cast<JObjectStreamField*>(fields->get(i));
-                JField* field=jObject->getClass()->getField(f->getName());
+                JField* field=f->getField(jObject);
+                cout<<"JFieldReflector::setObjFieldValues 3 field=="<<field<<endl;cout.flush();
                 switch (f->getTypeCode() ){
                     case 'L':
                     case '[':{
                         JObject* current = values->get(i-numPrimFields);
+                        cout<<"JFieldReflector::setObjFieldValues 4"<<endl;cout.flush();
                         field->set(jObject,current);
                         break;
                     }default:
                         throw new JInternalError();
                 }
             }
+            cout<<"JFieldReflector::setObjFieldValues 5"<<endl;cout.flush();
         }
 
         JObjectStreamClass::JFieldReflector* JObjectStreamClass::getReflector(JPrimitiveObjectArray* fields, JObjectStreamClass* localDesc){

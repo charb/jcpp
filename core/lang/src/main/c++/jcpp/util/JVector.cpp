@@ -22,15 +22,27 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace util{
 
+        JVector::JVector():JAbstractList(getClazz()){
+            elementData=new JPrimitiveObjectArray(JObject::getClazz(),10);
+            elementCount=new JPrimitiveInt(0);
+            capacityIncrement=new JPrimitiveInt(0);
+        }
+
+        JVector::JVector(jint i):JAbstractList(getClazz()){
+            elementData=new JPrimitiveObjectArray(JObject::getClazz(),i);
+            elementCount=new JPrimitiveInt(0);
+            capacityIncrement=new JPrimitiveInt(0);
+        }
+
         JVector::JVector(jint i,jint c):JAbstractList(getClazz()){
-            items=new JPrimitiveObjectArray(JObject::getClazz(),i);
+            elementData=new JPrimitiveObjectArray(JObject::getClazz(),i);
             elementCount=new JPrimitiveInt(0);
             capacityIncrement=new JPrimitiveInt(c);
         }
 
         JVector::JVector(JCollection* c):JAbstractList(getClazz()){
-            items=c->toArray();
-            elementCount=new JPrimitiveInt(items->size());
+            elementData=c->toArray();
+            elementCount=new JPrimitiveInt(elementData->size());
             capacityIncrement=new JPrimitiveInt(0);
         }
 
@@ -43,16 +55,16 @@ namespace jcpp{
 
         void JVector::copyInto(JPrimitiveObjectArray* anArray) {
             synchronized(this,{
-                JSystem::arraycopy(items, 0, anArray, 0, elementCount->get());
+                JSystem::arraycopy(elementData, 0, anArray, 0, elementCount->get());
             })
         }
 
         void JVector::trimToSize(){
             synchronized(this,{
                 modCount++;
-                jint oldCapacity = items->size();
+                jint oldCapacity = elementData->size();
                 if (elementCount->get() < oldCapacity) {
-                    items = JArrays::copyOf(items, elementCount->get());
+                    elementData = JArrays::copyOf(elementData, elementCount->get());
                 }
             })
         }
@@ -67,7 +79,7 @@ namespace jcpp{
         }
 
         void JVector::ensureCapacityHelper(jint c) {
-            if (c - items->size() > 0){
+            if (c - elementData->size() > 0){
                 grow(c);
             }
         }
@@ -75,7 +87,7 @@ namespace jcpp{
         jint JVector::MAX_ARRAY_SIZE = JInteger::MAX_VALUE - 8;
 
         void JVector::grow(jint c) {
-            jint oldCapacity = items->size();
+            jint oldCapacity = elementData->size();
             jint newCapacity = oldCapacity + ((capacityIncrement->get() > 0) ? capacityIncrement->get() : oldCapacity);
             if (newCapacity - c < 0){
                 newCapacity = c;
@@ -83,7 +95,7 @@ namespace jcpp{
             if (newCapacity - MAX_ARRAY_SIZE > 0){
                 newCapacity = hugeCapacity(c);
             }
-            items = JArrays::copyOf(items, newCapacity);
+            elementData = JArrays::copyOf(elementData, newCapacity);
         }
 
         jint JVector::hugeCapacity(jint minCapacity) {
@@ -100,7 +112,7 @@ namespace jcpp{
                     ensureCapacityHelper(newSize);
                 } else {
                     for (jint i = newSize ; i < elementCount->get() ; i++) {
-                        items->set(i,null);
+                        elementData->set(i,null);
                     }
                 }
                 elementCount->set(newSize);
@@ -109,7 +121,7 @@ namespace jcpp{
 
         jint JVector::capacity(){
             synchronized(this,{
-                return items->size();
+                return elementData->size();
             })
         }
 
@@ -273,10 +285,10 @@ namespace jcpp{
                 }
                 jint j = elementCount->get() - index - 1;
                 if (j > 0) {
-                    JSystem::arraycopy(items, index + 1, items, index, j);
+                    JSystem::arraycopy(elementData, index + 1, elementData, index, j);
                 }
                 elementCount->set(elementCount->get()-1);
-                items->set(elementCount->get(),null);
+                elementData->set(elementCount->get(),null);
             })
         }
 
@@ -287,8 +299,8 @@ namespace jcpp{
                     throw new JArrayIndexOutOfBoundsException();
                 }
                 ensureCapacityHelper(elementCount->get() + 1);
-                JSystem::arraycopy(items, index, items, index + 1, elementCount->get() - index);
-                items->set(index, obj);
+                JSystem::arraycopy(elementData, index, elementData, index + 1, elementCount->get() - index);
+                elementData->set(index, obj);
                 elementCount->set(elementCount->get()+1);
             })
         }
@@ -297,7 +309,7 @@ namespace jcpp{
             synchronized(this,{
                 modCount++;
                 ensureCapacityHelper(elementCount->get() + 1);
-                items->set(elementCount->get(), obj);
+                elementData->set(elementCount->get(), obj);
                 elementCount->set(elementCount->get()+1);
             })
         }
@@ -318,7 +330,7 @@ namespace jcpp{
             synchronized(this,{
                 modCount++;
                 for (jint i = 0; i < elementCount->get(); i++){
-                    items->set(i,null);
+                    elementData->set(i,null);
                 }
                 elementCount->set(0);
             })
@@ -332,16 +344,16 @@ namespace jcpp{
 
         JPrimitiveObjectArray* JVector::toArray(){
             synchronized(this,{
-                return JArrays::copyOf(items, elementCount->get());
+                return JArrays::copyOf(elementData, elementCount->get());
             })
         }
 
         JPrimitiveObjectArray* JVector::toArray(JPrimitiveObjectArray* a){
             synchronized(this,{
                 if (a->size() < elementCount->get()){
-                    return JArrays::copyOf(items, elementCount->get(), a->getComponentType());
+                    return JArrays::copyOf(elementData, elementCount->get(), a->getComponentType());
                 }
-                JSystem::arraycopy(items, 0, a, 0, elementCount->get());
+                JSystem::arraycopy(elementData, 0, a, 0, elementCount->get());
                 if (a->size() > elementCount->get()){
                     a->set(elementCount->get(), null);
                 }
@@ -354,7 +366,7 @@ namespace jcpp{
                 if (index >= elementCount->get()){
                     throw new JArrayIndexOutOfBoundsException();
                 }
-                return items->get(index);
+                return elementData->get(index);
             })
         }
 
@@ -363,8 +375,8 @@ namespace jcpp{
                 if (index >= elementCount->get()){
                     throw new JArrayIndexOutOfBoundsException();
                 }
-                JObject* oldValue = items->get(index);
-                items->set(index,element);
+                JObject* oldValue = elementData->get(index);
+                elementData->set(index,element);
                 return oldValue;
             })
         }
@@ -373,7 +385,7 @@ namespace jcpp{
             synchronized(this,{
                 modCount++;
                 ensureCapacityHelper(elementCount->get() + 1);
-                items->set(elementCount->get(), item);
+                elementData->set(elementCount->get(), item);
                 elementCount->set(elementCount->get()+1);
                 return true;
             })
@@ -393,13 +405,13 @@ namespace jcpp{
                 if (index >= elementCount->get()){
                     throw new JArrayIndexOutOfBoundsException();
                 }
-                JObject* oldValue = items->get(index);
+                JObject* oldValue = elementData->get(index);
                 jint numMoved = elementCount->get() - index - 1;
                 if (numMoved > 0){
-                    JSystem::arraycopy(items, index+1, items, index,numMoved);
+                    JSystem::arraycopy(elementData, index+1, elementData, index,numMoved);
                 }
                 elementCount->set(elementCount->get()-1);
-                items->set(elementCount->get(),null);
+                elementData->set(elementCount->get(),null);
                 return oldValue;
             })
         }
@@ -420,7 +432,7 @@ namespace jcpp{
                 JPrimitiveObjectArray* a = c->toArray();
                 jint numNew = a->size();
                 ensureCapacityHelper(elementCount->get() + numNew);
-                JSystem::arraycopy(a, 0, items, elementCount->get(), numNew);
+                JSystem::arraycopy(a, 0, elementData, elementCount->get(), numNew);
                 elementCount->set(elementCount->get()+numNew);
                 return numNew != 0;
             })
@@ -449,9 +461,9 @@ namespace jcpp{
                 ensureCapacityHelper(elementCount->get() + numNew);
                 jint numMoved = elementCount->get() - index;
                 if (numMoved > 0){
-                    JSystem::arraycopy(items, index, items, index + numNew,numMoved);
+                    JSystem::arraycopy(elementData, index, elementData, index + numNew,numMoved);
                 }
-                JSystem::arraycopy(a, 0, items, index, numNew);
+                JSystem::arraycopy(a, 0, elementData, index, numNew);
                 elementCount->set(elementCount->get() + numNew);
                 return numNew != 0;
             })
@@ -483,12 +495,12 @@ namespace jcpp{
             synchronized(this,{
                 modCount++;
                 jint numMoved = elementCount->get() - toIndex;
-                JSystem::arraycopy(items, toIndex, items, fromIndex, numMoved);
+                JSystem::arraycopy(elementData, toIndex, elementData, fromIndex, numMoved);
 
                 jint newElementCount = elementCount->get() - (toIndex-fromIndex);
                 while (elementCount->get() != newElementCount){
                     elementCount->set(elementCount->get()-1);
-                    items->set(elementCount->get(),null);
+                    elementData->set(elementCount->get(),null);
                 }
             })
         }
@@ -499,7 +511,7 @@ namespace jcpp{
             synchronized (this, {
                 fields->put(new JString("capacityIncrement"), capacityIncrement->get());
                 fields->put(new JString("elementCount"), elementCount->get());
-                data = items->clone();
+                data = elementData->clone();
             })
             fields->put(new JString("elementData"), data);
             out->writeFields();

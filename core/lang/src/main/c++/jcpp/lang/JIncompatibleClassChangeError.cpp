@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JIncompatibleClassChangeError::JIncompatibleClassChangeError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JIncompatibleClassChangeError::JIncompatibleClassChangeError(JString* message, JThrowable *cause):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

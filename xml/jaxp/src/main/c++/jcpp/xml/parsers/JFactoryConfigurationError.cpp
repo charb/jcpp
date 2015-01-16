@@ -13,7 +13,7 @@ namespace jcpp{
             }
 
             JFactoryConfigurationError::JFactoryConfigurationError(JString* message,JException* e):JError(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->exception=exception;
             }
 

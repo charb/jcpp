@@ -12,7 +12,7 @@ import com.github.maven_nar.NarConstants;
 import jcpp.parser.cpp.CPPClass;
 
 import org.apache.maven.project.MavenProject;
-
+import jcpp.mavenplugin.code.reflect.*;
 
 public class Utils {
 
@@ -119,15 +119,12 @@ public class Utils {
         return (index > 0) ? parentFullName.substring(index + 2) : parentFullName;
     }
     
-    public static String getDeclaredParentClassName(CPPClass cppClass) {
-        String namespaceName = cppClass.getNamespaceName();
-        String fullName = ((namespaceName != null) && !namespaceName.isEmpty()) ? cppClass.getName().substring(namespaceName.length() + 2) : cppClass.getName();
-        int index = fullName.lastIndexOf(DOUBLE_COLON);
+    public static String getDeclaredParentClassName(ClassModel model) {
+        int index = model.getAnnotatedCanonicalName().lastIndexOf("$");
         if (index < 0) {
             return null;
         }
-
-        String parentFullName = fullName.substring(0, index);
+        String parentFullName = model.getAnnotatedCanonicalName().substring(0, index);
         return parentFullName;
     }
 

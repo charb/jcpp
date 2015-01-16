@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JInstantiationError::JInstantiationError(JString* message):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JInstantiationError::JInstantiationError(JString* message, JThrowable *cause):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

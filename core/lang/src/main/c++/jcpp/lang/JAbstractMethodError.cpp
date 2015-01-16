@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JAbstractMethodError::JAbstractMethodError(JString* message):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JAbstractMethodError::JAbstractMethodError(JString* message, JThrowable *cause):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

@@ -10,12 +10,12 @@ namespace org{
             namespace cli{
 
                 JMissingOptionException::JMissingOptionException(JString* message):JParseException(getClazz()){
-                    this->message=message;
+                    this->detailMessage=message;
                     missingOptions=null;
                 }
 
                 JMissingOptionException::JMissingOptionException(JList* l):JParseException(getClazz()){
-                    this->message=createMessage(l);
+                    this->detailMessage=createMessage(l);
                     this->missingOptions=l;
                 }
 

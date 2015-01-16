@@ -143,6 +143,26 @@ namespace jcpp{
             return field;
         }
 
+        JField* JObjectStreamField::getField(JObject* obj){
+            if (field!=null){
+                return field;
+            }
+            JClass* defCl = obj->getClass();
+            while (defCl != null) {
+                if (defCl->hasDeclaredField(name)){
+                    field = defCl->getDeclaredField(name);
+                    return field;
+                }else {
+                    defCl = defCl->getSuperclass();
+                }
+            }
+            return field;
+        }
+
+        void JObjectStreamField::setField(JField* f){
+            field=f;
+        }
+
         JString* JObjectStreamField::getSignature(){
             return signature;
         }

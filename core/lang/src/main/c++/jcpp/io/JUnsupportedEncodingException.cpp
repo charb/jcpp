@@ -11,7 +11,7 @@ namespace jcpp{
         }
 
         JUnsupportedEncodingException::JUnsupportedEncodingException(JString* m):JIOException(getClazz()){
-            this->message=m;
+            this->detailMessage=m;
         }
 
         JUnsupportedEncodingException::~JUnsupportedEncodingException(){

@@ -18,12 +18,12 @@ namespace org{
 
             JDOMException::JDOMException(jshort code,JString* message):JRuntimeException(getClazz()){
                 this->code=new JPrimitiveShort(code);
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JDOMException::JDOMException(jshort code,JString* message,JThrowable* cause):JRuntimeException(getClazz()){
                 this->code=new JPrimitiveShort(code);
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=cause;
             }
 

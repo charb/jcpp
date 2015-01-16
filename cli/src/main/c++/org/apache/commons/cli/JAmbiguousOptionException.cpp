@@ -13,7 +13,7 @@ namespace org{
             namespace cli{
 
                 JAmbiguousOptionException::JAmbiguousOptionException(JString* o, JCollection* mo):JUnrecognizedOptionException(getClazz()){
-                    this->message=createMessage(o,mo);
+                    this->detailMessage=createMessage(o,mo);
                     this->option=o;
                     this->matchingOptions=mo;
                 }

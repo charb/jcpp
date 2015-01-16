@@ -15,7 +15,7 @@ namespace jcpp{
         }
 
         JClassFormatError::JClassFormatError(JString* message):JLinkageError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JClassFormatError::~JClassFormatError(){

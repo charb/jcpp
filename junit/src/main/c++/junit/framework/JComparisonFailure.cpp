@@ -13,13 +13,13 @@ namespace junit{
     namespace framework{
 
         JComparisonFailure::JComparisonFailure():JAssertionFailedError(getClazz()){
-            this->message=null;
+            this->detailMessage=null;
             this->fExpected=null;
             this->fActual=null;
         }
 
         JComparisonFailure::JComparisonFailure(JString* message, JString* expected, JString* actual):JAssertionFailedError(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
             this->fExpected=expected;
             this->fActual=actual;
         }

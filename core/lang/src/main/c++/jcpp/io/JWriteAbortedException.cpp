@@ -8,7 +8,7 @@ namespace jcpp{
     namespace io{
 
         JWriteAbortedException::JWriteAbortedException(JString* message,JException* ex):JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
             this->detail=ex;
         }
 

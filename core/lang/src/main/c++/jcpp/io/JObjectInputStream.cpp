@@ -609,7 +609,7 @@ namespace jcpp{
             if (bin->readByte() != TC_CLASSDESC) {
                 throw new JInternalError();
             }
-            JObjectStreamClass* desc = new JObjectStreamClass;
+            JObjectStreamClass* desc = new JObjectStreamClass();
             jint descHandle = handles->assign((unshared ? unsharedMarker : desc));
             passHandle = NULL_HANDLE;
 

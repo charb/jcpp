@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JVirtualMachineError::JVirtualMachineError(JString* message):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JVirtualMachineError::JVirtualMachineError(JString* message, JThrowable *cause):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

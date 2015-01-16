@@ -18,7 +18,7 @@ namespace jcpp{
         }
 
         JOptionalDataException::JOptionalDataException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
             this->length=new JPrimitiveInt(0);
             this->eof=new JPrimitiveBoolean(false);
         }

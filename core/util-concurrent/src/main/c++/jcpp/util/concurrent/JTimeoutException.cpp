@@ -15,11 +15,11 @@ namespace jcpp{
             }
 
             JTimeoutException::JTimeoutException(JString* message):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
             }
 
             JTimeoutException::JTimeoutException(JString* message,JThrowable* cause):JException(getClazz()){
-                this->message=message;
+                this->detailMessage=message;
                 this->cause=cause;
             }
 

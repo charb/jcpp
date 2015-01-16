@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JNoSuchMethodError::JNoSuchMethodError(JString* message):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JNoSuchMethodError::JNoSuchMethodError(JString* message, JThrowable *cause):JIncompatibleClassChangeError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 

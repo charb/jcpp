@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JIOException::JIOException(JString* message) : JException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JIOException::~JIOException(){

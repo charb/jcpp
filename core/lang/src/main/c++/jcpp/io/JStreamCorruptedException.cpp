@@ -14,7 +14,7 @@ namespace jcpp{
         }
 
         JStreamCorruptedException::JStreamCorruptedException(JString* message) : JObjectStreamException(getClazz()){
-            this->message=message;
+            this->detailMessage=message;
         }
 
         JStreamCorruptedException::~JStreamCorruptedException(){

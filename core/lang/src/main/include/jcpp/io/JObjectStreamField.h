@@ -56,6 +56,10 @@ namespace jcpp{
 
             virtual JField* getField();
 
+            virtual JField* getField(JObject* obj);
+
+            virtual void setField(JField* f);
+
             virtual JString* getSignature();
 
             virtual JString* toString();

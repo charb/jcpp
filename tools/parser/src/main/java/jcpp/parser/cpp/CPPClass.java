@@ -157,6 +157,10 @@ public class CPPClass {
     @Override
     public String toString() {
         String str = "Class:  name=" + name + "\r\n";
+        for (CPPAnnotation a : annotations) {
+            str += "        " + a + "\r\n";
+        }
+        str += "\r\n\r\n";
         for (CPPField f : fields) {
             str += "		" + f + "\r\n";
         }

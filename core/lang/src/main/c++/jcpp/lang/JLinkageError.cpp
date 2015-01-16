@@ -14,11 +14,11 @@ namespace jcpp{
         }
 
         JLinkageError::JLinkageError(JString* message):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
         }
 
         JLinkageError::JLinkageError(JString* message, JThrowable *cause):JError(getClazz()){
-            this->message = message;
+            this->detailMessage = message;
             this->cause = cause;
         }
 
