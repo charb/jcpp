@@ -177,21 +177,25 @@ namespace jcpp{
                     cons = getSerializableConstructor(_class);
 
                     if (_class->hasMethod(WRITE_OBJECT_STRING,null)){
-                        this->writeObjectMethod=_class->getMethod(WRITE_OBJECT_STRING,null);
+                        JList* par=new JArrayList();
+                        par->add(JObjectOutputStream::getClazz());
+                        this->writeObjectMethod=_class->getDeclaredMethod(WRITE_OBJECT_STRING,par);
                         writeObjectData=writeObjectMethod!=null;
                     }
                     if (_class->hasMethod(READ_OBJECT_STRING,null)){
-                        this->readObjectMethod=_class->getMethod(READ_OBJECT_STRING,null);
+                        JList* par=new JArrayList();
+                        par->add(JObjectInputStream::getClazz());
+                        this->readObjectMethod=_class->getDeclaredMethod(READ_OBJECT_STRING,par);
                     }
                     if (_class->hasMethod(READ_OBJECT_STRING_NO_DATA,null)){
-                        this->readObjectNoDataMethod=_class->getMethod(READ_OBJECT_STRING_NO_DATA,null);
+                        this->readObjectNoDataMethod=_class->getDeclaredMethod(READ_OBJECT_STRING_NO_DATA,null);
                     }
                 }
                 if (_class->hasMethod(WRITE_REPLACE_STRING,null)){
-                    this->writeReplaceMethod=_class->getMethod(WRITE_REPLACE_STRING,null);
+                    this->writeReplaceMethod=getInheritableMethod(_class, WRITE_REPLACE_STRING, null, JObject::getClazz());
                 }
                 if (_class->hasMethod(READ_RESOLVE_STRING,null)){
-                    this->readResolveMethod=_class->getMethod(READ_RESOLVE_STRING,null);
+                    this->readResolveMethod=getInheritableMethod(_class, READ_RESOLVE_STRING, null, JObject::getClazz());
                 }
 
             }else{
@@ -674,8 +678,14 @@ namespace jcpp{
         }
 
         JConstructor* JObjectStreamClass::getSerializableConstructor(jcpp::lang::JClass* cl) {
+            JClass* initCl = cl;
+            while (JSerializable::getClazz()->isAssignableFrom(initCl)) {
+                if ((initCl = initCl->getSuperclass()) == null) {
+                    return null;
+                }
+            }
             try {
-                JConstructor* cons = cl->getDeclaredConstructor(null);
+                JConstructor* cons = initCl->getDeclaredConstructor(null);
                 jint mods = cons->getModifiers();
                 if ((mods & JModifier::PRIVATE) != 0){
                     return null;
@@ -683,6 +693,36 @@ namespace jcpp{
                 return cons;
             } catch (JNoSuchMethodException* ex) {
                 return null;
+            }
+        }
+
+        JMethod* JObjectStreamClass::getInheritableMethod(JClass* cl, JString* name, JList* argTypes, JClass* returnType){
+            JMethod* meth = null;
+            JClass* defCl = cl;
+            while (defCl != null) {
+                try {
+                    meth = defCl->getDeclaredMethod(name, argTypes);
+                    break;
+                } catch (JNoSuchMethodException* ex) {
+                    defCl = defCl->getSuperclass();
+                }
+            }
+
+            if ((meth == null) || (meth->getReturnType() != returnType)) {
+                return null;
+            }
+            jint mods = meth->getModifiers();
+            if ((mods & (JModifier::STATIC | JModifier::ABSTRACT)) != 0) {
+                return null;
+
+            } else if ((mods & (JModifier::PUBLIC | JModifier::PROTECTED)) != 0) {
+                return meth;
+
+            } else if ((mods & JModifier::PRIVATE) != 0) {
+                return (cl == defCl) ? meth : null;
+
+            } else {
+                return meth;
             }
         }
 

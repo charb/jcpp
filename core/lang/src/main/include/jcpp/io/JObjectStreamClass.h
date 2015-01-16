@@ -170,6 +170,7 @@ namespace jcpp{
             JObjectStreamClass* getVariantFor(jcpp::lang::JClass* cl);
             static JConstructor* getExternalizableConstructor(jcpp::lang::JClass* cl);
             static JConstructor* getSerializableConstructor(jcpp::lang::JClass* cl);
+            static JMethod* getInheritableMethod(JClass* cl, JString* name, JList* argTypes, JClass* returnType);
             static JPrimitiveObjectArray* getSerialFields(jcpp::lang::JClass* cl);
             static JPrimitiveObjectArray* getDeclaredSerialFields(jcpp::lang::JClass* cl);
             static JPrimitiveObjectArray* getDefaultSerialFields(jcpp::lang::JClass* cl);
