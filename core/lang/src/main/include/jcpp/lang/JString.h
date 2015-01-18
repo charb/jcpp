@@ -31,6 +31,7 @@ namespace jcpp{
     }
 
     namespace lang{
+        class JPrimitiveArray;
         class JPrimitiveCharArray;
         class JPrimitiveByteArray;
         class JDouble;
@@ -210,6 +211,7 @@ namespace jcpp{
             friend class JFloat;
             friend class JInteger;
             friend class JLong;
+            friend class JPrimitiveArray;
             friend class JPrimitiveCharArray;
             friend class JPrimitiveLongArray;
             friend class JPrimitiveFloatArray;

@@ -326,7 +326,7 @@ namespace jcpp{
         void JArrayList::readObject(JObjectInputStream* in){
             JObjectInputStream::JGetField* fields = in->readFields();
             fields->get(new JString("elementData"), (JObject*)null);
-            fields->get(new JString("size"), (jint)0);
+            isize->set(fields->get(new JString("size"), (jint)0));
             in->readInt();
             
             if (isize->get() > 0) {

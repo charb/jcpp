@@ -33,6 +33,8 @@ namespace jcpp{
         class JCPP_EXPORT JHashMap : public JAbstractMap, public JCloneable, public JSerializable{
         private:
         	static const jlong serialVersionUID = 362498820763181265LL;
+            static JPrimitiveObjectArray* serialPersistentFields;
+            static JPrimitiveObjectArray* getSerialPersistentFields();
 
         protected:
             JPrimitiveObjectArray* table;

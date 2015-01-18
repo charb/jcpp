@@ -14,7 +14,7 @@ using namespace jcpp;
 namespace jcpp{
     namespace util{
 
-    	//@Class(canonicalName="jcpp.nio.ArrayListTest", simpleName="ArrayListTest");
+    	//@Class(canonicalName="jcpp.util.ArrayListTest", simpleName="ArrayListTest");
         class JCPP_EXPORT JArrayListTest : public JSerializableTest{
         public:
             JArrayListTest();

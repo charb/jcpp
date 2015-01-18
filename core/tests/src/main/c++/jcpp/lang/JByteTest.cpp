@@ -7,15 +7,24 @@
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/lang/JByte.h"
 #include "jcpp/lang/JPrimitiveObjectArray.h"
+#include "jcpp/lang/JSystem.h"
+#include "jcpp/util/JArrays.h"
 
 using namespace jcpp::io;
 using namespace jcpp::lang;
 using namespace jcpp::lang::reflect;
+using namespace jcpp::util;
 
 namespace jcpp{
     namespace lang{
 
         JByteTest::JByteTest():JSerializableTest(getClazz()){
+        }
+
+        void JByteTest::equals(JObject* reached, JObject* expected){
+            JPrimitiveObjectArray* a1=dynamic_cast<JPrimitiveObjectArray*>(reached);
+            JPrimitiveObjectArray* a2=dynamic_cast<JPrimitiveObjectArray*>(expected);
+            assertTrue(new JString("Asserting that 2 byte arrays are equals"),JArrays::equals(a1,a2));
         }
 
         JObject* JByteTest::getSerializableObject(){

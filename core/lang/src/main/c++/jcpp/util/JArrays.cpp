@@ -53,6 +53,121 @@ namespace jcpp{
             return newa;
         }
 
+        jbool JArrays::equals(JPrimitiveObjectArray* a1, JPrimitiveObjectArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->get(i)==null){
+                    if (a2->get(i)!=null){
+                        return false;
+                    }
+                }else{
+                    if (a2->get(i)==null || !(a1->get(i)->equals(a2->get(i)))) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        jbool JArrays::equals(JPrimitiveByteArray* a1, JPrimitiveByteArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getByte(i)!=a2->getByte(i)){
+                    return false;
+                }
+            }
+            return true;
+        }         
+
+        jbool JArrays::equals(JPrimitiveBooleanArray* a1, JPrimitiveBooleanArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getBoolean(i)!=a2->getBoolean(i)){
+                    return false;
+                }
+            }
+            return true;
+        }   
+
+        jbool JArrays::equals(JPrimitiveCharArray* a1, JPrimitiveCharArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getChar(i)!=a2->getChar(i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        jbool JArrays::equals(JPrimitiveIntArray* a1, JPrimitiveIntArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getInt(i)!=a2->getInt(i)){
+                    return false;
+                }
+            }
+            return true;
+        }    
+
+        jbool JArrays::equals(JPrimitiveLongArray* a1, JPrimitiveLongArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getLong(i)!=a2->getLong(i)){
+                    return false;
+                }
+            }
+            return true;
+        }    
+
+        jbool JArrays::equals(JPrimitiveFloatArray* a1, JPrimitiveFloatArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getFloat(i)!=a2->getFloat(i)){
+                    return false;
+                }
+            }
+            return true;
+        }            
+
+        jbool JArrays::equals(JPrimitiveShortArray* a1, JPrimitiveShortArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getShort(i)!=a2->getShort(i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        jbool JArrays::equals(JPrimitiveDoubleArray* a1, JPrimitiveDoubleArray* a2){
+            if (a1->size()!=a2->size()){
+                return false;
+            }
+            for (jint i=0;i<a1->size();i++){
+                if (a1->getDouble(i)!=a2->getDouble(i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
         static jbool compareFunc(JObject* f1,JObject* f2) {
             JComparable* comp=dynamic_cast<JComparable*>(f1);
             return comp->compareTo(f2)<0;

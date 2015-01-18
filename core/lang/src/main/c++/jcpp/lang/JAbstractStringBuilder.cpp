@@ -18,8 +18,7 @@ namespace jcpp{
     namespace lang{
         JAbstractStringBuilder::JAbstractStringBuilder(jcpp::lang::JClass* _class):JObject(_class){
         	count = new JPrimitiveInt(0);
-        	bufferCapacity = 16;
-        	value = new JPrimitiveCharArray(bufferCapacity);
+        	value = new JPrimitiveCharArray(16);
         }
 
         jint JAbstractStringBuilder::length(){
@@ -27,12 +26,12 @@ namespace jcpp{
         }
 
         jint JAbstractStringBuilder::capacity(){
-            return bufferCapacity;
+            return value->size();
         }
 
         void JAbstractStringBuilder::ensureCapacityInternal(jint minimumCapacity){
-			if(minimumCapacity - bufferCapacity > 0) {
-				jint newCapacity = bufferCapacity * 2 + 2;
+			if(minimumCapacity - value->size() > 0) {
+				jint newCapacity = value->size() * 2 + 2;
 				if(newCapacity - minimumCapacity < 0) {
 					newCapacity = minimumCapacity;
 				}
@@ -47,7 +46,6 @@ namespace jcpp{
 					newValue->setChar(i, value->getChar(i));
 				}
 				value = newValue;
-				bufferCapacity = newCapacity;
 			}
 		}
 
@@ -58,13 +56,12 @@ namespace jcpp{
         }
 
         void JAbstractStringBuilder::trimToSize(){
-        	if(count->get() < bufferCapacity) {
+        	if(count->get() < value->size()) {
         		JPrimitiveCharArray * newValue = new JPrimitiveCharArray(count->get());
 				for(jint i = 0; i < count->get(); i++) {
 					newValue->setChar(i,value->getChar(i));
 				}
 				value = newValue;
-				bufferCapacity = count->get();
         	}
         }
 

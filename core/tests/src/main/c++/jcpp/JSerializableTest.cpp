@@ -2,6 +2,7 @@
 #include "jcpp/lang/JClass.h"
 #include "jcpp/lang/JObject.h"
 #include "jcpp/lang/JVoid.h"
+#include "jcpp/lang/JSystem.h"
 #include "jcpp/lang/reflect/JMethod.h"
 #include "jcpp/lang/reflect/JConstructor.h"
 #include "jcpp/lang/reflect/JModifier.h"

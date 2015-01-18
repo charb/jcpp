@@ -7,7 +7,9 @@
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/lang/JLong.h"
 #include "jcpp/lang/JPrimitiveObjectArray.h"
+#include "jcpp/util/JArrays.h"
 
+using namespace jcpp::util;
 using namespace jcpp::io;
 using namespace jcpp::lang;
 using namespace jcpp::lang::reflect;
@@ -16,6 +18,12 @@ namespace jcpp{
     namespace lang{
 
         JLongTest::JLongTest():JSerializableTest(getClazz()){
+        }
+
+        void JLongTest::equals(JObject* reached, JObject* expected){
+            JPrimitiveObjectArray* a1=dynamic_cast<JPrimitiveObjectArray*>(reached);
+            JPrimitiveObjectArray* a2=dynamic_cast<JPrimitiveObjectArray*>(expected);
+            assertTrue(new JString("Asserting that 2 long arrays are equals"),JArrays::equals(a1,a2));
         }
 
         JObject* JLongTest::getSerializableObject(){

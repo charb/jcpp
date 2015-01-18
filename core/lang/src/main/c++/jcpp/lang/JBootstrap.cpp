@@ -29,7 +29,7 @@ namespace jcpp{
             JClass* mainClazz=classLoader->loadClass(mainClass);
 
             JArrayList* pa=new JArrayList();
-            pa->add(JPrimitiveObjectArray::getClazz(JString::getClazz()));
+            pa->add(JPrimitiveObjectArray::getClazz());
             JMethod* mainMethod=mainClazz->getMethod(new JString("main"),pa);
 
             JArrayList* args=new JArrayList();

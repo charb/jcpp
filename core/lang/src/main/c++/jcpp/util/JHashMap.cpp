@@ -1470,9 +1470,24 @@ namespace jcpp{
         jint JHashMap::capacity() {
             return (table != null) ? table->size() : (threshold->get() > 0) ? threshold->get() : DEFAULT_INITIAL_CAPACITY;
         }
+
+        JPrimitiveObjectArray* JHashMap::serialPersistentFields = null;
+
+        JPrimitiveObjectArray* JHashMap::getSerialPersistentFields(){
+            if (serialPersistentFields==null){
+                serialPersistentFields=new JPrimitiveObjectArray(JObjectStreamField::getClazz(),2);
+                serialPersistentFields->set(0,new JObjectStreamField(new JString("threshold"),JPrimitiveInt::getClazz()));
+                serialPersistentFields->set(1,new JObjectStreamField(new JString("loadFactor"),JPrimitiveFloat::getClazz()));
+            }
+            return serialPersistentFields;
+        }
         
         void JHashMap::writeObject(JObjectOutputStream* out){
-            out->defaultWriteObject();
+            JObjectOutputStream::JPutField* fields = out->putFields();
+            fields->put(new JString("threshold"), threshold->get());
+            fields->put(new JString("loadFactor"), loadFactor->get());
+            out->writeFields();
+
             out->writeInt(capacity());
             out->writeInt(isize);
 
@@ -1488,7 +1503,10 @@ namespace jcpp{
         }
 
         void JHashMap::readObject(JObjectInputStream* in){
-            in->defaultReadObject();
+            JObjectInputStream::JGetField* fields = in->readFields();
+            threshold->set(fields->get(new JString("threshold"), (jint)0));
+            loadFactor->set(fields->get(new JString("loadFactor"), (jfloat)0));
+
             reinitialize();
 
             if (loadFactor <= 0){

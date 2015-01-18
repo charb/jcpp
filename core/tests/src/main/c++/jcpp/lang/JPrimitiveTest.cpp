@@ -22,7 +22,9 @@
 #include "jcpp/lang/JPrimitiveObjectArray.h"
 #include "jcpp/lang/JPrimitiveShort.h"
 #include "jcpp/lang/JPrimitiveShortArray.h"
+#include "jcpp/util/JArrays.h"
 
+using namespace jcpp::util;
 using namespace jcpp::io;
 using namespace jcpp::lang;
 using namespace jcpp::lang::reflect;
@@ -31,6 +33,43 @@ namespace jcpp{
     namespace lang{
 
         JPrimitiveTest::JPrimitiveTest():JSerializableTest(getClazz()){
+        }
+
+        void JPrimitiveTest::equals(JObject* reached, JObject* expected){
+            JPrimitiveObjectArray* a1=dynamic_cast<JPrimitiveObjectArray*>(reached);
+            JPrimitiveObjectArray* a2=dynamic_cast<JPrimitiveObjectArray*>(expected);
+
+            JPrimitiveBooleanArray* b1=dynamic_cast<JPrimitiveBooleanArray*>(a1->get(0));
+            JPrimitiveBooleanArray* b2=dynamic_cast<JPrimitiveBooleanArray*>(a2->get(0));
+            assertTrue(new JString("Asserting that 2 boolean arrays are equals"),JArrays::equals(b1,b2));
+
+            JPrimitiveByteArray* by1=dynamic_cast<JPrimitiveByteArray*>(a1->get(1));
+            JPrimitiveByteArray* by2=dynamic_cast<JPrimitiveByteArray*>(a2->get(1));
+            assertTrue(new JString("Asserting that 2 byte arrays are equals"),JArrays::equals(by1,by2));
+
+            JPrimitiveCharArray* cs1=dynamic_cast<JPrimitiveCharArray*>(a1->get(2));
+            JPrimitiveCharArray* cs2=dynamic_cast<JPrimitiveCharArray*>(a2->get(2));
+            assertTrue(new JString("Asserting that 2 char arrays are equals"),JArrays::equals(cs1,cs2));
+
+            JPrimitiveDoubleArray* ds1=dynamic_cast<JPrimitiveDoubleArray*>(a1->get(3));
+            JPrimitiveDoubleArray* ds2=dynamic_cast<JPrimitiveDoubleArray*>(a2->get(3));
+            assertTrue(new JString("Asserting that 2 double arrays are equals"),JArrays::equals(ds1,ds2));
+
+            JPrimitiveFloatArray* fs1=dynamic_cast<JPrimitiveFloatArray*>(a1->get(4));
+            JPrimitiveFloatArray* fs2=dynamic_cast<JPrimitiveFloatArray*>(a2->get(4));
+            assertTrue(new JString("Asserting that 2 float arrays are equals"),JArrays::equals(fs1,fs2));
+
+            JPrimitiveIntArray* is1=dynamic_cast<JPrimitiveIntArray*>(a1->get(5));
+            JPrimitiveIntArray* is2=dynamic_cast<JPrimitiveIntArray*>(a2->get(5));
+            assertTrue(new JString("Asserting that 2 int arrays are equals"),JArrays::equals(is1,is2));
+
+            JPrimitiveLongArray* ls1=dynamic_cast<JPrimitiveLongArray*>(a1->get(6));
+            JPrimitiveLongArray* ls2=dynamic_cast<JPrimitiveLongArray*>(a2->get(6));
+            assertTrue(new JString("Asserting that 2 long arrays are equals"),JArrays::equals(ls1,ls2));
+
+            JPrimitiveShortArray* ss1=dynamic_cast<JPrimitiveShortArray*>(a1->get(7));
+            JPrimitiveShortArray* ss2=dynamic_cast<JPrimitiveShortArray*>(a2->get(7));
+            assertTrue(new JString("Asserting that 2 short arrays are equals"),JArrays::equals(ss1,ss2));
         }
 
         JObject* JPrimitiveTest::getSerializableObject(){

@@ -8,7 +8,9 @@
 #include "jcpp/lang/reflect/JField.h"
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/lang/JSystem.h"
+#include "jcpp/util/JArrays.h"
 
+using namespace jcpp::util;
 using namespace jcpp::io;
 using namespace jcpp::lang;
 using namespace jcpp::lang::reflect;
@@ -32,7 +34,7 @@ namespace jcpp{
                 JSystem::out->println(e->get(i));
             }
             JSystem::out->println(new JString("========================="));
-            assertEquals(reached,expected);
+            assertTrue(new JString("Asserting that 2 enum object arrays are equals"),JArrays::equals(r,e));
         }
 
         JObject* JEnumSampleObjectTest::getSerializableObject(){

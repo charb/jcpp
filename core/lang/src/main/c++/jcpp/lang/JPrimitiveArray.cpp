@@ -7,6 +7,7 @@
 #include "jcpp/util/JMap.h"
 #include "jcpp/lang/JIndexOutOfBoundsException.h"
 #include "jcpp/lang/JCloneable.h"
+#include "jcpp/lang/JSystem.h"
 
 using namespace jcpp::util;
 
@@ -61,28 +62,12 @@ namespace jcpp{
                 virtual jcpp::lang::JClass* getSuperclass(){
                     return JObject::getClazz();
                 }
-
-                // TODO should be removed after reflection detects the method argument and return primitive array type
-                virtual jbool equals(JObject* object) {
-                	if ((object == null) || object->getClass()!=getClass()){
-                		return false;
-                	}
-                	JClass* other = dynamic_cast<JClass*>(object);
-                	return other->isArray();
-                }
-
-                virtual jint hashCode() {
-					return 1262;
-                }
-
         };
 
         static JObject* lockObject = null;
 
         static JMap* jPrimitiveArrayClasses = null;
         
-        static JString* currentComponentTypeName = null;
-        static JPrimitiveArrayClass* currentPrimitiveArrayClass = null;
 
         static JObject* getLockObject(){
             if (lockObject==null){
@@ -113,15 +98,9 @@ namespace jcpp{
                 }
 
                 JString* componentTypeName = componentType->getName();
-                if(currentComponentTypeName != null && currentComponentTypeName->equals(componentTypeName)) {
-                	return currentPrimitiveArrayClass;
-                }
-                currentComponentTypeName = componentTypeName;
                 JPrimitiveArrayClass* jPrimitiveArrayClass=dynamic_cast<JPrimitiveArrayClass*>(jPrimitiveArrayClasses->get(componentTypeName));
-                currentPrimitiveArrayClass = jPrimitiveArrayClass;
                 if (jPrimitiveArrayClass==null){
                     jPrimitiveArrayClass=new JPrimitiveArrayClass(componentType);
-                    currentPrimitiveArrayClass = jPrimitiveArrayClass;
                     jPrimitiveArrayClasses->put(componentType->getName(),jPrimitiveArrayClass);
                 }
                 return jPrimitiveArrayClass;

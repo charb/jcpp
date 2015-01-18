@@ -23,7 +23,7 @@ namespace util {
 
 using namespace junit::framework;
 
-//@Class(canonicalName="jcpp.io.MHashMapTest", simpleName="MHashMapTest");
+//@Class(canonicalName="jcpp.util.MHashMapTest", simpleName="MHashMapTest");
 class JCPP_EXPORT JHashMapAPITest : public JAbstractTest{
 public:
 	JHashMapAPITest(JString* name);

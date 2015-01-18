@@ -689,7 +689,7 @@ namespace jcpp{
                 }else if (ccl==JPrimitiveChar::getClazz()) {
                     JPrimitiveCharArray* ar=dynamic_cast<JPrimitiveCharArray*>(pArray);
                     bin->readChars(ar,0,len);
-
+                    
                 }else if (ccl==JPrimitiveDouble::getClazz()) {
                     JPrimitiveDoubleArray* ar=dynamic_cast<JPrimitiveDoubleArray*>(pArray);
                     bin->readDoubles(ar,0,len);

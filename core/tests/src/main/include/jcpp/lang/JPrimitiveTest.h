@@ -21,6 +21,8 @@ namespace jcpp{
 
             static JClass* getClazz();
 
+            virtual void equals(JObject* reached, JObject* expected);
+
             virtual JObject* getSerializableObject();
 
             virtual ~JPrimitiveTest();

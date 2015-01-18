@@ -9,7 +9,7 @@ using namespace junit::framework;
 namespace jcpp{
 	namespace lang{
 		namespace reflect{
-		   	//@Class(canonicalName="jcpp.io.ReflectTestSuite", simpleName="ReflectTestSuite");
+		   	//@Class(canonicalName="jcpp.lang.reflect.ReflectTestSuite", simpleName="ReflectTestSuite");
 		    class JCPP_EXPORT JReflectTestSuite : public JTestSuite{
 		    public:
 		        JReflectTestSuite();

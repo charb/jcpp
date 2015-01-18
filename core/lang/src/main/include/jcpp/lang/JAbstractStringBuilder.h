@@ -24,7 +24,6 @@ namespace jcpp{
             protected:
         		JPrimitiveCharArray * value;
         		JPrimitiveInt* count;
-        		jint bufferCapacity;
 
                 JAbstractStringBuilder(jcpp::lang::JClass* _class);
             public:

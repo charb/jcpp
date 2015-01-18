@@ -385,6 +385,7 @@ namespace jcpp{
             JObjectInputStream::JGetField* fields = in->readFields();
             value=dynamic_cast<JPrimitiveCharArray*>(fields->get(new JString("value"), (JObject*)null));
             count=new JPrimitiveInt(fields->get(new JString("count"), (jint)0));
+            fields->get(new JString("shared"),false);
         }
 
         JStringBuffer::~JStringBuffer(){
