@@ -134,35 +134,23 @@ namespace ${namespace} {
 		
 		virtual void initialize() {
 			<#if class.enumClass>JEnum::JEnumClass::initialize();</#if>
+			
 			<#list class.constructors as constructor>
 			JConstructor* cons${constructor_index} = addConstructor(new JConstructor(${class.className}::getClazz(), JModifier::PUBLIC, create${class.simpleName}${constructor_index}));
 			<#list constructor.parameters as param>
 			cons${constructor_index}->addParameterType(${param.typeClass}::getClazz());
 			</#list>
-			<#if constructor.publicMethod>
-			cons${constructor_index}->setPublic();
-			</#if>
+			<#if constructor.publicMethod>cons${constructor_index}->setPublic();</#if>
 			</#list>
 			
 			JField* jField = null;
-			
 			<#list class.fields as field>
 			jField = new JField(new JString("${field.name}"),${field.typeClass}::getClazz(),this,staticGet${field.name},staticSet${field.name},adr${field.name});
-			<#if field.staticField>
-			jField->setStatic();
-			</#if>
-			<#if field.constField>
-			jField->setFinal();
-			</#if>
-			<#if field.publicField>
-			jField->setPublic();
-			<#elseif field.privateField>
-			jField->setPrivate();
-			<#elseif field.protectedField>
-			jField->setProtected();
-			</#if>
+			<#if field.publicField>jField->setPublic();<#elseif field.privateField>jField->setPrivate();<#elseif field.protectedField>jField->setProtected();</#if>
+			<#if field.staticField>jField->setStatic();</#if>
+			<#if field.constField>jField->setFinal();</#if>
+			<#if field.transientField>jField->setTransient();</#if>
 			addField(jField);
-			
 			</#list>
 			
 			<#list class.methods as method>
@@ -170,18 +158,9 @@ namespace ${namespace} {
 			<#list method.parameters as param>
 			m${method_index}->addParameterType(${param.typeClass}::getClazz());
 			</#list>
-			<#if method.staticMethod>
-			m${method_index}->setStatic();
-			</#if>
-			<#if method.publicMethod>
-			m${method_index}->setPublic();
-			<#elseif method.privateMethod>
-			m${method_index}->setPrivate();
-			<#elseif method.protectedMethod>
-			m${method_index}->setProtected();
-			</#if>
-
-			</#list>
+			<#if method.staticMethod>m${method_index}->setStatic();</#if>
+			<#if method.publicMethod>m${method_index}->setPublic();<#elseif method.privateMethod>m${method_index}->setPrivate();<#elseif method.protectedMethod>m${method_index}->setProtected();</#if>
+			</#list>			
 			
 			<#list class.interfaces as interface>
 			addInterface(${interface}::getClazz());

@@ -57,6 +57,7 @@ namespace jcpp{
                 virtual void setProtected();
                 virtual void setStatic();
                 virtual void setFinal();
+                virtual void setTransient();
 
                 virtual JField* addAnnotation(JAnnotation* ann);
 

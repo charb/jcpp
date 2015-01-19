@@ -46,7 +46,11 @@ namespace jcpp{
 		   }
 
 		   void JField::setFinal(){
-			iModifiers|=JModifier::FINAL;
+			   iModifiers|=JModifier::FINAL;
+		   }
+
+		   void JField::setTransient() {
+			   iModifiers|=JModifier::TRANSIENT;
 		   }
 
             JField::JField(JString* name,jcpp::lang::JClass* type,jcpp::lang::JClass* declaringClass, getter g,setter s,adressReference adr):JAccessibleObject(getClazz()){

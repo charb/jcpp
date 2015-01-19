@@ -11,7 +11,7 @@ public class FieldModel {
     private boolean publicField;
     private boolean privateField;
     private boolean protectedField;
-
+    private boolean transientField;
 
     public FieldModel(String type, String name) {
         this.type = type;
@@ -82,4 +82,12 @@ public class FieldModel {
     public void setConstField(boolean constField) {
         this.constField = constField;
     }
+
+	public boolean isTransientField() {
+		return transientField;
+	}
+
+	public void setTransientField(boolean transientField) {
+		this.transientField = transientField;
+	}
 }

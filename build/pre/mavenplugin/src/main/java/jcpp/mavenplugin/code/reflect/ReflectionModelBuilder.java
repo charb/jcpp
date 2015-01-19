@@ -29,6 +29,7 @@ public class ReflectionModelBuilder {
     public static final String ENUM_CLASS = "jcpp::lang::JEnum";
     public static final String PROXY_CLASS = "jcpp::lang::reflect::JProxy";
 
+    public static final String TRANSIENT_ANNOTATION = "Transient";
     public static final String IGNORE_REFLECTION_ANNOTATION = "IgnoreReflection";
     public static final String PRIMITIVE_ANNOTATION = "Primitive";
     public static final String CLASS_ANNOTATION = "Class";
@@ -225,10 +226,14 @@ public class ReflectionModelBuilder {
                 continue;
             }
 
+            CPPAnnotation transientAnnotation = field.getAnnotation(TRANSIENT_ANNOTATION);
+            
             FieldModel fieldModel = new FieldModel(field.getType().getName(), field.getName());
             classModel.addField(fieldModel);
             fieldModel.setStaticField(field.getType().isStatic());
             fieldModel.setConstField(field.isConst());
+            fieldModel.setTransientField(transientAnnotation != null);
+            
             switch (field.getVisibility()) {
             case PUBLIC: {
                 fieldModel.setPublicField(true);
