@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import jcpp.mavenplugin.code.CppFileTuple;
@@ -28,6 +27,7 @@ public class ReflectionModelBuilder {
     private static final String OBJECT_CLASS = "jcpp::lang::JObject";
     public static final String INTERFACE_CLASS = "jcpp::lang::JInterface";
     public static final String ENUM_CLASS = "jcpp::lang::JEnum";
+    public static final String PROXY_CLASS = "jcpp::lang::reflect::JProxy";
 
     public static final String IGNORE_REFLECTION_ANNOTATION = "IgnoreReflection";
     public static final String PRIMITIVE_ANNOTATION = "Primitive";
@@ -272,10 +272,14 @@ public class ReflectionModelBuilder {
         boolean isObject = false;
         boolean isInterface = false;
         boolean isEnum = false;
+        boolean isProxy = false;
 
         List<CPPBaseClass> baseClasses = classDeclaration.getBaseClasses();
         for (CPPBaseClass baseClass : baseClasses) {
-            if (isEnum(baseClass)) {
+        	if(isProxy(baseClass)) {
+        		isProxy = true;
+        		classModel.setSuperClass(baseClass.getName());
+        	} else if (isEnum(baseClass)) {
                 isEnum = true;
                 classModel.setSuperClass(baseClass.getName());
             } else if (isObject(baseClass)) {
@@ -297,7 +301,9 @@ public class ReflectionModelBuilder {
             }
         }
 
-        if (isEnum) {
+        if(isProxy) {
+        	classModel.setProxyClass(true);
+        } if (isEnum) {
             classModel.setEnumClass(true);
         } else if (isInterface && !isObject) {
             classModel.setInterfaceClass(true);
@@ -324,6 +330,10 @@ public class ReflectionModelBuilder {
 
     protected static boolean isEnum(CPPBaseClass baseClass) {
         return hasClassInHierarchy(ENUM_CLASS, baseClass);
+    }
+    
+    protected static boolean isProxy(CPPBaseClass baseClass) {
+        return hasClassInHierarchy(PROXY_CLASS, baseClass);
     }
 
     protected static boolean hasClassInHierarchy(String className, CPPBaseClass baseClass) {

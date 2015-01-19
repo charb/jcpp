@@ -1,5 +1,7 @@
+.cproject
 .classpath
 .project
 .settings
 target
 java-tests-results
+assembly

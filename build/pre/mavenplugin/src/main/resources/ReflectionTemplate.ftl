@@ -32,7 +32,7 @@ using namespace ${usingNamespaceDeclaration};
 namespace ${namespace} {
 </#list>
 
-	class JCPP_EXPORT ${class.simpleName}Class : public <#if class.enumClass>JEnum::JEnumClass<#else>jcpp::lang::JClass</#if> 
+	class JCPP_EXPORT ${class.simpleName}Class : public <#if class.enumClass>JEnum::JEnumClass<#elseif class.proxyClass>JProxy::JProxyClass<#else>jcpp::lang::JClass</#if> 
 	{
 	protected:
 		<#list class.constructors as constructor>
@@ -121,7 +121,7 @@ namespace ${namespace} {
 		</#list>
 	
 	public:
-		${class.simpleName}Class() : <#if class.enumClass>JEnum::JEnumClass()<#else>JClass()</#if> {
+		${class.simpleName}Class() : <#if class.enumClass>JEnum::JEnumClass()<#elseif class.proxyClass>JProxy::JProxyClass()<#else>JClass()</#if> {
 			this->canonicalName = new JString("${class.annotatedCanonicalName}");
 			this->name = new JString("${class.annotatedCanonicalName}");
 			this->simpleName = new JString("${class.annotatedSimpleName}");
@@ -129,6 +129,7 @@ namespace ${namespace} {
 			<#if class.primitive>this->bIsPrimitive=true;</#if>
 			<#if class.enumClass>this->bIsEnum=true;</#if>
 			<#if class.interfaceClass>this->bIsInterface=true;</#if>
+			<#if class.proxyClass>this->bIsProxy=true;</#if>
 		}
 		
 		virtual void initialize() {

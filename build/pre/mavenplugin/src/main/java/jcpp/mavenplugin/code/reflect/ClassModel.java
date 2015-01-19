@@ -30,6 +30,8 @@ public class ClassModel {
 
     private boolean enumClass;
     private List<String> enumConstants;
+    
+    private boolean proxyClass;
 
 
     public ClassModel(String simpleName) {
@@ -227,5 +229,13 @@ public class ClassModel {
     public void setInterfaceClass(boolean interfaceClass) {
         this.interfaceClass = interfaceClass;
     }
+
+	public boolean isProxyClass() {
+		return proxyClass;
+	}
+
+	public void setProxyClass(boolean proxyClass) {
+		this.proxyClass = proxyClass;
+	}
 
 }
