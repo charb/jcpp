@@ -61,7 +61,7 @@ namespace ${namespace} {
 			return (JObject*)(<#if field.primitive>new ${field.typeClass}(${class.className}::${field.name})<#else>${class.className}::${field.name}</#if>);
 			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
-			return (JObject*)(<#if field.primitive>new ${field.typeClass}(o->${field.name})<#else>o->${field.name}</#if>);
+			return dynamic_cast<JObject*>( (<#if field.primitive>new ${field.typeClass}(o->${field.name})<#else>o->${field.name}</#if>) );
 			</#if>
 		}
 		
@@ -128,6 +128,7 @@ namespace ${namespace} {
 			<#if class.serialVersionUIDFound>this->serialVersionUID = ${class.serialVersionUID?c}ULL;</#if>
 			<#if class.primitive>this->bIsPrimitive=true;</#if>
 			<#if class.interfaceClass>this->bIsInterface=true;</#if>
+			<#if class.proxyClass>bIsProxy=true;</#if> 
 		}
 		
 		virtual void initialize() {

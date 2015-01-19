@@ -4,6 +4,7 @@
 #include "jcpp/lang/reflect/JConstructor.h"
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/lang/JStringBuilder.h"
+#include "jcpp/lang/JSystem.h"
 #include "jcpp/util/JList.h"
 
 using namespace jcpp::lang::reflect;

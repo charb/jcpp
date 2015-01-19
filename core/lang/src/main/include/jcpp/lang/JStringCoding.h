@@ -30,7 +30,7 @@ namespace jcpp{
 				private:
 					JCharset* cs;
 					JCharsetEncoder* ce;
-					const JString* reqCharsetName;
+					JString* reqCharsetName;
 					jbool isTrusted;
 				public:
 					JStringEncoder(JCharset* cs, JString* rcn);
@@ -39,7 +39,7 @@ namespace jcpp{
 
 					JString* charsetName();
 
-					const JString* requestedCharsetName();
+					JString* requestedCharsetName();
 
 					JPrimitiveByteArray* encode(JPrimitiveCharArray* ca, jint off, jint len);
 			};
@@ -47,7 +47,7 @@ namespace jcpp{
 			// @Class(canonicalName="java.lang.StringCoding$StringDecoder", simpleName="StringCoding$StringDecoder");
 			class JCPP_EXPORT JStringDecoder{
 				private:
-					const JString* reqCharsetName;
+					JString* reqCharsetName;
 					JCharset* cs;
 					JCharsetDecoder* cd;
 					jbool isTrusted;
@@ -59,7 +59,7 @@ namespace jcpp{
 
 					JString* charsetName();
 
-					const JString* requestedCharsetName();
+					JString* requestedCharsetName();
 
 					JPrimitiveCharArray* decode(JPrimitiveByteArray* ba, jint off, jint len);
 			};

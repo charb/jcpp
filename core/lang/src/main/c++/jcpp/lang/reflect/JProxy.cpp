@@ -10,6 +10,7 @@
 #include "jcpp/util/JList.h"
 #include "jcpp/io/JSerializable.h"
 #include "jcpp/lang/JStringBuilder.h"
+#include "jcpp/lang/JSystem.h"
 #include "jcpp/lang/reflect/JMethod.h"
 
 using namespace jcpp::util;
@@ -40,7 +41,6 @@ namespace jcpp{
                 name=new JString("java.lang.reflect.Proxy");
                 simpleName=new JString("Proxy");
                 serialVersionUID=-2222568056686623797ULL;
-                bIsProxy=true;
             }
 
             void JProxy::JProxyClass::initialize(){

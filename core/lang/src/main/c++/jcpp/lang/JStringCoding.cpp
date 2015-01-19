@@ -83,8 +83,8 @@ namespace jcpp {
 		JStringEncoder* se = null;
 		JString* csn = (charsetName == null)? new JString("ISO-8859-1") : charsetName;
 
-		if ((se==null) || !(csn->equals(reinterpret_cast<JObject*>(const_cast<JString*>(se->requestedCharsetName()))))
-				|| csn->equals(reinterpret_cast<JObject*>(const_cast<JString*>(se->charsetName()))))
+		if ((se==null) || !(csn->equals(se->requestedCharsetName()))
+				|| csn->equals(se->charsetName()))
 		{
 			se = null;
 			try {
@@ -131,7 +131,7 @@ namespace jcpp {
 		return this->cs->getName();
 	}
 
-	const JString* JStringCoding::JStringEncoder::requestedCharsetName() {
+	JString* JStringCoding::JStringEncoder::requestedCharsetName() {
 		return reqCharsetName;
 	}
 
@@ -175,7 +175,7 @@ namespace jcpp {
 		return this->cs->getName();
 	}
 
-	const JString* JStringCoding::JStringDecoder::requestedCharsetName(){
+	JString* JStringCoding::JStringDecoder::requestedCharsetName(){
 		return this->reqCharsetName;
 	}
 

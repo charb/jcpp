@@ -16,6 +16,8 @@ namespace jcpp{
     }
 
     namespace io{
+        class JObjectStreamClass;
+        class JObjectOutputStream;
     	class JFileOutputStream;
     	class JFileInputStream;
     	class JFile;
@@ -227,6 +229,8 @@ namespace jcpp{
             friend class JProcessBuilder;
             friend class JProcess;
             friend class JSystem;
+            friend class jcpp::io::JObjectStreamClass;
+            friend class jcpp::io::JObjectOutputStream;
             friend class jcpp::io::JFileOutputStream;
             friend class jcpp::io::JFileInputStream;
             friend class jcpp::io::JFile;

@@ -555,12 +555,11 @@ namespace jcpp{
             while (end != null && JSerializable::getClazz()->isAssignableFrom(end)) {
                 end = end->getSuperclass();
             }
-
             for (JObjectStreamClass* d = this; d != null; d = d->superDesc) {
                 JString* searchName = ((d->forClass() != null) ? d->forClass()->getName() : d->getName());
                 jcpp::lang::JClass* match = null;
                 for (jcpp::lang::JClass* c = start; c != end; c = c->getSuperclass()) {
-                    if (searchName->equals(c->getName())) {
+                    if (searchName!=null && searchName->equals(c->getName())) {
                         match = c;
                         break;
                     }
