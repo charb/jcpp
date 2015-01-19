@@ -16,24 +16,28 @@ namespace jcpp{
             namespace atomic{
 
                 JAtomicIntegerArray::JAtomicIntegerArray(jint l):JObject(getClazz()){
-                    this->value=new JPrimitiveIntArray(l);
+                    this->array=new JPrimitiveIntArray(l);
+                }
+
+                JAtomicIntegerArray::JAtomicIntegerArray():JObject(getClazz()){
+                    this->array=new JPrimitiveIntArray(0);
                 }
 
                 jint JAtomicIntegerArray::length(){
                     synchronized(this,{
-                        return value->size();
+                        return array->size();
                     })
                 }
 
                 jint JAtomicIntegerArray::get(jint index){
                     synchronized(this,{
-                        return value->getInt(index);
+                        return array->getInt(index);
                     })
                 }
 
                 void JAtomicIntegerArray::set(jint index,jint value){
                     synchronized(this,{
-                        this->value->setInt(index,value);
+                        this->array->setInt(index,value);
                     })
                 }
 
@@ -43,16 +47,16 @@ namespace jcpp{
 
                 jint JAtomicIntegerArray::getAndSet(jint index,jint value){
                     synchronized(this,{
-                        jint prev=this->value->getInt(index);
-                        this->value->setInt(index,value);
+                        jint prev=this->array->getInt(index);
+                        this->array->setInt(index,value);
                         return prev;
                     })
                 }
 
                 jbool JAtomicIntegerArray::compareAndSet(jint index,jint expect,jint update){
                     synchronized(this,{
-                        if (expect==value->getInt(index)){
-                            value->setInt(index,update);
+                        if (expect==array->getInt(index)){
+                            array->setInt(index,update);
                             return true;
                         }
                         return false;
@@ -65,52 +69,52 @@ namespace jcpp{
 
                 jint JAtomicIntegerArray::getAndIncrement(jint index){
                     synchronized(this,{
-                        jint v=value->getInt(index);
-                        value->setInt(index,value->getInt(index)+1);
+                        jint v=array->getInt(index);
+                        array->setInt(index,array->getInt(index)+1);
                         return v;
                     })
                 }
 
                 jint JAtomicIntegerArray::getAndDecrement(jint index){
                     synchronized(this,{
-                        jint v=value->getInt(index);
-                        value->setInt(index,value->getInt(index)-1);
+                        jint v=array->getInt(index);
+                        array->setInt(index,array->getInt(index)-1);
                         return v;
                     })
                 }
 
                 jint JAtomicIntegerArray::getAndAdd(jint index,jint delta){
                     synchronized(this,{
-                        jint v=value->getInt(index);
-                        value->setInt(index,value->getInt(index)+delta);
+                        jint v=array->getInt(index);
+                        array->setInt(index,array->getInt(index)+delta);
                         return v;
                     })
                 }
 
                 jint JAtomicIntegerArray::incrementAndGet(jint index){
                     synchronized(this,{
-                        value->setInt(index,value->getInt(index)+1);
-                        return value->getInt(index);
+                        array->setInt(index,array->getInt(index)+1);
+                        return array->getInt(index);
                     })
                 }
 
                 jint JAtomicIntegerArray::decrementAndGet(jint index){
                     synchronized(this,{
-                        value->setInt(index,value->getInt(index)-1);
-                        return value->getInt(index);
+                        array->setInt(index,array->getInt(index)-1);
+                        return array->getInt(index);
                     })
                 }
 
                 jint JAtomicIntegerArray::addAndGet(jint index,jint delta){
                     synchronized(this,{
-                        value->setInt(index,value->getInt(index)+delta);
-                        return value->getInt(index);
+                        array->setInt(index,array->getInt(index)+delta);
+                        return array->getInt(index);
                     })
                 }
 
                 JString* JAtomicIntegerArray::toString(){
                     synchronized(this,{
-                        jint iMax = value->size() - 1;
+                        jint iMax = array->size() - 1;
                         if (iMax == -1){
                             return new JString("[]");
                         }

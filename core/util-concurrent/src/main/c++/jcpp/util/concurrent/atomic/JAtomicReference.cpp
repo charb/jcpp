@@ -13,6 +13,10 @@ namespace jcpp{
         namespace concurrent{
             namespace atomic{
 
+                JAtomicReference::JAtomicReference():JObject(getClazz()){
+                    this->value=null;
+                }
+
                 JAtomicReference::JAtomicReference(JObject* value):JObject(getClazz()){
                     this->value=value;
                 }

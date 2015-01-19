@@ -22,6 +22,8 @@ namespace jcpp{
                         friend class JAtomicReferenceClass;
 
                     public:
+                        JAtomicReference();
+
                         JAtomicReference(JObject* value);
 
                         static JClass* getClazz();

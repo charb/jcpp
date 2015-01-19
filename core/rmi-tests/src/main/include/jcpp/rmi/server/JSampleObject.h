@@ -24,6 +24,7 @@ namespace jcpp{
         	// @Class(canonicalName="jcpp.rmi.server.SampleObject", simpleName="SampleObject");
             class JSampleObject : public JObject, public JSerializable {
             protected:
+                static const jlong serialVersionUID = 40;
                 JPrimitiveBoolean* bool1;
                 JPrimitiveByte* byte1;
                 JPrimitiveChar* c1;

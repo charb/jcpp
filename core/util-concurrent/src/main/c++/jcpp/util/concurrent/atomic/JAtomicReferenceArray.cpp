@@ -15,24 +15,28 @@ namespace jcpp{
             namespace atomic{
 
                 JAtomicReferenceArray::JAtomicReferenceArray(jint l):JObject(getClazz()){
-                    this->value=new JPrimitiveObjectArray(JObject::getClazz(),l);
+                    this->array=new JPrimitiveObjectArray(JObject::getClazz(),l);
+                }
+
+                JAtomicReferenceArray::JAtomicReferenceArray():JObject(getClazz()){
+                    this->array=new JPrimitiveObjectArray(JObject::getClazz(),0);
                 }
 
                 jint JAtomicReferenceArray::length(){
                     synchronized(this,{
-                        return value->size();
+                        return array->size();
                     })
                 }
 
                 JObject* JAtomicReferenceArray::get(jint index){
                     synchronized(this,{
-                        return value->get(index);
+                        return array->get(index);
                     })
                 }
 
                 void JAtomicReferenceArray::set(jint index,JObject* value){
                     synchronized(this,{
-                        this->value->set(index,value);
+                        this->array->set(index,value);
                     })
                 }
 
@@ -42,16 +46,16 @@ namespace jcpp{
 
                 JObject* JAtomicReferenceArray::getAndSet(jint index,JObject* value){
                     synchronized(this,{
-                        JObject* prev=this->value->get(index);
-                        this->value->set(index,value);
+                        JObject* prev=this->array->get(index);
+                        this->array->set(index,value);
                         return prev;
                     })
                 }
 
                 jbool JAtomicReferenceArray::compareAndSet(jint index,JObject* expect,JObject* update){
                     synchronized(this,{
-                        if (expect==value->get(index)){
-                            value->set(index,update);
+                        if (expect==array->get(index)){
+                            array->set(index,update);
                             return true;
                         }
                         return false;
@@ -64,7 +68,7 @@ namespace jcpp{
 
                 JString* JAtomicReferenceArray::toString(){
                     synchronized(this,{
-                        jint iMax = value->size() - 1;
+                        jint iMax = array->size() - 1;
                         if (iMax == -1){
                             return new JString("[]");
                         }

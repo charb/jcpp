@@ -27,7 +27,7 @@ namespace jcpp{
 
             protected:
 
-                JInvocationHandler *invocationHandler;
+                JInvocationHandler *h;
 
                 JProxy(jcpp::lang::JClass* _class);
                 friend class JProxyClass;

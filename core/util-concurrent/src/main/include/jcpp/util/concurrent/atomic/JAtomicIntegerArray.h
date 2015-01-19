@@ -21,10 +21,12 @@ namespace jcpp{
                 	static const jlong serialVersionUID = 2862133569453604235LL;
 
                 	protected:
-                        JPrimitiveIntArray* value;
+                        JPrimitiveIntArray* array;
                         friend class JAtomicIntegerArrayClass;
 
                     public:
+                        JAtomicIntegerArray();
+
                         JAtomicIntegerArray(jint length);
 
                         static JClass* getClazz();

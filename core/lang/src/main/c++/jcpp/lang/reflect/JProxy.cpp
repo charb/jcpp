@@ -31,7 +31,7 @@ namespace jcpp{
 
             JObject** JProxy::JProxyClass::staticAdrInvocationHandler(JObject* obj){
                 JProxy* proxy=(JProxy*)obj;
-                JInvocationHandler** i=&proxy->invocationHandler;
+                JInvocationHandler** i=&proxy->h;
                 return reinterpret_cast<JObject**>(i);
             }
 
@@ -40,6 +40,7 @@ namespace jcpp{
                 name=new JString("java.lang.reflect.Proxy");
                 simpleName=new JString("Proxy");
                 serialVersionUID=-2222568056686623797ULL;
+                bIsProxy=true;
             }
 
             void JProxy::JProxyClass::initialize(){
@@ -107,23 +108,23 @@ namespace jcpp{
             }
 
             JProxy::JProxy(jcpp::lang::JClass* _class):JObject(_class){
-                this->invocationHandler=null;
+                this->h=null;
             }
 
             JProxy::JProxy():JObject(getClazz()){
-                this->invocationHandler=null;
+                this->h=null;
             }
 
             JProxy::JProxy(JInvocationHandler* i):JObject(getClazz()){
-                this->invocationHandler=i;
+                this->h=i;
             }
 
             JInvocationHandler* JProxy::getInvocationHandler(){
-                return invocationHandler;
+                return h;
             }
 
-            void JProxy::setInvocationHandler(JInvocationHandler* invocationHandler) {
-                this->invocationHandler = invocationHandler;
+            void JProxy::setInvocationHandler(JInvocationHandler* h) {
+                this->h = h;
             }
 
             JObject* JProxy::invoke(JString* methodName,JList* argTypes,JList* args){
@@ -140,11 +141,11 @@ namespace jcpp{
                     builder->append("method ")->append(methodName)->append(" not declared in ")->append(toString());
                     throw new JNoSuchMethodException(builder->toString());
                 }
-                return invocationHandler->invoke(this,jMethod,args);
+                return h->invoke(this,jMethod,args);
             }            
 
             jint JProxy::hashCode(){
-                JObject* myh=dynamic_cast<JObject*>(invocationHandler);
+                JObject* myh=dynamic_cast<JObject*>(h);
                 return myh->hashCode();
             }
 
@@ -153,14 +154,14 @@ namespace jcpp{
                     return false;
                 }
                 JProxy* p=(JProxy*)o;
-                JObject* myh=dynamic_cast<JObject*>(invocationHandler);
-                JObject* oyh=dynamic_cast<JObject*>(p->invocationHandler);
+                JObject* myh=dynamic_cast<JObject*>(h);
+                JObject* oyh=dynamic_cast<JObject*>(p->h);
                 return myh->equals(oyh);
             }
 
             JString* JProxy::toString(){
                 JStringBuilder* builder=new JStringBuilder();
-                JObject* o=dynamic_cast<JObject*>(invocationHandler);
+                JObject* o=dynamic_cast<JObject*>(h);
                 builder->append("Proxy[InvocationHandler:")->append(o->toString())->append("][Interfaces:");
                 for (jint i=0;i<getClass()->getInterfaces()->size();i++){
                     jcpp::lang::JClass* jclass=dynamic_cast<jcpp::lang::JClass*>(getClass()->getInterfaces()->get(i));
