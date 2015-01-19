@@ -284,9 +284,11 @@ public class ReflectionModelBuilder {
         	if(isProxy(baseClass)) {
         		isProxy = true;
         		classModel.setSuperClass(baseClass.getName());
+        		break;
         	} else if (isEnum(baseClass)) {
                 isEnum = true;
                 classModel.setSuperClass(baseClass.getName());
+                break;
             } else if (isObject(baseClass)) {
                 isObject = true;
                 String includeFilePath = createInclude(updaterContext.getOriginalHeaderBaseDir(), baseClass);
@@ -308,7 +310,7 @@ public class ReflectionModelBuilder {
 
         if(isProxy) {
         	classModel.setProxyClass(true);
-        } if (isEnum) {
+        } else if (isEnum) {
             classModel.setEnumClass(true);
         } else if (isInterface && !isObject) {
             classModel.setInterfaceClass(true);

@@ -127,9 +127,7 @@ namespace ${namespace} {
 			this->simpleName = new JString("${class.annotatedSimpleName}");
 			<#if class.serialVersionUIDFound>this->serialVersionUID = ${class.serialVersionUID?c}ULL;</#if>
 			<#if class.primitive>this->bIsPrimitive=true;</#if>
-			<#if class.enumClass>this->bIsEnum=true;</#if>
 			<#if class.interfaceClass>this->bIsInterface=true;</#if>
-			<#if class.proxyClass>this->bIsProxy=true;</#if>
 		}
 		
 		virtual void initialize() {
