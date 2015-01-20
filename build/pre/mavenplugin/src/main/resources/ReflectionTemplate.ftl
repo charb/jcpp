@@ -41,19 +41,15 @@ namespace ${namespace} {
 			throw new JInstantiationException(new JString("Class ${class.className} is an abstract class!"));
 			return null;
 			<#else>
-			if(args == null) {
-				if (${constructor.argCount} != 0) {
-					throw new JIllegalArgumentException(new JString("wrong argument count"));
-				}
-			} else {
-				if (args->size()!=${constructor.argCount}) {
-					throw new JIllegalArgumentException(new JString("wrong argument count"));
-				}
-			}
+			<#if constructor.hasParameters>
+			if((args == null) || (args->size() != ${constructor.argCount})) {
+				throw new JIllegalArgumentException(new JString("wrong argument count"));
+			}			
+			</#if>
 			return dynamic_cast<JObject*>( (new ${class.className}(<#list constructor.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)) );
 			</#if>
 		}
-		
+
 		</#list>
 		<#list class.fields as field>
 		static JObject* staticGet${field.name}(JObject* object){
@@ -86,16 +82,11 @@ namespace ${namespace} {
 		
 		<#list class.methods as method>
 		static JObject* invoke${method.modifiedName}(JObject* object, JList* args){
-			if(args == null) {
-				if (${method.argCount} != 0) {
-					throw new JIllegalArgumentException(new JString("wrong argument count"));
-				}
-			} else {
-				if (args->size()!=${method.argCount}) {
-					throw new JIllegalArgumentException(new JString("wrong argument count"));
-				}
-			}
-			
+			<#if method.hasParameters>
+			if((args == null) || (args->size() != ${method.argCount})) {
+				throw new JIllegalArgumentException(new JString("wrong argument count"));
+			}			
+			</#if>			
 			<#if method.staticMethod>
 				<#if method.voidReturnType>
 			${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>);
