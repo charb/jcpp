@@ -108,7 +108,7 @@ namespace jcpp {
 
 	JByteOrder* JByteBufferAsCharBufferB::order()
 	{
-		return const_cast<JByteOrder*>(JByteOrder::JBIG_ENDIAN);
+		return JByteOrder::JBIG_ENDIAN;
 	}
 
 

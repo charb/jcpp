@@ -163,7 +163,7 @@ namespace jcpp {
 	}
 
 
-	JStringCoding::JStringDecoder::JStringDecoder(JCharset* cs, JString* rcn){
+	JStringCoding::JStringDecoder::JStringDecoder(JCharset* cs, JString* rcn) : JObject(getClazz()) {
 		this->reqCharsetName = rcn;
 		this->cs = cs;
 		this->cd = cs->newDecoder()->onMalformedInput(JCodingErrorAction::REPLACE)

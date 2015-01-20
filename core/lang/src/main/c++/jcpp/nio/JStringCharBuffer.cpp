@@ -72,9 +72,9 @@ namespace jcpp {
 	JByteOrder* JStringCharBuffer::order()
 	{
 		if (NativeEndian::isBigEndian()){
-			return const_cast<JByteOrder*>(JByteOrder::JBIG_ENDIAN);
+			return JByteOrder::JBIG_ENDIAN;
 		}else{
-			return const_cast<JByteOrder*>(JByteOrder::JLITTLE_ENDIAN);
+			return JByteOrder::JLITTLE_ENDIAN;
 		}
 	}
 

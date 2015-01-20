@@ -16,9 +16,9 @@ namespace jcpp {
 		JCodingErrorAction(JString* name);
 
 	public:
-		static const JCodingErrorAction* IGNORE;
-		static const JCodingErrorAction* REPLACE;
-		static const JCodingErrorAction* REPORT;
+		static JCodingErrorAction* IGNORE;
+		static JCodingErrorAction* REPLACE;
+		static JCodingErrorAction* REPORT;
 
 		static jcpp::lang::JClass* getClazz();
 

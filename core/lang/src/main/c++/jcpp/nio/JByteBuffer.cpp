@@ -163,8 +163,7 @@ namespace jcpp {
 
 		JByteOrder* JByteBuffer::order()
 		{
-			return bigEndian ? const_cast<JByteOrder*>(JByteOrder::JBIG_ENDIAN) :
-								const_cast<JByteOrder*>(JByteOrder::JLITTLE_ENDIAN);
+			return bigEndian ? JByteOrder::JBIG_ENDIAN : JByteOrder::JLITTLE_ENDIAN;
 		}
 
 		JByteBuffer* JByteBuffer::order(JByteOrder* bo)

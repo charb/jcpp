@@ -71,18 +71,16 @@ namespace jcpp{
                 virtual ~JObject();
         };
 
-        // @Class(canonicalName="java.lang.ScopedObjectLock", simpleName="ScopedObjectLock");
+        // @IgnoreReflection()
+        // @IgnorePackageReflection()
         class JCPP_EXPORT ScopedObjectLock {
             private:
                 JObject* obj;
 
-                // @IgnoreReflection()
                 ScopedObjectLock(const ScopedObjectLock&);
-                // @IgnoreReflection()
                 ScopedObjectLock& operator =(const ScopedObjectLock&);
 
             public:
-                static jcpp::lang::JClass* getClazz();
                 ScopedObjectLock(JObject* obj);
                 ~ScopedObjectLock();
         };

@@ -50,7 +50,7 @@ namespace ${namespace} {
 					throw new JIllegalArgumentException(new JString("wrong argument count"));
 				}
 			}
-			return (JObject*)(new ${class.className}(<#list constructor.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>));
+			return dynamic_cast<JObject*>( (new ${class.className}(<#list constructor.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)) );
 			</#if>
 		}
 		
@@ -58,7 +58,7 @@ namespace ${namespace} {
 		<#list class.fields as field>
 		static JObject* staticGet${field.name}(JObject* object){
 			<#if field.staticField>
-			return (JObject*)(<#if field.primitive>new ${field.typeClass}(${class.className}::${field.name})<#else>${class.className}::${field.name}</#if>);
+			return dynamic_cast<JObject*>( (<#if field.primitive>new ${field.typeClass}(${class.className}::${field.name})<#else>${class.className}::${field.name}</#if>) );
 			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
 			return dynamic_cast<JObject*>( (<#if field.primitive>new ${field.typeClass}(o->${field.name})<#else>o->${field.name}</#if>) );
@@ -101,9 +101,9 @@ namespace ${namespace} {
 			${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>);
 			return null;
 				<#elseif method.primitiveReturnType>
-			return (JObject*) (new ${method.returnTypeClass}(${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)));
+			return dynamic_cast<JObject*>( (new ${method.returnTypeClass}(${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>))) );
 				<#else>
-			return (JObject*) (${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>));
+			return dynamic_cast<JObject*>( (${class.className}::${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)) );
 				</#if>	
 			<#else>
 			${class.className}* o = dynamic_cast<${class.className}*>(object);
@@ -111,9 +111,9 @@ namespace ${namespace} {
 			o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>);
 			return null;
 				<#elseif method.primitiveReturnType>
-			return (JObject*) (new ${method.returnTypeClass}(o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)));
+			return dynamic_cast<JObject*>( (new ${method.returnTypeClass}(o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>))) );
 				<#else>
-			return (JObject*) (o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>));
+			return dynamic_cast<JObject*>( (o->${method.name}(<#list method.parameters as param><#if param.primitive>(dynamic_cast<${param.typeClass}*>(args->get(${param_index})))->get()<#else>dynamic_cast<${param.type}>(args->get(${param_index}))</#if><#if param_has_next>, </#if></#list>)) );
 				</#if>
 			</#if>
 		}

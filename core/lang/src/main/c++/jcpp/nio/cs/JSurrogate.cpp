@@ -10,7 +10,7 @@ namespace jcpp {
 	{	}
 
 	JSurrogate::JParser::JParser() : JObject(getClazz()), isPair(false), character(0) {
-		_error = const_cast<JCoderResult*>(JCoderResult::JUNDERFLOW);
+		_error = JCoderResult::JUNDERFLOW;
 	}
 
 	JCoderResult* JSurrogate::JParser::error()
@@ -23,7 +23,7 @@ namespace jcpp {
 	{
 		if (JCharacter::isHighSurrogate(c)){
 			if (!in->hasRemaining()) {
-				_error = const_cast<JCoderResult*>(JCoderResult::JUNDERFLOW);
+				_error = JCoderResult::JUNDERFLOW;
 				return -1;
 			}
 			jchar d = in->get();
@@ -51,7 +51,7 @@ namespace jcpp {
 		assert(ia->getChar(ip) == c);
 		if (JCharacter::isHighSurrogate(c)) {
 			if (il - ip < 2) {
-			_error = const_cast<JCoderResult*>(JCoderResult::JUNDERFLOW);
+			_error = JCoderResult::JUNDERFLOW;
 			return -1;
 			}
 			jchar d = ia->getChar(ip+1);

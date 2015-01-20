@@ -5,8 +5,8 @@
 namespace jcpp {
 	namespace nio {
 
-	const JByteOrder* JByteOrder::JBIG_ENDIAN = new JByteOrder(new JString("BIG_ENDIAN"));
-	const JByteOrder* JByteOrder::JLITTLE_ENDIAN = new JByteOrder(new JString("LITTLE_ENDIAN"));
+	JByteOrder* JByteOrder::JBIG_ENDIAN = new JByteOrder(new JString("BIG_ENDIAN"));
+	JByteOrder* JByteOrder::JLITTLE_ENDIAN = new JByteOrder(new JString("LITTLE_ENDIAN"));
 
 	JByteOrder::JByteOrder(JString* name) : JObject(getClazz())
 	{
@@ -16,9 +16,9 @@ namespace jcpp {
 	JByteOrder* JByteOrder::nativerOrder()
 	{
 		if (NativeEndian::isBigEndian()){
-			return const_cast<JByteOrder*>(JBIG_ENDIAN);
+			return JBIG_ENDIAN;
 		}else{
-			return const_cast<JByteOrder*>(JLITTLE_ENDIAN);
+			return JLITTLE_ENDIAN;
 		}
 	}
 

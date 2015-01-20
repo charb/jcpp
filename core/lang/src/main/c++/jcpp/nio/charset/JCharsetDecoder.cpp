@@ -49,15 +49,15 @@ namespace jcpp {
 	void JCharsetDecoder::implReplaceWith(JString* newReplacement)
 	{	}
 
-	void JCharsetDecoder::implOnMalformedInput(const JCodingErrorAction* newAction)
+	void JCharsetDecoder::implOnMalformedInput(JCodingErrorAction* newAction)
 	{	}
 
-	void JCharsetDecoder::implOnUnmappableCharacter(const JCodingErrorAction* newAction)
+	void JCharsetDecoder::implOnUnmappableCharacter(JCodingErrorAction* newAction)
 	{	}
 
 	JCoderResult* JCharsetDecoder::implFlush(JCharBuffer* out)
 	{
-		return const_cast<JCoderResult*>(JCoderResult::JUNDERFLOW);
+		return JCoderResult::JUNDERFLOW;
 	}
 
 	void JCharsetDecoder::implReset()
@@ -95,18 +95,18 @@ namespace jcpp {
 		return maxCharsPerByte;
 	}
 
-	JCharsetDecoder* JCharsetDecoder::onMalformedInput(const JCodingErrorAction* newAction) {
+	JCharsetDecoder* JCharsetDecoder::onMalformedInput(JCodingErrorAction* newAction) {
 		if (newAction == null)
 			throw new JIllegalArgumentException(new JString("Null action"));
-		malformedInputAction = const_cast<JCodingErrorAction*>(newAction);
+		malformedInputAction = newAction;
 		implOnMalformedInput(newAction);
 		return this;
 	}
 
-	JCharsetDecoder* JCharsetDecoder::onUnmappableCharacter(const JCodingErrorAction* newAction){
+	JCharsetDecoder* JCharsetDecoder::onUnmappableCharacter(JCodingErrorAction* newAction){
 		if (newAction == null)
 			throw new JIllegalArgumentException(new JString("Null action"));
-		unmappableCharacterAction = const_cast<JCodingErrorAction*>(newAction);
+		unmappableCharacterAction = newAction;
 		implOnUnmappableCharacter(newAction);
 		return this;
 	}
@@ -158,7 +158,7 @@ namespace jcpp {
 
 			if (action == JCodingErrorAction::REPLACE) {
 				if (out->remaining() < replacement->length())
-					return const_cast<JCoderResult*>(JCoderResult::JOVERFLOW);
+					return JCoderResult::JOVERFLOW;
 				out->put(replacement);
 			}
 
@@ -186,7 +186,7 @@ namespace jcpp {
 		if (state != ST_FLUSHED)
 			throwIllegalStateException(state, ST_FLUSHED);
 
-		return const_cast<JCoderResult*>(JCoderResult::JUNDERFLOW);
+		return JCoderResult::JUNDERFLOW;
 	}
 
 	JCharsetDecoder* JCharsetDecoder::reset()

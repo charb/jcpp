@@ -26,7 +26,7 @@ namespace jcpp{
 		private:
 
 			// @Class(canonicalName="java.lang.StringCoding$StringEncoder", simpleName="StringCoding$StringEncoder");
-			class JCPP_EXPORT JStringEncoder : JObject{
+			class JCPP_EXPORT JStringEncoder : public JObject{
 				private:
 					JCharset* cs;
 					JCharsetEncoder* ce;
@@ -45,7 +45,7 @@ namespace jcpp{
 			};
 
 			// @Class(canonicalName="java.lang.StringCoding$StringDecoder", simpleName="StringCoding$StringDecoder");
-			class JCPP_EXPORT JStringDecoder{
+			class JCPP_EXPORT JStringDecoder : public JObject {
 				private:
 					JString* reqCharsetName;
 					JCharset* cs;

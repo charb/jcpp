@@ -11,41 +11,41 @@ namespace jcpp {
 	namespace nio {
 		namespace charset {
 
-	// @Class(canonicalName="java.nio.charset.CoderResult", simpleName="CoderResult");
-	class JCPP_EXPORT JCoderResult : public JObject {
-	private:
-		static const jint CR_UNDERFLOW = 0;
-		static const jint CR_OVERFLOW = 1;
-		static const jint CR_ERROR_MIN = 2;
-		static const jint CR_MALFORMED = 2;
-		static const jint CR_UNMAPPABLE = 3;
+			// @Class(canonicalName="java.nio.charset.CoderResult", simpleName="CoderResult");
+			class JCPP_EXPORT JCoderResult : public JObject {
+			private:
+				static const jint CR_UNDERFLOW = 0;
+				static const jint CR_OVERFLOW = 1;
+				static const jint CR_ERROR_MIN = 2;
+				static const jint CR_MALFORMED = 2;
+				static const jint CR_UNMAPPABLE = 3;
 
-		const jint type;
-		const jint length;
+				const jint type;
+				const jint length;
 
-		JCoderResult(jint type, jint length);
+				JCoderResult(jint type, jint length);
 
-		JString* getErrorNameFromID(jint id);
+				JString* getErrorNameFromID(jint id);
 
-	public:
-		static jcpp::lang::JClass* getClazz();
+			public:
+				static JCoderResult* JUNDERFLOW;
+				static JCoderResult* JOVERFLOW;
 
-		virtual JString* toString();
-		jbool isUnderflow();
-		jbool isOverflow();
-		jbool isError();
-		jbool isMalformed();
-		jbool isUnmappable();
-		jint getLength();
+				static jcpp::lang::JClass* getClazz();
 
-		static const JCoderResult* JUNDERFLOW;
-		static const JCoderResult* JOVERFLOW;
+				virtual JString* toString();
+				jbool isUnderflow();
+				jbool isOverflow();
+				jbool isError();
+				jbool isMalformed();
+				jbool isUnmappable();
+				jint getLength();
 
-		void throwException();
-		static JCoderResult* malformedForLength(jint length);
+				void throwException();
+				static JCoderResult* malformedForLength(jint length);
 
-		virtual ~JCoderResult();
-	};
+				virtual ~JCoderResult();
+			};
 
 		}
 	}

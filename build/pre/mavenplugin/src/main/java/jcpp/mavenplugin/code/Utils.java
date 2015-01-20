@@ -37,6 +37,7 @@ public class Utils {
     private static final String JBOOL2 = "const bool";
     private static final String JCHAR1 = "unsigned short";
     private static final String JCHAR2 = "unsigned short int";
+    private static final String JCHAR3 = "const unsigned short int";
     private static final String JBYTE1 = "char";
     private static final String JBYTE2 = "const char";
     private static final String JSHORT1 = "short";
@@ -54,7 +55,7 @@ public class Utils {
     public static final String DOT = ".";
     public static final Set<String> codeFileExtensions = new HashSet<String>(Arrays.asList("h", "hpp", "c", "cpp"));
     public static final Set<String> primitiveTypes = new HashSet<String>(Arrays.asList(JVOID, JINT1, JINT2, JSHORT1, JSHORT2, JSHORT3, JLONG1, JLONG2, JLONG3, JBYTE1, JBYTE2, JFLOAT1, JFLOAT2, JDOUBLE1, JDOUBLE2, JCHAR1,
-            JCHAR2, JBOOL1, JBOOL2));
+            JCHAR2, JCHAR3, JBOOL1, JBOOL2));
 
 
     public Utils() {
@@ -175,7 +176,7 @@ public class Utils {
             typeClass = J_PRIMITIVE_FLOAT;
         } else if (typeClass.equals(JDOUBLE1) || typeClass.equals(JDOUBLE2)) {
             typeClass = J_PRIMITIVE_DOUBLE;
-        } else if (typeClass.equals(JCHAR1) || typeClass.equals(JCHAR2)) {
+        } else if (typeClass.equals(JCHAR1) || typeClass.equals(JCHAR2) || typeClass.equals(JCHAR3)) {
             typeClass = J_PRIMITIVE_CHAR;
         } else if (typeClass.equals(JBOOL1) || typeClass.equals(JBOOL2)) {
             typeClass = J_PRIMITIVE_BOOLEAN;

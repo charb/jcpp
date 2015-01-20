@@ -21,8 +21,8 @@ namespace jcpp {
 	public:
 		static jcpp::lang::JClass* getClazz();
 
-		static const JByteOrder* JBIG_ENDIAN;
-		static const JByteOrder* JLITTLE_ENDIAN;
+		static JByteOrder* JBIG_ENDIAN;
+		static JByteOrder* JLITTLE_ENDIAN;
 
 		static JByteOrder* nativerOrder();
 

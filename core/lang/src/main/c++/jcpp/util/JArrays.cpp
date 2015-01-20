@@ -186,6 +186,7 @@ namespace jcpp{
             }
         }
 
+        // @IgnoreReflection()
         class SortUsingComaparatorClass{
         protected:
             JComparator* c;
@@ -194,9 +195,6 @@ namespace jcpp{
                 this->c=c;
             }
 
-            static jcpp::lang::JClass* getClazz();
-
-            // @IgnoreReflection()
             jbool operator()(JObject* f1, JObject* f2){
                 return c->compare(f1,f2)<0;
             }

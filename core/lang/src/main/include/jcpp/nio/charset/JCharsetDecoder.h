@@ -48,8 +48,8 @@ namespace jcpp {
 			JCharsetDecoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageCharsPerByte, jfloat maxCharsPerByte);
 
 			virtual void implReplaceWith(JString* newReplacement);
-			virtual void implOnMalformedInput(const JCodingErrorAction* newAction);
-			virtual void implOnUnmappableCharacter(const JCodingErrorAction* newAction);
+			virtual void implOnMalformedInput(JCodingErrorAction* newAction);
+			virtual void implOnUnmappableCharacter(JCodingErrorAction* newAction);
 			virtual JCoderResult* implFlush(JCharBuffer* out);
 			virtual void implReset();
 
@@ -64,8 +64,8 @@ namespace jcpp {
 			JCharsetDecoder* replaceWith(JString* newReplacement);
 			jfloat getAverageCharsPerByte();
 			jfloat getMaxCharsPerByte();
-			JCharsetDecoder* onMalformedInput(const JCodingErrorAction* newAction);
-			JCharsetDecoder* onUnmappableCharacter(const JCodingErrorAction* newAction);
+			JCharsetDecoder* onMalformedInput(JCodingErrorAction* newAction);
+			JCharsetDecoder* onUnmappableCharacter(JCodingErrorAction* newAction);
 			JCodingErrorAction* getMalformedInputAction();
 			JCoderResult* decode(JByteBuffer* in, JCharBuffer* out, jbool endOfInput);
 			JCoderResult* flush(JCharBuffer* out);

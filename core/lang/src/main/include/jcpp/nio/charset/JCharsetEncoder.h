@@ -18,63 +18,63 @@ namespace jcpp {
 	namespace nio {
 		namespace charset {
 
-	class JCharset;
+			class JCharset;
 
-	// @Class(canonicalName="java.nio.charset.CharsetEncoder", simpleName="CharsetEncoder");
-	class JCPP_EXPORT JCharsetEncoder : public JObject {
-	private:
-		JCharset* charset;
-		jfloat averageBytesPerChar;
-		jfloat maxBytesPerChar;
+			// @Class(canonicalName="java.nio.charset.CharsetEncoder", simpleName="CharsetEncoder");
+			class JCPP_EXPORT JCharsetEncoder : public JObject {
+			private:
+				JCharset* charset;
+				jfloat averageBytesPerChar;
+				jfloat maxBytesPerChar;
 
-		JPrimitiveByteArray* replacement;
-		JCodingErrorAction* malformedInputAction;
-		JCodingErrorAction* unmappableCharacterAction;
+				JPrimitiveByteArray* replacement;
+				JCodingErrorAction* malformedInputAction;
+				JCodingErrorAction* unmappableCharacterAction;
 
-		static const jint ST_RESET = 0;
-		static const jint ST_CODING = 1;
-		static const jint ST_END = 2;
-		static const jint ST_FLUSHED = 3;
+				static const jint ST_RESET = 0;
+				static const jint ST_CODING = 1;
+				static const jint ST_END = 2;
+				static const jint ST_FLUSHED = 3;
 
-		jint state;
+				jint state;
 
-		void construct(JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar, JPrimitiveByteArray* replacement);
-		void throwIllegalStateException(jint from, jint to);
-		JString* getStateNameFromID(jint id);
+				void construct(JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar, JPrimitiveByteArray* replacement);
+				void throwIllegalStateException(jint from, jint to);
+				JString* getStateNameFromID(jint id);
 
 
-	protected:
-		JCharsetEncoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar, JPrimitiveByteArray* replacement);
-		JCharsetEncoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar);
+			protected:
+				JCharsetEncoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar, JPrimitiveByteArray* replacement);
+				JCharsetEncoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageBytesPerChar, jfloat maxBytesPerChar);
 
-		virtual void implReplaceWith(JPrimitiveByteArray* newReplacement);
-		virtual void implOnMalformedInput(const JCodingErrorAction* newAction);
-		virtual void implOnUnmappableCharacter(const JCodingErrorAction* newAction);
-		virtual JCoderResult* implFlush(JByteBuffer* out);
-		virtual void implReset();
+				virtual void implReplaceWith(JPrimitiveByteArray* newReplacement);
+				virtual void implOnMalformedInput(JCodingErrorAction* newAction);
+				virtual void implOnUnmappableCharacter(JCodingErrorAction* newAction);
+				virtual JCoderResult* implFlush(JByteBuffer* out);
+				virtual void implReset();
 
-		virtual JCoderResult* encodeLoop(JCharBuffer* src, JByteBuffer* dst) = 0;
+				virtual JCoderResult* encodeLoop(JCharBuffer* src, JByteBuffer* dst) = 0;
 
-	public:
-		virtual ~JCharsetEncoder();
-		static jcpp::lang::JClass* getClazz();
+			public:
+				virtual ~JCharsetEncoder();
+				static jcpp::lang::JClass* getClazz();
 
-		JCharset* getCharset();
-		JPrimitiveByteArray* getReplacement();
-		JCharsetEncoder* replaceWith(JPrimitiveByteArray* newReplacement);
-		virtual jbool isLegalReplacement(JPrimitiveByteArray* repl);
-		jfloat getAverageBytesPerChar();
-		jfloat getMaxBytesPerChar();
-		JCharsetEncoder* onMalformedInput(const JCodingErrorAction* newAction);
-		JCharsetEncoder* onUnmappableCharacter(const JCodingErrorAction* newAction);
-		JCodingErrorAction* getMalformedInputAction();
-		JCoderResult* encode(JCharBuffer* in, JByteBuffer* out, jbool endOfInput);
-		JCoderResult* flush(JByteBuffer* out);
-		JCharsetEncoder* reset();
+				JCharset* getCharset();
+				JPrimitiveByteArray* getReplacement();
+				JCharsetEncoder* replaceWith(JPrimitiveByteArray* newReplacement);
+				virtual jbool isLegalReplacement(JPrimitiveByteArray* repl);
+				jfloat getAverageBytesPerChar();
+				jfloat getMaxBytesPerChar();
+				JCharsetEncoder* onMalformedInput(JCodingErrorAction* newAction);
+				JCharsetEncoder* onUnmappableCharacter(JCodingErrorAction* newAction);
+				JCodingErrorAction* getMalformedInputAction();
+				JCoderResult* encode(JCharBuffer* in, JByteBuffer* out, jbool endOfInput);
+				JCoderResult* flush(JByteBuffer* out);
+				JCharsetEncoder* reset();
 
-		JByteBuffer* encode(JCharBuffer* in);
+				JByteBuffer* encode(JCharBuffer* in);
 
-	};
+			};
 
 
 		}

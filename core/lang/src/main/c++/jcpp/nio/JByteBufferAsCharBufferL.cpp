@@ -103,7 +103,7 @@ namespace jcpp {
 	}
 
 	JByteOrder* JByteBufferAsCharBufferL::order(){
-		return const_cast<JByteOrder*>(JByteOrder::JLITTLE_ENDIAN);
+		return JByteOrder::JLITTLE_ENDIAN;
 	}
 
 	JByteBufferAsCharBufferL::~JByteBufferAsCharBufferL()
