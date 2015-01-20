@@ -26,6 +26,10 @@ public class MethodModel {
     }
 
 
+    public boolean isHasParameters() {
+    	return parameters.size() > 0;
+    }
+    
     public boolean isVoidReturnType() {
         return Utils.getTypeClass(returnType) == Utils.J_PRIMITIVE_VOID;
     }
