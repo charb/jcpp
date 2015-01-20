@@ -13,6 +13,7 @@ namespace jcpp{
     namespace rmi{
         namespace server{
             namespace connection{
+                // @Class(canonicalName="jcpp.rmi.server.connection.ObjectPointer", simpleName="ObjectPointer");
                 class JCPP_EXPORT JObjectPointer : public JObject, public JSerializable{
                     protected:
                         JEndPoint* endPoint;

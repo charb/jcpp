@@ -321,12 +321,16 @@ namespace jcpp{
         }
 
         void JObjectOutputStream::writeTypeString(JString* str){
+            cout<<"JObjectOutputStream::writeTypeString ";cout.flush();
+            JSystem::out->println(str);
             jint handle;
             if(str==null){
                 writeNull();
             } else if ((handle = handles->lookup(str)) != -1){
+                cout<<"JObjectOutputStream::writeTypeString handle="<<handle<<endl;cout.flush();
                 writeHandle(handle);
             } else{
+                cout<<"JObjectOutputStream::writeTypeString new "<<endl;cout.flush();
                 writeString(str,false);
             }
         }
@@ -341,6 +345,9 @@ namespace jcpp{
             if(obj == null){
                 writeNull();
             }else{
+                cout<<"JObjectOutputStream::writeObject0 obj="<<obj<<endl;cout.flush();
+                JSystem::out->println(obj);
+                JSystem::out->println(obj->getClass());
                 jint handle=0;
                 if(!unshared && ((handle = handles->lookup(obj)) != -1) ) {
                     writeHandle(handle);
@@ -614,6 +621,8 @@ namespace jcpp{
             bout->write(primVals, 0, primDataSize, false);
             
             JPrimitiveObjectArray* fields = desc->getFields();
+            cout<<"JObjectOutputStream::defaultWriteFields obj=";cout.flush();
+            JSystem::out->println(obj);
             if (fields!=null){
                 JPrimitiveObjectArray* objVals = new JPrimitiveObjectArray(JObject::getClazz(),desc->getNumObjFields());
                 jint numPrimFields = fields->size() - objVals->size();
@@ -621,6 +630,10 @@ namespace jcpp{
             
                 for (jint i = 0; i < objVals->size(); i++) {
                     JObjectStreamField* field=dynamic_cast<JObjectStreamField*>(fields->get(numPrimFields + i));
+                    cout<<"JObjectOutputStream::defaultWriteFields field=";cout.flush();
+                    JSystem::out->println(field->getName());
+                    cout<<"JObjectOutputStream::defaultWriteFields value=";cout.flush();
+                    JSystem::out->println(objVals->get(i));
                     writeObject0(objVals->get(i),field->isUnshared());
                 }
             }

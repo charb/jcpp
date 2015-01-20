@@ -20,7 +20,7 @@ namespace jcpp{
                     this->invoker=null;
                     this->proxy=null;
                     this->classLoader=null;
-                    this->pinterfaces=null;
+                    this->interfaces=null;
                     this->invocationListener=null;
                 }
 
@@ -28,7 +28,7 @@ namespace jcpp{
                     this->classLoader=classLoader;
                     this->invoker = new JInvoker(objectInformations, objectPointer);
                     this->proxy = JProxy::newProxyInstance(classLoader,interfaces, this);
-                    this->pinterfaces = interfaces;
+                    this->interfaces = interfaces;
                     this->invocationListener = objectInformations->getInvocationListener();
                 }
 
@@ -45,7 +45,7 @@ namespace jcpp{
                 }
 
                 JList* JObjectHandler::getInterfaces(){
-                    return pinterfaces;
+                    return interfaces;
                 }
 
                 //TODO what to do for Object methods (toString, equals, hashcode,...)

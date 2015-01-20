@@ -24,6 +24,7 @@ namespace jcpp{
             			static const jlong serialVersionUID = -5888955964943945437LL;
 
                     protected:
+                        //@Transient()
                         JObjectInformations* objectInformations;
                         JObjectPointer* objectPointer;
                         JPrimitiveBoolean* useInvocationQueue;

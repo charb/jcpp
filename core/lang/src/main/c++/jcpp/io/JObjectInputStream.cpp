@@ -900,8 +900,14 @@ namespace jcpp{
             jint numObjFields = desc->getNumObjFields();
             JPrimitiveObjectArray* objVals = new JPrimitiveObjectArray(JObject::getClazz(),numObjFields);
             jint numPrimFields=(fields!=null ? fields->size():0) -objVals->size();
+            cout<<"JObjectInputStream::defaultReadFields obj==";cout.flush();
+            JSystem::out->println(obj->getClass());
             for (jint i = 0; i < objVals->size(); ++i) {
                 JObjectStreamField* f=dynamic_cast<JObjectStreamField*>(fields->get(numPrimFields+i));
+                cout<<"JObjectInputStream::defaultReadFields field=="<<i<<" f=="<<f<<" f.name="<<(f!=null? f->getName(): null);cout.flush();
+                if (f->getName()!=null){
+                    JSystem::out->println(f->getName());
+                }
                 JObject* readObj = readObject0(f->isUnshared());
                 objVals->set(i,readObj);
                 if (f->getField()!=null){

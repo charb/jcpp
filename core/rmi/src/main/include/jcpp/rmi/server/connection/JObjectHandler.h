@@ -31,8 +31,10 @@ namespace jcpp{
                 protected:
                     JInvoker* invoker;
                     JObject* proxy;
+                    //@Transient()
                     JClassLoader* classLoader;
-                    JList* pinterfaces;
+                    JList* interfaces;
+                    //@Transient()
                     JIInvocationListener* invocationListener;
 
                 public:
