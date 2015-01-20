@@ -8,7 +8,7 @@ namespace jcpp{
             namespace gateway{
 
                 JSocket* JGatewaySocketFactory::createSocket(JRoute* route,JGatewayConfiguration* gatewayConfiguration){
-                    if (route!=null && route->isHttp()){
+                    if (route!=null && route->getIsHttp()){
                         return null;//TODO HttpRequestGatewaySocket
                     }else{
                         return new JGatewaySocket(route,gatewayConfiguration);

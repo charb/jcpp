@@ -22,6 +22,8 @@ namespace jcpp{
             // @Class(canonicalName="jcpp.rmi.server.connection.MethodDigester", simpleName="MethodDigester");
                 class JCPP_EXPORT JMethodDigester : public JObject{
                     protected:
+                        static JPrimitiveObjectArray* array;
+                        static JPrimitiveObjectArray* getArray();
                         JMap* digestToMethodMap;
                         JMap* methodToDigestMap;
                         void createDigests(JClass* classObject);

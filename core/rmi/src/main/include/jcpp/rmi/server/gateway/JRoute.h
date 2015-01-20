@@ -24,7 +24,7 @@ namespace jcpp{
 
                     protected:
                         JArrayList* addressList;
-                        JPrimitiveBoolean* bIsHttp;
+                        JPrimitiveBoolean* isHttp;
 
                     public:
                         JRoute();
@@ -35,7 +35,7 @@ namespace jcpp{
 
                         virtual void setIsHttp(jbool h);
 
-                        virtual jbool isHttp();
+                        virtual jbool getIsHttp();
 
                         virtual void addAddress(JAddress* a);
 

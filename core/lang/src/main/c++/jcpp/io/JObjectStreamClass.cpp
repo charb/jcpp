@@ -389,10 +389,6 @@ namespace jcpp{
                 out->writeByte(f->getTypeCode());
                 out->writeUTF(f->getName());
                 if (!f->isPrimitive()) {
-                    cout<<"JObjectStreamClass::writeNonProxy field=";cout.flush();
-                    JSystem::out->println(f->getName());
-                    JSystem::out->println(f->getTypeCode());
-                    JSystem::out->println(f->getTypeString());
                     out->writeTypeString(f->getTypeString());
                 }
             }
@@ -814,6 +810,11 @@ namespace jcpp{
             for (jint i = 0; i < numPrimFields; ++i) {
                 JObjectStreamField* f = dynamic_cast<JObjectStreamField*>(fields->get(i));
                 JField* field=f->getField(obj);
+                if (field==null){
+                    JStringBuilder* builder=new JStringBuilder();
+                    builder->append(new JString("Field "))->append(f->getName())->append(new JString(" in class "))->append(obj->getClass()->getName());
+                    throw new JInternalError(builder->toString());
+                }
                 switch (f->getTypeCode()) {
                     case 'Z': {
                         JPrimitiveBoolean* jPrimitiveBoolean=new JPrimitiveBoolean(JBits::getBoolean(buf,pos++));
@@ -952,22 +953,14 @@ namespace jcpp{
             if (jObject == null) {
                 throw new JNullPointerException();
             }
-            cout<<"JObjectStreamClass::JFieldReflector::setObjFieldValues jObject==";cout.flush();
-            JSystem::out->println(jObject->getClass());
             for (jint i = numPrimFields; i < fields->size(); ++i) {
                 JObjectStreamField* f=dynamic_cast<JObjectStreamField*>(fields->get(i));
-                cout<<"JObjectStreamClass::JFieldReflector::setObjFieldValues f==";cout.flush();
-                JSystem::out->println(f->getName());
                 JField* field=f->getField(jObject);
-                JSystem::out->println(field);
                 switch (f->getTypeCode() ){
                     case 'L':
                     case '[':{
                         JObject* current = values->get(i-numPrimFields);
-                        cout<<"JObjectStreamClass::JFieldReflector::setObjFieldValues current==";cout.flush();
-                        JSystem::out->println((current!=null ? current->getClass() : null));
                         field->set(jObject,current);
-                        cout<<"JObjectStreamClass::JFieldReflector::setObjFieldValues field set"<<endl;cout.flush();
                         break;
                     }default:
                         throw new JInternalError();

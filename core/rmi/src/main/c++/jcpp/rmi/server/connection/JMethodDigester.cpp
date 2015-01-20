@@ -73,6 +73,15 @@ namespace jcpp{
                     digestToMethodMap->clear();
                 }
 
+                JPrimitiveObjectArray* JMethodDigester::array = null;
+                
+                JPrimitiveObjectArray* JMethodDigester::getArray(){
+                    if (array==null){
+                        array=new JPrimitiveObjectArray(JObject::getClazz(),0);
+                    }
+                    return array;
+                }
+
                 void JMethodDigester::createDigests(JClass* classObject){
                     JMap* iDigestToMethodMap = new JHashMap();
                     JMap* iMethodToDigestMap = new JHashMap();
@@ -86,7 +95,11 @@ namespace jcpp{
                                ->append(":");
                         for (jint j=0;j<paramTypes->size();j++){
                             JClass* param=dynamic_cast<JClass*>(paramTypes->get(j));
-                            builder->append(param->getName());
+                            if (param->isArray() && !param->getComponentType()->isPrimitive()){
+                                builder->append(getArray()->getClass()->getName());
+                            }else{
+                                builder->append(param->getName());
+                            }
                             if (j<paramTypes->size()-1){
                                 builder->append(",");
                             }

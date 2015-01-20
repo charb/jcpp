@@ -14,13 +14,13 @@ namespace jcpp{
 
                 JRoute::JRoute():JObject(getClazz()){
                     this->addressList=new JArrayList(0);
-                    this->bIsHttp=new JPrimitiveBoolean();
+                    this->isHttp=new JPrimitiveBoolean();
                 }
 
                 JRoute::JRoute(JRoute* route):JObject(getClazz()){
                     this->addressList=new JArrayList(0);
                     addressList->addAll(reinterpret_cast<JCollection*>(route->addressList));
-                    this->bIsHttp=new JPrimitiveBoolean(route->bIsHttp->get());
+                    this->isHttp=new JPrimitiveBoolean(route->isHttp->get());
                 }
 
                 jbool JRoute::equals(JObject* other){
@@ -28,15 +28,15 @@ namespace jcpp{
                         return false;
                     }
                     JRoute* s=dynamic_cast<JRoute*>(other);
-                    return s->addressList->equals(addressList) && s->bIsHttp->get()==bIsHttp->get();
+                    return s->addressList->equals(addressList) && s->isHttp->get()==isHttp->get();
                 }
 
                 void JRoute::setIsHttp(jbool h){
-                    bIsHttp->set(h);
+                    isHttp->set(h);
                 }
 
-                jbool JRoute::isHttp(){
-                    return bIsHttp->get();
+                jbool JRoute::getIsHttp(){
+                    return isHttp->get();
                 }
 
                 void JRoute::addAddress(JAddress* a){
@@ -89,7 +89,7 @@ namespace jcpp{
                 JString* JRoute::toString(){
                     JStringBuilder* builder=new JStringBuilder();
                     builder->append("AddressList[")->append(addressList)
-                           ->append("][IsHttp:")->append(bIsHttp->get())->append("]");
+                           ->append("][IsHttp:")->append(isHttp->get())->append("]");
                     return builder->toString();
                 }
 

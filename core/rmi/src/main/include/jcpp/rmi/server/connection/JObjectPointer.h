@@ -16,8 +16,9 @@ namespace jcpp{
                 // @Class(canonicalName="jcpp.rmi.server.connection.ObjectPointer", simpleName="ObjectPointer");
                 class JCPP_EXPORT JObjectPointer : public JObject, public JSerializable{
                     protected:
-                        JEndPoint* endPoint;
                         JString* id;
+                        JEndPoint* endPoint;
+                        static const jlong serialVersionUID = 1L;
 
                     public:
                         JObjectPointer();

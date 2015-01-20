@@ -24,7 +24,7 @@ namespace jcpp{
 
                     JList* types=new JArrayList();
                     types->add(JEndPoint::getClazz());
-                    types->add(JPrimitiveObjectArray::getClazz(JString::getClazz()));
+                    types->add(JPrimitiveObjectArray::getClazz());
                     return dynamic_cast<JPrimitiveBooleanArray*>(invoke(new JString("ping"),types,args));
                 }
 

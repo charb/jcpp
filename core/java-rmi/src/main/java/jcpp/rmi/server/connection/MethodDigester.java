@@ -58,6 +58,8 @@ public class MethodDigester {
         this.methodToDigestMap.clear();
     }
 
+    static Object[] array = new Object[0];
+
     private void createDigests(Class<?> classObject) {
         Map<Long, Method> iDigestToMethodMap = new HashMap<Long, Method>();
         Map<Method, Long> iMethodToDigestMap = new HashMap<Method, Long>();
@@ -68,7 +70,11 @@ public class MethodDigester {
             Class<?>[] paramTypes = method.getParameterTypes();
             String args = "";
             for (Class<?> paramType : paramTypes) {
-                args += paramType.getName() + ",";
+                if (paramType.isArray() && !paramType.getComponentType().isPrimitive()){
+                    args += array.getClass().getName() + ",";//TODO till we are able to detect array of X in C++ code
+                }else{
+                    args += paramType.getName() + ",";
+                }
             }
             String methodId = method.getName() + ":" + (args.length()>0 ? args.substring(0, args.length()-1) : "");
             Long digestLong = new Long(methodId.hashCode());
