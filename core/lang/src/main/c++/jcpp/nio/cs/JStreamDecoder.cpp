@@ -147,7 +147,7 @@ namespace jcpp {
 		}
 
 
-		JStreamDecoder::JStreamDecoder(JInputStream* in, JObject* lock, JCharset* cs) : JReader(getClazz(), lock){
+		JStreamDecoder::JStreamDecoder(JInputStream* in, JObject* lock, JCharset* cs) : JReader(getClazz(), lock), ch(null){
 			this->_isOpen = true;
 			this->haveLeftoverChar = false;
 			this->channelsAvailable = true;

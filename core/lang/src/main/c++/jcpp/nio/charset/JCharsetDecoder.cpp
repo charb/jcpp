@@ -6,13 +6,13 @@ namespace jcpp {
 		namespace charset {
 
 	JCharsetDecoder::JCharsetDecoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageCharsPerByte, jfloat maxCharsPerByte, JString* replacement)
-		: JObject(_class)
+		: JObject(_class), state(0)
 	{
 		construct(cs, averageCharsPerByte, maxCharsPerByte,replacement);
 	}
 
 	JCharsetDecoder::JCharsetDecoder(jcpp::lang::JClass* _class, JCharset* cs, jfloat averageCharsPerByte, jfloat maxCharsPerByte)
-		: JObject(_class)
+		: JObject(_class), state(0)
 	{
 		jchar buf[] = {0xFFFD};
 		construct(cs, averageCharsPerByte, maxCharsPerByte, new JString(new JPrimitiveCharArray(1,buf)));
