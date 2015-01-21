@@ -221,7 +221,7 @@ namespace jcpp{
 					acceptedCount++;
 				} else {
 					JString* itName = new JString(*it);
-					itName = itName->substring(this->getAbsolutePath()->length() + 1);
+					itName = itName->substring(path->length() + 1);
 					if (filter->accept(this, itName)) {
 						acceptedCount++;
 					}
@@ -230,17 +230,17 @@ namespace jcpp{
 
 			JPrimitiveObjectArray* array = new JPrimitiveObjectArray(JString::getClazz(), acceptedCount);
 			jint index = 0;
-				for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-					if (filter == null) {
-						array->set(index++, new JFile(new JString(*it)));
-					} else {
-						JString* itName = new JString(*it);
-						itName = itName->substring(this->getAbsolutePath()->length() + 1);
-						if (filter->accept(this, itName)) {
-						array->set(index++,itName);
-						}
+			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
+				if (filter == null) {
+					array->set(index++, new JFile(new JString(*it)));
+				} else {
+					JString* itName = new JString(*it);
+					itName = itName->substring(path->length() + 1);
+					if (filter->accept(this, itName)) {
+					array->set(index++,itName);
 					}
 				}
+			}
 			return array;
         }
 
@@ -255,9 +255,9 @@ namespace jcpp{
 			JPrimitiveObjectArray* array = new JPrimitiveObjectArray(JFile::getClass(), files.size());
 			jint index = 0;
 			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-			JString* itName = new JString(*it);
-			itName = itName->substring(this->getAbsolutePath()->length() + 1);
-			array->set(index++, new JFile(this, new JString(itName)));
+				JString* itName = new JString(*it);
+				itName = itName->substring(path->length() + 1);
+				array->set(index++, new JFile(this, new JString(itName)));
 			}
 
 			return array;
@@ -273,30 +273,29 @@ namespace jcpp{
 
         	jint acceptedCount = 0;
 			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-			if (filter == null) {
-				acceptedCount++;
-			} else {
-				JString* itName = new JString(*it);
-				itName = itName->substring(this->getAbsolutePath()->length() + 1);
-				if (filter->accept(this, itName))
-				{
+				if (filter == null) {
 					acceptedCount++;
+				} else {
+					JString* itName = new JString(*it);
+					itName = itName->substring(path->length() + 1);
+					if (filter->accept(this, itName)) {
+						acceptedCount++;
+					}
 				}
 			}
-		}
 			JPrimitiveObjectArray* array = new JPrimitiveObjectArray(JFile::getClass(), acceptedCount);
 			jint index = 0;
 			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-			if (filter == null) {
-					array->set(index++, new JFile(new JString(*it)));
-			} else {
-				JString* itName = new JString(*it);
-				itName = itName->substring(this->getAbsolutePath()->length() + 1);
-				if (filter->accept(this, itName)) {
-					array->set(index++, new JFile(this, itName));
+				if (filter == null) {
+						array->set(index++, new JFile(new JString(*it)));
+				} else {
+					JString* itName = new JString(*it);
+					itName = itName->substring(path->length() + 1);
+					if (filter->accept(this, itName)) {
+						array->set(index++, new JFile(this, itName));
+					}
 				}
 			}
-		}
 			return array;
         }
 
@@ -310,23 +309,23 @@ namespace jcpp{
 
 			jint acceptedCount = 0;
 			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-			if (filter == null)  {
-				acceptedCount++;
-			} else {
-				JString* itName = new JString(*it);
-				itName = itName->substring(this->getAbsolutePath()->length() + 1);
-				if (filter->accept(new JFile(this, itName))) {
+				if (filter == null)  {
 					acceptedCount++;
+				} else {
+					JString* itName = new JString(*it);
+					itName = itName->substring(path->length() + 1);
+					if (filter->accept(new JFile(this, itName))) {
+						acceptedCount++;
+					}
 				}
 			}
-		}
 
 			JPrimitiveObjectArray* array = new JPrimitiveObjectArray(JFile::getClass(), acceptedCount);
 			jint index = 0;
 			for (std::vector<NativeString>::iterator it = files.begin(); it != files.end(); ++it) {
-			JString* itName = new JString(*it);
-			itName = itName->substring(this->getAbsolutePath()->length() + 1);
-			JFile* file = new JFile(this, itName);
+				JString* itName = new JString(*it);
+				itName = itName->substring(path->length() + 1);
+				JFile* file = new JFile(this, itName);
 				if((filter == null) || filter->accept(file)) {
 					array->set(index++, file);
 				}
