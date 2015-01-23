@@ -231,7 +231,7 @@ namespace jcpp {
 			bb->flip();
 
 			jint rem = bb->remaining();
-			assert(rem!=0);
+//			assert(rem!=0); //TODO check other asserts
 			return rem;
 		}
 
