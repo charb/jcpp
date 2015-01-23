@@ -218,8 +218,10 @@ namespace jcpp {
 					jint rem = (pos <= lim? lim-pos : 0);
 					assert(rem > 0);
 					jint n = in->read((JPrimitiveByteArray*)bb->array(), bb->arrayOffset()+pos, rem);
-					if (n<0)
+					if (n<0) {
+						bb->flip();
 						return n;
+					}
 					if (n==0)
 						throw new JIOException(new JString("Underlying input stream returned zero bytes"));
 					assert(n <= rem);
