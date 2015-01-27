@@ -4,6 +4,8 @@ import java.util.List;
 
 import jcpp.parser.cpp.CPPVariable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.cdt.core.dom.ast.IASTDeclaration;
 import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
 import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
@@ -12,6 +14,7 @@ import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 
 
 public class InsertAfterVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
+    private static final Log log = LogFactory.getLog(InsertAfterVariableUpdate.class);
 
     private CPPVariable cppVariable;
 
@@ -24,11 +27,17 @@ public class InsertAfterVariableUpdate extends CodeGenerationUpdate<CPPVariable>
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        int insertOffset = computeInsertOffset(cppVariable);
         String generatedCode = codeGenerator.generate(cppVariable);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
-            updater.insertIncludes(includes);
-            updatesResult.insert(insertOffset, generatedCode);
+            int insertOffset = computeInsertOffset(cppVariable);
+            if (insertOffset >= 0 ) {
+                updater.insertIncludes(includes);
+                updatesResult.insert(insertOffset, generatedCode);
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Unable to apply update [" + generatedCode +  "] for [" + cppVariable + "]. Unknown insertion offset.");
+                }
+            }
         }
     }
 
@@ -37,11 +46,11 @@ public class InsertAfterVariableUpdate extends CodeGenerationUpdate<CPPVariable>
         IASTNodeLocation[] nodeLocations = declaration.getNodeLocations();
         IASTFileLocation fileLocation = null;
         if (nodeLocations.length == 1 && nodeLocations[0] instanceof IASTMacroExpansionLocation) {
-            fileLocation = ((ASTNode) declaration).getImageLocation();
+            fileLocation = ((ASTNode) declaration).getImageLocation(); //NOTE: can return null when the cppVariable is declared in a marco definition.
         } else {
             fileLocation = declaration.getFileLocation();
         }
-        return fileLocation.getNodeOffset() + fileLocation.getNodeLength();
+        return fileLocation != null ? (fileLocation.getNodeOffset() + fileLocation.getNodeLength()) : -1;
     }
 
 }

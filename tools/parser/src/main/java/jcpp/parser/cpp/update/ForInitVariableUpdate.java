@@ -4,6 +4,8 @@ import java.util.List;
 
 import jcpp.parser.cpp.CPPVariable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
 import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -12,6 +14,7 @@ import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 
 
 public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
+    private static final Log log = LogFactory.getLog(ForInitVariableUpdate.class);
 
     public enum ForUpdateMode {
         BEFORE_BODY, AFTER_BODY, REPLACE_INITIALIZER
@@ -52,8 +55,14 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
         String generatedCode = getCodeGenerator().generateBefore(cppVariable);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             int insertOffset = computeInsertOffset(cppVariable, ForUpdateMode.BEFORE_BODY);
-            updater.insertIncludes(includes);
-            updatesResult.insert(insertOffset, generatedCode);
+            if (insertOffset >= 0) {
+                updater.insertIncludes(includes);
+                updatesResult.insert(insertOffset, generatedCode);
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Unable to apply update before for-loop body [" + generatedCode +  "] for [" + cppVariable + "]. Unknown insertion offset.");
+                }
+            }
         }
     }
 
@@ -61,8 +70,14 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
         String generatedCode = getCodeGenerator().generateAfter(cppVariable);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             int insertOffset = computeInsertOffset(cppVariable, ForUpdateMode.AFTER_BODY);
-            updater.insertIncludes(includes);
-            updatesResult.insert(insertOffset, generatedCode);
+            if (insertOffset >= 0) {
+                updater.insertIncludes(includes);
+                updatesResult.insert(insertOffset, generatedCode);
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Unable to apply update after for-loop body [" + generatedCode +  "] for [" + cppVariable + "]. Unknown insertion offset.");
+                }
+            }
         }
     }
 
@@ -70,10 +85,17 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
         String generatedCode = getCodeGenerator().generate(cppVariable);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             IASTFileLocation fileLocation = getFileLocation(cppVariable.getDeclaration());
-            int startOffset = fileLocation.getNodeOffset();
-            int endOffset = startOffset + fileLocation.getNodeLength();
-            updater.insertIncludes(includes);
-            updatesResult.replace(startOffset, endOffset, generatedCode);
+            if (fileLocation != null) {
+                int startOffset = fileLocation.getNodeOffset();
+                int endOffset = startOffset + fileLocation.getNodeLength();
+                updater.insertIncludes(includes);
+                updatesResult.replace(startOffset, endOffset, generatedCode);
+            } else {
+                if (log.isWarnEnabled()) {
+                    log.warn("Unable to replace for-initializer with [" + generatedCode +  "] for [" + cppVariable + "]. Unknown insertion offset.");
+                }
+
+            }
         }
     }
 
@@ -83,15 +105,15 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
         switch (mode) {
         case BEFORE_BODY:
             fileLocation = getFileLocation(cppVariable.getForLoopStatement());
-            insertOffset = fileLocation.getNodeOffset();
+            insertOffset = fileLocation != null ? fileLocation.getNodeOffset() : -1;
             break;
         case AFTER_BODY:
             fileLocation = getFileLocation(cppVariable.getForLoopStatement());
-            insertOffset = fileLocation.getNodeOffset() + fileLocation.getNodeLength();
+            insertOffset = fileLocation != null ? (fileLocation.getNodeOffset() + fileLocation.getNodeLength()) : -1;
             break;
         case REPLACE_INITIALIZER:
             fileLocation = getFileLocation(cppVariable.getDeclaration());
-            insertOffset = fileLocation.getNodeOffset();
+            insertOffset = fileLocation != null ? fileLocation.getNodeOffset() : -1;
             break;
         }
         return insertOffset;
@@ -101,7 +123,7 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
         IASTNodeLocation[] nodeLocations = node.getNodeLocations();
         IASTFileLocation fileLocation = null;
         if (nodeLocations.length == 1 && nodeLocations[0] instanceof IASTMacroExpansionLocation) {
-            fileLocation = ((ASTNode) node).getImageLocation();
+            fileLocation = ((ASTNode) node).getImageLocation(); //NOTE: can return null when the cppVariable is declared in a marco definition.
         } else {
             fileLocation = node.getFileLocation();
         }

@@ -5,6 +5,7 @@
 #include "SampleParent2.h"
 
 #define synchronized(B) {			\
+	char* unusedChar = 0;			\
 	B								\
 }
 
