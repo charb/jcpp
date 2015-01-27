@@ -55,7 +55,7 @@ public class CPPAnnotation {
         String fileName = node.getFileLocation().getFileName();
         List<CPPAnnotation> annotations = new ArrayList<CPPAnnotation>(4);
         for (IASTComment astComment : parent.getTranslationUnit().getComments()) {
-            if (astComment.getFileLocation().getFileName().equals(fileName)) {
+            if ((astComment.getFileLocation() != null) && (astComment.getFileLocation().getFileName().equals(fileName))) {
                 int commentOffset = astComment.getFileLocation().getNodeOffset();
                 if ((commentOffset > startCommentOffset) && (commentOffset < endCommentOffset)) {
                     annotations.addAll(parseAnnotations(astComment));
