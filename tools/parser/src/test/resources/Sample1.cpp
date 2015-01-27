@@ -28,7 +28,12 @@ void Sample1::addValue(Sample1* object) {
 // @MethodDefinitionAnnotation(meta1=hello , meta2= "world", isDefinition=true)
 // @AnotherMethodDefinitionAnnotation(meta1=hello , meta2 = "world", isDefinition=true)
 void Sample1::addValue(Sample1* objectA, Sample1* objectB) {
-    Sample1* someOtherObject = new Sample1();
+	synchronized({
+    	Sample1* someOtherObject = new Sample1();
+		for (char c[] = {'a','b','c','\0'}; *c == 0; c++) {
+			*c = 'x';
+		}
+    })
 	value += objectA->value;
 	value += objectB->value;
 }

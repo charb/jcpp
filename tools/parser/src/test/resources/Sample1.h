@@ -4,6 +4,10 @@
 #include "SampleParent.h"
 #include "SampleParent2.h"
 
+#define synchronized(B) {			\
+	B								\
+}
+
 char* strGlobal1;
 char* strGlobal2 = (char*) 0;
 

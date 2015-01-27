@@ -176,7 +176,8 @@ public class UpdaterTest {
 
         @Override
         public String generate(CPPVariable construct) {
-            return construct.getDeclaration().getRawSignature();
+            //NOTE: cannot use construct.getDeclaration.getRawSignature() anymore. in case of a macro expansion it returns an incorrect result
+            return "char " + construct.getName() + "[] = {'a','b','c','\\0'};";
         }
 
         @Override

@@ -166,6 +166,10 @@
 									<name>someOtherObject</name>
 									<type name="Sample1 *" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPPointerType" isStatic="false" isPointer="true" />
 								</variable>
+								<variable>
+									<name>c</name>
+									<type name="char [4]" typetype="org.eclipse.cdt.internal.core.dom.parser.cpp.CPPArrayType" isStatic="false" isPointer="false" />
+								</variable>
 							</variables>
 							<annotations>
 								<annotation name="MethodDefinitionAnnotation">

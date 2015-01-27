@@ -47,7 +47,12 @@ void Sample1::addValue(Sample1* objectA, Sample1* objectB) {
 DeclaredParameter(objectA);
 DeclaredParameter(objectB);
 
-    Sample1* someOtherObject = new Sample1();DeclaredVariable(someOtherObject);
+	synchronized({
+    	Sample1* someOtherObject = new Sample1();DeclaredVariable(someOtherObject);
+		/*before for: c*/for (char c[] = {'a','b','c','\0'}; *c == 0; c++) {
+			*c = 'x';
+		}/*after for: c*/
+    })
 	value += objectA->value;
 	value += objectB->value;
 }

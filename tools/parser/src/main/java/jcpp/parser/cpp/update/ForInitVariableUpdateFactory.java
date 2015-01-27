@@ -43,15 +43,11 @@ public class ForInitVariableUpdateFactory extends CodeGenerationUpdateFactory<CP
         if (!cppVariable.isForLoopInitializer()) {
             return Collections.emptyList();
         }
-        IASTFileLocation fileLocation = cppVariable.getForLoopStatement().getFileLocation();
-        int insertOffset = fileLocation.getNodeOffset();
-        Update beforeForBody = new ForInitVariableUpdate(insertOffset, codeGenerator, includes, updater, ForUpdateMode.BEFORE_BODY, cppVariable);
+        Update beforeForBody = new ForInitVariableUpdate(codeGenerator, includes, updater, ForUpdateMode.BEFORE_BODY, cppVariable);
 
-        insertOffset = fileLocation.getNodeOffset() + fileLocation.getNodeLength();
-        Update afterForBody = new ForInitVariableUpdate(insertOffset, codeGenerator, includes, updater, ForUpdateMode.AFTER_BODY, cppVariable);
+        Update afterForBody = new ForInitVariableUpdate(codeGenerator, includes, updater, ForUpdateMode.AFTER_BODY, cppVariable);
 
-        insertOffset = cppVariable.getDeclaration().getFileLocation().getNodeOffset();
-        Update replaceForInit = new ForInitVariableUpdate(insertOffset, codeGenerator, includes, updater, ForUpdateMode.REPLACE_INITIALIZER, cppVariable);
+        Update replaceForInit = new ForInitVariableUpdate(codeGenerator, includes, updater, ForUpdateMode.REPLACE_INITIALIZER, cppVariable);
 
         return Arrays.asList(beforeForBody, afterForBody, replaceForInit);
     }
