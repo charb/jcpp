@@ -8,7 +8,7 @@ namespace jcpp {
 		namespace channels {
 
 		// @Class(canonicalName="java.nio.channels.FileLock", simpleName="FileLock");
-		class JCPP_EXPORT JFileLock {
+		class JCPP_EXPORT JFileLock : public JObject {
 		private:
 			JFileChannel* _channel;
 			jlong _position;

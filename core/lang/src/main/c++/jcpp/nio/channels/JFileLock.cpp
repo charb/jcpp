@@ -5,7 +5,7 @@ namespace jcpp {
 	namespace nio {
 		namespace channels {
 
-		JFileLock::JFileLock(JFileChannel* channel, jlong position, jlong size, jbool shared) {
+		JFileLock::JFileLock(JFileChannel* channel, jlong position, jlong size, jbool shared) : JObject(getClazz()) {
 			if (position < 0)
 				throw new JIllegalArgumentException(new JString("Negative position"));
 			if (size < 0)

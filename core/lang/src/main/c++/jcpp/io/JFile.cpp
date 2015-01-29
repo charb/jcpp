@@ -473,11 +473,11 @@ namespace jcpp{
 			return value;
         }
 
-        JFile* JFile::createTempFile(JString*, JString*, JFile* ){
+        JFile* JFile::createTempFile(JString* prefix, JString* suffix, JFile* directory){
             return null;//TODO
         }
 
-        JFile* JFile::createTempFile(JString*, JString*){
+        JFile* JFile::createTempFile(JString* prefix, JString* suffix){
             return null;//TODO
         }
 

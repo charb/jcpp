@@ -81,7 +81,7 @@ namespace jcpp{
             return null;
         }
 
-        JObject* JAbstractMap::put(JObject*, JObject*){
+        JObject* JAbstractMap::put(JObject* key, JObject* value){
             throw new JUnsupportedOperationException();
         }
 

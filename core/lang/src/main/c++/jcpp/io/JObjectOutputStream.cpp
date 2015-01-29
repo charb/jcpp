@@ -231,6 +231,10 @@ namespace jcpp{
             bout->setBlockDataMode(true);
         }
 
+        void JObjectOutputStream::writeObjectOverride(JObject* obj) {
+
+        }
+
         JObject* JObjectOutputStream::replaceObject(JObject *obj) {
             return obj;
         }

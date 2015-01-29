@@ -4,7 +4,7 @@ namespace jcpp {
 	namespace nio {
 		namespace channels {
 
-		JAbstractInterruptibleChannel::JAbstractInterruptibleChannel() {
+		JAbstractInterruptibleChannel::JAbstractInterruptibleChannel(jcpp::lang::JClass* clazz) : JObject(clazz) {
 			closeLock = new JObject();
 			open = true;
 			interrupted = false;

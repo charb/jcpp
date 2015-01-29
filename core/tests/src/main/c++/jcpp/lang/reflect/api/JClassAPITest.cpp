@@ -43,7 +43,7 @@ JClassAPITest::~JClassAPITest() {
 }
 
 
-void logit(JMember* member){
+void JClassAPITest::logit(JMember* member){
 	JStringBuilder *stb = new JStringBuilder();
 	stb->append(member->getName());
 	stb->append(new JString(" From "));
@@ -51,13 +51,13 @@ void logit(JMember* member){
 	JSystem::out->println(stb->toString());
 }
 
-void logit(JList* list){
+void JClassAPITest::logit(JList* list){
 	JIterator *i = list->iterator();
 	while (i->hasNext())
 		logit(dynamic_cast<JMember*>(i->next()));
 }
 
-void logit(JClass* claz)
+void JClassAPITest::logit(JClass* claz)
 {
 	JSystem::out->println(claz->getName());
 
@@ -84,7 +84,7 @@ void logit(JClass* claz)
 
 }
 
-JMember* memberInListNamed(JString* name, JList* members){
+JMember* JClassAPITest::memberInListNamed(JString* name, JList* members){
 	JIterator* i = members->iterator();
 	while (i->hasNext()){
 		JMember* member = dynamic_cast<JMember*>(i->next());
@@ -94,7 +94,7 @@ JMember* memberInListNamed(JString* name, JList* members){
 	return null;
 }
 
-JConstructor* constructorInListWithParameterTypes(JList* params, JList* constructors){
+JConstructor* JClassAPITest::constructorInListWithParameterTypes(JList* params, JList* constructors){
 	JIterator* i = constructors->iterator();
 	while (i->hasNext()){
 		JConstructor* constructor = dynamic_cast<JConstructor*>(i->next());
@@ -104,7 +104,7 @@ JConstructor* constructorInListWithParameterTypes(JList* params, JList* construc
 	return null;
 }
 
-void testFindField(JString* name, JField* rightAnswer){
+void JClassAPITest::testFindField(JString* name, JField* rightAnswer){
 	try {
 		JField* res = JClassC::getClazz()->getField(name);
 		if (rightAnswer == null)
@@ -118,7 +118,7 @@ void testFindField(JString* name, JField* rightAnswer){
 			JClassAPITest::assertFalse(true);
 	}
 }
-void testFindDeclaredField(JString* name, JField* rightAnswer){
+void JClassAPITest::testFindDeclaredField(JString* name, JField* rightAnswer){
 	try {
 		JField* res = JClassC::getClazz()->getDeclaredField(name);
 		if (rightAnswer == null)
@@ -133,7 +133,7 @@ void testFindDeclaredField(JString* name, JField* rightAnswer){
 	}
 }
 
-void testFindMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer){
+void JClassAPITest::testFindMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer){
 	try{
 		JMethod* res = JClassC::getClazz()->getMethod(name, parameterTypes);
 		if (rightAnswer == null){
@@ -151,7 +151,7 @@ void testFindMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer){
 		}
 	}
 }
-void testFindDeclaredMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer){
+void JClassAPITest::testFindDeclaredMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer){
 	try{
 		JMethod* res = JClassC::getClazz()->getDeclaredMethod(name, parameterTypes);
 		if (rightAnswer == null){
@@ -170,7 +170,7 @@ void testFindDeclaredMethod(JString* name, JList* parameterTypes, JMethod* right
 	}
 }
 
-void testFindConstructor(JList* parameterTypes, JConstructor* rightAnswer){
+void JClassAPITest::testFindConstructor(JList* parameterTypes, JConstructor* rightAnswer){
 	try{
 		JConstructor* res = JClassC::getClazz()->getConstructor(parameterTypes);
 		if (rightAnswer == null){
@@ -188,7 +188,7 @@ void testFindConstructor(JList* parameterTypes, JConstructor* rightAnswer){
 		}
 	}
 }
-void testFindDeclaredConstructor(JList* parameterTypes, JConstructor* rightAnswer){
+void JClassAPITest::testFindDeclaredConstructor(JList* parameterTypes, JConstructor* rightAnswer){
 	try{
 		JConstructor* res = JClassC::getClazz()->getDeclaredConstructor(parameterTypes);
 		if (rightAnswer == null){

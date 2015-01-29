@@ -102,22 +102,22 @@ namespace jcpp{
             return JDouble::toString(d);
         }
 
-        JString::JString(const NativeString& string): JObject(false), nativeString(string){
+        JString::JString(const NativeString& string): JObject(null), nativeString(string){
         }
 
-        JString::JString(): JObject(false), nativeString(){
+        JString::JString(): JObject(null), nativeString(){
         }
 
-        JString::JString(string str): JObject(false), nativeString(str){
+        JString::JString(string str): JObject(null), nativeString(str){
         }
 
-        JString::JString(JString* str): JObject(false), nativeString(str->nativeString){
+        JString::JString(JString* str): JObject(null), nativeString(str->nativeString){
         }
 
-        JString::JString(const char* c): JObject(false), nativeString(c){
+        JString::JString(const char* c): JObject(null), nativeString(c){
         }
 
-        JString::JString(JPrimitiveCharArray* chars):JObject(false), nativeString(){
+        JString::JString(JPrimitiveCharArray* chars):JObject(null), nativeString(){
         	jint size = chars->size();
         	jchar* jcharArray = new jchar[size];
         	for(jint i = 0; i < size; i++) {
@@ -127,7 +127,7 @@ namespace jcpp{
         	delete jcharArray;
         }
 
-        JString::JString(JPrimitiveCharArray* chars,jint off,jint length):JObject(false), nativeString(){
+        JString::JString(JPrimitiveCharArray* chars,jint off,jint length):JObject(null), nativeString(){
 			jchar* jcharArray = new jchar[length];
 			for(jint i = 0; i < length; i++) {
 				jcharArray[i] = chars->getChar(off + i);
@@ -136,24 +136,24 @@ namespace jcpp{
 			delete jcharArray;
         }
 
-        JString::JString(JPrimitiveByteArray* bytes):JObject(false), nativeString(){
+        JString::JString(JPrimitiveByteArray* bytes):JObject(null), nativeString(){
         	JPrimitiveCharArray* ca = JStringCoding::decode(bytes, 0, bytes->size());
         	nativeString = NativeString(ca->getArray(), 0, ca->size());
         }
 
-        JString::JString(JPrimitiveByteArray* bytes,jint off,jint length):JObject(false), nativeString(){
+        JString::JString(JPrimitiveByteArray* bytes,jint off,jint length):JObject(null), nativeString(){
         	checkBounds(bytes, off, length);
         	JPrimitiveCharArray* ca = JStringCoding::decode(bytes, off, length);
         	nativeString = NativeString(ca->getArray(), 0, ca->size());
         }
 
-        JString::JString(JPrimitiveByteArray* bytes, jint off, jint length, JString* charsetName):JObject(getClazz()), nativeString(){
+        JString::JString(JPrimitiveByteArray* bytes, jint off, jint length, JString* charsetName):JObject(null), nativeString(){
         	checkBounds(bytes, off, length);
         	JPrimitiveCharArray* ca = JStringCoding::decode(charsetName, bytes, off, length);
         	nativeString = NativeString(ca->getArray(), 0, ca->size());
         }
 
-        JString::JString(jchar c):JObject(false), nativeString(&c, 0, 1){
+        JString::JString(jchar c):JObject(null), nativeString(&c, 0, 1){
         }
 
         jcpp::lang::JClass* JString::getClass(){

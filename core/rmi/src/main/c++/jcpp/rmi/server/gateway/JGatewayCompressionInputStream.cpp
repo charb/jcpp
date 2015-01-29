@@ -5,7 +5,7 @@ namespace jcpp{
         namespace server{
             namespace gateway{
 
-                JGatewayCompressionInputStream::JGatewayCompressionInputStream(JInputStream* in,JGatewayConfiguration*):JFilterInputStream(in,getClazz()){
+                JGatewayCompressionInputStream::JGatewayCompressionInputStream(JInputStream* in,JGatewayConfiguration* gatewayConfiguration):JFilterInputStream(in,getClazz()){
                     this->gatewayInputStream=new JGatewayInputStream(in);
                 }
 

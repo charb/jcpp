@@ -9,7 +9,7 @@ namespace jcpp{
                     JNullNotSerializableObjectHandler::JNullNotSerializableObjectHandler():JObject(getClazz()){
                     }
 
-                    JObject* JNullNotSerializableObjectHandler::handleNotSerializableObject(JObject*){
+                    JObject* JNullNotSerializableObjectHandler::handleNotSerializableObject(JObject* obj){
                         return null;
                     }
 

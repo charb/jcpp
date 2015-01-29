@@ -6,7 +6,7 @@ namespace jcpp {
 	namespace nio {
 		namespace channels {
 
-		JFileChannel::JFileChannel(){
+		JFileChannel::JFileChannel(jcpp::lang::JClass* clazz) : JAbstractInterruptibleChannel(clazz){
 		}
 
 		jlong JFileChannel::read(JPrimitiveObjectArray* dsts) {

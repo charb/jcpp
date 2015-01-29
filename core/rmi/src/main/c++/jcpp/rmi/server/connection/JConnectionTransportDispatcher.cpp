@@ -44,7 +44,7 @@ namespace jcpp{
                     this->objectInformations=objectInformations;
                 }
 
-                void JConnectionTransportDispatcher::dispatch(JEndPoint* fromEndPoint, JEndPoint*, JConnection* connection){
+                void JConnectionTransportDispatcher::dispatch(JEndPoint* fromEndPoint, JEndPoint* toEndPoint, JConnection* connection){
                     JConnectionInputStream* ois = new JConnectionInputStream(connection->getInputStream(), objectInformations, fromEndPoint);
                     JString* objectId = null;
                     jlong digest = 0;
@@ -87,7 +87,7 @@ namespace jcpp{
                     }
                 }
 
-                JConnectionTransportDispatcher::InvocationResult* JConnectionTransportDispatcher::invokeMethod(JString* id, jlong digest, JPrimitiveObjectArray* args, JEndPoint*){
+                JConnectionTransportDispatcher::InvocationResult* JConnectionTransportDispatcher::invokeMethod(JString* id, jlong digest, JPrimitiveObjectArray* args, JEndPoint* endPoint){
                     JObject* object = null;
                     JMethod* method = null;
                     JObject* result = null;

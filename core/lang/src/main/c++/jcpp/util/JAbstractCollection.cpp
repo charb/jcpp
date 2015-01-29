@@ -60,7 +60,7 @@ namespace jcpp{
             return result;
         }
 
-        jbool JAbstractCollection::add(JObject*){
+        jbool JAbstractCollection::add(JObject* obj){
             throw new JUnsupportedOperationException();
         }
 

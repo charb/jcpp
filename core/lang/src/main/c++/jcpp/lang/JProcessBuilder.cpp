@@ -45,11 +45,11 @@ namespace jcpp {
 			return new JRedirect(JProcessBuilder::JRedirect::JType::WRITE, file);
 		}
 
-		JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::getType() const {
+		JProcessBuilder::JRedirect::JType* JProcessBuilder::JRedirect::getType() {
 			return type;
 		}
 
-		JFile* JProcessBuilder::JRedirect::getFile() const {
+		JFile* JProcessBuilder::JRedirect::getFile() {
 			return file;
 		}
 

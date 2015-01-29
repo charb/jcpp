@@ -18,7 +18,7 @@ namespace jcpp {
 		// @Class(canonicalName="java.nio.channels.FileChannel", simpleName="FileChannel");
 		class JCPP_EXPORT JFileChannel : public JAbstractInterruptibleChannel, public JByteChannel, public JGatheringByteChannel, public JScatteringByteChannel {
 		protected:
-			JFileChannel();
+			JFileChannel(jcpp::lang::JClass* clazz);
 
 		public:
 			static JClass* getClazz();

@@ -56,7 +56,7 @@ namespace jcpp{
             JObjectOutputStream(JOutputStream* out,jcpp::lang::JClass* _class);
             JObjectOutputStream(jcpp::lang::JClass* _class);
             virtual void init(JOutputStream* out);
-            virtual void writeObjectOverride(JObject*){}
+            virtual void writeObjectOverride(JObject* obj);
             virtual JObject* replaceObject(JObject *obj);
             virtual jbool enableReplaceObject(jbool enable);
             virtual void writeStreamHeader();

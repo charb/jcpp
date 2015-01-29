@@ -9,7 +9,7 @@ namespace jcpp {
 		namespace channels {
 
 		// @Class(canonicalName="java.nio.channels.AbstractInterruptibleChannel", simpleName="AbstractInterruptibleChannel");
-		class JCPP_EXPORT JAbstractInterruptibleChannel : public JChannel, public JInterruptibleChannel {
+		class JCPP_EXPORT JAbstractInterruptibleChannel : public JObject, public JChannel, public JInterruptibleChannel {
 		private:
 			JObject* closeLock;
 			/*volatile*/ jbool open;
@@ -17,7 +17,7 @@ namespace jcpp {
 			jbool interrupted;
 
 		protected:
-			JAbstractInterruptibleChannel();
+			JAbstractInterruptibleChannel(jcpp::lang::JClass* clazz);
 			virtual void implCloseChannel() = 0;
 			void begin();
 			void end(jbool completed);

@@ -27,6 +27,18 @@ using namespace junit::framework;
 
 //@Class(canonicalName="jcpp.io.MClassTest", simpleName="MClassTest");
 class JCPP_EXPORT JClassAPITest : public JAbstractTest{
+protected:
+	void testFindDeclaredConstructor(JList* parameterTypes, JConstructor* rightAnswer);
+	void testFindConstructor(JList* parameterTypes, JConstructor* rightAnswer);
+	void testFindDeclaredMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer);
+	void testFindMethod(JString* name, JList* parameterTypes, JMethod* rightAnswer);
+	void testFindDeclaredField(JString* name, JField* rightAnswer);
+	void testFindField(JString* name, JField* rightAnswer);
+	JConstructor* constructorInListWithParameterTypes(JList* params, JList* constructors);
+	JMember* memberInListNamed(JString* name, JList* members);
+	void logit(JClass* claz);
+	void logit(JList* list);
+	void logit(JMember* member);
 public:
 	JClassAPITest(JString* name);
 	JClassAPITest();

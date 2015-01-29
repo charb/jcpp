@@ -11,7 +11,7 @@ namespace jcpp{
             namespace connection{
 
 
-                JObjectInformation::JObjectInformation(JString* id, JObject* object, JList* interfaces, JObjectInformations* objectInformations, JILifecycle* lifecycle, JGC*) : JObject(getClazz()){
+                JObjectInformation::JObjectInformation(JString* id, JObject* object, JList* interfaces, JObjectInformations* objectInformations, JILifecycle* lifecycle, JGC* gc) : JObject(getClazz()){
                     this->object = object;
                     this->id = id;
                     this->objectInformations = objectInformations;

@@ -67,8 +67,8 @@ namespace jcpp{
 				static JRedirect* from(JFile* file);
 				static JRedirect* to(JFile* file);
 
-				JType* getType() const;
-				JFile* getFile() const;
+				JType* getType();
+				JFile* getFile();
 
 				virtual ~JRedirect();
 

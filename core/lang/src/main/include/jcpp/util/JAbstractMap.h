@@ -156,7 +156,7 @@ namespace jcpp{
                     return value;
                 }
 
-                virtual JObject* setValue(JObject*) {
+                virtual JObject* setValue(JObject* obj) {
                     throw new JUnsupportedOperationException();
                 }
 

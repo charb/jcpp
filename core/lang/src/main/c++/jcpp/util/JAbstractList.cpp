@@ -406,11 +406,11 @@ namespace jcpp{
             return true;
         }
 
-        JObject* JAbstractList::set(jint, JObject*){
+        JObject* JAbstractList::set(jint index, JObject* obj){
             throw new JUnsupportedOperationException();
         }
 
-        void JAbstractList::add(jint, JObject*){
+        void JAbstractList::add(jint index, JObject* obj){
             throw new JUnsupportedOperationException();
         }
 
@@ -418,7 +418,7 @@ namespace jcpp{
             return JAbstractCollection::remove(o);
         }
 
-        JObject* JAbstractList::remove(jint){
+        JObject* JAbstractList::remove(jint index){
             throw new JUnsupportedOperationException();
         }
 
