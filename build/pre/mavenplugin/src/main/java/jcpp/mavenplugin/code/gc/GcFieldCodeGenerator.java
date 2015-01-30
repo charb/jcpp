@@ -2,6 +2,7 @@ package jcpp.mavenplugin.code.gc;
 
 import jcpp.parser.cpp.CPPField;
 import jcpp.parser.cpp.CPPType;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -22,7 +23,7 @@ public class GcFieldCodeGenerator implements ICodeGenerator<CPPField> {
     }
 
     @Override
-    public String generate(CPPField construct) {
+    public String generate(CPPField construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
         CPPType type = construct.getType();

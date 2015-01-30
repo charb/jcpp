@@ -4,6 +4,7 @@ import jcpp.mavenplugin.code.Utils;
 
 import jcpp.parser.cpp.CPPClass;
 import jcpp.parser.cpp.CPPFile;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -18,7 +19,7 @@ public class ReflectionClassCodeGenerator implements ICodeGenerator<CPPClass> {
 
 
     @Override
-    public String generate(CPPClass construct) {
+    public String generate(CPPClass construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
         if (construct.getCompositeTypeSpecifier() != null) {
             sb.append("\nfriend class ").append(construct.getSimpleName()).append("Class;\n");

@@ -2,6 +2,7 @@ package jcpp.mavenplugin.code.gc;
 
 import jcpp.parser.cpp.CPPType;
 import jcpp.parser.cpp.CPPVariable;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 import org.eclipse.cdt.core.dom.ast.IASTNode;
@@ -36,7 +37,7 @@ public class GcVariableCodeGenerator implements ICodeGenerator<CPPVariable> {
     }
 
     @Override
-    public String generate(CPPVariable construct) {
+    public String generate(CPPVariable construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
         CPPType cppType = construct.getType();

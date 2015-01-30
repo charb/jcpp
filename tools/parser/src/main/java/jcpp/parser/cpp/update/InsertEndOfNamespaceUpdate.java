@@ -20,7 +20,8 @@ public class InsertEndOfNamespaceUpdate extends CodeGenerationUpdate<CPPNamespac
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        String generatedCode = codeGenerator.generate(cppNamespace);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppNamespace.getNamespaceDefinition(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppNamespace, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             updater.insertIncludes(includes);
 

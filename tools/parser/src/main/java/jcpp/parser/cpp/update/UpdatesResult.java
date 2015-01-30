@@ -20,6 +20,10 @@ public class UpdatesResult {
     public char charAt(int index) {
         return content.charAt(index);
     }
+    
+    public String getSubstring(int start, int length) {
+        return content.substring(start, start + length);
+    }
 
     public String getContent() {
         return content.toString();

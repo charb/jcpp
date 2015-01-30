@@ -9,6 +9,7 @@ import jcpp.parser.cpp.CPPField;
 import jcpp.parser.cpp.CPPFile;
 import jcpp.parser.cpp.CPPNamespace;
 import jcpp.parser.cpp.CPPType;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -29,7 +30,7 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
 
 
     @Override
-    public String generate(CPPNamespace construct) {
+    public String generate(CPPNamespace construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
         String namespace = construct.getName();

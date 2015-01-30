@@ -20,7 +20,8 @@ public class InsertStartOfNamespaceUpdate extends CodeGenerationUpdate<CPPNamesp
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        String generatedCode = codeGenerator.generate(cppNamespace);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppNamespace.getNamespaceDefinition(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppNamespace, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             updater.insertIncludes(includes);
 
@@ -32,8 +33,7 @@ public class InsertStartOfNamespaceUpdate extends CodeGenerationUpdate<CPPNamesp
 
             IASTName astName = cppNamespace.getNamespaceDefinition().getName();
             int insertOffset = astName.getFileLocation().getNodeOffset() + astName.getFileLocation().getNodeLength();
-            while (updatesResult.charAt(insertOffset++) != '{') {
-            }
+            while (updatesResult.charAt(insertOffset++) != '{') { }
             updatesResult.insert(insertOffset, sb.toString());
         }
     }

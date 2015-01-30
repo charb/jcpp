@@ -20,10 +20,11 @@ public class InsertAfterFieldUpdate extends CodeGenerationUpdate<CPPField> {
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        IASTSimpleDeclaration declaration = cppField.getSimpleDeclaration();
-        int insertOffset = declaration.getFileLocation().getNodeOffset() + declaration.getFileLocation().getNodeLength();
-        String generatedCode = codeGenerator.generate(cppField);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppField.getSimpleDeclaration(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppField, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
+            IASTSimpleDeclaration declaration = cppField.getSimpleDeclaration();
+            int insertOffset = declaration.getFileLocation().getNodeOffset() + declaration.getFileLocation().getNodeLength();
             updater.insertIncludes(includes);
             updatesResult.insert(insertOffset, generatedCode);
         }

@@ -20,19 +20,19 @@ public class InsertAfterMethodUpdate extends CodeGenerationUpdate<CPPMethod> {
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        StringBuilder sb = new StringBuilder(System.lineSeparator());
-        String generatedCode = codeGenerator.generate(cppMethod);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppMethod.getFunctionDefinition().getBody(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppMethod, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             updater.insertIncludes(includes);
+            StringBuilder sb = new StringBuilder(System.lineSeparator());
             sb.append(generatedCode);
             if (!generatedCode.endsWith(System.lineSeparator())) {
                 sb.append(System.lineSeparator());
             }
+            IASTStatement bodyStatement = cppMethod.getFunctionDefinition().getBody();
+            int insertOffset = bodyStatement.getFileLocation().getNodeOffset() + 1;
+            updatesResult.insert(insertOffset, sb.toString());
         }
-
-        IASTStatement bodyStatement = cppMethod.getFunctionDefinition().getBody();
-        int insertOffset = bodyStatement.getFileLocation().getNodeOffset() + 1;
-        updatesResult.insert(insertOffset, sb.toString());
     }
 
 }

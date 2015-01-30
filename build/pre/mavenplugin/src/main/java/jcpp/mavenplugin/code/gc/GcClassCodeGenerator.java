@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import jcpp.parser.cpp.CPPBaseClass;
 import jcpp.parser.cpp.CPPClass;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -48,7 +49,7 @@ public class GcClassCodeGenerator implements ICodeGenerator<CPPClass> {
     }
 
     @Override
-    public String generate(CPPClass construct) {
+    public String generate(CPPClass construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
         if (isObject(construct)) {
             sb.append("\nprivate:");

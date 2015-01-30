@@ -20,7 +20,8 @@ public class InsertMemberInitializersUpdate extends CodeGenerationUpdate<CPPMeth
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        String generatedCode = codeGenerator.generate(cppMethod);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppMethod.getFunctionDefinition(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppMethod, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             updater.insertIncludes(includes);
             ICPPASTFunctionDefinition definition = (ICPPASTFunctionDefinition) cppMethod.getFunctionDefinition();

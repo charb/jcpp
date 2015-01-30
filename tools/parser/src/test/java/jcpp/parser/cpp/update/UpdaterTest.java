@@ -89,7 +89,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPVariable construct) {
+        public String generate(CPPVariable construct, CodeGeneratorContext context) {
             return "DeclaredVariable(" + construct.getName() + ");";
         }
 
@@ -102,7 +102,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPNamespace construct) {
+        public String generate(CPPNamespace construct, CodeGeneratorContext context) {
             return "/*DeclaredNamespace(" + construct.getLastName() + ");*/";
         }
 
@@ -115,7 +115,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPClass construct) {
+        public String generate(CPPClass construct, CodeGeneratorContext context) {
             return "/*DeclaredClass(" + construct.getSimpleName() + ");*/";
         }
 
@@ -128,7 +128,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPMethod construct) {
+        public String generate(CPPMethod construct, CodeGeneratorContext context) {
             StringBuilder sb = new StringBuilder("/*DeclaredMethod(").append(construct.getName()).append(");*/").append(System.lineSeparator());
             for (CPPMethodParameter parameter : construct.getParameters()) {
                 sb.append("DeclaredParameter(").append(parameter.getName()).append(");").append(System.lineSeparator());
@@ -144,7 +144,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPField construct) {
+        public String generate(CPPField construct, CodeGeneratorContext context) {
             return "/*DeclaredField(" + construct.getName() + ");*/";
         }
 
@@ -157,7 +157,7 @@ public class UpdaterTest {
 
 
         @Override
-        public String generate(CPPMethod construct) {
+        public String generate(CPPMethod construct, CodeGeneratorContext context) {
             return "__objectInfo()";
         }
 
@@ -170,18 +170,18 @@ public class UpdaterTest {
 
 
         @Override
-        public String generateBefore(CPPVariable construct) {
+        public String generateBefore(CPPVariable construct, CodeGeneratorContext context) {
             return "/*before for: " + construct.getName() + "*/";
         }
 
         @Override
-        public String generate(CPPVariable construct) {
+        public String generate(CPPVariable construct, CodeGeneratorContext context) {
             //NOTE: cannot use construct.getDeclaration.getRawSignature() anymore. in case of a macro expansion it returns an incorrect result
-            return "char " + construct.getName() + "[] = {'a','b','c','\\0'};";
+            return context.getSourceContext();
         }
 
         @Override
-        public String generateAfter(CPPVariable construct) {
+        public String generateAfter(CPPVariable construct, CodeGeneratorContext context) {
             return "/*after for: " + construct.getName() + "*/";
         }
     }

@@ -20,7 +20,8 @@ public class InsertAfterClassUpdate extends CodeGenerationUpdate<CPPClass> {
 
     @Override
     public void update(UpdatesResult updatesResult) throws Exception {
-        String generatedCode = codeGenerator.generate(cppClass);
+        CodeGeneratorContext context = new CodeGeneratorContext(cppClass.getCompositeTypeSpecifier(), updatesResult);
+        String generatedCode = codeGenerator.generate(cppClass, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             updater.insertIncludes(includes);
 
@@ -32,9 +33,7 @@ public class InsertAfterClassUpdate extends CodeGenerationUpdate<CPPClass> {
 
             IASTName astName = cppClass.getCompositeTypeSpecifier().getName();
             int insertOffset = astName.getFileLocation().getNodeOffset() + astName.getFileLocation().getNodeLength();
-            while (updatesResult.charAt(insertOffset++) != '{') {
-                ;
-            }
+            while (updatesResult.charAt(insertOffset++) != '{') { }
 
             updatesResult.insert(insertOffset, sb.toString());
         }

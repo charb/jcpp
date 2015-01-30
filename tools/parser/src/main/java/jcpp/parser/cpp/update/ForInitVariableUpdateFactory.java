@@ -11,8 +11,6 @@ import jcpp.parser.cpp.CPPMethod;
 import jcpp.parser.cpp.CPPVariable;
 import jcpp.parser.cpp.update.ForInitVariableUpdate.ForUpdateMode;
 
-import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
-
 
 public class ForInitVariableUpdateFactory extends CodeGenerationUpdateFactory<CPPVariable> {
 

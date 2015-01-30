@@ -7,6 +7,7 @@ import jcpp.parser.cpp.CPPField;
 import jcpp.parser.cpp.CPPFile;
 import jcpp.parser.cpp.CPPMethod;
 import jcpp.parser.cpp.CPPType;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -21,7 +22,7 @@ public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMetho
 
 
     @Override
-    public String generate(CPPMethod construct) {
+    public String generate(CPPMethod construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("__objectInfo(&__classInfo, this)");

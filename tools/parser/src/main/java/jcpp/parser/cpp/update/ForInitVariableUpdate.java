@@ -7,10 +7,7 @@ import jcpp.parser.cpp.CPPVariable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
-import org.eclipse.cdt.core.dom.ast.IASTMacroExpansionLocation;
 import org.eclipse.cdt.core.dom.ast.IASTNode;
-import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
-import org.eclipse.cdt.internal.core.dom.parser.ASTNode;
 
 
 public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
@@ -52,7 +49,8 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
     }
 
     private void updateBeforeForBody(UpdatesResult updatesResult) {
-        String generatedCode = getCodeGenerator().generateBefore(cppVariable);
+        CodeGeneratorContext context = createCodeGeneratorContext(updatesResult);
+        String generatedCode = getCodeGenerator().generateBefore(cppVariable, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             int insertOffset = computeInsertOffset(cppVariable, ForUpdateMode.BEFORE_BODY);
             if (insertOffset >= 0) {
@@ -67,7 +65,8 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
     }
 
     private void updateAfteForBody(UpdatesResult updatesResult) {
-        String generatedCode = getCodeGenerator().generateAfter(cppVariable);
+        CodeGeneratorContext context = createCodeGeneratorContext(updatesResult);
+        String generatedCode = getCodeGenerator().generateAfter(cppVariable, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             int insertOffset = computeInsertOffset(cppVariable, ForUpdateMode.AFTER_BODY);
             if (insertOffset >= 0) {
@@ -82,7 +81,8 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
     }
 
     private void updateForInitializer(UpdatesResult updatesResult) {
-        String generatedCode = getCodeGenerator().generate(cppVariable);
+        CodeGeneratorContext context = createCodeGeneratorContext(updatesResult);
+        String generatedCode = getCodeGenerator().generate(cppVariable, context);
         if ((generatedCode != null) && !generatedCode.isEmpty()) {
             IASTFileLocation fileLocation = getFileLocation(cppVariable.getDeclaration());
             if (fileLocation != null) {
@@ -97,6 +97,26 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
 
             }
         }
+    }
+
+    private CodeGeneratorContext createCodeGeneratorContext(UpdatesResult updatesResult) {
+        IASTFileLocation fileLocation = null;
+        switch (mode) {
+        case BEFORE_BODY:
+        case AFTER_BODY:
+            fileLocation = getFileLocation(cppVariable.getForLoopStatement());
+            break;
+        case REPLACE_INITIALIZER:
+            fileLocation = getFileLocation(cppVariable.getDeclaration());
+            break;
+        }
+        CodeGeneratorContext context = null;
+        if (fileLocation != null) {
+            context = new CodeGeneratorContext(fileLocation.getNodeOffset(), fileLocation.getNodeLength(), updatesResult);
+        } else {
+            context = new CodeGeneratorContext(-1, -1, updatesResult);
+        }
+        return context;
     }
 
     private static int computeInsertOffset(CPPVariable cppVariable, ForUpdateMode mode) {
@@ -120,14 +140,7 @@ public class ForInitVariableUpdate extends CodeGenerationUpdate<CPPVariable> {
     }
 
     private static IASTFileLocation getFileLocation(IASTNode node) {
-        IASTNodeLocation[] nodeLocations = node.getNodeLocations();
-        IASTFileLocation fileLocation = null;
-        if (nodeLocations.length == 1 && nodeLocations[0] instanceof IASTMacroExpansionLocation) {
-            fileLocation = ((ASTNode) node).getImageLocation(); //NOTE: can return null when the cppVariable is declared in a marco definition.
-        } else {
-            fileLocation = node.getFileLocation();
-        }
-        return fileLocation;
+        return CodeGeneratorContext.getFileLocation(node);
     }
 
 }

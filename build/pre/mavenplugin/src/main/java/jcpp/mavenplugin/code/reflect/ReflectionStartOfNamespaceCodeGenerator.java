@@ -3,6 +3,7 @@ package jcpp.mavenplugin.code.reflect;
 import jcpp.parser.cpp.CPPClass;
 import jcpp.parser.cpp.CPPFile;
 import jcpp.parser.cpp.CPPNamespace;
+import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
@@ -17,7 +18,7 @@ public class ReflectionStartOfNamespaceCodeGenerator implements ICodeGenerator<C
 
 
     @Override
-    public String generate(CPPNamespace construct) {
+    public String generate(CPPNamespace construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
         if (cppFile != null) {
