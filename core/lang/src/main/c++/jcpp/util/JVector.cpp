@@ -235,34 +235,28 @@ namespace jcpp{
 
         JObject* JVector::elementAt(jint index) {
             synchronized(this,{
-                JObject* r=null;
                 if (index >= size()) {
                     throw new JArrayIndexOutOfBoundsException();
                 }
-                r=get(index);
-                return r;
+                return get(index);
             })
         }
 
         JObject* JVector::firstElement() {
             synchronized(this,{
-                JObject* r=null;
                 if (size() == 0) {
                     throw new JNoSuchElementException();
                 }
-                r=get(0);
-                return r;
+                return get(0);
             })
         }
 
         JObject* JVector::lastElement() {
             synchronized(this,{
-                JObject* r=null;
                 if (size() == 0) {
                     throw new JNoSuchElementException();
                 }
-                r=get(size()-1);
-                return r;
+                return get(size()-1);
             })
         }
 

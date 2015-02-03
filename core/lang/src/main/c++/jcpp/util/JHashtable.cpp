@@ -163,7 +163,8 @@ namespace jcpp{
                 }
                 JPrimitiveObjectArray* tab = table;
                 for (jint i = tab->size() ; i-- > 0 ;) {
-                    for (JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(i)) ; e != null ; e = e->next) {
+                	JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(i));
+                    for (; e != null ; e = e->next) {
                         if (e->value->equals(value)) {
                             return true;
                         }
@@ -182,7 +183,8 @@ namespace jcpp{
                 JPrimitiveObjectArray* tab = table;
                 jint hash = key->hashCode();
                 jint index = (hash & 0x7FFFFFFF) % tab->size();
-                for (JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index)) ; e != null ; e = e->next) {
+                JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index));
+                for (; e != null ; e = e->next) {
                     if ((e->hash == hash) && e->key->equals(key)) {
                         return true;
                     }
@@ -196,7 +198,8 @@ namespace jcpp{
                 JPrimitiveObjectArray* tab = table;
                 jint hash = key->hashCode();
                 jint index = (hash & 0x7FFFFFFF) % tab->size();
-                for (JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index)) ; e != null ; e = e->next) {
+                JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index));
+                for (; e != null ; e = e->next) {
                     if ((e->hash == hash) && e->key->equals(key)) {
                         return e->value;
                     }
@@ -280,7 +283,8 @@ namespace jcpp{
                 jint index = (hash & 0x7FFFFFFF) % tab->size();
 
                 JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index));
-                for (JEntryImpl* prev = null ; e != null ; prev = e, e = e->next) {
+                JEntryImpl* prev = 0;
+                for (; e != null ; prev = e, e = e->next) {
                     if ((e->hash == hash) && e->key->equals(key)) {
                         modCount++;
                         if (prev != null) {
@@ -438,7 +442,7 @@ namespace jcpp{
                 jint index = (hash & 0x7FFFFFFF) % tab->size();
 
                 JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index));
-                for (JEntryImpl* prev = null; e != null; prev = e, e = e->next) {
+                for (JEntryImpl* prev = 0; e != null; prev = e, e = e->next) {
                     if (e->hash==hash && e->equals(dynamic_cast<JObject*>(entry))) {
                         map->modCount++;
                         if (prev != null){
@@ -711,7 +715,8 @@ namespace jcpp{
                     jint index = (lastReturned->hash & 0x7FFFFFFF) % tab->size();
 
                     JEntryImpl* e = dynamic_cast<JEntryImpl*>(tab->get(index));
-                    for (JEntryImpl* prev = null; e != null; prev = e, e = e->next) {
+                    JEntryImpl* prev = 0;
+                    for (; e != null; prev = e, e = e->next) {
                         if (e == lastReturned) {
                             hashtable->modCount++;
                             expectedModCount++;

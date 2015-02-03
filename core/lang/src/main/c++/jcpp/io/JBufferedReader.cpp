@@ -152,7 +152,7 @@ namespace jcpp{
 
         JString* JBufferedReader::readLine(jbool ignoreLF){
             synchronized(lock,{
-                JStringBuffer* s = null;
+                JStringBuffer* s = 0;
                 jint startChar=0;
                 ensureOpen();
 
@@ -191,7 +191,7 @@ namespace jcpp{
                     nextChar = i;
 
                     if (eol) {
-                        JString* str=null;
+                        JString* str=0;
                         if (s == null) {
                             str=new JString(cb,startChar,i-startChar);
                         } else {
