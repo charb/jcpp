@@ -27,4 +27,13 @@
 		<module>rmi-tests</module>
 	</modules>
 	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+				<artifactId>pre-mavenplugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>

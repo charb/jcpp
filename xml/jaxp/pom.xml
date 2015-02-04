@@ -21,27 +21,5 @@
 			<type>nar</type>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
-				<artifactId>pre-mavenplugin</artifactId>
-				<executions>
-					<execution>
-						<id>process-sources</id>
-						<goals>
-							<goal>pre-compilation</goal>
-							<goal>post-compilation</goal>
-						</goals>
-						<configuration>
-							<addGcCode>false</addGcCode>
-							<addReflectionCode>true</addReflectionCode>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 	
 </project>

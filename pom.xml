@@ -92,6 +92,8 @@
 								<goal>post-compilation</goal>
 							</goals>
 							<configuration>
+								<addGcCode>true</addGcCode>
+								<addReflectionCode>true</addReflectionCode>
 							</configuration>
 						</execution>
 					</executions>

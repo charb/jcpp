@@ -11,6 +11,7 @@ copy ..\..\core\tests\target\nar\core-tests-1.0-amd64-Windows-msvc-shared\lib\am
 copy ..\..\core\util-concurrent-tests\target\nar\core-util-concurrent-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-util-concurrent-tests-1.0.dll assembly
 copy ..\..\core\rmi\target\nar\core-rmi-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-rmi-1.0.dll assembly
 copy ..\..\core\rmi-tests\target\nar\core-rmi-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-rmi-tests-1.0.dll assembly
+copy ..\..\core\gc\target\nar\core-gc-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-gc-1.0.dll assembly
 cd assembly
 jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-tests-1.0.dll;core-util-concurrent-tests-1.0.dll;core-rmi-1.0.dll;core-rmi-tests-1.0.dll -classname=junit.textui.TestRunner jcpp.rmi.server.RMIServerTestSuite
 cd ..

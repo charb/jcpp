@@ -9,6 +9,7 @@ copy ..\..\junit\target\nar\jcpp-junit-1.0-amd64-Windows-msvc-shared\lib\amd64-W
 copy ..\..\cli\target\nar\jcpp-cli-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\jcpp-cli-1.0.dll assembly
 copy ..\..\core\tests\target\nar\core-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-tests-1.0.dll assembly
 copy ..\..\core\util-concurrent-tests\target\nar\core-util-concurrent-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-util-concurrent-tests-1.0.dll assembly
+copy ..\..\core\gc\target\nar\core-gc-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\core-gc-1.0.dll assembly
 cd assembly
 jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-tests-1.0.dll;core-util-concurrent-tests-1.0.dll -classname=junit.textui.TestRunner jcpp.util.concurrent.ConcurrentTestSuite
 cd ..
