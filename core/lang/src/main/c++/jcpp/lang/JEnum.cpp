@@ -7,6 +7,23 @@
 
 namespace jcpp{
     namespace lang{
+
+    	JEnum::JEnumClass::JEnumClass(){
+			this->canonicalName=new JString("java.lang.Enum");
+			this->name=new JString("java.lang.Enum");
+			this->simpleName=new JString("Enum");
+			this->bIsEnum=true;
+		}
+
+		void JEnum::JEnumClass::initialize(){
+			addInterface(JComparable::getClazz());
+			addInterface(JSerializable::getClazz());
+		}
+
+		jcpp::lang::JClass* JEnum::JEnumClass::getSuperclass(){
+			return JObject::getClazz();
+		}
+
         JEnum::JEnum(JEnumClass* _class,JString* name,JPrimitiveInt* ordinal):JObject(_class){
             this->name=name;
             this->ord=ordinal;

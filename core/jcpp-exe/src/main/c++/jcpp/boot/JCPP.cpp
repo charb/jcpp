@@ -24,37 +24,41 @@ using namespace jcpp::net;
 using namespace org::apache::commons::cli;
 
 
+// @IgnoreReflection()
+class MainExitListener : public JSystem::ExitListener{
+protected:
+	JObject* lock;
+	jbool set;
+	jint code;
+public:
+	MainExitListener(){
+		lock=new JObject();
+		set=false;
+		code=0;
+	}
+
+	virtual void exit(jint code){
+		synchronized(lock,{
+			this->code=code;
+			set=true;
+			lock->notifyAll();
+		})
+	}
+
+	jint waitExit(){
+		synchronized(lock,{
+			while (!set){
+				lock->wait();
+			}
+			return code;
+		})
+	}
+
+	virtual ~MainExitListener(){
+	}
+};
+
 int main(int argc, char* argv[]){
-
-    class MainExitListener : public JSystem::ExitListener{
-    protected:
-        JObject* lock;
-        jbool set;
-        jint code;
-    public:
-        MainExitListener(){
-            lock=new JObject();
-            set=false;
-            code=0;
-        }
-
-        virtual void exit(jint code){
-            synchronized(lock,{
-                this->code=code;
-                set=true;
-                lock->notifyAll();
-            })
-        }
-
-        jint waitExit(){
-            synchronized(lock,{
-                while (!set){
-                    lock->wait();
-                }
-                return code;
-            })
-        }
-    };
 
     MainExitListener* mainExitListener=new MainExitListener();
     JSystem::exitListener=mainExitListener;

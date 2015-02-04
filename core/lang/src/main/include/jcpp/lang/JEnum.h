@@ -17,23 +17,13 @@ namespace jcpp{
         class JCPP_EXPORT JEnum: public JObject, public JComparable, public JSerializable{
         public:
         	// @IgnoreReflection()
-			class JEnumClass : public jcpp::lang::JClass{
+			class JCPP_EXPORT JEnumClass : public jcpp::lang::JClass{
 			  public:
-				JEnumClass(){
-					this->canonicalName=new JString("java.lang.Enum");
-					this->name=new JString("java.lang.Enum");
-					this->simpleName=new JString("Enum");
-					this->bIsEnum=true;
-				}
+				JEnumClass();
 
-				virtual void initialize(){
-					addInterface(JComparable::getClazz());
-					addInterface(JSerializable::getClazz());
-				}
+				virtual void initialize();
 
-				virtual jcpp::lang::JClass* getSuperclass(){
-					return JObject::getClazz();
-				}
+				virtual jcpp::lang::JClass* getSuperclass();
 			};
         protected:
             JPrimitiveInt* ord;

@@ -22,18 +22,19 @@ namespace jcpp{
 
     	// @Class(canonicalName="java.lang.System", simpleName="System");
         class JCPP_EXPORT JSystem : public JObject{
-        protected:
-            static JString* lSeparator;
-            static JProperties* props;
-            static JProperties* initProperties(JProperties* props);
-
+        public:
             // @Class(canonicalName="java.lang.ExitListener", simpleName="ExitListener");
-            class ExitListener{
+            class JCPP_EXPORT ExitListener{
             public:
             	static jcpp::lang::JClass* getClazz();
             	// @IgnoreReflection()
                 virtual void exit(jint code)=0;
             };
+
+        protected:
+            static JString* lSeparator;
+            static JProperties* props;
+            static JProperties* initProperties(JProperties* props);
 
             // @IgnoreReflection()
             static ExitListener* exitListener;
