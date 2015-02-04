@@ -104,9 +104,6 @@ namespace jcpp{
 
             JString();
 
-            // @IgnoreReflection()
-            JString(string str);
-
             JString(JString* str);
 
             // @IgnoreReflection()

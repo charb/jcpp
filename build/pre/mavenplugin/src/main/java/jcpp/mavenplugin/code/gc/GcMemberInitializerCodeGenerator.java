@@ -25,8 +25,6 @@ public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMetho
     public String generate(CPPMethod construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("__objectInfo(&__classInfo, this)");
-
         String className = construct.getCppClass().getName();
         CPPClass cppClass = null;
 
@@ -38,6 +36,8 @@ public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMetho
         }
 
         if ((cppClass != null) && GcClassCodeGenerator.isObject(cppClass)) {
+            sb.append("__objectInfo(&__classInfo, this)");
+            
             List<CPPField> fields = cppClass.getFields();
             for (CPPField field : fields) {
                 CPPType type = field.getType();

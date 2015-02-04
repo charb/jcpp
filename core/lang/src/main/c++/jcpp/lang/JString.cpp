@@ -108,9 +108,6 @@ namespace jcpp{
         JString::JString(): JObject(null), nativeString(){
         }
 
-        JString::JString(string str): JObject(null), nativeString(str){
-        }
-
         JString::JString(JString* str): JObject(null), nativeString(str->nativeString){
         }
 

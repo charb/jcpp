@@ -1,11 +1,13 @@
 package jcpp.parser.cpp.update;
 
 public class UpdatesResult {
-    private StringBuilder content;
-
+    private final StringBuilder content;
+	private final String originalContent;
+	
 
     public UpdatesResult(String content) {
-        this.content = new StringBuilder(content);
+        originalContent = content;
+		this.content = new StringBuilder(content);
     }
 
 
@@ -22,10 +24,14 @@ public class UpdatesResult {
     }
     
     public String getSubstring(int start, int length) {
-        return content.substring(start, start + length);
+        return originalContent.substring(start, start + length);
     }
 
     public String getContent() {
         return content.toString();
     }
+
+	public String getOriginalContent() {
+		return originalContent;
+	}
 }

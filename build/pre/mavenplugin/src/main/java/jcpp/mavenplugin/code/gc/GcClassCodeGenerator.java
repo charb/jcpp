@@ -51,9 +51,10 @@ public class GcClassCodeGenerator implements ICodeGenerator<CPPClass> {
     @Override
     public String generate(CPPClass construct, CodeGeneratorContext context) {
         StringBuilder sb = new StringBuilder();
+        sb.append("\nprivate:");
+        sb.append("\nstatic ClassInfo __classInfo;");
+        
         if (isObject(construct)) {
-            sb.append("\nprivate:");
-            sb.append("\nstatic ClassInfo __classInfo;");
             sb.append("\nObjectInfo __objectInfo;\n");
         }
         return sb.toString();

@@ -30,7 +30,7 @@ public class GcFieldCodeGenerator implements ICodeGenerator<CPPField> {
         if (type.isPointer()) {
             if (type.isStatic()) {
                 sb.append("\nstatic FieldInfo __").append(construct.getName()).append("StaticFieldInfo;\n");
-            } else {
+            } else if((construct.getCppClass() != null) && (GcClassCodeGenerator.isObject(construct.getCppClass()))) {
                 sb.append("\nFieldInfo __").append(construct.getName()).append("FieldInfo;\n");
             }
         }

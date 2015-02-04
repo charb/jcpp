@@ -49,10 +49,10 @@ public class GcMethodCodeGenerator implements ICodeGenerator<CPPMethod> {
             }
         }
 
-        if ((cppClass == null) || construct.getFunction().isStatic()) {
-            sb.append("\nMethodCallInfo __methodCallInfo(\"").append(construct.getName()).append("\", NULL);\n");
-        } else if((cppClass != null) && GcClassCodeGenerator.isObject(cppClass)) {
+        if((cppClass != null) && GcClassCodeGenerator.isObject(cppClass) && !construct.getFunction().isStatic()) {
             sb.append("\nMethodCallInfo __methodCallInfo(\"").append(construct.getName()).append("\", &__objectInfo);\n");
+        } else {
+        	sb.append("\nMethodCallInfo __methodCallInfo(\"").append(construct.getName()).append("\", NULL);\n");
         }
 
         List<CPPMethodParameter> parameters = construct.getParameters();

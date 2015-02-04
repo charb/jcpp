@@ -53,24 +53,21 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
     private void generateCodeForCppClasses(StringBuilder sb, String namespace, CPPClass[] classes) {
         if (classes != null) {
             for (CPPClass cppClass : classes) {
-                if (GcClassCodeGenerator.isObject(cppClass)) {
-                    String classNamespaceName = cppClass.getNamespaceName();
-                    if (classNamespaceName.equals(namespace)) {
-                        String className = cppClass.getName();
+                String classNamespaceName = cppClass.getNamespaceName();
+                if (classNamespaceName.equals(namespace)) {
+                    String className = cppClass.getName();
 
-                        if (!classNamesWritten.contains(className)) {
-                            classNamesWritten.add(className);
+                    if (!classNamesWritten.contains(className)) {
+                        classNamesWritten.add(className);
 
-                            sb.append("\nClassInfo ").append(className).append("::__classInfo(\"").append(classNamespaceName).append("\", \"").append(className).append("\");\n");
-                            List<CPPField> fields = cppClass.getFields();
-                            for (CPPField field : fields) {
-                                CPPType type = field.getType();
-                                if (type.isPointer()) {
-                                    if (type.isStatic()) {
-                                        String fieldName = field.getName();
-                                        sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, \"").append(fieldName).append("\", (void**)&").append(fieldName).append(
-                                            ");\n");
-                                    }
+                        sb.append("\nClassInfo ").append(className).append("::__classInfo(\"").append(classNamespaceName).append("\", \"").append(className).append("\");\n");
+                        List<CPPField> fields = cppClass.getFields();
+                        for (CPPField field : fields) {
+                            CPPType type = field.getType();
+                            if (type.isPointer()) {
+                                if (type.isStatic()) {
+                                    String fieldName = field.getName();
+                                    sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, \"").append(fieldName).append("\", (void**)&").append(fieldName).append(");\n");
                                 }
                             }
                         }
