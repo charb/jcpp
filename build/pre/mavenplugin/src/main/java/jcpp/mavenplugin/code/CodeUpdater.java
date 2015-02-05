@@ -2,6 +2,11 @@ package jcpp.mavenplugin.code;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import jcpp.mavenplugin.code.history.CodeHistory;
 import jcpp.mavenplugin.code.history.PackageHistory;
@@ -73,7 +78,12 @@ public class CodeUpdater {
 
         initializeNewSrcDirectory();
 
-        cppPackage.accept(new CodeUpdaterCppPackageVisitor());
+        CodeUpdaterCppPackageVisitor visitor = new CodeUpdaterCppPackageVisitor();
+        try {
+        	cppPackage.accept(visitor);
+        } finally {
+        	visitor.clean();	
+        }
 
         if (usingHistoryDir) {
             createHistoryDirectory();
@@ -258,13 +268,65 @@ public class CodeUpdater {
     // ----------------------------------------------------------
 
     private class CodeUpdaterCppPackageVisitor implements ICppPackageVisitor {
+        private ExecutorService parseThreadPool;
 
-        public CodeUpdaterCppPackageVisitor() {
+		public CodeUpdaterCppPackageVisitor() {
+			parseThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         }
 
+		public void clean() {
+			parseThreadPool.shutdown();
+		}
+		
+        @Override
+        public void startCppPackage(CppPackage cppPackage) {
+        }
+        
+		@Override
+		public void visitCppFileTuple(CppFileTuple cppFileTuple) {
+		}
 
         @Override
-        public void visitCppFileTuple(CppFileTuple tuple) {
+        public void endCppPackage(CppPackage cppPackage) {
+        	List<CppFileTuple> cppFileTuples = cppPackage.getCppFileTuples();
+        	List<Future<?>> futures = new ArrayList<Future<?>>();
+        	for(final CppFileTuple fileTuple : cppFileTuples) {
+        		futures.add(parseThreadPool.submit(new Runnable() {
+					@Override
+					public void run() {
+						parseCppFileTuple(fileTuple);
+					}
+				}));
+        	}
+        	
+        	for(Future<?> future : futures) {
+        		try {
+					future.get();
+				} catch (Throwable e) {
+					throw new RuntimeException(e);
+				}
+        	}
+        	
+            try {
+                if (cppPackage.checkUpdated()) {
+                    if (!usingHistoryDir) {
+                        cppPackage.deleteExistingHistoryFiles();
+                    }
+                    cppPackage.update();
+                } else {
+                    PackageHistory newPackageHistory = cppPackage.createNewHistoryFromExisting();
+                    cppPackage.setNewPackageHistory(newPackageHistory);
+                    if (usingHistoryDir) {
+                        newPackageHistory.copyGeneratedTuples(updaterContext.getHistoryHeaderBaseDir(), updaterContext.getHistoryCppBaseDir(), updaterContext.getNewHeaderBaseDir(), updaterContext.getNewCppBaseDir(),
+                            updaterContext.isUpdateIncludeDirOnly());
+                    }
+                }
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+
+        private void parseCppFileTuple(CppFileTuple tuple) {
             try {
                 if (tuple.checkUpdated()) {
                     if (!usingHistoryDir) {
@@ -277,31 +339,6 @@ public class CodeUpdater {
                     tuple.setNewTupleHistory(existingTupleHistory);
                     if (usingHistoryDir) {
                         existingTupleHistory.copy(updaterContext.getHistoryHeaderBaseDir(), updaterContext.getHistoryCppBaseDir(), updaterContext.getNewHeaderBaseDir(), updaterContext.getNewCppBaseDir(),
-                            updaterContext.isUpdateIncludeDirOnly());
-                    }
-                }
-            } catch (Exception exception) {
-                throw new RuntimeException(exception);
-            }
-        }
-
-        @Override
-        public void startCppPackage(CppPackage cppPackage) {
-        }
-
-        @Override
-        public void endCppPackage(CppPackage cppPackage) {
-            try {
-                if (cppPackage.checkUpdated()) {
-                    if (!usingHistoryDir) {
-                        cppPackage.deleteExistingHistoryFiles();
-                    }
-                    cppPackage.update();
-                } else {
-                    PackageHistory newPackageHistory = cppPackage.createNewHistoryFromExisting();
-                    cppPackage.setNewPackageHistory(newPackageHistory);
-                    if (usingHistoryDir) {
-                        newPackageHistory.copyGeneratedTuples(updaterContext.getHistoryHeaderBaseDir(), updaterContext.getHistoryCppBaseDir(), updaterContext.getNewHeaderBaseDir(), updaterContext.getNewCppBaseDir(),
                             updaterContext.isUpdateIncludeDirOnly());
                     }
                 }
