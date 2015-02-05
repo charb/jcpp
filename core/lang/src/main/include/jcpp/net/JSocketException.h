@@ -12,6 +12,8 @@ namespace jcpp{
         class JCPP_EXPORT JSocketException : public JIOException  {
     	private:
     		static const jlong serialVersionUID = -5935874303556886934LL;
+    	protected:
+    		JSocketException(jcpp::lang::JClass* _class);
 
             public:
                 static jcpp::lang::JClass* getClazz();

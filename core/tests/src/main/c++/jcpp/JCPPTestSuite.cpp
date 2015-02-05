@@ -7,9 +7,12 @@
 #include "jcpp/lang/reflect/JConstructor.h"
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/util/JUtilTestSuite.h"
+#include "jcpp/net/JNetTestSuite.h"
+
 
 using namespace jcpp::io;
 using namespace jcpp::nio;
+using namespace jcpp::net;
 using namespace jcpp::lang::reflect;
 
 namespace jcpp{
@@ -19,6 +22,7 @@ namespace jcpp{
         addTest(new JLangTestSuite());
         addTest(new JUtilTestSuite());
         addTest(new JNIOTestSuite());
+        addTest(new JNetTestSuite());
     }
 
     JCPPTestSuite* JCPPTestSuite::suite(){

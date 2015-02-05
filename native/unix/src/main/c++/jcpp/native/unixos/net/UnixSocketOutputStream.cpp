@@ -1,4 +1,4 @@
-#include "jcpp/native/unixos/net/UnixSocketOutputStream.h"
+\#include "jcpp/native/unixos/net/UnixSocketOutputStream.h"
 #include "jcpp/native/api/NativeException.h"
 
 #include <sys/socket.h>
@@ -28,10 +28,10 @@ namespace jcpp {
 
 				void UnixSocketOutputStream::write(jbyte * buf, jint offset, jint len) {
 					if (streamClosed) {
-						throw NativeException(className, "write", IO_EXCEPTION, "Socket Output Stream is closed");
+						throw NativeException(className, "write", SOCKET_EXCEPTION, "Socket Output Stream is closed");
 					}
 					if (socketClosed) {
-						throw NativeException(className, "write", IO_EXCEPTION, "Socket is closed");
+						throw NativeException(className, "write", SOCKET_EXCEPTION, "Socket is closed");
 					}
 
 					int sentData = 0;
@@ -62,10 +62,10 @@ namespace jcpp {
 
 				void UnixSocketOutputStream::flush() {
 					if (streamClosed) {
-						throw NativeException(className, "write", IO_EXCEPTION, "Socket Output Stream is closed");
+						throw NativeException(className, "write", SOCKET_EXCEPTION, "Socket Output Stream is closed");
 					}
 					if (socketClosed) {
-						throw NativeException(className, "write", IO_EXCEPTION, "Socket is closed");
+						throw NativeException(className, "write", SOCKET_EXCEPTION, "Socket is closed");
 					}
 				}
 

@@ -14,6 +14,7 @@
 #include "jcpp/io/JIOException.h"
 #include "jcpp/io/JFileNotFoundException.h"
 #include "jcpp/net/JSocketException.h"
+#include "jcpp/net/JSocketTimeoutException.h"
 #include "jcpp/net/JUnknownHostException.h"
 #include "jcpp/lang/JInterruptedException.h"
 #include "jcpp/lang/JOutOfMemoryError.h"
@@ -226,7 +227,7 @@ namespace jcpp{
 				case SOCKET_EXCEPTION:
 					throw new JSocketException(message);
 				case SOCKET_TIMEOUT_EXCEPTION:
-					throw new JIOException(message);
+					throw new JSocketTimeoutException(message);
 				case OUT_OF_MEMORY_EXCEPTION:
 					throw new JOutOfMemoryError(message);
 				case BIND_EXCEPTION:

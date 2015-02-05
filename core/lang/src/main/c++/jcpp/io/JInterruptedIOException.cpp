@@ -12,6 +12,10 @@ namespace jcpp{
             bytesTransferred=new JPrimitiveInt();
         }
 
+        JInterruptedIOException::JInterruptedIOException(jcpp::lang::JClass* _class):JIOException(_class){
+        	bytesTransferred=new JPrimitiveInt();
+        }
+
         JInterruptedIOException::JInterruptedIOException(JString* m):JIOException(getClazz()){
             setMessage(m);
             bytesTransferred=new JPrimitiveInt();

@@ -10,6 +10,10 @@ namespace jcpp{
         JSocketException::JSocketException():JIOException(getClazz()){
         }
 
+        JSocketException::JSocketException(jcpp::lang::JClass* _class):JIOException(_class){
+        }
+
+
         JSocketException::JSocketException(JString* message) : JIOException(getClazz()){
             this->detailMessage=message;
         }

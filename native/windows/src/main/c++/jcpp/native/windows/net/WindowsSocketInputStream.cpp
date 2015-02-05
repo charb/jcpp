@@ -32,10 +32,10 @@ namespace jcpp {
 
 				jint WindowsSocketInputStream::read(jbyte * buf, jint offset, jint length) {
 					if (streamClosed) {
-						throw NativeException(className, "read", IO_EXCEPTION, "Socket Input Stream is closed");
+						throw NativeException(className, "read", SOCKET_EXCEPTION, "Socket Input Stream is closed");
 					}
 					if (socketClosed) {
-						throw NativeException(className, "read", IO_EXCEPTION, "Socket is closed");
+						throw NativeException(className, "read", SOCKET_EXCEPTION, "Socket is closed");
 					}
 
 					if (eof) {
@@ -76,10 +76,10 @@ namespace jcpp {
 
 				jlong WindowsSocketInputStream::skip(jlong offset) {
 					if (streamClosed) {
-						throw NativeException(className, "skip", IO_EXCEPTION, "Socket Input Stream is closed");
+						throw NativeException(className, "skip", SOCKET_EXCEPTION, "Socket Input Stream is closed");
 					}
 					if (socketClosed) {
-						throw NativeException(className, "skip", IO_EXCEPTION, "Socket is closed");
+						throw NativeException(className, "skip", SOCKET_EXCEPTION, "Socket is closed");
 					}
 					if (offset < 0) {
 						return 0;
@@ -98,10 +98,10 @@ namespace jcpp {
 
 				jlong WindowsSocketInputStream::available() {
 					if (streamClosed) {
-						throw NativeException(className, "available", IO_EXCEPTION, "Socket Input Stream is closed");
+						throw NativeException(className, "available", SOCKET_EXCEPTION, "Socket Input Stream is closed");
 					}
 					if (socketClosed) {
-						throw NativeException(className, "available", IO_EXCEPTION, "Socket is closed");
+						throw NativeException(className, "available", SOCKET_EXCEPTION, "Socket is closed");
 					}
 					u_long availableBytes = 0;
 					if (ioctlsocket(socket, FIONREAD, &availableBytes) == SOCKET_ERROR) {

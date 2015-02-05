@@ -15,6 +15,7 @@ namespace jcpp {
 			static const jlong serialVersionUID = 4020568460727500567LL;
 		protected:
 			JPrimitiveInt* bytesTransferred;
+			JInterruptedIOException(jcpp::lang::JClass* _class);
 
 		public:
 			static jcpp::lang::JClass* getClazz();
