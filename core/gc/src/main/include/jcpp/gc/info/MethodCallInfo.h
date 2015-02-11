@@ -16,27 +16,32 @@ namespace jcpp {
 			class JCPP_EXPORT MethodCallInfo {
 
 			private:
-				NativeString name;
+				NativeString* name;
 
 				ObjectInfo* objectInfo;
 
-				std::vector<ParameterInfo*> parameterInfos;
-				std::vector<VariableInfo*> variableInfos;
+				jint parameterCount;
+				ParameterInfo** parameterInfos;
 
-				void addParameterInfo(ParameterInfo* parameterInfo);
-				void addVariableInfo(VariableInfo* variableInfo);
-				void removeVariableInfo(VariableInfo* variableInfo);
+				jint variableCount;
+				VariableInfo** variableInfos;
+
+				void addParameterInfo(jint index, ParameterInfo* parameterInfo);
+				void addVariableInfo(jint index, VariableInfo* variableInfo);
+				void removeVariableInfo(jint index);
 
 			public:
-				MethodCallInfo(const char* name, ObjectInfo* objectInfo);
+				MethodCallInfo(NativeString* name, ObjectInfo* objectInfo, jint parameterCount, ParameterInfo** parameterInfos, jint variableCount, VariableInfo** variableInfos);
 
-				NativeString getName() const;
+				NativeString* getName() const;
 
 				ObjectInfo* getObjectInfo() const;
 
-				std::vector<ParameterInfo*>* getParameterInfos();
+				jint getParameterCount() const;
+				ParameterInfo** getParameterInfos() const;
 
-				std::vector<VariableInfo*>* geVariableInfos();
+				jint getVariableCount() const;
+				VariableInfo** geVariableInfos() const;
 
 				virtual ~MethodCallInfo();
 

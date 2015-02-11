@@ -7,18 +7,10 @@ import jcpp.parser.cpp.update.IEnhancedCodeGenerator;
 
 
 public class GcForLoopVariableCodeGenerator implements IEnhancedCodeGenerator<CPPVariable> {
-    private static GcForLoopVariableCodeGenerator instance;
+	private final GcFileTupleContext gcContext;
 
-
-    private GcForLoopVariableCodeGenerator() {
-    }
-
-
-    public static synchronized GcForLoopVariableCodeGenerator getInstance() {
-        if (instance == null) {
-            instance = new GcForLoopVariableCodeGenerator();
-        }
-        return instance;
+    public GcForLoopVariableCodeGenerator(GcFileTupleContext gcContext) {
+    	this.gcContext = gcContext;
     }
 
     @Override
@@ -36,7 +28,7 @@ public class GcForLoopVariableCodeGenerator implements IEnhancedCodeGenerator<CP
 
             sb.append("\n{");
             sb.append("\n").append(context.getSourceContext(construct.getDeclaration()));
-            sb.append("\n VariableInfo __").append(variableName).append("VariableInfo(&__methodCallInfo, (void**)&").append(variableName).append(");\n");
+            sb.append("\n VariableInfo __").append(variableName).append("VariableInfo(&__methodCallInfo, (void**)&").append(variableName).append(", ").append(gcContext.getCurrentVariableIndex(construct)).append(");\n");
         }
 
         return sb.toString();

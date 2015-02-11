@@ -5,28 +5,32 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			MethodCallInfo::MethodCallInfo(const char* name, ObjectInfo* objectInfo) : name(name), objectInfo(objectInfo), parameterInfos(), variableInfos() {
+			MethodCallInfo::MethodCallInfo(NativeString* name, ObjectInfo* objectInfo, jint parameterCount, ParameterInfo** parameterInfos, jint variableCount, VariableInfo** variableInfos) :
+					name(name), objectInfo(objectInfo), parameterCount(parameterCount), parameterInfos(parameterInfos), variableCount(variableCount), variableInfos(variableInfos) {
+				if(parameterCount > 0) {
+					for(jint parameterIndex = 0; parameterIndex < parameterCount; parameterIndex++) {
+						parameterInfos[parameterIndex] = 0;
+					}
+				}
+				for(jint variableIndex = 0; variableIndex < variableCount; variableIndex++) {
+					variableInfos[variableIndex] = 0;
+				}
 				Stack::getStack()->methodCallStarted(this);
 			}
 
-			void MethodCallInfo::addParameterInfo(ParameterInfo* parameterInfo) {
-				parameterInfos.push_back(parameterInfo);
+			void MethodCallInfo::addParameterInfo(jint index, ParameterInfo* parameterInfo) {
+				parameterInfos[index] = parameterInfo;
 			}
 
-			void MethodCallInfo::addVariableInfo(VariableInfo* variableInfo) {
-				variableInfos.push_back(variableInfo);
+			void MethodCallInfo::addVariableInfo(jint index, VariableInfo* variableInfo) {
+				variableInfos[index] = variableInfo;
 			}
 
-			void MethodCallInfo::removeVariableInfo(VariableInfo* variableInfo) {
-				for (std::vector<VariableInfo*>::iterator it = variableInfos.begin(); it != variableInfos.end(); ++it) {
-					if ((*it) == variableInfo) {
-						variableInfos.erase(it);
-						break;
-					}
-				}
+			void MethodCallInfo::removeVariableInfo(jint index) {
+				variableInfos[index] = null;
 			}
 
-			NativeString MethodCallInfo::getName() const {
+			NativeString* MethodCallInfo::getName() const {
 				return name;
 			}
 
@@ -34,12 +38,20 @@ namespace jcpp {
 				return objectInfo;
 			}
 
-			std::vector<ParameterInfo*>* MethodCallInfo::getParameterInfos() {
-				return &parameterInfos;
+			jint MethodCallInfo::getParameterCount() const {
+				return parameterCount;
 			}
 
-			std::vector<VariableInfo*>* MethodCallInfo::geVariableInfos() {
-				return &variableInfos;
+			ParameterInfo** MethodCallInfo::getParameterInfos() const{
+				return parameterInfos;
+			}
+
+			jint MethodCallInfo::getVariableCount() const {
+				return variableCount;
+			}
+
+			VariableInfo** MethodCallInfo::geVariableInfos() const {
+				return variableInfos;
 			}
 
 			MethodCallInfo::~MethodCallInfo() {

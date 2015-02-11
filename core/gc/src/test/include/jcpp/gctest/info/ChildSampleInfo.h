@@ -13,11 +13,19 @@ namespace jcpp {
 			class JCPP_EXPORT ChildSampleInfo : public SampleInfo {
 
 			private:
+				static NativeString __ChildSampleInfoMethodName;
+				static NativeString __getChildPintMethodName;
+				static NativeString __setChildPintMethodName;
+				static NativeString __finalizeMethodName;
+				static NativeString __destructorChildSampleInfoMethodName;
+
 				static ClassInfo __classInfo; // injected
 
 				JPInt* childPint;
+				static NativeString __childPintFieldName;  // injected
 				FieldInfo __childPintFieldInfo;  // injected
 
+				FieldInfo* __fieldInfos[1]; // injected
 				ObjectInfo __objectInfo; // injected
 
 			public:

@@ -11,26 +11,24 @@ namespace jcpp {
 	namespace gctest {
 		namespace info {
 
-			ClassInfo SampleThreadInfo::__classInfo("jcpp::gc::info", "SampleThreadInfo"); // injected
-
-
-			SampleThreadInfo::SampleThreadInfo() : __objectInfo(&__classInfo, this) { // injected
-				MethodCallInfo __methodCallInfo("SampleThreadInfo", &__objectInfo);  // injected
+			SampleThreadInfo::SampleThreadInfo() : __objectInfo(&__classInfo, this, 0, null) { // injected
+				MethodCallInfo __methodCallInfo(&__SampleThreadInfoMethodName, &__objectInfo, 0, null, 0, null);  // injected
 
 				printf("SampleThreadInfo Object created...\n");
 			}
 
 			void SampleThreadInfo::run() {
-				MethodCallInfo __methodCallInfo("run", &__objectInfo);  // injected
+				VariableInfo* __variableInfos[5]; // injected
+				MethodCallInfo __methodCallInfo(&__runMethodName, &__objectInfo, 0, null, 5, __variableInfos);  // injected
 
 				printf("SampleInfo GC Test ...\n");
 
 				{
 					JPInt* pi = new JPInt();
-					VariableInfo __piVariableInfo(&__methodCallInfo, (void**)&pi);  // injected
+					VariableInfo __piVariableInfo(&__methodCallInfo, (void**)&pi, 0);  // injected
 
 					SampleInfo* sampleInfo = new SampleInfo(pi);
-					VariableInfo __sampleInfoVariableInfo(&__methodCallInfo, (void**)&sampleInfo);  // injected
+					VariableInfo __sampleInfoVariableInfo(&__methodCallInfo, (void**)&sampleInfo, 1);  // injected
 				}
 
 				printf(">>> Calling gc ...\n");
@@ -44,15 +42,15 @@ namespace jcpp {
 				{
 
 					ChildSampleInfo* childSampleInfo = new ChildSampleInfo();
-					VariableInfo __childSampleInfoVariableInfo(&__methodCallInfo, (void**)&childSampleInfo);  // injected
+					VariableInfo __childSampleInfoVariableInfo(&__methodCallInfo, (void**)&childSampleInfo, 2);  // injected
 
 					{
 						JPInt* pi = new JPInt();
-						VariableInfo __piVariableInfo(&__methodCallInfo, (void**)&pi);  // injected
+						VariableInfo __piVariableInfo(&__methodCallInfo, (void**)&pi, 3);  // injected
 						childSampleInfo->setPint(pi);
 
 						JPInt* cpi = new JPInt();
-						VariableInfo __cpiVariableInfo(&__methodCallInfo, (void**)&cpi);  // injected
+						VariableInfo __cpiVariableInfo(&__methodCallInfo, (void**)&cpi, 4);  // injected
 						childSampleInfo->setChildPint(cpi);
 					}
 
@@ -71,12 +69,21 @@ namespace jcpp {
 			}
 
 			void SampleThreadInfo::finalize() {
+				MethodCallInfo __methodCallInfo(&__finalizeMethodName, &__objectInfo, 0, null, 0, null);  // injected
 				printf("SampleThreadInfo finalize...\n");
 			}
 
 			SampleThreadInfo::~SampleThreadInfo() {
+				MethodCallInfo __methodCallInfo(&__destructorSampleThreadInfoMethodName, &__objectInfo, 0, null, 0, null);  // injected
 				printf("SampleThreadInfo destructor...\n");
 			}
+
+			NativeString SampleThreadInfo::__SampleThreadInfoMethodName("SampleThreadInfo"); // injected
+			NativeString SampleThreadInfo::__runMethodName("run"); // injected
+			NativeString SampleThreadInfo::__finalizeMethodName("finalize"); // injected
+			NativeString SampleThreadInfo::__destructorSampleThreadInfoMethodName("~SampleThreadInfo"); // injected
+
+			ClassInfo SampleThreadInfo::__classInfo("jcpp::gc::info", "SampleThreadInfo", 0); // injected
 		}
 	}
 }

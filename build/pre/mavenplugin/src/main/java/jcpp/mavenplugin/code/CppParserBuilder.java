@@ -1,13 +1,13 @@
 package jcpp.mavenplugin.code;
 
 import java.io.File;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import jcpp.parser.cpp.CPPParser;
 
@@ -31,7 +31,7 @@ public class CppParserBuilder {
 
 
     public CppParserBuilder() {
-        symbols = new HashMap<String, String>();
+        symbols = new ConcurrentHashMap<String, String>();
     }
 
 
@@ -84,12 +84,13 @@ public class CppParserBuilder {
         return cppParser;
     }
 
-    protected CppParserBuilder init() {
+    protected synchronized CppParserBuilder init() {
         includes = new ArrayList<String>();
         if (includeSrcDirectory != null) {
             includes.add(includeSrcDirectory.getAbsolutePath());
         }
         includes.addAll(getIncludeDependencies());
+        includes = new CopyOnWriteArrayList<String>(includes);
 
         for (String s : includes) {
             if ((log != null) && log.isDebugEnabled()) {

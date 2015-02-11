@@ -16,13 +16,19 @@ namespace jcpp {
 
 				std::vector<ObjectInfo*>* objectInfos = oig->getObjectInfos();
 				for(std::vector<ObjectInfo*>::iterator it = objectInfos->begin(); it != objectInfos->end(); it++) {
-					addFieldInfos((*it)->getFieldInfos());
+					jint fieldCount = (*it)->getFieldCount();
+					if(fieldCount > 0) {
+						addFieldInfos(fieldCount, (*it)->getFieldInfos());
+					}
 				}
 			}
 		}
 
 		void TraverseContext::addClassInfo(ClassInfo* ci) {
-			addFieldInfos(ci->getStaticFieldInfos());
+			jint fieldCount = ci->getStaticFieldCount();
+			if(fieldCount > 0) {
+				addFieldInfos(fieldCount, ci->getStaticFieldInfos());
+			}
 		}
 
 		void TraverseContext::addMethodCallInfo(MethodCallInfo* mci) {
@@ -31,17 +37,23 @@ namespace jcpp {
 				addObjectInfoGroup(heap->getObjectInfoGroupFromAddress(oi->getAddress()));
 			}
 
-			std::vector<ParameterInfo*>* parameterInfos = mci->getParameterInfos();
-			if(parameterInfos->size() > 0) {
-				for(std::vector<ParameterInfo*>::iterator it = parameterInfos->begin(); it != parameterInfos->end(); it++) {
-					addPointerInfo(*it);
+			jint parameterCount = mci->getParameterCount();
+			if(parameterCount > 0) {
+				ParameterInfo** parameterInfos = mci->getParameterInfos();
+				for(jint parameterIndex = 0; parameterIndex < parameterCount; parameterIndex++) {
+					if(parameterInfos[parameterIndex]) {
+						addPointerInfo(dynamic_cast<PointerInfo*>(parameterInfos[parameterIndex]));
+					}
 				}
 			}
 
-			std::vector<VariableInfo*>* variableInfos = mci->geVariableInfos();
-			if(variableInfos->size() > 0) {
-				for(std::vector<VariableInfo*>::iterator it = variableInfos->begin(); it != variableInfos->end(); it++) {
-					addPointerInfo(*it);
+			jint variableCount = mci->getVariableCount();
+			if(variableCount > 0) {
+				VariableInfo** variableInfos = mci->geVariableInfos();
+				for(jint variableIndex = 0; variableIndex < variableCount; variableIndex++) {
+					if(variableInfos[variableIndex]) {
+						addPointerInfo(dynamic_cast<PointerInfo*>(variableInfos[variableIndex]));
+					}
 				}
 			}
 		}
@@ -54,10 +66,10 @@ namespace jcpp {
 			return &all;
 		}
 
-		void TraverseContext::addFieldInfos(std::vector<FieldInfo*>* fieldInfos) {
-			if(fieldInfos->size() > 0) {
-				for(std::vector<FieldInfo*>::iterator it = fieldInfos->begin(); it != fieldInfos->end(); it++) {
-					addPointerInfo(*it);
+		void TraverseContext::addFieldInfos(jint count, FieldInfo** fieldInfos) {
+			for(jint fieldInfoIndex = 0; fieldInfoIndex < count; fieldInfoIndex++) {
+				if(fieldInfos[fieldInfoIndex]) {
+					addPointerInfo(fieldInfos[fieldInfoIndex]);
 				}
 			}
 		}

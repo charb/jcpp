@@ -8,33 +8,27 @@ import jcpp.parser.cpp.update.ICodeGenerator;
 
 public class GcFieldCodeGenerator implements ICodeGenerator<CPPField> {
 
-    private static GcFieldCodeGenerator instance;
+	private final GcFileTupleContext gcContext;
 
-
-    private GcFieldCodeGenerator() {
+    public GcFieldCodeGenerator(GcFileTupleContext gcContext) {
+    	this.gcContext = gcContext;
     }
 
-
-    public static synchronized GcFieldCodeGenerator getInstance() {
-        if (instance == null) {
-            instance = new GcFieldCodeGenerator();
-        }
-        return instance;
-    }
 
     @Override
     public String generate(CPPField construct, CodeGeneratorContext context) {
-        StringBuilder sb = new StringBuilder();
-
         CPPType type = construct.getType();
         if (type.isPointer()) {
+            StringBuilder sb = new StringBuilder();
             if (type.isStatic()) {
                 sb.append("\nstatic FieldInfo __").append(construct.getName()).append("StaticFieldInfo;\n");
-            } else if((construct.getCppClass() != null) && (GcClassCodeGenerator.isObject(construct.getCppClass()))) {
+            } else if((construct.getCppClass() != null) && gcContext.getClassContext(construct.getCppClass().getName()).isObject()) {
+            	sb.append("\nstatic NativeString __").append(construct.getName()).append("FieldName;");
                 sb.append("\nFieldInfo __").append(construct.getName()).append("FieldInfo;\n");
             }
+            return sb.toString();
         }
-        return sb.toString();
+        return null;
     }
 
 }

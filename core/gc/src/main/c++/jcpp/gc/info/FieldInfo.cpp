@@ -6,14 +6,14 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			FieldInfo::FieldInfo(const char* name, void** pointer) : PointerInfo(pointer), name(name), staticField(false) {
+			FieldInfo::FieldInfo(NativeString* name, void** pointer) : PointerInfo(pointer), name(name), staticField(false) {
 			}
 
-			FieldInfo::FieldInfo(ClassInfo* classInfo, const char* name, void** pointer) : PointerInfo(pointer), name(name), staticField(true) {
-				classInfo->addStaticFieldInfo(this);
+			FieldInfo::FieldInfo(ClassInfo* classInfo, NativeString* name, void** pointer, jint index) : PointerInfo(pointer), name(name), staticField(true) {
+				classInfo->addStaticFieldInfo(index, this);
 			}
 
-			NativeString FieldInfo::getName() const {
+			NativeString* FieldInfo::getName() const {
 				return name;
 			}
 

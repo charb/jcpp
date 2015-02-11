@@ -5,13 +5,18 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			ObjectInfo::ObjectInfo(ClassInfo* classInfo, void* objectPointer) :
-					classInfo(classInfo), objectPointer(objectPointer), fieldInfos() {
+			ObjectInfo::ObjectInfo(ClassInfo* classInfo, void* objectPointer, jint fieldCount, FieldInfo** fieldInfos) :
+					classInfo(classInfo), objectPointer(objectPointer), fieldCount(fieldCount), fieldInfos(fieldInfos) {
+				if(fieldCount > 0) {
+					for(jint fieldIndex = 0; fieldIndex < fieldCount; fieldIndex++) {
+						fieldInfos[fieldIndex] = 0;
+					}
+				}
 				Heap::getHeap()->addCreatedObject(this);
 			}
 
-			void ObjectInfo::addFieldInfo(FieldInfo* fieldInfo) {
-				fieldInfos.push_back(fieldInfo);
+			void ObjectInfo::addFieldInfo(jint index, FieldInfo* fieldInfo) {
+				fieldInfos[index] = fieldInfo;
 			}
 
 			void* ObjectInfo::getObjectPointer() const {
@@ -26,8 +31,12 @@ namespace jcpp {
 				return classInfo;
 			}
 
-			std::vector<FieldInfo*>* ObjectInfo::getFieldInfos() {
-				return &fieldInfos;
+			jint ObjectInfo::getFieldCount() const {
+				return fieldCount;
+			}
+
+			FieldInfo** ObjectInfo::getFieldInfos() const {
+				return fieldInfos;
 			}
 
 			ObjectInfo::~ObjectInfo() {

@@ -9,11 +9,10 @@ namespace jcpp{
 
         	// @IgnoreReflection()
         	// @IgnorePackageReflection()
-            class JPackageLoader {
+            class JCPP_EXPORT JPackageLoader {
                 public:
                     virtual JPackage* getPackage() = 0;
-                    virtual ~JPackageLoader() {
-                    }
+                    virtual ~JPackageLoader();
             };
         }
     }

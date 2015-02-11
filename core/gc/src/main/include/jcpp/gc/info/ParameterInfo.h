@@ -13,10 +13,8 @@ namespace jcpp {
 			class MethodCallInfo;
 
 			class JCPP_EXPORT ParameterInfo : public PointerInfo {
-			private:
-				NativeString name;
 			public:
-				ParameterInfo(MethodCallInfo* methodCallInfo, const char* name, void** pointer);
+				ParameterInfo(MethodCallInfo* methodCallInfo, void** pointer, jint index);
 
 				virtual ~ParameterInfo();
 

@@ -13,6 +13,12 @@ namespace jcpp {
 			class JCPP_EXPORT JPInt : public Finalizable {
 
 			protected:
+				static NativeString __JPIntMethodName;
+				static NativeString __getValueMethodName;
+				static NativeString __setValueMethodName;
+				static NativeString __finalizeMethodName;
+				static NativeString __destructorJPIntMethodName;
+
 				static ClassInfo __classInfo; // injected
 
 				jint value;

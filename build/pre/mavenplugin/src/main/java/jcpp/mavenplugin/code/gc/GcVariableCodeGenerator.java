@@ -11,18 +11,10 @@ import org.eclipse.cdt.core.dom.ast.cpp.ICPPASTCatchHandler;
 
 // TODO : Update for static variables
 public class GcVariableCodeGenerator implements ICodeGenerator<CPPVariable> {
-    private static GcVariableCodeGenerator instance;
+	private final GcFileTupleContext gcContext;
 
-
-    private GcVariableCodeGenerator() {
-    }
-
-
-    public static synchronized GcVariableCodeGenerator getInstance() {
-        if (instance == null) {
-            instance = new GcVariableCodeGenerator();
-        }
-        return instance;
+    public GcVariableCodeGenerator(GcFileTupleContext gcContext) {
+    	this.gcContext = gcContext;
     }
 
     public static boolean isVariableInCatchBlock(CPPVariable cppVariable) {
@@ -45,7 +37,7 @@ public class GcVariableCodeGenerator implements ICodeGenerator<CPPVariable> {
             if (!isVariableInCatchBlock(construct)) {
                 if (!cppType.isStatic()) {
                     String variableName = construct.getName();
-                    sb.append("\nVariableInfo __").append(variableName).append("VariableInfo(&__methodCallInfo, (void**)&").append(variableName).append(");\n");
+                    sb.append("\nVariableInfo __").append(variableName).append("VariableInfo(&__methodCallInfo, (void**)&").append(variableName).append(", ").append(gcContext.getCurrentVariableIndex(construct)).append(");\n");
                 }
             }
         }

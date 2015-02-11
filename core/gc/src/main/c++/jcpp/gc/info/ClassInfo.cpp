@@ -5,28 +5,41 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			ClassInfo::ClassInfo(const char* namespaceName, const char* className) :
-					namespaceName(namespaceName), className(className), staticfieldInfos() {
+			ClassInfo::ClassInfo(const char* namespaceName, const char* className, jint staticFieldCount) :
+					namespaceName(namespaceName), className(className), staticFieldInfos(NULL), staticFieldCount(staticFieldCount) {
+				if(staticFieldCount > 0) {
+					staticFieldInfos = new FieldInfo*[staticFieldCount];
+					for(jint staticFieldIndex = 0; staticFieldIndex < staticFieldCount; staticFieldIndex++) {
+						staticFieldInfos[staticFieldIndex] = 0;
+					}
+				}
 				Heap::getHeap()->addClassInfo(this);
 			}
 
-			void ClassInfo::addStaticFieldInfo(FieldInfo* staticFieldInfo) {
-				staticfieldInfos.push_back(staticFieldInfo);
+			void ClassInfo::addStaticFieldInfo(jint index, FieldInfo* staticFieldInfo) {
+				staticFieldInfos[index] = staticFieldInfo;
 			}
 
-			NativeString ClassInfo::getClassName() const {
-				return className;
+			NativeString* ClassInfo::getClassName() {
+				return &className;
 			}
 
-			NativeString ClassInfo::getNamespaceName() const {
-				return namespaceName;
+			NativeString* ClassInfo::getNamespaceName()  {
+				return &namespaceName;
 			}
 
-			std::vector<FieldInfo*>* ClassInfo::getStaticFieldInfos() {
-				return &staticfieldInfos;
+			jint ClassInfo::getStaticFieldCount() const {
+				return staticFieldCount;
+			}
+
+			FieldInfo** ClassInfo::getStaticFieldInfos() const{
+				return staticFieldInfos;
 			}
 
 			ClassInfo::~ClassInfo() {
+				if(staticFieldInfos) {
+					delete [] staticFieldInfos;
+				}
 			}
 
 		}

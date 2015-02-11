@@ -6,28 +6,26 @@ import jcpp.parser.cpp.CPPClass;
 import jcpp.parser.cpp.CPPField;
 import jcpp.parser.cpp.CPPFile;
 import jcpp.parser.cpp.CPPMethod;
-import jcpp.parser.cpp.CPPType;
 import jcpp.parser.cpp.update.CodeGeneratorContext;
 import jcpp.parser.cpp.update.ICodeGenerator;
 
 
 public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMethod> {
 
-    private final CPPFile headerCppFile;
+	private final GcFileTupleContext gcContext;
 
 
-    public GcMemberInitializerCodeGenerator(CPPFile headerCppFile) {
-        this.headerCppFile = headerCppFile;
+    public GcMemberInitializerCodeGenerator(GcFileTupleContext gcContext) {	
+    	this.gcContext = gcContext;
     }
 
 
     @Override
     public String generate(CPPMethod construct, CodeGeneratorContext context) {
-        StringBuilder sb = new StringBuilder();
-
         String className = construct.getCppClass().getName();
         CPPClass cppClass = null;
 
+        CPPFile headerCppFile = gcContext.isHeaderUpdater() ? null : gcContext.getHeaderCPPFile();
         if (headerCppFile != null) {
             cppClass = headerCppFile.getClass(className);
         }
@@ -35,22 +33,24 @@ public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMetho
             cppClass = construct.getCppClass();
         }
 
-        if ((cppClass != null) && GcClassCodeGenerator.isObject(cppClass)) {
-            sb.append("__objectInfo(&__classInfo, this)");
-            
-            List<CPPField> fields = cppClass.getFields();
-            for (CPPField field : fields) {
-                CPPType type = field.getType();
-                if (type.isPointer()) {
-                    if (!type.isStatic()) {
-                        String fieldName = field.getName();
-                        sb.append(", __").append(fieldName).append("FieldInfo(\"").append(fieldName).append("\", (void**)&").append(fieldName).append(")");
-                    }
-                }
-            }
+        if (cppClass != null) {
+        	GcClassContext classContext = gcContext.getClassContext(cppClass.getName());
+        	if(classContext.isObject()) {
+	        	StringBuilder sb = new StringBuilder();
+	            int nonStaticFieldCount = classContext.getNonStaticFieldCount();
+				sb.append("__objectInfo(&__classInfo, this, ").append(nonStaticFieldCount).append(nonStaticFieldCount > 0 ? ", __fieldInfos" : ", null").append(")");
+	            
+	            List<CPPField> fields = cppClass.getFields();
+	            for (CPPField field : fields) {
+	                if (field.getType().isPointer() && !field.getType().isStatic()) {
+	                	String fieldName = field.getName();
+	                	sb.append(", __").append(fieldName).append("FieldInfo(&__").append(fieldName).append("FieldName, (void**)&").append(fieldName).append(")");
+	                }
+	            }
+	            return sb.toString();
+        	}
         }
-
-        return sb.toString();
+        return null;
     }
 
 }

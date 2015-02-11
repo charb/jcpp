@@ -11,9 +11,10 @@ namespace jcpp {
 
 			class JCPP_EXPORT VariableInfo : public PointerInfo {
 			private:
+				jint index;
 				MethodCallInfo* methodCallInfo;
 			public:
-				VariableInfo(MethodCallInfo* methodCallInfo, void** pointer);
+				VariableInfo(MethodCallInfo* methodCallInfo, void** pointer, jint index);
 
 				virtual ~VariableInfo();
 			};

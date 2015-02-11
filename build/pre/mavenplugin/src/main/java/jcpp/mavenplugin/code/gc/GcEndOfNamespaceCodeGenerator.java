@@ -15,39 +15,43 @@ import jcpp.parser.cpp.update.ICodeGenerator;
 
 public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespace> {
 
-    private final CPPFile headerCppFile;
-    private final CPPFile cppCppFile;
+	private final GcFileTupleContext gcContext;
+	
     private final Set<String> namespacesUpdated;
     private final Set<String> classNamesWritten;
 
 
-    public GcEndOfNamespaceCodeGenerator(CPPFile headerCppFile, CPPFile cppCppFile) {
-        this.headerCppFile = headerCppFile;
-        this.cppCppFile = cppCppFile;
-        namespacesUpdated = new HashSet<String>();
-        classNamesWritten = new HashSet<String>();
+    public GcEndOfNamespaceCodeGenerator(GcFileTupleContext gcContext) {
+        this.gcContext = gcContext;
+		namespacesUpdated = gcContext.isHeaderUpdater() ? null : new HashSet<String>();
+        classNamesWritten = gcContext.isHeaderUpdater() ? null : new HashSet<String>();
     }
 
 
     @Override
     public String generate(CPPNamespace construct, CodeGeneratorContext context) {
-        StringBuilder sb = new StringBuilder();
-
-        String namespace = construct.getName();
-        if (!namespacesUpdated.contains(namespace)) {
-            namespacesUpdated.add(namespace);
-
-            if (headerCppFile != null) {
-                generateCodeForCppClasses(sb, namespace, headerCppFile.getClasses());
-            }
-
-            if (cppCppFile != null) {
-                generateCodeForCppClasses(sb, namespace, cppCppFile.getClasses());
-            }
-
-        }
-
-        return sb.toString();
+    	if(!gcContext.isHeaderUpdater()) {
+		    StringBuilder sb = new StringBuilder();
+		
+		    String namespace = construct.getName();
+		    if (!namespacesUpdated.contains(namespace)) {
+		        namespacesUpdated.add(namespace);
+		
+		        CPPFile headerCppFile = gcContext.getHeaderCPPFile();
+		        if (headerCppFile != null) {
+		            generateCodeForCppClasses(sb, namespace, headerCppFile.getClasses());
+		        }
+		
+		        CPPFile cppCppFile = gcContext.getCppCPPFile();
+		        if (cppCppFile != null) {
+		            generateCodeForCppClasses(sb, namespace, cppCppFile.getClasses());
+		        }
+		
+		    }
+		
+		    return sb.toString();
+    	}
+    	return null;
     }
 
     private void generateCodeForCppClasses(StringBuilder sb, String namespace, CPPClass[] classes) {
@@ -59,17 +63,38 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
 
                     if (!classNamesWritten.contains(className)) {
                         classNamesWritten.add(className);
+                        
+                        GcClassContext classContext = gcContext.getClassContext(className);
 
-                        sb.append("\nClassInfo ").append(className).append("::__classInfo(\"").append(classNamespaceName).append("\", \"").append(className).append("\");\n");
+                        for(String methodName : classContext.getNonPureVirtualMethodNames()) {
+                    		sb.append("\nNativeString ").append(className).append("::__");
+                        	if(methodName.startsWith("~")) {
+                        		sb.append("destructor").append(methodName.substring(1));
+                        	} else {
+                        		sb.append(methodName);
+                        	}
+                        	sb.append("MethodName(\"").append(methodName).append("\");");
+                        }
+                                                
+                        sb.append("\nClassInfo ").append(className).append("::__classInfo(\"").append(classNamespaceName).append("\", \"").append(className).append("\"").append(",").append(classContext.getStaticFieldCount()).append(");\n");
                         List<CPPField> fields = cppClass.getFields();
-                        for (CPPField field : fields) {
+                        for (int index = 0; index < fields.size(); index++) {
+                        	CPPField field = fields.get(index);
                             CPPType type = field.getType();
-                            if (type.isPointer()) {
-                                if (type.isStatic()) {
-                                    String fieldName = field.getName();
-                                    sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, \"").append(fieldName).append("\", (void**)&").append(fieldName).append(");\n");
-                                }
+                            if (type.isPointer() && type.isStatic()) {
+	                            String fieldName = field.getName();
+	                            sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, new NativeString(\"").append(fieldName).append("\"), (void**)&").append(fieldName).append(",").append(index).append(");\n");
                             }
+                        }
+                        
+                        if(classContext.isObject()) {
+                        	for(CPPField field : fields) {
+                        		CPPType fieldType = field.getType();
+                				if(fieldType.isPointer() && !fieldType.isStatic()) {
+                					String fieldName = field.getName();
+    	                            sb.append("\nNativeString ").append(className).append("::__").append(fieldName).append("FieldName(\"").append(fieldName).append("\");");
+                				}
+                        	}
                         }
                     }
                 }

@@ -5,8 +5,8 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			ParameterInfo::ParameterInfo(MethodCallInfo* methodCallInfo, const char* name, void** pointer) : PointerInfo(pointer), name(name) {
-				methodCallInfo->addParameterInfo(this);
+			ParameterInfo::ParameterInfo(MethodCallInfo* methodCallInfo, void** pointer, jint index) : PointerInfo(pointer) {
+				methodCallInfo->addParameterInfo(index, this);
 			}
 
 			ParameterInfo::~ParameterInfo() {

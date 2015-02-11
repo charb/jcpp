@@ -5,12 +5,12 @@ namespace jcpp {
 	namespace gc {
 		namespace info {
 
-			VariableInfo::VariableInfo(MethodCallInfo* methodCallInfo, void** pointer) : PointerInfo(pointer), methodCallInfo(methodCallInfo) {
-				methodCallInfo->addVariableInfo(this);
+			VariableInfo::VariableInfo(MethodCallInfo* methodCallInfo, void** pointer, jint index) : PointerInfo(pointer), methodCallInfo(methodCallInfo), index(index) {
+				methodCallInfo->addVariableInfo(index, this);
 			}
 
 			VariableInfo::~VariableInfo() {
-				methodCallInfo->removeVariableInfo(this);
+				methodCallInfo->removeVariableInfo(index);
 			}
 
 		}

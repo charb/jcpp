@@ -15,17 +15,30 @@ namespace jcpp {
 
 			private:
 
+				static NativeString __SampleInfoMethodName; // injected
+				static NativeString __staticInfoMethodName; // injected
+				static NativeString __getPintMethodName; // injected
+				static NativeString __setPintMethodName; // injected
+				static NativeString __getNextMethodName; // injected
+				static NativeString __setNextMethodName; // injected
+				static NativeString __processMethodName; // injected
+				static NativeString __finalizeMethodName; // injected
+				static NativeString __destructorSampleInfoMethodName; // injected
+
 				static ClassInfo __classInfo; // injected
 
 				static JPInt* counter;
 				static FieldInfo __counterStaticFieldInfo;  // injected
 
 				JPInt* pint;
+				static NativeString __pintFieldName;  // injected
 				FieldInfo __pintFieldInfo;  // injected
 
 				SampleInfo* next;
+				static NativeString __nextFieldName;  // injected
 				FieldInfo __nextFieldInfo; // injected
 
+				FieldInfo* __fieldInfos[2]; // injected
 				ObjectInfo __objectInfo; // injected
 
 			public:

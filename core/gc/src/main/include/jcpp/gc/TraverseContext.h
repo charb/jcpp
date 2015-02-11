@@ -24,7 +24,7 @@ namespace jcpp {
 		protected:
 			jbool isDone(ObjectInfoGroup* oig);
 
-			void addFieldInfos(std::vector<FieldInfo*>* fieldInfos);
+			void addFieldInfos(jint count, FieldInfo** fieldInfos);
 			void addPointerInfo(PointerInfo* pointerInfo);
 		public:
 			TraverseContext(Heap* heap);

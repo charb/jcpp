@@ -15,14 +15,14 @@ namespace jcpp {
 
 			class JCPP_EXPORT FieldInfo : public PointerInfo {
 			private:
-				NativeString name;
+				NativeString* name;
 				jbool staticField;
 			public:
-				FieldInfo(const char* name, void** pointer);
+				FieldInfo(NativeString* name, void** pointer);
 
-				FieldInfo(ClassInfo* classInfo, const char* name, void** pointer);
+				FieldInfo(ClassInfo* classInfo, NativeString* name, void** pointer, jint index);
 
-				NativeString getName() const;
+				NativeString* getName() const;
 
 				jbool isStaticField() const;
 

@@ -13,6 +13,11 @@ namespace jcpp {
 			class JCPP_EXPORT SampleThreadInfo : public Finalizable {
 
 			private:
+				static NativeString __SampleThreadInfoMethodName;
+				static NativeString __runMethodName;
+				static NativeString __finalizeMethodName;
+				static NativeString __destructorSampleThreadInfoMethodName;
+
 				static ClassInfo __classInfo; // injected
 
 				ObjectInfo __objectInfo; // injected

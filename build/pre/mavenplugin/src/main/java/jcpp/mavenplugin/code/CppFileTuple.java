@@ -2,7 +2,6 @@ package jcpp.mavenplugin.code;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +10,7 @@ import java.util.List;
 import jcpp.mavenplugin.code.gc.GcClassCodeGenerator;
 import jcpp.mavenplugin.code.gc.GcEndOfNamespaceCodeGenerator;
 import jcpp.mavenplugin.code.gc.GcFieldCodeGenerator;
+import jcpp.mavenplugin.code.gc.GcFileTupleContext;
 import jcpp.mavenplugin.code.gc.GcForLoopVariableCodeGenerator;
 import jcpp.mavenplugin.code.gc.GcMemberInitializerCodeGenerator;
 import jcpp.mavenplugin.code.gc.GcMethodCodeGenerator;
@@ -22,7 +22,6 @@ import jcpp.mavenplugin.code.history.TupleHistoryInfo;
 import jcpp.mavenplugin.code.reflect.ReflectionClassCodeGenerator;
 import jcpp.mavenplugin.code.reflect.ReflectionCodeGenerator;
 import jcpp.mavenplugin.code.reflect.ReflectionStartOfNamespaceCodeGenerator;
-
 import jcpp.parser.cpp.CPPClass;
 import jcpp.parser.cpp.CPPFile;
 import jcpp.parser.cpp.CPPParser;
@@ -60,6 +59,7 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
 
     private TupleHistory newTupleHistory;
 
+    private GcFileTupleContext gcFileTupleContext;
 
     public CppFileTuple(String name, String namespace, File headerFile, File cppFile, CppPackage cppPackage) {
         this.name = name;
@@ -133,6 +133,10 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
         if ((cppFile != null) && !updaterContext.isUpdateIncludeDirOnly()) {
             CPPParser cppFileParser = parserBuilder.build(cppFile);
             cppCPPFile = findCPPFile(cppFileParser, cppFile);
+        }
+        
+        if(updaterContext.isAddGCcode()) {
+        	gcFileTupleContext = new GcFileTupleContext(headerCPPFile, cppCPPFile);
         }
     }
 
@@ -325,15 +329,17 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
         }
 
         if (updaterContext.isAddGCcode()) {
+        	gcFileTupleContext.setHeaderUpdater(headerUpdater);
+        	
             updater.insertIncludes(Arrays.asList(GC_INFO_INCLUDE));
 
-            updater.addClassCodeGenerator(GcClassCodeGenerator.getInstance(), Collections.EMPTY_LIST);
-            updater.addFieldCodeGenerator(GcFieldCodeGenerator.getInstance(), Collections.EMPTY_LIST);
-            updater.addEndOfNamespaceCodeGenerator(new GcEndOfNamespaceCodeGenerator(headerUpdater ? null : headerCPPFile, headerUpdater ? null : cppCPPFile), Collections.EMPTY_LIST);
-            updater.addMemberInitializerCodeGenerator(new GcMemberInitializerCodeGenerator(headerUpdater ? null : headerCPPFile), Collections.EMPTY_LIST);
-            updater.addMethodCodeGenerator(new GcMethodCodeGenerator(headerUpdater ? null : headerCPPFile), Collections.EMPTY_LIST);
-            updater.addVariableCodeGenerator(GcVariableCodeGenerator.getInstance(), Collections.EMPTY_LIST);
-            updater.addForStatementInitializerVariableCodeGenerator(GcForLoopVariableCodeGenerator.getInstance(), Collections.EMPTY_LIST);
+            updater.addClassCodeGenerator(new GcClassCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addFieldCodeGenerator(new GcFieldCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addEndOfNamespaceCodeGenerator(new GcEndOfNamespaceCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addMemberInitializerCodeGenerator(new GcMemberInitializerCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addMethodCodeGenerator(new GcMethodCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addVariableCodeGenerator(new GcVariableCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
+            updater.addForStatementInitializerVariableCodeGenerator(new GcForLoopVariableCodeGenerator(gcFileTupleContext), Collections.EMPTY_LIST);
             updateFactoryAdded = true;
         }
 

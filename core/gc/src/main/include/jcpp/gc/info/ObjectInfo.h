@@ -15,11 +15,12 @@ namespace jcpp {
 
 				ClassInfo* classInfo;
 
-				std::vector<FieldInfo*> fieldInfos;
+				jint fieldCount;
+				FieldInfo** fieldInfos;
 
 			public:
 
-				ObjectInfo(ClassInfo* classInfo, void* objectPointer);
+				ObjectInfo(ClassInfo* classInfo, void* objectPointer, jint fieldCount, FieldInfo** fieldInfos);
 
 				void* getObjectPointer() const;
 
@@ -27,9 +28,10 @@ namespace jcpp {
 
 				ClassInfo* getClassInfo() const;
 
-				std::vector<FieldInfo*>* getFieldInfos();
+				jint getFieldCount() const;
+				FieldInfo** getFieldInfos() const;
 
-				void addFieldInfo(FieldInfo* fieldInfo);
+				void addFieldInfo(jint index, FieldInfo* fieldInfo);
 
 				virtual ~ObjectInfo();
 

@@ -19,17 +19,20 @@ namespace jcpp {
 
 				NativeString className;
 
-				std::vector<FieldInfo*> staticfieldInfos;
+				jint staticFieldCount;
+				FieldInfo** staticFieldInfos;
 
-				void addStaticFieldInfo(FieldInfo* staticFieldInfo);
+				void addStaticFieldInfo(jint index, FieldInfo* staticFieldInfo);
 			public:
-				ClassInfo(const char* namespaceName, const char* className);
+				ClassInfo(const char* namespaceName, const char* className, jint staticFieldCount);
 
-				std::vector<FieldInfo*>* getStaticFieldInfos();
+				jint getStaticFieldCount() const;
 
-				NativeString getClassName() const;
+				FieldInfo** getStaticFieldInfos() const;
 
-				NativeString getNamespaceName() const;
+				NativeString* getClassName();
+
+				NativeString* getNamespaceName();
 
 				virtual ~ClassInfo();
 
