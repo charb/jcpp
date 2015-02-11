@@ -16,6 +16,8 @@ namespace jcpp {
 		class JCPP_EXPORT ThreadInfo {
 
 		private:
+			static const jint DEFAULT_CAPACITY = 30;
+
 			NativeThread* nativethread;
 
 			MethodCallInfo** methodCallInfos;

@@ -9,15 +9,22 @@ namespace jcpp {
 
 			class JCPP_EXPORT ObjectInfoGroup {
 			private:
+				static const jint DEFAULT_CAPACITY = 7;
+
 				jlong address;
-				std::vector<ObjectInfo*> objectInfos;
+
+				ObjectInfo** objectInfos;
+				jint capacity;
+				jint size;
 
 			public:
 				ObjectInfoGroup(jlong address);
 
 				jlong getAddress();
 
-				std::vector<ObjectInfo*>* getObjectInfos();
+				ObjectInfo** getObjectInfos();
+
+				jint getSize();
 
 				void addObjectInfo(ObjectInfo* objectInfo);
 

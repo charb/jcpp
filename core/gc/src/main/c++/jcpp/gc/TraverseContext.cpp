@@ -14,11 +14,13 @@ namespace jcpp {
 				done.insert(address);
 				all.erase(address);
 
-				std::vector<ObjectInfo*>* objectInfos = oig->getObjectInfos();
-				for(std::vector<ObjectInfo*>::iterator it = objectInfos->begin(); it != objectInfos->end(); it++) {
-					jint fieldCount = (*it)->getFieldCount();
+				jint size = oig->getSize();
+				ObjectInfo** objectInfos = oig->getObjectInfos();
+				for(jint index = 0; index < size; index++) {
+					ObjectInfo* objectInfo = objectInfos[index];
+					jint fieldCount = objectInfo->getFieldCount();
 					if(fieldCount > 0) {
-						addFieldInfos(fieldCount, (*it)->getFieldInfos());
+						addFieldInfos(fieldCount, objectInfo->getFieldInfos());
 					}
 				}
 			}

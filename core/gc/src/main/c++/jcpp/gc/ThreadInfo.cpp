@@ -3,19 +3,19 @@
 namespace jcpp {
 	namespace gc {
 
-		ThreadInfo::ThreadInfo(NativeThread* nativethread) : nativethread(nativethread), methodCallInfos(null), capacity(30), size(0) {
-			methodCallInfos = new MethodCallInfo*[30];
+		ThreadInfo::ThreadInfo(NativeThread* nativethread) : nativethread(nativethread), methodCallInfos(null), capacity(DEFAULT_CAPACITY), size(0) {
+			methodCallInfos = new MethodCallInfo*[DEFAULT_CAPACITY];
 		}
 
 		void ThreadInfo::pushMethodCallInfo(MethodCallInfo* methodCallInfo) {
 			if(size == capacity) {
-				MethodCallInfo** newMethodCallInfos = new MethodCallInfo*[capacity + 30];
+				MethodCallInfo** newMethodCallInfos = new MethodCallInfo*[capacity + DEFAULT_CAPACITY];
 				for(jint i = 0; i < size; i++) {
 					newMethodCallInfos[i] = methodCallInfos[i];
 				}
 				delete [] methodCallInfos;
 				methodCallInfos = newMethodCallInfos;
-				capacity += 30;
+				capacity += DEFAULT_CAPACITY;
 			}
 			methodCallInfos[size++] = methodCallInfo;
 		}
