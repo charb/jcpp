@@ -32,6 +32,7 @@ namespace jcpp {
 					NativeThreadLocalStorage * storage;
 					NativeRunnable * runnable;
 					void* attachment;
+					void* gcThreadInfo;
 					jbool deleteOnFinish;
 					ThreadState state;
 
@@ -42,8 +43,12 @@ namespace jcpp {
 
 					NativeThreadLocalStorage * getStorage();
 
+					void setGcThreadInfo(void* threadInfo);
+					void* getGcThreadInfo();
+
 					void setAttachment(void* attachment);
 					void* getAttachment();
+
 					void setDeleteOnFinish(jbool deleteOnFinish);
 					jbool isDeleteOnFinish();
 

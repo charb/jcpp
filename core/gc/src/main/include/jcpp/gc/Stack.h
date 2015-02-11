@@ -5,7 +5,6 @@
 #include "jcpp/gc/ThreadInfo.h"
 #include "jcpp/gc/TraverseContext.h"
 #include "jcpp/native/api/nthread/NativeMutex.h"
-#include <vector>
 
 using namespace jcpp::native::api::nthread;
 
@@ -15,9 +14,6 @@ namespace jcpp {
 		class JCPP_EXPORT Stack {
 		private:
 			static Stack* stack;
-
-			NativeMutex* mutex;
-			std::vector<ThreadInfo*> threads;
 
 			Stack();
 		public:

@@ -7,7 +7,7 @@ namespace jcpp {
 			namespace nthread {
 
 				NativeThread::NativeThread(NativeRunnable * runnable) :
-						storage(new NativeThreadLocalStorage()), runnable(runnable), attachment(null), deleteOnFinish(false), state(NTH_NEW) {
+						storage(new NativeThreadLocalStorage()), runnable(runnable), attachment(null), gcThreadInfo(null), deleteOnFinish(false), state(NTH_NEW) {
 				}
 
 				NativeThread::~NativeThread() {
@@ -28,6 +28,14 @@ namespace jcpp {
 
 				void* NativeThread::getAttachment() {
 					return attachment;
+				}
+
+				void NativeThread::setGcThreadInfo(void* threadInfo) {
+					gcThreadInfo = threadInfo;
+				}
+
+				void* NativeThread::getGcThreadInfo() {
+					return gcThreadInfo;
 				}
 
 				void NativeThread::setDeleteOnFinish(jbool _deleteOnFinish) {

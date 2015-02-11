@@ -1,5 +1,6 @@
 #include "jcpp/gc/Stack.h"
 #include "jcpp/native/api/NativeFactory.h"
+#include <vector>
 
 using namespace jcpp::native::api;
 
@@ -8,8 +9,7 @@ namespace jcpp {
 
 		Stack* Stack::stack = null;
 
-		Stack::Stack() : threads(100, null) {
-			mutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
+		Stack::Stack() {
 		}
 
 		Stack* Stack::getStack() {
@@ -21,29 +21,17 @@ namespace jcpp {
 
 		void Stack::methodCallStarted(MethodCallInfo* methodCall) {
 			NativeThread* currentThread = NativeFactory::getNativeThreadFactory()->currentThread();
-
-			ThreadInfo* threadInfo = null;
-			mutex->lock();
-			if(threads.size() + 1 < currentThread->getId()) {
-				threads.resize(currentThread->getId() + 100, null);
-			}
-			threadInfo = threads[currentThread->getId()];
+			ThreadInfo* threadInfo = reinterpret_cast<ThreadInfo*>(currentThread->getGcThreadInfo());
 			if(threadInfo == null) {
 				threadInfo = new ThreadInfo(currentThread);
-				threads[currentThread->getId()] = threadInfo;
+				currentThread->setGcThreadInfo(reinterpret_cast<void*>(threadInfo));
 			}
-			mutex->unlock();
-
 			threadInfo->pushMethodCallInfo(methodCall);
 		}
 
 		void Stack::methodCallExiting() {
 			NativeThread* currentThread = NativeFactory::getNativeThreadFactory()->currentThread();
-			ThreadInfo* threadInfo = null;
-			mutex->lock();
-			threadInfo = threads[currentThread->getId()];
-			mutex->unlock();
-
+			ThreadInfo* threadInfo =  reinterpret_cast<ThreadInfo*>(currentThread->getGcThreadInfo());
 			if(threadInfo != null) {
 				threadInfo->popMethodCallInfo();
 			}
@@ -53,9 +41,12 @@ namespace jcpp {
 		 * Note: Do not synchronize the below method because we might have a dead lock between a suspended thread and the GC Thread
 		 */
 		void Stack::addRoot(TraverseContext* context) {
-			for(std::vector<ThreadInfo*>::iterator it = threads.begin(); it != threads.end(); it++) {
-				if(*it) {
-					std::vector<MethodCallInfo*>* methodCallInfos = (*it)->getMethodCallInfos();
+			std::vector<NativeThread*> threads;
+			NativeFactory::getNativeThreadFactory()->getAllThreads(threads);
+			for(std::vector<NativeThread*>::iterator it = threads.begin(); it != threads.end(); it++) {
+				ThreadInfo* threadInfo = (ThreadInfo*)(*it)->getGcThreadInfo();
+				if(threadInfo && threadInfo->hasMethodCalls()) {
+					std::vector<MethodCallInfo*>* methodCallInfos = threadInfo->getMethodCallInfos();
 					for(std::vector<MethodCallInfo*>::iterator mcIt = methodCallInfos->begin(); mcIt != methodCallInfos->end(); mcIt++) {
 						context->addMethodCallInfo(*mcIt);
 					}
@@ -64,7 +55,6 @@ namespace jcpp {
 		}
 
 		Stack::~Stack() {
-			delete mutex;
 		}
 
 	}
