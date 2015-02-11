@@ -78,12 +78,13 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
                                                 
                         sb.append("\nClassInfo ").append(className).append("::__classInfo(\"").append(classNamespaceName).append("\", \"").append(className).append("\"").append(",").append(classContext.getStaticFieldCount()).append(");\n");
                         List<CPPField> fields = cppClass.getFields();
+                        int counter = 0;
                         for (int index = 0; index < fields.size(); index++) {
                         	CPPField field = fields.get(index);
                             CPPType type = field.getType();
                             if (type.isPointer() && type.isStatic()) {
 	                            String fieldName = field.getName();
-	                            sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, new NativeString(\"").append(fieldName).append("\"), (void**)&").append(fieldName).append(",").append(index).append(");\n");
+	                            sb.append("FieldInfo ").append(className).append("::__").append(fieldName).append("StaticFieldInfo(&__classInfo, new NativeString(\"").append(fieldName).append("\"), (void**)&").append(fieldName).append(",").append(counter++).append(");\n");
                             }
                         }
                         

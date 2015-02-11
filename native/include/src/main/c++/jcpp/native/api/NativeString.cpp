@@ -17,12 +17,14 @@ namespace jcpp {
 
 			NativeString::NativeString() {
 				size = 0;
-				value = new jchar[0];
+				value = null;
 			}
 
 			NativeString::~NativeString() {
-				delete[] value;
-				value = null;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = 0;
 			}
 
@@ -449,7 +451,10 @@ namespace jcpp {
 			}
 
 			NativeString& NativeString::operator=(const NativeString& other) {
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = other.size;
 				value = new jchar[size];
 
@@ -461,7 +466,10 @@ namespace jcpp {
 			}
 
 			NativeString& NativeString::operator=(const char* str) {
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = strlen(str);
 				value = new jchar[size];
 
@@ -473,7 +481,10 @@ namespace jcpp {
 			}
 
 			NativeString& NativeString::operator=(const wchar_t* wstr) {
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = wcslen(wstr);
 				value = new jchar[size];
 
@@ -485,7 +496,10 @@ namespace jcpp {
 			}
 
 			NativeString& NativeString::operator=(const std::string& str) {
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = str.length();
 				value = new jchar[size];
 
@@ -497,7 +511,10 @@ namespace jcpp {
 			}
 
 			NativeString& NativeString::operator=(const std::wstring& wstr) {
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				size = wstr.length();
 				value = new jchar[size];
 
@@ -603,7 +620,10 @@ namespace jcpp {
 				for (jint i = 0; i < newSize; i++) {
 					newValue[i] = i < size ? value[i] : other.value[i - size];
 				}
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				value = newValue;
 				size = newSize;
 			}
@@ -615,7 +635,10 @@ namespace jcpp {
 				for (jint i = 0; i < newSize; i++) {
 					newValue[i] = i < size ? value[i] : str[i - size];
 				}
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				value = newValue;
 				size = newSize;
 			}
@@ -627,7 +650,10 @@ namespace jcpp {
 				for (jint i = 0; i < newSize; i++) {
 					newValue[i] = i < size ? value[i] : wstr[i - size];
 				}
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				value = newValue;
 				size = newSize;
 			}
@@ -639,7 +665,10 @@ namespace jcpp {
 				for (jint i = 0; i < newSize; i++) {
 					newValue[i] = i < size ? value[i] : str[i - size];
 				}
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				value = newValue;
 				size = newSize;
 			}
@@ -651,7 +680,10 @@ namespace jcpp {
 				for (jint i = 0; i < newSize; i++) {
 					newValue[i] = i < size ? value[i] : wstr[i - size];
 				}
-				delete[] value;
+				if(value) {
+					delete[] value;
+					value = null;
+				}
 				value = newValue;
 				size = newSize;
 			}
