@@ -18,7 +18,10 @@ namespace jcpp {
 		private:
 			NativeThread* nativethread;
 
-			std::vector<MethodCallInfo*> methodCallInfos;
+			MethodCallInfo** methodCallInfos;
+			jint capacity;
+			jint size;
+
 		public:
 			ThreadInfo(NativeThread* nativethread);
 
@@ -26,9 +29,11 @@ namespace jcpp {
 
 			void popMethodCallInfo();
 
-			std::vector<MethodCallInfo*>* getMethodCallInfos();
+			MethodCallInfo** getMethodCallInfos();
 
 			jbool hasMethodCalls();
+
+			jint getSize();
 
 			virtual ~ThreadInfo();
 

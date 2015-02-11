@@ -46,9 +46,9 @@ namespace jcpp {
 			for(std::vector<NativeThread*>::iterator it = threads.begin(); it != threads.end(); it++) {
 				ThreadInfo* threadInfo = (ThreadInfo*)(*it)->getGcThreadInfo();
 				if(threadInfo && threadInfo->hasMethodCalls()) {
-					std::vector<MethodCallInfo*>* methodCallInfos = threadInfo->getMethodCallInfos();
-					for(std::vector<MethodCallInfo*>::iterator mcIt = methodCallInfos->begin(); mcIt != methodCallInfos->end(); mcIt++) {
-						context->addMethodCallInfo(*mcIt);
+					MethodCallInfo** methodCallInfos = threadInfo->getMethodCallInfos();
+					for(jint i = 0; i < threadInfo->getSize(); i++) {
+						context->addMethodCallInfo(methodCallInfos[i]);
 					}
 				}
 			}
