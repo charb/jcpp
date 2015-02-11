@@ -8,7 +8,7 @@ namespace jcpp {
 
 		Stack* Stack::stack = null;
 
-		Stack::Stack() {
+		Stack::Stack() : threads(100, null) {
 			mutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
 		}
 
@@ -24,10 +24,13 @@ namespace jcpp {
 
 			ThreadInfo* threadInfo = null;
 			mutex->lock();
-			threadInfo = threads[currentThread];
+			if(threads.size() + 1 < currentThread->getId()) {
+				threads.resize(currentThread->getId() + 100, null);
+			}
+			threadInfo = threads[currentThread->getId()];
 			if(threadInfo == null) {
 				threadInfo = new ThreadInfo(currentThread);
-				threads[currentThread] = threadInfo;
+				threads[currentThread->getId()] = threadInfo;
 			}
 			mutex->unlock();
 
@@ -38,21 +41,11 @@ namespace jcpp {
 			NativeThread* currentThread = NativeFactory::getNativeThreadFactory()->currentThread();
 			ThreadInfo* threadInfo = null;
 			mutex->lock();
-			threadInfo = threads[currentThread];
+			threadInfo = threads[currentThread->getId()];
 			mutex->unlock();
 
 			if(threadInfo != null) {
 				threadInfo->popMethodCallInfo();
-				if(!threadInfo->hasMethodCalls()) {
-
-					mutex->lock();
-					threads.erase(currentThread);
-					mutex->unlock();
-
-					delete threadInfo;
-					threadInfo = null;
-
-				}
 			}
 		}
 
@@ -60,10 +53,12 @@ namespace jcpp {
 		 * Note: Do not synchronize the below method because we might have a dead lock between a suspended thread and the GC Thread
 		 */
 		void Stack::addRoot(TraverseContext* context) {
-			for(std::map<NativeThread*, ThreadInfo*>::iterator it = threads.begin(); it != threads.end(); it++) {
-				std::vector<MethodCallInfo*>* methodCallInfos = it->second->getMethodCallInfos();
-				for(std::vector<MethodCallInfo*>::iterator mcIt = methodCallInfos->begin(); mcIt != methodCallInfos->end(); mcIt++) {
-					context->addMethodCallInfo(*mcIt);
+			for(std::vector<ThreadInfo*>::iterator it = threads.begin(); it != threads.end(); it++) {
+				if(*it) {
+					std::vector<MethodCallInfo*>* methodCallInfos = (*it)->getMethodCallInfos();
+					for(std::vector<MethodCallInfo*>::iterator mcIt = methodCallInfos->begin(); mcIt != methodCallInfos->end(); mcIt++) {
+						context->addMethodCallInfo(*mcIt);
+					}
 				}
 			}
 		}
