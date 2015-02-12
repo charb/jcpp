@@ -9,7 +9,7 @@ namespace jcpp {
 
 		Heap* Heap::heap = null;
 
-		Heap::Heap() : objectInfoGroupsByAddress(), classInfos(null), classInfosSize(0), classInfosCapacity(CLASSINFOS_START_SIZE) {
+		Heap::Heap() : objectInfoGroupsByAddress(), classInfos(null), classInfosSize(0), classInfosCapacity(CLASSINFOS_START_SIZE), lastAddress(0), lastObjectInfoGroup(null) {
 			objectInfoGroupsMutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
 			classInfosMutex  = NativeFactory::getNativeThreadFactory()->createNativeMutex();
 			classInfos = new ClassInfo*[CLASSINFOS_START_SIZE];
@@ -23,19 +23,32 @@ namespace jcpp {
 		}
 
 		void Heap::addCreatedObject(ObjectInfo* oi) {
-			ScopedLock sync(*objectInfoGroupsMutex);
+			objectInfoGroupsMutex->lock();
 
 			jlong address = oi->getAddress();
+
+			if(lastAddress == address) {
+				lastObjectInfoGroup->addObjectInfo(oi);
+				objectInfoGroupsMutex->unlock();
+				return;
+			}
+
 			ObjectInfoGroup* objectInfoGroup = objectInfoGroupsByAddress[address];
 			if(objectInfoGroup == null) {
 				objectInfoGroup = new ObjectInfoGroup(address);
 				objectInfoGroupsByAddress[address] = objectInfoGroup;
 			}
 			objectInfoGroup->addObjectInfo(oi);
+
+			lastAddress = address;
+			lastObjectInfoGroup = objectInfoGroup;
+
+			objectInfoGroupsMutex->unlock();
 		}
 
 		void Heap::addClassInfo(ClassInfo* ci) {
-			ScopedLock sync(*classInfosMutex);
+			classInfosMutex->lock();
+
 			if(classInfosSize == classInfosCapacity) {
 				ClassInfo** newClassInfos = new ClassInfo*[classInfosCapacity + CLASSINFOS_SIZE_INCREMENT];
 				for(jint i = 0; i < classInfosSize; i++) {
@@ -46,6 +59,8 @@ namespace jcpp {
 				classInfosCapacity += CLASSINFOS_SIZE_INCREMENT;
 			}
 			classInfos[classInfosSize++] = ci;
+
+			classInfosMutex->unlock();
 		}
 
 		/**
@@ -59,6 +74,10 @@ namespace jcpp {
 
 		void Heap::removeObjectsToBeDeleted(std::set<jlong>* addresses) {
 			ScopedLock sync(*objectInfoGroupsMutex);
+
+			lastAddress = 0;
+			lastObjectInfoGroup = null;
+
 			for(std::set<jlong>::iterator it = addresses->begin(); it != addresses->end(); it++) {
 				ObjectInfoGroup* objectInfoGroup = objectInfoGroupsByAddress[*it];
 				if(objectInfoGroup) {

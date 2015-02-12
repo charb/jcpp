@@ -36,6 +36,9 @@ namespace jcpp {
 			jint classInfosSize;
 			ClassInfo** classInfos;
 
+			jlong lastAddress;
+			ObjectInfoGroup* lastObjectInfoGroup;
+
 			Heap();
 		public:
 			static Heap* getHeap();
