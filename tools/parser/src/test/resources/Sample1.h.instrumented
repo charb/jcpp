@@ -1,12 +1,13 @@
-#include "namespaceInjection.h"
-#include "fieldInjection.h"
-#include "classInjection.h"
-#include "variableInjection.h"
 #ifndef SAMPLE1_H_
 #define SAMPLE1_H_
 
 #include "SampleParent.h"
 #include "SampleParent2.h"
+#include "namespaceInjection.h"
+#include "fieldInjection.h"
+#include "classInjection.h"
+#include "variableInjection.h"
+
 
 #define synchronized(B) {			\
 	char* unusedChar = 0;			\
@@ -82,4 +83,5 @@ namespace sampleNs {
 }
 
 #endif
+
 #include "endOfFile.h"

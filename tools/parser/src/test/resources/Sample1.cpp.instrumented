@@ -1,8 +1,9 @@
+#include "Sample1.h"
 #include "namespaceInjection.h"
 #include "methodInjection.h"
 #include "memberInitializer.h"
 #include "variableInjection.h"
-#include "Sample1.h"
+
 
 Sample1* globalSample = new Sample1();DeclaredVariable(globalSample);
 
@@ -105,4 +106,5 @@ DeclaredParameter(strMessage);
 
 /*DeclaredNamespace(sampleNs);*/
 }
+
 #include "endOfFile.h"
