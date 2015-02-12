@@ -2,6 +2,7 @@
 #define JCPP_GC_INFO_OBJECTINFOGROUP_H
 
 #include "jcpp/gc/info/ObjectInfo.h"
+#define OBJECT_INFOS_DEFAULT_SIZE 4
 
 namespace jcpp {
 	namespace gc {
@@ -9,13 +10,13 @@ namespace jcpp {
 
 			class JCPP_EXPORT ObjectInfoGroup {
 			private:
-				static const jint DEFAULT_CAPACITY = 7;
-
 				jlong address;
 
-				ObjectInfo** objectInfos;
-				jint capacity;
+				ObjectInfo* staticObjectInfos[OBJECT_INFOS_DEFAULT_SIZE];
+				ObjectInfo** objectInfos; // used when static object info count > OBJECT_INFOS_DEFAULT_SIZE
+
 				jint size;
+				jint capacity;
 
 			public:
 				ObjectInfoGroup(jlong address);

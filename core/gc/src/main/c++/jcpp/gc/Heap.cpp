@@ -9,9 +9,10 @@ namespace jcpp {
 
 		Heap* Heap::heap = null;
 
-		Heap::Heap() : objectInfoGroupsByAddress(), classInfos() {
+		Heap::Heap() : objectInfoGroupsByAddress(), classInfos(null), classInfosSize(0), classInfosCapacity(CLASSINFOS_START_SIZE) {
 			objectInfoGroupsMutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
 			classInfosMutex  = NativeFactory::getNativeThreadFactory()->createNativeMutex();
+			classInfos = new ClassInfo*[CLASSINFOS_START_SIZE];
 		}
 
 		Heap* Heap::getHeap() {
@@ -35,15 +36,24 @@ namespace jcpp {
 
 		void Heap::addClassInfo(ClassInfo* ci) {
 			ScopedLock sync(*classInfosMutex);
-			classInfos.push_back(ci);
+			if(classInfosSize == classInfosCapacity) {
+				ClassInfo** newClassInfos = new ClassInfo*[classInfosCapacity + CLASSINFOS_SIZE_INCREMENT];
+				for(jint i = 0; i < classInfosSize; i++) {
+					newClassInfos[i] = classInfos[i];
+				}
+				delete [] classInfos;
+				classInfos = newClassInfos;
+				classInfosCapacity += CLASSINFOS_SIZE_INCREMENT;
+			}
+			classInfos[classInfosSize++] = ci;
 		}
 
 		/**
 		 * Note: Do not synchronize the below method because we might have a dead lock between a suspended thread and the GC Thread
 		 */
 		void Heap::addRoot(TraverseContext* context) {
-			for(std::vector<ClassInfo*>::iterator it = classInfos.begin(); it != classInfos.end(); it++) {
-				context->addClassInfo(*it);
+			for(jint index = 0; index < classInfosSize; index++) {
+				context->addClassInfo(classInfos[index]);
 			}
 		}
 
@@ -75,6 +85,7 @@ namespace jcpp {
 		Heap::~Heap() {
 			delete objectInfoGroupsMutex;
 			delete classInfosMutex;
+			delete classInfos;
 		}
 
 	}

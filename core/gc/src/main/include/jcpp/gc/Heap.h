@@ -23,12 +23,18 @@ namespace jcpp {
 
 		class JCPP_EXPORT Heap {
 		private:
+			static const jint CLASSINFOS_START_SIZE = 2000;
+			static const jint CLASSINFOS_SIZE_INCREMENT = 500;
+
 			static Heap* heap;
 
 			std::map<jlong, ObjectInfoGroup*> objectInfoGroupsByAddress;
-			std::vector<ClassInfo*> classInfos;
 			NativeMutex* objectInfoGroupsMutex;
 			NativeMutex* classInfosMutex;
+
+			jint classInfosCapacity;
+			jint classInfosSize;
+			ClassInfo** classInfos;
 
 			Heap();
 		public:
