@@ -82,6 +82,12 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
             existingTupleHistory.setCppFileTuple(this);
         }
     }
+    
+    public void clean() {
+    	headerCPPFile = null;
+    	cppCPPFile = null;
+    	gcFileTupleContext = null;
+    }
 
     public boolean checkUpdated() throws IOException {
         if (existingTupleHistory == null) {

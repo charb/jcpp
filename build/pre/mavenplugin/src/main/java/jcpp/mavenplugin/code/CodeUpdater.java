@@ -324,6 +324,10 @@ public class CodeUpdater {
             } catch (Exception exception) {
                 throw new RuntimeException(exception);
             }
+            
+            for(CppFileTuple fileTuple : cppFileTuples) {
+            	fileTuple.clean();
+            }
         }
 
         private void parseCppFileTuple(CppFileTuple tuple) {
