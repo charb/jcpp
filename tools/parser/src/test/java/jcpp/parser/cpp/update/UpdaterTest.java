@@ -22,6 +22,7 @@ import jcpp.parser.cpp.CPPNamespace;
 import jcpp.parser.cpp.CPPParser;
 import jcpp.parser.cpp.CPPVariable;
 
+import org.eclipse.cdt.core.dom.ast.IASTImageLocation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -90,6 +91,9 @@ public class UpdaterTest {
 
         @Override
         public String generate(CPPVariable construct, CodeGeneratorContext context) {
+            if (construct.getAstName().getImageLocation().getLocationKind() == IASTImageLocation.MACRO_DEFINITION) {
+                return null;
+            }
             return "DeclaredVariable(" + construct.getName() + ");";
         }
 
