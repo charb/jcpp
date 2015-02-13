@@ -128,7 +128,6 @@
 							</linker>
 							<cpp>
 								<name>msvc</name>
-								<debug>true</debug>
 								<sourceDirectory>${basedir}/target/newsrc/main</sourceDirectory>
 								<testSourceDirectory>${basedir}/target/newsrc/test</testSourceDirectory>
 								<systemIncludePaths>
