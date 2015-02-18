@@ -81,6 +81,8 @@ namespace jcpp{
 
             static void exit(jint code);
 
+            static void gc();
+
             virtual ~JSystem();
         };
     }

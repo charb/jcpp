@@ -5,9 +5,11 @@
 #include "jcpp/native/api/NativeSystem.h"
 #include "jcpp/io/JNativeInputStream.h"
 #include "jcpp/io/JNativeOutputStream.h"
+#include "jcpp/gc/GarbageCollector.h"
 
 using namespace jcpp::native::api;
 using namespace jcpp::io;
+using namespace jcpp::gc;
 
 namespace jcpp{
     namespace lang{
@@ -124,6 +126,10 @@ namespace jcpp{
             if (exitListener!=null){
                 exitListener->exit(code);
             }
+        }
+
+        void JSystem::gc(){
+        	GarbageCollector::getGarbageCollector()->gc();
         }
 
         JSystem::~JSystem(){
