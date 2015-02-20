@@ -281,8 +281,7 @@ namespace jcpp {
 		}
 
 		JString* JStreamDecoder::encodingName() {
-			return ((cs->isInstanceOf(JHistoricallyNamedCharset::getClazz()))?
-					  ((JHistoricallyNamedCharset*)cs)->historicalName() : cs->getName());
+			return ((cs->isInstanceOf(JHistoricallyNamedCharset::getClazz())) ? (dynamic_cast<JHistoricallyNamedCharset*>(cs))->historicalName() : cs->getName());
 		}
 
 		jbool JStreamDecoder::inReady() {

@@ -201,8 +201,8 @@ namespace jcpp {
 		}
 
 		JForkedProcess* JProcessBuilder::start() {
-			NativeProcessBuilder builder;
 
+			NativeProcessBuilder builder;
 			std::vector<NativeString> nativeCommand;
 			for(jint i = 0; i < commandList->size(); i++) {
 				JString* command = dynamic_cast<JString*>(commandList->get(i));
@@ -211,8 +211,10 @@ namespace jcpp {
 
 			builder.setInheritEnvironment(false);
 
-			JSet* entrySet = env->entrySet();
+			JSet* entrySet = environment()->entrySet();
+
 			JIterator* iterator = entrySet->iterator();
+
 			while(iterator->hasNext()) {
 				JMap::JEntry* entry = dynamic_cast<JMap::JEntry*>(iterator->next());
 				JString* envKey = dynamic_cast<JString*>(entry->getKey());
@@ -241,9 +243,9 @@ namespace jcpp {
 			}
 
 			JForkedProcess* jForkedProcess = null;
-
 			TRY_CATCH_NATIVE_EXCEPTION({
 			NativeForkedProcess forkedProcess = NativeFactory::getNativeProcessFactory()->createNativeProcess(builder);
+
 			jForkedProcess = new JForkedProcess(new JProcess(forkedProcess.getProcess()),
 				new JNativeOutputStream(forkedProcess.getInputStreamWritePipeEnd(), true),
 				new JNativeInputStream(forkedProcess.getOutputStreamReadPipeEnd(), true),

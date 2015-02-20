@@ -55,20 +55,23 @@ namespace jcpp {
 						processes.push_back(new WindowsProcess(dwProcesses[i], ZwQueryInformationProcess));
 					}
 				}
-
+				
 				NativeForkedProcess WindowsProcessFactory::createNativeProcess(NativeProcessBuilder& builder) {
+				
 					NativeString commandLine;
 					std::vector<NativeString> command;
 					builder.getCommand(command);
+					
 					for (std::vector<NativeString>::iterator it = command.begin(); it != command.end(); it++) {
 						if (!it->isEmpty()) {
 							commandLine = commandLine + " " + *it;
 						}
 					}
+					
 					if (commandLine.isEmpty()) {
 						throw NativeException(className, "createNativeProcess", ILLEGAL_ARGUMENT_EXCEPTION, "The command list is empty.");
 					}
-
+					
 					WindowsFile workDirFile(builder.getDirectory());
 					workDirFile.createDirectories();
 					NativeString currentDirectory = workDirFile.getAbsolutePath();
@@ -77,17 +80,18 @@ namespace jcpp {
 					memset(&startUpInfo, 0, sizeof(STARTUPINFO));
 					startUpInfo.cb = sizeof(STARTUPINFO);
 					startUpInfo.dwFlags = STARTF_USESTDHANDLES;
-
+					
 					SECURITY_ATTRIBUTES securityAttributes;
 					memset(&securityAttributes, 0, sizeof(SECURITY_ATTRIBUTES));
 					securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
 					securityAttributes.bInheritHandle = true;
-
+					
 					HANDLE currentProcessHandle = GetCurrentProcess();
-
+					
 					NativeProcessBuilderRedirect redirectInput = builder.getRedirectInput();
 					HANDLE inputStreamHandle = INVALID_HANDLE_VALUE;
 					HANDLE inputStreamPipeWriteHandle = INVALID_HANDLE_VALUE;
+					
 					switch (redirectInput.getType()) {
 						case INHERIT:
 							inputStreamHandle = GetStdHandle(STD_INPUT_HANDLE);
@@ -113,10 +117,11 @@ namespace jcpp {
 							break;
 					}
 					startUpInfo.hStdInput = inputStreamHandle;
-
+					
 					NativeProcessBuilderRedirect redirectOutput = builder.getRedirectOutput();
 					HANDLE outputStreamHandle = INVALID_HANDLE_VALUE;
 					HANDLE outputStreamPipeReadHandle = INVALID_HANDLE_VALUE;
+					
 					switch (redirectOutput.getType()) {
 						case INHERIT:
 							outputStreamHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -165,11 +170,11 @@ namespace jcpp {
 							break;
 					}
 					startUpInfo.hStdOutput = outputStreamHandle;
-
+					
 					NativeProcessBuilderRedirect redirectError = builder.getRedirectError();
 					HANDLE errorStreamHandle = INVALID_HANDLE_VALUE;
 					HANDLE errorStreamPipeReadHandle = INVALID_HANDLE_VALUE;
-
+					
 					if (builder.isRedirectErrorStreamToOutputStream()) {
 						errorStreamHandle = outputStreamHandle;
 					} else {
@@ -240,23 +245,25 @@ namespace jcpp {
 						}
 					}
 					startUpInfo.hStdError = errorStreamHandle;
-
+					
 					std::map<NativeString, NativeString> env;
 					if (builder.isInheritEnvironment()) {
 						WindowsUtils::getEnv(env);
 					}
 					builder.getEnvironment(env);
-
+					
 					int size = 1024;
 					int index = 0;
 					char* environment = new char[size];
 					memset(environment, 0, size);
-
+					
 					for (std::map<NativeString, NativeString>::iterator it = env.begin(); it != env.end(); it++) {
+
 						NativeString key = it->first.trim();
 						NativeString value = it->second.trim();
 
 						jint requiredSpace = key.length() + value.length() + 3; // '=' & \0 env end & \0 possible envs end
+
 						if ((size - index) < requiredSpace) {
 							jint newSize = size;
 							while (newSize < (size + requiredSpace)) {
@@ -264,11 +271,12 @@ namespace jcpp {
 							}
 
 							char* newEnvironment = new char[newSize];
-							memset(environment, 0, newSize);
+							memset(newEnvironment, 0, newSize);
 							memcpy(newEnvironment, environment, size);
 
 							size = newSize;
 							delete[] environment;
+
 							environment = newEnvironment;
 						}
 
@@ -282,13 +290,17 @@ namespace jcpp {
 
 						index++; // for the \0
 					}
+					
 					index++; // for the envs \0
 
 					PROCESS_INFORMATION processInformation;
 					memset(&processInformation, 0, sizeof(PROCESS_INFORMATION));
 
-					if (!CreateProcessA(NULL, (LPSTR) commandLine.getString().c_str(), &securityAttributes, &securityAttributes, true, CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW, (void *) environment, currentDirectory.getString().c_str(), &startUpInfo,
+
+
+					if (!CreateProcessA(NULL, (LPSTR)(commandLine.trim().getString().c_str()), &securityAttributes, &securityAttributes, true, CREATE_NEW_PROCESS_GROUP, (void *) environment, currentDirectory.getString().c_str(), &startUpInfo,
 							&processInformation)) {
+
 						if (redirectInput.getType() != INHERIT) {
 							CloseHandle(inputStreamHandle);
 							if (inputStreamPipeWriteHandle != INVALID_HANDLE_VALUE) {
@@ -310,7 +322,7 @@ namespace jcpp {
 						delete environment;
 						throw NativeException(className, "createNativeProcess", SYSTEM_EXCEPTION, "Could not create a new process on Windows machine with command = " + commandLine, GetLastError());
 					}
-
+					
 					CloseHandle(processInformation.hThread);
 					CloseHandle(processInformation.hProcess);
 
@@ -323,8 +335,9 @@ namespace jcpp {
 					if (!builder.isRedirectErrorStreamToOutputStream() && (redirectError.getType() != INHERIT)) {
 						CloseHandle(errorStreamHandle);
 					}
+					
 					delete environment;
-
+					
 					NativeProcess * process = new WindowsProcess(processInformation.dwProcessId, ZwQueryInformationProcess);
 					NativeOutputStream * inputStream = redirectInput.getType() == PIPE ? new WindowsFileOutputStream(WindowsFileDescriptor(inputStreamPipeWriteHandle)) : null;
 					NativeInputStream * outputStream = redirectOutput.getType() == PIPE ? new WindowsFileInputStream(WindowsFileDescriptor(outputStreamPipeReadHandle)) : null;

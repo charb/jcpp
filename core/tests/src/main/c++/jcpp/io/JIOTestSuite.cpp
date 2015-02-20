@@ -22,6 +22,7 @@
 #include "jcpp/io/JUnsupportedEncodingExceptionTest.h"
 #include "jcpp/io/JUTFDataFormatExceptionTest.h"
 #include "jcpp/io/JWriteAbortedExceptionTest.h"
+#include "jcpp/io/JInputStreamReaderTest.h"
 
 using namespace jcpp::io;
 using namespace jcpp::lang::reflect;
@@ -49,6 +50,7 @@ namespace jcpp{
             addTest(new JUnsupportedEncodingExceptionTest());
             addTest(new JUTFDataFormatExceptionTest());
             addTest(new JWriteAbortedExceptionTest());
+            addTest(new JInputStreamReaderTest());
         }
 
         JIOTestSuite::~JIOTestSuite(){
