@@ -25,6 +25,8 @@ public class CppParserBuilder {
 
     private List<String> includes;
 
+    private List<String> userIncludes;
+    
     private Map<String, String> symbols;
 
     private File includeSrcDirectory;
@@ -32,6 +34,7 @@ public class CppParserBuilder {
 
     public CppParserBuilder() {
         symbols = new ConcurrentHashMap<String, String>();
+        userIncludes = new ArrayList<String>();
     }
 
 
@@ -42,6 +45,10 @@ public class CppParserBuilder {
     public CppParserBuilder setIncludeSrcDirectory(File includeSrcDirectory) {
         this.includeSrcDirectory = includeSrcDirectory;
         return this;
+    }
+    
+    public void addIncludeDirectory(String includeDirectory) {
+    	userIncludes.add(includeDirectory);
     }
 
     public MavenProject getMavenProject() {
@@ -85,7 +92,7 @@ public class CppParserBuilder {
     }
 
     protected synchronized CppParserBuilder init() {
-        includes = new ArrayList<String>();
+        includes = new ArrayList<String>(userIncludes);
         if (includeSrcDirectory != null) {
             includes.add(includeSrcDirectory.getAbsolutePath());
         }

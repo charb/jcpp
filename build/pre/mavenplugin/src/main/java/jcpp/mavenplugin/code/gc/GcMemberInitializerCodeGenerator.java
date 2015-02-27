@@ -35,7 +35,7 @@ public class GcMemberInitializerCodeGenerator implements ICodeGenerator<CPPMetho
 
         if (cppClass != null) {
         	GcClassContext classContext = gcContext.getClassContext(cppClass.getName());
-        	if(classContext.isObject()) {
+        	if((classContext != null) && classContext.isObject()) {
 	        	StringBuilder sb = new StringBuilder();
 	            int nonStaticFieldCount = classContext.getNonStaticFieldCount();
 				sb.append("__objectInfo(&__classInfo, this, ").append(nonStaticFieldCount).append(nonStaticFieldCount > 0 ? ", __fieldInfos" : ", null").append(")");

@@ -61,7 +61,7 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
 
     private GcFileTupleContext gcFileTupleContext;
 
-    public CppFileTuple(String name, String namespace, File headerFile, File cppFile, CppPackage cppPackage) {
+	public CppFileTuple(String name, String namespace, File headerFile, File cppFile, CppPackage cppPackage) {
         this.name = name;
         this.namespace = namespace;
         this.headerFile = headerFile;
@@ -121,7 +121,9 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
         return false;
     }
 
-    public void parseFiles(CppParserBuilder parserBuilder) throws Exception {
+    public void parseFiles() throws Exception {
+    	CppParserBuilder parserBuilder = updaterContext.getParserBuilder();
+    	
         if (!updaterContext.willUpdate()) {
             return;
         }
@@ -163,7 +165,9 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
                 if ((log != null) && log.isDebugEnabled()) {
                     log.debug("Copying non updated header file to " + newHeaderFile.getPath());
                 }
-                FileUtils.copyFile(headerFile, newHeaderFile);
+                if (!headerFile.equals(newHeaderFile)) {
+                	FileUtils.copyFile(headerFile, newHeaderFile);
+                }
             }
         }
 
@@ -237,6 +241,10 @@ public class CppFileTuple implements Comparable<CppFileTuple> {
     public CPPFile getCppCPPFile() {
         return cppCPPFile;
     }
+    
+    public GcFileTupleContext getGcFileTupleContext() {
+		return gcFileTupleContext;
+	}
 
     public String getHeaderRelativePath(String baseDirectory) throws IOException {
         return (headerFile == null) ? null : headerFile.getCanonicalPath().substring(baseDirectory.length() + 1);

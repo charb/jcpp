@@ -22,7 +22,7 @@ public class GcFieldCodeGenerator implements ICodeGenerator<CPPField> {
             StringBuilder sb = new StringBuilder();
             if (type.isStatic()) {
                 sb.append("\nstatic FieldInfo __").append(construct.getName()).append("StaticFieldInfo;\n");
-            } else if((construct.getCppClass() != null) && gcContext.getClassContext(construct.getCppClass().getName()).isObject()) {
+            } else if((construct.getCppClass() != null) && (gcContext.getClassContext(construct.getCppClass().getName()) != null) && gcContext.getClassContext(construct.getCppClass().getName()).isObject()) {
             	sb.append("\nstatic NativeString __").append(construct.getName()).append("FieldName;");
                 sb.append("\nFieldInfo __").append(construct.getName()).append("FieldInfo;\n");
             }

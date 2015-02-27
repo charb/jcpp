@@ -18,6 +18,10 @@ public class GcClassCodeGenerator implements ICodeGenerator<CPPClass> {
     public String generate(CPPClass construct, CodeGeneratorContext context) {
     	GcClassContext classContext = gcContext.getClassContext(construct.getName());
     	
+    	if(classContext == null) {
+    		return null;
+    	}
+    	
         StringBuilder sb = new StringBuilder();
         sb.append("\nprivate:");
         sb.append("\nstatic ClassInfo __classInfo;");

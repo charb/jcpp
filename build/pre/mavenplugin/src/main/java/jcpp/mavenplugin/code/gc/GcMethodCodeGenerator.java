@@ -37,7 +37,7 @@ public class GcMethodCodeGenerator implements ICodeGenerator<CPPMethod> {
         
         GcClassContext classContext = cppClass == null ? null : gcContext.getClassContext(cppClass.getName());
         
-        if ((cppClass != null) && classContext.isObject() && construct.isConstructor()) {
+        if ((cppClass != null) && (classContext != null) && classContext.isObject() && construct.isConstructor()) {
             List<CPPField> fields = cppClass.getFields();
             int count = 0;
             for (int fieldIndex = 0; fieldIndex < fields.size(); fieldIndex++) {
@@ -85,7 +85,7 @@ public class GcMethodCodeGenerator implements ICodeGenerator<CPPMethod> {
         	sb.append("null");
         }
         
-        if((cppClass != null) && classContext.isObject() && !construct.getFunction().isStatic()) {
+        if((cppClass != null) && (classContext != null) && classContext.isObject() && !construct.getFunction().isStatic()) {
             sb.append(", &__objectInfo, ");
         } else {
         	sb.append(", null, ");

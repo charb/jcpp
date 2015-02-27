@@ -21,7 +21,6 @@ public class CodeUpdater {
 
     public static final String CODE_HISTORY_XML = "CodeHistory.xml";
 
-    protected final CppParserBuilder parserBuilder;
     protected final UpdaterContext updaterContext;
 
     protected final CppPackageGenerator cppFileTupleGenerator;
@@ -49,10 +48,7 @@ public class CodeUpdater {
 
         existingCodeHistory = readExistingCodeHistory();
 
-        updaterContext = new UpdaterContext(log, updateExportMacro, addGCcode, addReflectionCode, updateIncludeDirOnly, srcDir, newSrcDir, codeHistoryDirectory, generatedCodePrefix);
-
-        parserBuilder = new CppParserBuilder();
-        parserBuilder.setLog(log).setMavenProject(mavenProject).setIncludeSrcDirectory(updaterContext.getOriginalHeaderBaseDir());
+        updaterContext = new UpdaterContext(mavenProject, log, updateExportMacro, addGCcode, addReflectionCode, updateIncludeDirOnly, srcDir, newSrcDir, codeHistoryDirectory, generatedCodePrefix);
 
         cppFileTupleGenerator = new CppPackageGenerator(updaterContext.getOriginalHeaderBaseDir(), updaterContext.getOriginalCppBaseDir());
 
@@ -336,7 +332,7 @@ public class CodeUpdater {
                     if (!usingHistoryDir) {
                         tuple.deleteExistingHistoryFiles();
                     }
-                    tuple.parseFiles(parserBuilder);
+                    tuple.parseFiles();
                     tuple.update();
                 } else {
                     TupleHistory existingTupleHistory = tuple.getExistingTupleHistory();

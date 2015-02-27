@@ -23,14 +23,14 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
 
     public GcEndOfNamespaceCodeGenerator(GcFileTupleContext gcContext) {
         this.gcContext = gcContext;
-		namespacesUpdated = gcContext.isHeaderUpdater() ? null : new HashSet<String>();
-        classNamesWritten = gcContext.isHeaderUpdater() ? null : new HashSet<String>();
+		namespacesUpdated = gcContext.isHeaderUpdater() && (gcContext.getCppCPPFile() != null) ? null : new HashSet<String>();
+        classNamesWritten = gcContext.isHeaderUpdater() && (gcContext.getCppCPPFile() != null) ? null : new HashSet<String>();
     }
 
 
     @Override
     public String generate(CPPNamespace construct, CodeGeneratorContext context) {
-    	if(!gcContext.isHeaderUpdater()) {
+    	if(!gcContext.isHeaderUpdater() || (gcContext.getCppCPPFile() == null)) {
 		    StringBuilder sb = new StringBuilder();
 		
 		    String namespace = construct.getName();
@@ -65,6 +65,10 @@ public class GcEndOfNamespaceCodeGenerator implements ICodeGenerator<CPPNamespac
                         classNamesWritten.add(className);
                         
                         GcClassContext classContext = gcContext.getClassContext(className);
+                        
+                    	if(classContext == null) {
+                    		continue;
+                    	}
 
                         for(String methodName : classContext.getNonPureVirtualMethodNames()) {
                     		sb.append("\nNativeString ").append(className).append("::__");

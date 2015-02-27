@@ -59,6 +59,10 @@ public class GcFileTupleContext {
 		return cppCPPFile;
 	}
 	
+	public Map<String, GcClassContext> getClassContexts() {
+		return classContexts;
+	}
+	
 	public GcClassContext getClassContext(String name) {
 		return classContexts.get(name);
 	}

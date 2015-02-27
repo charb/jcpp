@@ -5,6 +5,8 @@
 #include "jcpp/lang/JIllegalAccessException.h"
 #include "jcpp/lang/JInstantiationException.h"
 #include "jcpp/lang/reflect/JModifier.h"
+#include "jcpp/lang/reflect/JProxy.h"
+#include "jcpp/lang/JEnum.h"
 
 #include "jcpp/lang/JPrimitiveInt.h"
 #include "jcpp/lang/JPrimitiveShort.h"
@@ -34,6 +36,8 @@ namespace ${namespace} {
 
 	class JCPP_EXPORT ${class.simpleName}Class : public <#if class.enumClass>JEnum::JEnumClass<#elseif class.proxyClass>JProxy::JProxyClass<#else>jcpp::lang::JClass</#if> 
 	{
+	public:
+		static jcpp::lang::JClass* ${class.simpleName}Clazz;
 	protected:
 		<#list class.constructors as constructor>
 		static JObject* create${class.simpleName}${constructor_index}(jcpp::util::JList* args){
@@ -178,13 +182,13 @@ namespace ${namespace} {
 </#if>
 	};
 	
-	static jcpp::lang::JClass* ${class.simpleName}Clazz;
+	jcpp::lang::JClass* ${class.simpleName}Class::${class.simpleName}Clazz = null;
 	
 	jcpp::lang::JClass* ${class.className}::getClazz(){
-        if (${class.simpleName}Clazz==null){
-            ${class.simpleName}Clazz = new ${class.simpleName}Class();
+        if (${class.simpleName}Class::${class.simpleName}Clazz==null){
+            ${class.simpleName}Class::${class.simpleName}Clazz = new ${class.simpleName}Class();
         }
-        return ${class.simpleName}Clazz;
+        return ${class.simpleName}Class::${class.simpleName}Clazz;
     }
 
 <#list class.namespaces as namespace>

@@ -1,11 +1,17 @@
 package jcpp.mavenplugin.code.reflect;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import jcpp.mavenplugin.code.CppFileTuple;
 import jcpp.mavenplugin.code.TemplateCodeGenerator;
 import jcpp.mavenplugin.code.UpdaterContext;
 import jcpp.mavenplugin.code.Utils;
+import jcpp.mavenplugin.code.gc.GcClassContext;
+import jcpp.mavenplugin.code.gc.GcFileTupleContext;
 
 
 public class ReflectionCodeGenerator extends TemplateCodeGenerator<CppFileTuple> {
@@ -39,7 +45,34 @@ public class ReflectionCodeGenerator extends TemplateCodeGenerator<CppFileTuple>
         File generatedHeaderFile = generateHeaderFile(updaterContext, reflectionModel, cppFileTuple);
 
         CppFileTuple tuple = new CppFileTuple(cppFileTuple.getName() + "_Reflection", cppFileTuple.getNamespace(), generatedHeaderFile, null, null);
-        tuple.init(updaterContext, null);
+        
+        if(updaterContext.isAddGCcode()) {
+	        UpdaterContext newUpdaterContext = new UpdaterContext(updaterContext, updaterContext.isUpdateExportMacro(), true, false, updaterContext.getNewSrcDir(), updaterContext.getNewSrcDir(), updaterContext.getNewCppBaseDir(), updaterContext.getNewCppBaseDir(), updaterContext.getNewCppBaseDir(), updaterContext.getNewCppBaseDir());
+	        newUpdaterContext.getParserBuilder().addIncludeDirectory(updaterContext.getOriginalHeaderBaseDir().getAbsolutePath());
+	        
+	        tuple.init(newUpdaterContext, null);
+	        
+	        tuple.parseFiles();
+	        
+	        GcFileTupleContext gcFileTupleContext = tuple.getGcFileTupleContext();
+	        
+	        Map<String, GcClassContext> classContexts = gcFileTupleContext.getClassContexts();
+	        
+	        Set<String> classNames = new HashSet<String>();
+	        for(ClassModel classModel : reflectionModel.getClasses()) {
+	        	String fullNamespace = "";
+	        	for (String n : classModel.getNamespaces())
+	        		fullNamespace += n + "::";
+	        	classNames.add(fullNamespace + classModel.getClassName() + "Class");
+	        }
+	        for(String gcClassContextClassname : classContexts.keySet().toArray(new String[classContexts.size()])) {
+	        	if(!classNames.contains(gcClassContextClassname)) {
+	        		classContexts.remove(gcClassContextClassname);
+	        	}
+	        }
+	        
+	        tuple.update();
+        }
         return tuple;
     }
 
