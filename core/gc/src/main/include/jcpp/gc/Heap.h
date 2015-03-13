@@ -39,6 +39,8 @@ namespace jcpp {
 			jlong lastAddress;
 			ObjectInfoGroup* lastObjectInfoGroup;
 
+
+
 			Heap();
 		public:
 			static Heap* getHeap();

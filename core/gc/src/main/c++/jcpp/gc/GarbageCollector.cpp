@@ -70,6 +70,23 @@ namespace jcpp {
 			}
 		}
 
+
+		void GarbageCollector::acceptGCVisitor(IGCVisitor *v){
+
+		}
+
+		void GarbageCollector::acceptClassVisitor(IClassInfoVisitor *v){
+
+		}
+
+		void GarbageCollector::acceptObjectVisitor(IObjectInfoGroupVisitor *v) {
+
+		}
+
+		void GarbageCollector::acceptMethodCallVisitor(IMethodCallVisitor *v) {
+
+		}
+
 		GarbageCollector::~GarbageCollector() {
 			if(destructorThread != null) {
 				delete destructorThread;

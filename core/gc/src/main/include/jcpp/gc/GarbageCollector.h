@@ -6,8 +6,10 @@
 #include "jcpp/gc/Heap.h"
 #include "jcpp/gc/DestructorThread.h"
 #include "jcpp/native/api/nthread/NativeMutex.h"
+#include "jcpp/gc/visitor/IGCVisitor.h"
 
 using namespace jcpp::native::api::nthread;
+using namespace jcpp::gc::visitor;
 
 namespace jcpp {
 	namespace gc {
@@ -28,6 +30,11 @@ namespace jcpp {
 			static GarbageCollector* getGarbageCollector();
 
 			void gc();
+
+			void acceptGCVisitor(IGCVisitor *v);
+			void acceptClassVisitor(IClassInfoVisitor *v);
+			void acceptObjectVisitor(IObjectInfoGroupVisitor *v);
+			void acceptMethodCallVisitor(IMethodCallVisitor *v);
 
 			virtual ~GarbageCollector();
 		};
