@@ -1,5 +1,5 @@
-#ifndef JCPP_GC_DEFAULTGCVISITOR_H
-#define JCPP_GC_DEFAULTGCVISITOR_H
+#ifndef JCPP_GC_DefaULTGCVISITOR_H
+#define JCPP_GC_DefaULTGCVISITOR_H
 
 #include "jcpp/gc/visitor/IGCVisitor.h"
 
@@ -7,7 +7,7 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class defaultGCVisitor : public IGCVisitor{
+			class DefaultGCVisitor : public IGCVisitor{
 				public:
 					virtual void startVisitClassInfo(ClassInfo *ci);
 					virtual void visitStaticFieldInfo(FieldInfo *fi);
@@ -24,7 +24,7 @@ namespace jcpp {
 					virtual void endVisitObjectInfo(ObjectInfo *oi);
 					virtual void endVisitObjectInfoGroup(ObjectInfoGroup *oi);
 
-					virtual ~defaultGCVisitor();
+					virtual ~DefaultGCVisitor();
 			};
 
 		}

@@ -1,46 +1,46 @@
-#include "jcpp/gc/visitor/defaultGCVisitor.h"
+#include "jcpp/gc/visitor/DefaultGCVisitor.h"
 
 namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			void defaultGCVisitor::startVisitClassInfo(ClassInfo *ci) {
+			void DefaultGCVisitor::startVisitClassInfo(ClassInfo *ci) {
 			}
 
-			void defaultGCVisitor::visitStaticFieldInfo(FieldInfo *fi) {
+			void DefaultGCVisitor::visitStaticFieldInfo(FieldInfo *fi) {
 			}
 
-			void defaultGCVisitor::endVisitClassInfo(ClassInfo *ci) {
+			void DefaultGCVisitor::endVisitClassInfo(ClassInfo *ci) {
 			}
 
-			void defaultGCVisitor::startVisitMethodCallInfo(MethodCallInfo *mi) {
+			void DefaultGCVisitor::startVisitMethodCallInfo(MethodCallInfo *mi) {
 			}
 
-			void defaultGCVisitor::visitParameterInfo(ParameterInfo *pi) {
+			void DefaultGCVisitor::visitParameterInfo(ParameterInfo *pi) {
 			}
 
-			void defaultGCVisitor::visitVariableInfo(VariableInfo *vi) {
+			void DefaultGCVisitor::visitVariableInfo(VariableInfo *vi) {
 			}
 
-			void defaultGCVisitor::endVisitMethodCallInfo(MethodCallInfo *mi) {
+			void DefaultGCVisitor::endVisitMethodCallInfo(MethodCallInfo *mi) {
 			}
 
-			void defaultGCVisitor::startVisitObjectInfoGroup(ObjectInfoGroup *oi) {
+			void DefaultGCVisitor::startVisitObjectInfoGroup(ObjectInfoGroup *oi) {
 			}
 
-			void defaultGCVisitor::startVisitObjectInfo(ObjectInfo *oi) {
+			void DefaultGCVisitor::startVisitObjectInfo(ObjectInfo *oi) {
 			}
 
-			void defaultGCVisitor::visitFieldInfo(FieldInfo *fi) {
+			void DefaultGCVisitor::visitFieldInfo(FieldInfo *fi) {
 			}
 
-			void defaultGCVisitor::endVisitObjectInfo(ObjectInfo *oi) {
+			void DefaultGCVisitor::endVisitObjectInfo(ObjectInfo *oi) {
 			}
 
-			void defaultGCVisitor::endVisitObjectInfoGroup(ObjectInfoGroup *oi) {
+			void DefaultGCVisitor::endVisitObjectInfoGroup(ObjectInfoGroup *oi) {
 			}
 
-			defaultGCVisitor::~defaultGCVisitor() {
+			DefaultGCVisitor::~DefaultGCVisitor() {
 			}
 
 		}

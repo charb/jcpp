@@ -1,5 +1,5 @@
-#ifndef JCPP_GC_DEFAULTMETHODCALLVISITOR_H
-#define JCPP_GC_DEFAULTMETHODCALLVISITOR_H
+#ifndef JCPP_GC_DefaULTMETHODCALLVISITOR_H
+#define JCPP_GC_DefaULTMETHODCALLVISITOR_H
 
 #include "jcpp/gc/visitor/IMethodCallVisitor.h"
 
@@ -9,13 +9,15 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class defaultMethodCallVisitor : public IMethodCallVisitor {
+			class DefaultMethodCallVisitor : public IMethodCallVisitor {
 			public:
 				virtual void startVisitMethodCallInfo(MethodCallInfo *mi);
 				virtual void visitParameterInfo(ParameterInfo *pi);
 				virtual void visitVariableInfo(VariableInfo *vi);
 				virtual void endVisitMethodCallInfo(MethodCallInfo *mi);
-				virtual ~defaultMethodCallVisitor();
+				virtual void startVisitThreadInfo(ThreadInfo *ti);
+				virtual void endVisitThreadInfo(ThreadInfo *ti);
+				virtual ~DefaultMethodCallVisitor();
 			};
 
 		}

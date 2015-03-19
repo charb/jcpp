@@ -4,6 +4,7 @@
 #include "jcpp/gc/info/MethodCallInfo.h"
 #include "jcpp/gc/info/ParameterInfo.h"
 #include "jcpp/gc/info/VariableInfo.h"
+#include "jcpp/gc/info/ClassInfo.h"
 
 using namespace jcpp::gc::info;
 

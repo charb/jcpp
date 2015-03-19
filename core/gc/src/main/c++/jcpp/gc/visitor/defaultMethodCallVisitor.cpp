@@ -1,22 +1,30 @@
-#include "jcpp/gc/visitor/defaultMethodCallVisitor.h"
+#include "jcpp/gc/visitor/DefaultMethodCallVisitor.h"
 
 namespace jcpp{
 	namespace gc {
 		namespace visitor {
 
-			void defaultMethodCallVisitor::startVisitMethodCallInfo(MethodCallInfo *mi) {
+			void DefaultMethodCallVisitor::startVisitMethodCallInfo(MethodCallInfo *mi) {
 			}
 
-			void defaultMethodCallVisitor::visitParameterInfo(ParameterInfo *pi) {
+			void DefaultMethodCallVisitor::visitParameterInfo(ParameterInfo *pi) {
 			}
 
-			void defaultMethodCallVisitor::visitVariableInfo(VariableInfo *vi) {
+			void DefaultMethodCallVisitor::visitVariableInfo(VariableInfo *vi) {
 			}
 
-			void defaultMethodCallVisitor::endVisitMethodCallInfo(MethodCallInfo *mi) {
+			void DefaultMethodCallVisitor::endVisitMethodCallInfo(MethodCallInfo *mi) {
 			}
 
-			defaultMethodCallVisitor::~defaultMethodCallVisitor() {
+			void DefaultMethodCallVisitor::startVisitThreadInfo(ThreadInfo *ti){
+
+			}
+
+			void DefaultMethodCallVisitor::endVisitThreadInfo(ThreadInfo *ti){
+
+			}
+
+			DefaultMethodCallVisitor::~DefaultMethodCallVisitor() {
 			}
 
 		}
