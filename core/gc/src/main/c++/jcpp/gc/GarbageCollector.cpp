@@ -46,7 +46,11 @@ namespace jcpp {
 			heap->addRoot(context);
 			stack->addRoot(context);
 
-			if(lastContext) {
+			for (std::vector<NativeThread *>::iterator it = threads.begin(); it != threads.end(); it++){
+				(*it)->resume();
+			}
+
+			if (lastContext){
 				std::set<jlong>* lastUnMarkedAddresses = lastContext->getUnMarkedAddresses();
 				std::set<jlong>* currentUnMarkedAddresses = context->getUnMarkedAddresses();
 				std::set<jlong>* addressesToDelete = new std::set<jlong>();
@@ -64,26 +68,59 @@ namespace jcpp {
 			}
 
 			lastContext = context;
+		}
 
-			for(std::vector<NativeThread *>::iterator it = threads.begin(); it != threads.end(); it++) {
+		void GarbageCollector::acceptGCVisitor(IGCVisitor *visitor){
+			acceptVisitor(visitor,visitor,visitor);
+		}
+
+		void GarbageCollector::acceptClassVisitor(IClassInfoVisitor *visitor){
+			acceptVisitor(visitor,null,null);
+		}
+
+		void GarbageCollector::acceptObjectVisitor(IObjectInfoGroupVisitor *visitor){
+			acceptVisitor(null,visitor,null);
+		}
+
+		void GarbageCollector::acceptMethodCallVisitor(IMethodCallVisitor *visitor){
+			acceptVisitor(null, null, visitor);
+		}
+
+		void GarbageCollector::acceptVisitor(IClassInfoVisitor *classVisitor, IObjectInfoGroupVisitor * objectInfoGroupVisitor, IMethodCallVisitor *methodCallVisitor){
+
+			std::vector<NativeThread *> threads;
+
+			NativeFactory::getNativeThreadFactory()->getAllThreads(threads);
+			NativeThread* currentThread = NativeFactory::getNativeThreadFactory()->currentThread();
+			NativeThread* destructorNativeThread = destructorThread->getNativeThread();
+			std::vector<NativeThread *>::iterator it = threads.begin();
+			while (it != threads.end()){
+				if (((*it) == currentThread) || ((*it) == destructorNativeThread)){
+					it = threads.erase(it);
+				} else if ((*it)->isRunning()){
+					(*it)->suspend();
+					it++;
+				} else {
+					it = threads.erase(it);
+				}
+			}
+
+
+			if(classVisitor) {
+				heap->acceptClassInfoVisitor(classVisitor);
+			}
+			if(objectInfoGroupVisitor) {
+				heap->acceptObjectInfoGroupVisitor(objectInfoGroupVisitor);
+			}
+			if(methodCallVisitor)
+			{
+				stack->acceptMethodCallVisitor(methodCallVisitor);
+			}
+
+
+			for (std::vector<NativeThread *>::iterator it = threads.begin(); it != threads.end(); it++){
 				(*it)->resume();
 			}
-		}
-
-
-		void GarbageCollector::acceptGCVisitor(IGCVisitor *v){
-
-		}
-
-		void GarbageCollector::acceptClassVisitor(IClassInfoVisitor *v){
-
-		}
-
-		void GarbageCollector::acceptObjectVisitor(IObjectInfoGroupVisitor *v) {
-
-		}
-
-		void GarbageCollector::acceptMethodCallVisitor(IMethodCallVisitor *v) {
 
 		}
 

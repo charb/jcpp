@@ -47,6 +47,7 @@ namespace jcpp {
 		}
 
 		void Heap::addClassInfo(ClassInfo* ci) {
+
 			classInfosMutex->lock();
 
 			if(classInfosSize == classInfosCapacity) {
@@ -105,6 +106,54 @@ namespace jcpp {
 			delete objectInfoGroupsMutex;
 			delete classInfosMutex;
 			delete classInfos;
+		}
+
+		void Heap::acceptObjectInfoGroupVisitor(IObjectInfoGroupVisitor *v) {
+
+			ObjectInfoGroup* oig;
+
+			ObjectInfo** oi;
+			jint oiSize;
+
+			FieldInfo** fi;
+			jint fiSize;
+			for (std::map<jlong, ObjectInfoGroup*>::iterator it = objectInfoGroupsByAddress.begin(); it != objectInfoGroupsByAddress.end(); ++it){
+
+				jlong address = it->first;
+				oig = getObjectInfoGroupFromAddress(address);
+				v->startVisitObjectInfoGroup(oig);
+				oi = oig->getObjectInfos();
+				oiSize = oig->getSize();
+
+				for (jint oiIdx = 0; oiIdx < oiSize; oiIdx++){
+					v->startVisitObjectInfo(oi[oiIdx]);
+					fi = oi[oiIdx]->getFieldInfos();
+					fiSize = oi[oiIdx]->getFieldCount();
+
+					for (jint fiIdx = 0; fiIdx < fiSize; fiIdx++){
+						v->visitFieldInfo(fi[fiIdx]);
+					}
+					v->endVisitObjectInfo(oi[oiIdx]);
+				}
+				v->endVisitObjectInfoGroup(oig);
+			}
+		}
+
+		void Heap::acceptClassInfoVisitor(IClassInfoVisitor *v){
+
+			FieldInfo** sfi;
+			jint sfiSize;
+			for (jint ciIdx = 0; ciIdx < classInfosSize; ciIdx++){
+				v->startVisitClassInfo(classInfos[ciIdx]);
+				sfi = classInfos[ciIdx]->getStaticFieldInfos();
+				sfiSize = classInfos[ciIdx]->getStaticFieldCount();
+				for (jint sfiIdx = 0; sfiIdx < sfiSize; sfiIdx++){
+					v->visitStaticFieldInfo(sfi[sfiIdx]);
+				}
+				v->endVisitClassInfo(classInfos[ciIdx]);
+
+			}
+
 		}
 
 	}

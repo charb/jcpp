@@ -9,7 +9,7 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class IGCVisitor : public IObjectInfoGroupVisitor ,IClassInfoVisitor ,IMethodCallVisitor {
+			class IGCVisitor : public IObjectInfoGroupVisitor ,public IClassInfoVisitor ,public IMethodCallVisitor {
 			public:
 				virtual ~IGCVisitor() = 0;
 			};

@@ -6,6 +6,8 @@
 #include "jcpp/gc/ObjectInfoGroup.h"
 #include "jcpp/gc/info/ClassInfo.h"
 #include "jcpp/gc/TraverseContext.h"
+#include "jcpp/gc/visitor/IObjectInfoGroupVisitor.h"
+#include "jcpp/gc/visitor/IClassinfoVisitor.h"
 #include <map>
 #include <vector>
 #include <set>
@@ -18,10 +20,14 @@ using namespace jcpp::native::api::nthread;
  * Check performance with mutex lock at addCreatedObject (may be create a map per thread)
  *
  */
+
+using namespace jcpp::gc::visitor;
+
 namespace jcpp {
 	namespace gc {
-
+		class GarbageCollector;
 		class JCPP_EXPORT Heap {
+			friend class GarbageCollector;
 		private:
 			static const jint CLASSINFOS_START_SIZE = 2000;
 			static const jint CLASSINFOS_SIZE_INCREMENT = 500;
@@ -40,8 +46,12 @@ namespace jcpp {
 			ObjectInfoGroup* lastObjectInfoGroup;
 
 
-
 			Heap();
+
+			void acceptObjectInfoGroupVisitor(IObjectInfoGroupVisitor *v);
+
+			void acceptClassInfoVisitor(IClassInfoVisitor *v);
+
 		public:
 			static Heap* getHeap();
 

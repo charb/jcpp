@@ -3,6 +3,7 @@
 #include <vector>
 
 using namespace jcpp::native::api;
+using namespace jcpp::gc::visitor;
 
 namespace jcpp {
 	namespace gc {
@@ -57,5 +58,56 @@ namespace jcpp {
 		Stack::~Stack() {
 		}
 
+		void Stack::acceptMethodCallVisitor(IMethodCallVisitor *v){
+			std::vector<NativeThread *> threads;
+			NativeFactory::getNativeThreadFactory()->getAllThreads(threads);
+
+
+			MethodCallInfo **mci;
+			jint mciSize;
+
+			ParameterInfo **pi;
+			jint piSize;
+
+			VariableInfo **vi;
+			jint viSize;
+
+			for (std::vector<NativeThread *>::iterator it = threads.begin(); it != threads.end(); it++){
+
+				ThreadInfo* threadInfo = reinterpret_cast<ThreadInfo*>((*it)->getGcThreadInfo());
+
+				if(threadInfo == null)
+				{
+					continue;
+				}
+
+				v->startVisitThreadInfo(threadInfo);
+
+				mci = threadInfo->getMethodCallInfos();
+				mciSize = threadInfo->getSize();
+
+				for (jint mciIndex = 0; mciIndex < mciSize; mciIndex++){
+					v->startVisitMethodCallInfo(mci[mciIndex]);
+
+					pi = mci[mciIndex]->getParameterInfos();
+					piSize = mci[mciIndex]->getParameterCount();
+					for (jint piIdx = 0; piIdx < piSize; piIdx++){
+						v->visitParameterInfo(pi[piIdx]);
+					}
+
+					vi = mci[mciIndex]->getVariableInfos();
+					viSize = mci[mciIndex]->getVariableCount();
+					for (jint viIdx = 0; viIdx < viSize; viIdx++){
+						v->visitVariableInfo(vi[viIdx]);
+					}
+
+					v->endVisitMethodCallInfo(mci[mciIndex]);
+
+				}
+
+				v->endVisitThreadInfo(threadInfo);
+			}
+
+		}
 	}
 }

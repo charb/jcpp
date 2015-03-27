@@ -4,9 +4,11 @@
 #include "jcpp/native/api/nthread/NativeMutex.h"
 #include "jcpp/native/api/nthread/NativeCondition.h"
 #include "jcpp/native/api/NativeInclude.h"
+#include "jcpp/gc/Finalizable.h"
 
 using namespace jcpp::native::api::nthread;
 using namespace std;
+using namespace jcpp::gc;
 
 namespace jcpp{
     namespace util{
@@ -22,7 +24,7 @@ namespace jcpp{
         class JString;
 
         // @Class(canonicalName="java.lang.Object", simpleName="Object");
-        class JCPP_EXPORT JObject{
+        class JCPP_EXPORT JObject : public Finalizable {
             private:
         		// @IgnoreReflection()
                 NativeMutex* mutex;
@@ -49,7 +51,7 @@ namespace jcpp{
                 virtual jcpp::lang::JClass* getClass();
                                 
                 jbool isInstanceOf(jcpp::lang::JClass* c);
-                
+
                 void wait();
                 
                 void wait(jlong);

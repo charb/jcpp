@@ -41,7 +41,7 @@ namespace jcpp {
 				ParameterInfo** getParameterInfos() const;
 
 				jint getVariableCount() const;
-				VariableInfo** geVariableInfos() const;
+				VariableInfo** getVariableInfos() const;
 
 				virtual ~MethodCallInfo();
 

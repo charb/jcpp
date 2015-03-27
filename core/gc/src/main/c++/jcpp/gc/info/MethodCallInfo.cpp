@@ -50,7 +50,7 @@ namespace jcpp {
 				return variableCount;
 			}
 
-			VariableInfo** MethodCallInfo::geVariableInfos() const {
+			VariableInfo** MethodCallInfo::getVariableInfos() const {
 				return variableInfos;
 			}
 

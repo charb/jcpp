@@ -18,20 +18,22 @@ namespace jcpp {
 		private:
 			static GarbageCollector* garbageCollector;
 
-			Stack* stack;
+
 			Heap* heap;
+			Stack* stack;
 			DestructorThread* destructorThread;
 			NativeMutex* mutex;
 
 			TraverseContext* lastContext;
 
 			GarbageCollector();
+
+			void acceptVisitor(IClassInfoVisitor *classVisitor, IObjectInfoGroupVisitor * objectInfoGroupVisitor, IMethodCallVisitor *methodCallVisitor);
 		public:
 			static GarbageCollector* getGarbageCollector();
 
 			void gc();
-
-			void acceptGCVisitor(IGCVisitor *v);
+			void acceptGCVisitor(IGCVisitor *visitor);
 			void acceptClassVisitor(IClassInfoVisitor *v);
 			void acceptObjectVisitor(IObjectInfoGroupVisitor *v);
 			void acceptMethodCallVisitor(IMethodCallVisitor *v);

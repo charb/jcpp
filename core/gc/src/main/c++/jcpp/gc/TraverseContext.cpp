@@ -51,7 +51,7 @@ namespace jcpp {
 
 			jint variableCount = mci->getVariableCount();
 			if(variableCount > 0) {
-				VariableInfo** variableInfos = mci->geVariableInfos();
+				VariableInfo** variableInfos = mci->getVariableInfos();
 				for(jint variableIndex = 0; variableIndex < variableCount; variableIndex++) {
 					if(variableInfos[variableIndex]) {
 						addPointerInfo(dynamic_cast<PointerInfo*>(variableInfos[variableIndex]));
