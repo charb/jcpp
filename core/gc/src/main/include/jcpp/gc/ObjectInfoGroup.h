@@ -4,10 +4,11 @@
 #include "jcpp/gc/info/ObjectInfo.h"
 #define OBJECT_INFOS_DEFAULT_SIZE 4
 
+using namespace jcpp::gc::info;
+
 namespace jcpp {
 	namespace gc {
 		namespace info {
-
 			class JCPP_EXPORT ObjectInfoGroup {
 			private:
 				jlong address;
@@ -31,8 +32,8 @@ namespace jcpp {
 
 				virtual ~ObjectInfoGroup();
 			};
-
 		}
+
 	}
 }
 

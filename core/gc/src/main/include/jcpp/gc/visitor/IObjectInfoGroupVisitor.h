@@ -11,7 +11,9 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class IObjectInfoGroupVisitor {
+
+			class JCPP_EXPORT IObjectInfoGroupVisitor {
+
 				public:
 					virtual void startVisitObjectInfoGroup(ObjectInfoGroup *oi) = 0;
 					virtual void startVisitObjectInfo(ObjectInfo *oi) = 0;
