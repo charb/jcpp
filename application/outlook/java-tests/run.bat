@@ -1,0 +1,1 @@
+java -cp target\outlook-java-tests-1.0-jar-with-dependencies.jar outlook.tests.OutlookTest

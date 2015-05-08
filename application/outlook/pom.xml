@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp</groupId>
+		<artifactId>application</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<groupId>charb.jcpp.application</groupId>
+	<artifactId>outlook</artifactId>
+	<packaging>pom</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<modules>
+		<module>server</module>
+		<module>client</module>
+		<module>java-client</module>
+		<module>tests</module>
+		<module>java-tests</module>
+	</modules>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>charb.jcpp.build.pre.mavenplugin</groupId>
+				<artifactId>pre-mavenplugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

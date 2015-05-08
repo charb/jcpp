@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>charb.jcpp.application</groupId>
+		<artifactId>outlook</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<groupId>charb.jcpp.application.outlook</groupId>
+	<artifactId>outlook-client</artifactId>
+	<packaging>nar</packaging>
+	<name>${charb.project.name.template}</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>charb.jcpp.core</groupId>
+			<artifactId>core-lang</artifactId>
+			<type>nar</type>
+		</dependency>
+	</dependencies>
+
+</project>

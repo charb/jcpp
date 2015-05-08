@@ -201,6 +201,9 @@ namespace jcpp{
 
             virtual JString* intern(JString* s);
 
+            // @IgnoreReflection()
+            std::string getString();
+
             virtual ~JString();
 
             friend class JAbstractStringBuilder;

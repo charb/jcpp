@@ -409,6 +409,10 @@ namespace jcpp{
         JString::~JString(){
         }
 
+        std::string JString::getString() {
+        	return nativeString.getString();
+        }
+
         NativeString JString::getNativeString() {
         	return nativeString;
         }

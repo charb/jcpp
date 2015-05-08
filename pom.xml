@@ -24,6 +24,7 @@
 		<module>core/tests</module>
 		<module>xml</module>
 		<module>tools</module>
+		<module>application</module>
 	</modules>
 
 	<build>
@@ -301,25 +302,54 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>charb.jcpp.core</groupId>
-				<artifactId>core-gc</artifactId>
-				<type>nar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>charb.jcpp.tools</groupId>
 				<artifactId>tools-parser</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>charb.jcpp.native</groupId>
-				<artifactId>native-api</artifactId>
+				<groupId>charb.jcpp.cli</groupId>
+				<artifactId>jcpp-cli</artifactId>
 				<type>nar</type>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>charb.jcpp.native</groupId>
-				<artifactId>native-include</artifactId>
+				<groupId>charb.jcpp.core</groupId>
+				<artifactId>jcpp-exe</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>charb.jcpp.junit</groupId>
+				<artifactId>jcpp-junit</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<!-- application -->
+		
+			<dependency>
+				<groupId>charb.jcpp.application.outlook</groupId>
+				<artifactId>outlook-java-client</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>charb.jcpp.application.outlook</groupId>
+				<artifactId>outlook-client</artifactId>
+				<version>${project.version}</version>
+				<type>nar</type>
+			</dependency>
+			<dependency>
+				<groupId>charb.jcpp.application.outlook</groupId>
+				<artifactId>outlook-server</artifactId>
+				<version>${project.version}</version>
+				<type>nar</type>
+			</dependency>
+		
+			<!-- core -->
+			
+			<dependency>
+				<groupId>charb.jcpp.core</groupId>
+				<artifactId>core-gc</artifactId>
 				<type>nar</type>
 				<version>${project.version}</version>
 			</dependency>
@@ -342,30 +372,6 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>charb.jcpp.cli</groupId>
-				<artifactId>jcpp-cli</artifactId>
-				<type>nar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>charb.jcpp.core</groupId>
-				<artifactId>jcpp-exe</artifactId>
-				<type>nar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>charb.jcpp.junit</groupId>
-				<artifactId>jcpp-junit</artifactId>
-				<type>nar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>charb.jcpp.xml</groupId>
-				<artifactId>xml-jaxp</artifactId>
-				<type>nar</type>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>charb.jcpp.core</groupId>
 				<artifactId>core-java-tests</artifactId>
 				<type>jar</type>
@@ -376,6 +382,33 @@
 		  		<artifactId>core-java-rmi</artifactId>
 		  		<version>${project.version}</version>
 	    	</dependency>
+			
+			<!-- native -->
+			
+			<dependency>
+				<groupId>charb.jcpp.native</groupId>
+				<artifactId>native-api</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>charb.jcpp.native</groupId>
+				<artifactId>native-include</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<!-- xml -->
+			
+			<dependency>
+				<groupId>charb.jcpp.xml</groupId>
+				<artifactId>xml-jaxp</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- third parties -->
+			
 			<dependency>
 			    <groupId>junit</groupId>
 			    <artifactId>junit</artifactId>
