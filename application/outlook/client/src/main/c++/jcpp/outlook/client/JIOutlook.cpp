@@ -4,6 +4,7 @@
 namespace jcpp{
 	namespace outlook {
 		namespace client{
+
 			JIOutlook::~JIOutlook() {
 
 			}

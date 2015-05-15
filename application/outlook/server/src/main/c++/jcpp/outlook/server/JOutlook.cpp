@@ -8,7 +8,7 @@ namespace jcpp {
 	namespace outlook {
 		namespace server{
 
-				JOutlook::JOutlook(){
+				JOutlook::JOutlook() : JObject(getClazz()){
 
 				}
 

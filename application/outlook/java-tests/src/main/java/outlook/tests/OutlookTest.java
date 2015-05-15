@@ -27,12 +27,12 @@ public class OutlookTest {
  		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
 		System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
 		System.setProperty("org.apache.commons.logging.simplelog.defaultlog", "debug");
- 		EndPoint endPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9876, "site1");
+ 		EndPoint endPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9875, "site1");
  		Server server = Server.create(endPoint);
 
- 		EndPoint serverEndPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9875, "site1");
+ 		EndPoint serverEndPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9800, "site1");
  		IOutlook outlook = server.lookup(serverEndPoint, IOutlook.class);
- 		
+
  		
  		for (String s : server.getRegistry().list()) {
  			System.out.println(s);

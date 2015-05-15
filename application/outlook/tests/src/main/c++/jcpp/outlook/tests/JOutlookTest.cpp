@@ -46,19 +46,18 @@ namespace jcpp{
             }
 
             void JOutlookTest::test(){
+
                 try{
                     //initializing endpoint
                     JAddress* adr=new JAddress();
                     adr->setHostName(JInetAddress::getLocalHost()->getHostName());
-                    adr->setPort(9875);
+                    adr->setPort(9800);
                     JEndPoint* localEndPoint1=new JEndPoint(adr,new JString("site1"));
 
                     //initializing server
                     JTransportRouter* router1=new JTransportRouter();
                     JConnectionConfiguration* cc1=new JConnectionConfiguration();
                     JServer* server1=new JServer(localEndPoint1,router1,cc1);
-
-                    JSystem::out->println(new JString("server initialized"));
 
                     //exporting object
 
@@ -67,11 +66,9 @@ namespace jcpp{
                     interfaces->add(JIOutlook::getClazz());
                     server1->getIRegistry()->bind(JIOutlook::getClazz()->getName(), outlook, interfaces);
 
-                    JSystem::out->println(new JString("end of test"));
-
-                    while (1){
-                    	JThread::sleep(1000);
-                    }
+                    synchronized(this,{
+                        wait();
+                    })
 
                     //this->wait();
 

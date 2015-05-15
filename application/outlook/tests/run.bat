@@ -12,7 +12,7 @@ copy ..\..\..\junit\target\nar\jcpp-junit-1.0-amd64-Windows-msvc-shared\lib\amd6
 copy ..\..\..\cli\target\nar\jcpp-cli-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\jcpp-cli-1.0.dll assembly
 copy ..\..\..\application\outlook\client\target\nar\outlook-client-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\outlook-client-1.0.dll assembly
 copy ..\..\..\application\outlook\server\target\nar\outlook-server-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\outlook-server-1.0.dll assembly
-copy target\nar\application-outlook-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\application-outlook-tests-1.0.dll assembly
+copy target\nar\outlook-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\outlook-tests-1.0.dll assembly
 cd assembly
-jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-rmi-1.0.dll;application-outlook-tests-1.0.dll;outlook-client-1.0.dll;outlook-server-1.0.dll -classname=junit.textui.TestRunner jcpp.outlook.tests.OutlookTestSuite
+jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-rmi-1.0.dll;outlook-tests-1.0.dll;outlook-client-1.0.dll;outlook-server-1.0.dll -classname=junit.textui.TestRunner jcpp.outlook.tests.OutlookTestSuite
 cd ..

@@ -10,7 +10,7 @@
 namespace jcpp {
 	namespace outlook {
 		namespace client{
-			JMailMessage::JMailMessage() : JObject(), ccList(NULL), bccList(NULL), toList(NULL), subject(NULL), body(NULL), tempFolder(NULL) {
+			JMailMessage::JMailMessage() : JObject(getClazz()), ccList(NULL), bccList(NULL), toList(NULL), subject(NULL), body(NULL), tempFolder(NULL) {
 			}
 
 			JList* JMailMessage::getCcList(){
