@@ -63,7 +63,7 @@ public class ReflectionCodeGenerator extends TemplateCodeGenerator<CppFileTuple>
 	        	String fullNamespace = "";
 	        	for (String n : classModel.getNamespaces())
 	        		fullNamespace += n + "::";
-	        	classNames.add(fullNamespace + classModel.getClassName() + "Class");
+	        	classNames.add(fullNamespace + classModel.getSimpleName() + "Class");
 	        }
 	        for(String gcClassContextClassname : classContexts.keySet().toArray(new String[classContexts.size()])) {
 	        	if(!classNames.contains(gcClassContextClassname)) {

@@ -23,17 +23,22 @@ using namespace jcpp::native::api;
 namespace jcpp{
     namespace lang{
 
-        static JMap* internStrings = null;
-
+        // @Class(canonicalName="java.lang.StringInnerFields", simpleName="StringInnerFields");
+    	class JCPP_EXPORT JStringInnerFields {
+    	public:
+    		static jcpp::lang::JClass* getClazz();
+			static JMap* internStrings;
+    	};
+    	JMap*JStringInnerFields::internStrings = null;
         JString* JString::staticIntern(JString* s){
             synchronized(getClazz(),{
-                if (internStrings==null){
-                    internStrings=new JHashMap();
+                if (JStringInnerFields::internStrings==null){
+                	JStringInnerFields::internStrings=new JHashMap();
                 }
-                JString* js=dynamic_cast<JString*>(internStrings->get(s));
+                JString* js=dynamic_cast<JString*>(JStringInnerFields::internStrings->get(s));
                 if (js==null){
                     js=new JString(s);
-                    internStrings->put(js,js);
+                    JStringInnerFields::internStrings->put(js,js);
                 }
                 return js;
             })

@@ -10,6 +10,8 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveFloatArray: public JPrimitiveArray {
+		private:
+			static jcpp::lang::JClass* primitiveFloatArray;
 		protected:
 			jfloat* data;
 		public:

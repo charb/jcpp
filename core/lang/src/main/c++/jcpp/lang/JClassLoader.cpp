@@ -49,7 +49,7 @@ namespace jcpp{
             }
         };
 
-        static jcpp::lang::JClass* clazz;
+        jcpp::lang::JClass* JClassLoader::clazz = null;
 
         jcpp::lang::JClass* JClassLoader::getClazz(){
             if (clazz==null){
@@ -66,7 +66,7 @@ namespace jcpp{
         }
 
 
-        static JClassLoader* bootClassLoader;
+        JClassLoader* JClassLoader::bootClassLoader = null;
 
         JClassLoader* JClassLoader::getBootClassLoader(){
             if (bootClassLoader==null){
@@ -75,7 +75,7 @@ namespace jcpp{
             return bootClassLoader;
         }
 
-        static jbool initialized=false;
+        jbool JClassLoader::initialized=false;
         void JClassLoader::init(){
             if (!initialized){
                 initialized=true;

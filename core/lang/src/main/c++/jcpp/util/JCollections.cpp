@@ -351,11 +351,12 @@ namespace jcpp{
             return (dynamic_cast<JObject*>(list)->isInstanceOf(JRandomAccess::getClazz()) ? new JUnmodifiableRandomAccessList(list) : new JUnmodifiableList(list));
         }
 
-        static jcpp::lang::JClass* synchronizedCollectionClazz = null;
+
 
         // @Class(canonicalName="java.util.Collections$SynchronizedCollection", simpleName="Collections$SynchronizedCollection");
         class JSynchronizedCollection : public JObject, public JCollection, public JSerializable {
         private:
+        	static jcpp::lang::JClass* synchronizedCollectionClazz;
         	static const jlong serialVersionUID = 3053995032091335093LL;
         protected:
             JCollection* c;
@@ -482,6 +483,8 @@ namespace jcpp{
                 })
             }
         };
+
+        jcpp::lang::JClass* JSynchronizedCollection::synchronizedCollectionClazz = null;
 
         JCollection* JCollections::synchronizedCollection(JCollection* c){
             return new JSynchronizedCollection(c);

@@ -337,10 +337,12 @@ namespace jcpp{
             }
         }
 
-        static jcpp::lang::JClass* arrayListItrClazz = null;
+
 
         // @Class(canonicalName="java.util.ArrayList$Itr", simpleName="ArrayList$Itr");
         class JArrayListItr : public JIterator, public JObject {
+        private:
+        	 static jcpp::lang::JClass* arrayListItrClazz;
         protected:
             JArrayList* list;
             jint cursor;
@@ -399,11 +401,14 @@ namespace jcpp{
                 }
             }
         };
+        jcpp::lang::JClass* JArrayListItr::arrayListItrClazz = null;
 
-        static jcpp::lang::JClass* arrayListListItrClazz = null;
+
 
         // @Class(canonicalName="java.util.ArrayList$ListItr", simpleName="ArrayList$ListItr");
         class JArrayListListItr : public JArrayListItr , public JListIterator {
+        private:
+        	 static jcpp::lang::JClass* arrayListListItrClazz;
         public:
             static jcpp::lang::JClass* getClazz();
 
@@ -469,6 +474,8 @@ namespace jcpp{
                 JArrayListItr::remove();
             }
         };
+
+        jcpp::lang::JClass* JArrayListListItr::arrayListListItrClazz = null;
 
         // @Class(canonicalName="java.util.ArrayList$SubList", simpleName="ArrayList$SubList");
         class JArrayListSubList : public JAbstractList, public JRandomAccess {

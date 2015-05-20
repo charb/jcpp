@@ -10,7 +10,8 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveDoubleArray: public JPrimitiveArray {
-
+		private:
+			static jcpp::lang::JClass* primitiveDoubleArray;
 		protected:
 			jdouble* data;
 		public:

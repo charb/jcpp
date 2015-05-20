@@ -16,7 +16,9 @@ namespace jcpp{
         class JCPP_EXPORT JClassLoader : public JObject{
         private:
             JClassLoader(jbool root);
-
+            static jcpp::lang::JClass* clazz;
+            static JClassLoader* bootClassLoader;
+            static jbool initialized;
         protected:
             JClassLoader* parent;
             JMap* classes;

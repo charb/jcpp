@@ -10,7 +10,7 @@ using jcpp::native::api::NativeString;
 namespace jcpp {
 	namespace lang {
 
-		static jcpp::lang::JClass* primitiveShortArray = null;
+		jcpp::lang::JClass* JPrimitiveShortArray::primitiveShortArray = null;
 		jcpp::lang::JClass* JPrimitiveShortArray::getClazz() {
 			if (primitiveShortArray == null) {
 				primitiveShortArray = JPrimitiveArray::getClazz(JPrimitiveShort::getClazz());

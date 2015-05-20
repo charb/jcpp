@@ -31,10 +31,12 @@ namespace jcpp{
 
         static jint MIN_TREEIFY_CAPACITY = 64;
 
-        static jcpp::lang::JClass* nodeClazz = null;
+
 
         // @Class(canonicalName="java.util.HashMap$Node", simpleName="HashMap$Node");
         class JNode : public JMap::JEntry, public JObject{
+        private:
+        	 static jcpp::lang::JClass* nodeClazz;
             public:
                 jint hash;
                 JObject* key;
@@ -111,6 +113,7 @@ namespace jcpp{
                 }
         };
 
+        jcpp::lang::JClass* JNode::nodeClazz = null;
 
         // @Class(canonicalName="java.util.HashMap$TreeNode", simpleName="HashMap$TreeNode");
         class JTreeNode : public JNode {

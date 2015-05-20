@@ -10,6 +10,8 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveLongArray: public JPrimitiveArray {
+		private:
+			static jcpp::lang::JClass* primitiveLongArray;
 		protected:
 			jlong* data;
 		public:

@@ -25,6 +25,11 @@ namespace jcpp{
 
         //@Class(canonicalName="java.io.ObjectInputStream$BlockDataInputStream", simpleName="ObjectInputStream$BlockDataInputStream");
         class JCPP_EXPORT JBlockDataInputStream : public JInputStream, public JObjectStreamConstants, public JDataInput {
+        private:
+            static const jint IN_MAX_BLOCK_SIZE = 1024;
+            static const jint IN_MAX_HEADER_SIZE = 5;
+            static const jint IN_CHAR_BUF_SIZE = 256;
+            static const jint IN_HEADER_BLOCKED = -2;
         protected:
             JPrimitiveByteArray* buf;
             JPrimitiveByteArray* hbuf;

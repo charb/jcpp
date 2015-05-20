@@ -4,10 +4,10 @@
 #include "jcpp/lang/JObject.h"
 #include "jcpp/lang/JClass.h"
 
-
 namespace jcpp{
     namespace lang{
 
+    	class JPrimitiveArrayClass;
     	// @IgnoreReflection()
     	// @IgnorePackageReflection()
         class JCPP_EXPORT JPrimitiveArray : public JObject{

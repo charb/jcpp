@@ -19,6 +19,9 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveByteArray: public JPrimitiveArray {
+		private:
+			static jcpp::lang::JClass* primitiveByteArray;
+
 		protected:
 			jbyte* data;
 			jbyte* getArray();

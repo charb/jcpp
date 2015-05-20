@@ -155,7 +155,7 @@ namespace jcpp{
         };
 
 
-        static JObject* unsharedMarker = new JObject();
+        JObject* JObjectInputStream::unsharedMarker = new JObject();
 
         JObjectInputStream::JObjectInputStream(JInputStream *in,jcpp::lang::JClass* _class):JInputStream(_class){
             init(in);

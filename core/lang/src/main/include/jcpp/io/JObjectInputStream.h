@@ -32,6 +32,8 @@ namespace jcpp{
 
         //@Class(canonicalName="java.io.ObjectInputStream", simpleName="ObjectInputStream");
         class JCPP_EXPORT JObjectInputStream : public JInputStream, public JObjectInput, public JObjectStreamConstants{
+        private:
+        	static JObject* unsharedMarker;
         public:
             class JCPP_EXPORT JGetField : public JObject{
             protected:

@@ -10,6 +10,8 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveBooleanArray: public JPrimitiveArray {
+		private:
+			static jcpp::lang::JClass* primitiveBooleanArray;
 		protected:
 			jbool* data;
 		public:

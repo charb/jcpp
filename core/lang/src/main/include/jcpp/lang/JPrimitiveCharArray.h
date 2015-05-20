@@ -10,6 +10,8 @@ namespace jcpp {
 
 		// @IgnoreReflection()
 		class JCPP_EXPORT JPrimitiveCharArray: public JPrimitiveArray {
+		private:
+			static jcpp::lang::JClass* primitiveCharArray;
 		protected:
 			jchar* data;
 			jchar* getArray();

@@ -9,7 +9,9 @@
 #include "jcpp/lang/JCloneable.h"
 #include "jcpp/lang/JSystem.h"
 
+
 using namespace jcpp::util;
+
 
 namespace jcpp{
     namespace lang{
@@ -117,9 +119,11 @@ namespace jcpp{
             })
         }
 
+
         JPrimitiveArray::JPrimitiveArray(jcpp::lang::JClass* arrayClass,jint len):JObject(getClazz(arrayClass)){
             this->componentType=arrayClass;
             this->len=len;
+            getchar();
         }
 
         JPrimitiveArray::JPrimitiveArray(JPrimitiveArray* a):JObject(a->getClass()){
