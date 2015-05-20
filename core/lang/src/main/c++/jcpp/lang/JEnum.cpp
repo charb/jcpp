@@ -29,7 +29,7 @@ namespace jcpp{
             this->ord=ordinal;
         }
 
-        static jcpp::lang::JClass* clazz;
+        jcpp::lang::JClass* JEnum::clazz = null;
 
         jcpp::lang::JClass* JEnum::getClazz(){
             if (clazz==null){

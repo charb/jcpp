@@ -15,6 +15,10 @@ namespace jcpp{
 
     	// @IgnoreReflection()
         class JCPP_EXPORT JEnum: public JObject, public JComparable, public JSerializable{
+        private:
+
+        	static jcpp::lang::JClass* clazz;
+
         public:
         	// @IgnoreReflection()
 			class JCPP_EXPORT JEnumClass : public jcpp::lang::JClass{

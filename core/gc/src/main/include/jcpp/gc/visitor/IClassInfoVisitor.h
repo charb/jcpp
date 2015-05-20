@@ -12,7 +12,7 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class IClassInfoVisitor {
+			class JCPP_EXPORT IClassInfoVisitor {
 				public:
 				virtual void startVisitClassInfo(ClassInfo *ci) = 0;
 				virtual void visitStaticFieldInfo(FieldInfo *fi) = 0 ;

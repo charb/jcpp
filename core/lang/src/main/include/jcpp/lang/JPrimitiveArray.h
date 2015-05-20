@@ -4,6 +4,7 @@
 #include "jcpp/lang/JObject.h"
 #include "jcpp/lang/JClass.h"
 
+
 namespace jcpp{
     namespace lang{
 
@@ -15,6 +16,12 @@ namespace jcpp{
             jint len;
             void checkType(JObject* o);
             void setSize(jint len);
+            static jcpp::lang::JClass* objectArrayClass;
+
+            static JObject* lockObject;
+
+            static jcpp::lang::JClass* getObjectArrayClass();
+            static JObject* getLockObject();
 
         public:
             JPrimitiveArray(jcpp::lang::JClass* arrayClass, jint len);

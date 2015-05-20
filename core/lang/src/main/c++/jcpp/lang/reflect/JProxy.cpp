@@ -20,12 +20,12 @@ using namespace jcpp::lang;
 namespace jcpp{
     namespace lang{
         namespace reflect{
-            static JObject* staticGetInvocationHandler(JObject* obj){
+            JObject* JProxy::staticGetInvocationHandler(JObject* obj){
                 JProxy* proxy=(JProxy*)obj;
                 return dynamic_cast<JObject*>(proxy->getInvocationHandler());
             }
 
-            static void staticSetInvocationHandler(JObject* obj,JObject* value){
+            void JProxy::staticSetInvocationHandler(JObject* obj,JObject* value){
                 JProxy* proxy=(JProxy*)obj;
                 proxy->setInvocationHandler(dynamic_cast<JInvocationHandler*>(value));
             }
@@ -52,7 +52,7 @@ namespace jcpp{
                 return JObject::getClazz();
             }
 
-            static jcpp::lang::JClass* clazz;
+            jcpp::lang::JClass* JProxy::clazz = null;
 
             jcpp::lang::JClass* JProxy::getClazz(){
                 if (clazz==null){

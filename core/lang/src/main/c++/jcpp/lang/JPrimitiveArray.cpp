@@ -15,7 +15,7 @@ namespace jcpp{
     namespace lang{
 
     	// @IgnoreReflection()
-        class JPrimitiveArrayClass : public jcpp::lang::JClass{
+        class JCPP_EXPORT JPrimitiveArrayClass : public jcpp::lang::JClass{
             public:
                 JPrimitiveArrayClass(jcpp::lang::JClass* componentType):jcpp::lang::JClass(){
                     this->componentType=componentType;
@@ -64,21 +64,29 @@ namespace jcpp{
                 }
         };
 
-        static JObject* lockObject = null;
+        JObject* JPrimitiveArray::lockObject = null;
 
-        static JMap* jPrimitiveArrayClasses = null;
-        
+    	// @Class(canonicalName="java.lang.PrimitiveArray$PrimitiveArrayInnerFields", simpleName="PrimitiveArray$PrimitiveArrayInnerFields");
+        class JCPP_EXPORT JPrimitiveArrayInnerFields: public JObject {
+        public:
+        	static jcpp::lang::JClass* getClazz();
+        	static JMap* jPrimitiveArrayClasses;
+        	static jcpp::lang::JClass* JHashMapPrimitiveArrayClass;
+        };
 
-        static JObject* getLockObject(){
+        JMap* JPrimitiveArrayInnerFields::jPrimitiveArrayClasses = null;
+        jcpp::lang::JClass* JPrimitiveArrayInnerFields::JHashMapPrimitiveArrayClass=null;
+
+        JObject* JPrimitiveArray::getLockObject(){
             if (lockObject==null){
                 lockObject=new JObject();
             }
             return lockObject;
         }
 
-        static jcpp::lang::JClass* objectArrayClass = null;
+        jcpp::lang::JClass* JPrimitiveArray::objectArrayClass = null;
 
-        static jcpp::lang::JClass* getObjectArrayClass(){
+        jcpp::lang::JClass* JPrimitiveArray::getObjectArrayClass(){
             if (objectArrayClass==null){
                 objectArrayClass=new JPrimitiveArrayClass(JObject::getClazz());
             }
@@ -87,21 +95,23 @@ namespace jcpp{
 
         jcpp::lang::JClass* JPrimitiveArray::getClazz(jcpp::lang::JClass* componentType){
             if (componentType->getDeclaringClass()==JHashMap::getClazz()){
-                return new JPrimitiveArrayClass(componentType);
+                if(JPrimitiveArrayInnerFields::JHashMapPrimitiveArrayClass==null) {
+                	JPrimitiveArrayInnerFields::JHashMapPrimitiveArrayClass=new JPrimitiveArrayClass(JHashMap::getClazz());
+                }
+                return JPrimitiveArrayInnerFields::JHashMapPrimitiveArrayClass;
             }
             if (componentType==JObject::getClazz()){
                 return getObjectArrayClass();
             }
             synchronized(getLockObject(),{
-                if (jPrimitiveArrayClasses==null){
-                    jPrimitiveArrayClasses=new JHashMap();
+                if (JPrimitiveArrayInnerFields::jPrimitiveArrayClasses==null){
+                	JPrimitiveArrayInnerFields::jPrimitiveArrayClasses=new JHashMap();
                 }
-
                 JString* componentTypeName = componentType->getName();
-                JPrimitiveArrayClass* jPrimitiveArrayClass=dynamic_cast<JPrimitiveArrayClass*>(jPrimitiveArrayClasses->get(componentTypeName));
-                if (jPrimitiveArrayClass==null){
-                    jPrimitiveArrayClass=new JPrimitiveArrayClass(componentType);
-                    jPrimitiveArrayClasses->put(componentType->getName(),jPrimitiveArrayClass);
+            	jcpp::lang::JPrimitiveArrayClass* jPrimitiveArrayClass = dynamic_cast<JPrimitiveArrayClass*>(JPrimitiveArrayInnerFields::jPrimitiveArrayClasses->get(componentTypeName));
+                if (jPrimitiveArrayClass == null){
+                	jPrimitiveArrayClass = new JPrimitiveArrayClass(componentType);
+                    JPrimitiveArrayInnerFields::jPrimitiveArrayClasses->put(componentTypeName, jPrimitiveArrayClass);
                 }
                 return jPrimitiveArrayClass;
             })

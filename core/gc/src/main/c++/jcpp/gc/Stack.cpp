@@ -71,15 +71,13 @@ namespace jcpp {
 
 			VariableInfo **vi;
 			jint viSize;
-
 			for (std::vector<NativeThread *>::iterator it = threads.begin(); it != threads.end(); it++){
 
-				ThreadInfo* threadInfo = reinterpret_cast<ThreadInfo*>((*it)->getGcThreadInfo());
-
-				if(threadInfo == null)
-				{
+				if((*it)->getGcThreadInfo() == NULL) {
 					continue;
 				}
+
+				ThreadInfo* threadInfo = reinterpret_cast<ThreadInfo*>((*it)->getGcThreadInfo());
 
 				v->startVisitThreadInfo(threadInfo);
 
@@ -87,8 +85,8 @@ namespace jcpp {
 				mciSize = threadInfo->getSize();
 
 				for (jint mciIndex = 0; mciIndex < mciSize; mciIndex++){
-					v->startVisitMethodCallInfo(mci[mciIndex]);
 
+					v->startVisitMethodCallInfo(mci[mciIndex]);
 					pi = mci[mciIndex]->getParameterInfos();
 					piSize = mci[mciIndex]->getParameterCount();
 					for (jint piIdx = 0; piIdx < piSize; piIdx++){
@@ -102,7 +100,6 @@ namespace jcpp {
 					}
 
 					v->endVisitMethodCallInfo(mci[mciIndex]);
-
 				}
 
 				v->endVisitThreadInfo(threadInfo);

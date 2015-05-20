@@ -12,6 +12,13 @@ namespace jcpp{
 
         	// @IgnoreReflection()
             class JCPP_EXPORT JProxy : public JObject{
+            private:
+                static jcpp::lang::JClass* clazz;
+
+                static JObject* staticGetInvocationHandler(JObject* obj);
+
+                static void staticSetInvocationHandler(JObject* obj,JObject* value);
+
             public:
             	// @IgnoreReflection()
                 class JCPP_EXPORT JProxyClass : public jcpp::lang::JClass{
@@ -24,6 +31,7 @@ namespace jcpp{
 
                     virtual jcpp::lang::JClass* getSuperclass();
                 };
+
 
             protected:
 

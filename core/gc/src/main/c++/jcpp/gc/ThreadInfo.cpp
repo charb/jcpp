@@ -36,6 +36,10 @@ namespace jcpp {
 			return methodCallInfos;
 		}
 
+		NativeThread* ThreadInfo::getNativeThread(){
+			return nativethread;
+		}
+
 		ThreadInfo::~ThreadInfo() {
 			delete [] methodCallInfos;
 		}

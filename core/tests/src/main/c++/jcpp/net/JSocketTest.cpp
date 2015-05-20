@@ -25,6 +25,7 @@ using namespace jcpp::lang;
 using namespace jcpp::lang::reflect;
 using namespace jcpp::io;
 using namespace junit::framework;
+using namespace jcpp;
 
 namespace jcpp {
 	namespace net {

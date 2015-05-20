@@ -9,32 +9,33 @@ namespace jcpp {
 
 		Heap* Heap::heap = null;
 
-		Heap::Heap() : objectInfoGroupsByAddress(), classInfos(null), classInfosSize(0), classInfosCapacity(CLASSINFOS_START_SIZE), lastAddress(0), lastObjectInfoGroup(null) {
+		Heap::Heap() :
+				objectInfoGroupsByAddress(), classInfos(null), classInfosSize(0), classInfosCapacity(CLASSINFOS_START_SIZE), lastAddress(0), lastObjectInfoGroup(null){
 			objectInfoGroupsMutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
-			classInfosMutex  = NativeFactory::getNativeThreadFactory()->createNativeMutex();
+			classInfosMutex = NativeFactory::getNativeThreadFactory()->createNativeMutex();
 			classInfos = new ClassInfo*[CLASSINFOS_START_SIZE];
 		}
 
-		Heap* Heap::getHeap() {
-			if(heap == null) {
+		Heap* Heap::getHeap(){
+			if (heap == null){
 				heap = new Heap();
 			}
 			return heap;
 		}
 
-		void Heap::addCreatedObject(ObjectInfo* oi) {
+		void Heap::addCreatedObject(ObjectInfo* oi){
 			objectInfoGroupsMutex->lock();
 
 			jlong address = oi->getAddress();
 
-			if(lastAddress == address) {
+			if (lastAddress == address){
 				lastObjectInfoGroup->addObjectInfo(oi);
 				objectInfoGroupsMutex->unlock();
 				return;
 			}
 
 			ObjectInfoGroup* objectInfoGroup = objectInfoGroupsByAddress[address];
-			if(objectInfoGroup == null) {
+			if (objectInfoGroup == null){
 				objectInfoGroup = new ObjectInfoGroup(address);
 				objectInfoGroupsByAddress[address] = objectInfoGroup;
 			}
@@ -46,16 +47,16 @@ namespace jcpp {
 			objectInfoGroupsMutex->unlock();
 		}
 
-		void Heap::addClassInfo(ClassInfo* ci) {
+		void Heap::addClassInfo(ClassInfo* ci){
 
 			classInfosMutex->lock();
 
-			if(classInfosSize == classInfosCapacity) {
+			if (classInfosSize == classInfosCapacity){
 				ClassInfo** newClassInfos = new ClassInfo*[classInfosCapacity + CLASSINFOS_SIZE_INCREMENT];
-				for(jint i = 0; i < classInfosSize; i++) {
+				for (jint i = 0; i < classInfosSize; i++){
 					newClassInfos[i] = classInfos[i];
 				}
-				delete [] classInfos;
+				delete[] classInfos;
 				classInfos = newClassInfos;
 				classInfosCapacity += CLASSINFOS_SIZE_INCREMENT;
 			}
@@ -67,21 +68,21 @@ namespace jcpp {
 		/**
 		 * Note: Do not synchronize the below method because we might have a dead lock between a suspended thread and the GC Thread
 		 */
-		void Heap::addRoot(TraverseContext* context) {
-			for(jint index = 0; index < classInfosSize; index++) {
+		void Heap::addRoot(TraverseContext* context){
+			for (jint index = 0; index < classInfosSize; index++){
 				context->addClassInfo(classInfos[index]);
 			}
 		}
 
-		void Heap::removeObjectsToBeDeleted(std::set<jlong>* addresses) {
+		void Heap::removeObjectsToBeDeleted(std::set<jlong>* addresses){
 			ScopedLock sync(*objectInfoGroupsMutex);
 
 			lastAddress = 0;
 			lastObjectInfoGroup = null;
 
-			for(std::set<jlong>::iterator it = addresses->begin(); it != addresses->end(); it++) {
+			for (std::set<jlong>::iterator it = addresses->begin(); it != addresses->end(); it++){
 				ObjectInfoGroup* objectInfoGroup = objectInfoGroupsByAddress[*it];
-				if(objectInfoGroup) {
+				if (objectInfoGroup){
 					delete objectInfoGroup;
 				}
 				objectInfoGroupsByAddress.erase(*it);
@@ -91,24 +92,24 @@ namespace jcpp {
 		/**
 		 * Note: Do not synchronize the below method because we might have a dead lock between a suspended thread and the GC Thread
 		 */
-		void Heap::getAllObjectAddresses(std::set<jlong>& addresses) {
-			for (std::map<jlong, ObjectInfoGroup*>::iterator it = objectInfoGroupsByAddress.begin(); it != objectInfoGroupsByAddress.end(); ++it) {
+		void Heap::getAllObjectAddresses(std::set<jlong>& addresses){
+			for (std::map<jlong, ObjectInfoGroup*>::iterator it = objectInfoGroupsByAddress.begin(); it != objectInfoGroupsByAddress.end(); ++it){
 				addresses.insert(it->first);
 			}
 		}
 
-		ObjectInfoGroup* Heap::getObjectInfoGroupFromAddress(jlong address) {
+		ObjectInfoGroup* Heap::getObjectInfoGroupFromAddress(jlong address){
 			ScopedLock sync(*objectInfoGroupsMutex);
 			return objectInfoGroupsByAddress[address];
 		}
 
-		Heap::~Heap() {
+		Heap::~Heap(){
 			delete objectInfoGroupsMutex;
 			delete classInfosMutex;
 			delete classInfos;
 		}
 
-		void Heap::acceptObjectInfoGroupVisitor(IObjectInfoGroupVisitor *v) {
+		void Heap::acceptObjectInfoGroupVisitor(IObjectInfoGroupVisitor *v){
 
 			ObjectInfoGroup* oig;
 
@@ -117,24 +118,30 @@ namespace jcpp {
 
 			FieldInfo** fi;
 			jint fiSize;
-			for (std::map<jlong, ObjectInfoGroup*>::iterator it = objectInfoGroupsByAddress.begin(); it != objectInfoGroupsByAddress.end(); ++it){
+			std::set<jlong> addresses;
+			getAllObjectAddresses(addresses);
+			int i = 0;
+			for (std::set<jlong>::iterator it = addresses.begin(); it != addresses.end(); it++){
 
-				jlong address = it->first;
+				jlong address = *it;
 				oig = getObjectInfoGroupFromAddress(address);
 				v->startVisitObjectInfoGroup(oig);
+
 				oi = oig->getObjectInfos();
 				oiSize = oig->getSize();
 
-				for (jint oiIdx = 0; oiIdx < oiSize; oiIdx++){
-					v->startVisitObjectInfo(oi[oiIdx]);
-					fi = oi[oiIdx]->getFieldInfos();
-					fiSize = oi[oiIdx]->getFieldCount();
-
+				for (jint oiIndex = 0; oiIndex < oiSize; oiIndex++){
+					v->startVisitObjectInfo(oi[oiIndex]);
+					fi = oi[oiIndex]->getFieldInfos();
+					fiSize = oi[oiIndex]->getFieldCount();
 					for (jint fiIdx = 0; fiIdx < fiSize; fiIdx++){
 						v->visitFieldInfo(fi[fiIdx]);
 					}
-					v->endVisitObjectInfo(oi[oiIdx]);
+					v->endVisitObjectInfo(oi[oiIndex]);
+
+
 				}
+				i++;
 				v->endVisitObjectInfoGroup(oig);
 			}
 		}
@@ -143,6 +150,7 @@ namespace jcpp {
 
 			FieldInfo** sfi;
 			jint sfiSize;
+
 			for (jint ciIdx = 0; ciIdx < classInfosSize; ciIdx++){
 				v->startVisitClassInfo(classInfos[ciIdx]);
 				sfi = classInfos[ciIdx]->getStaticFieldInfos();

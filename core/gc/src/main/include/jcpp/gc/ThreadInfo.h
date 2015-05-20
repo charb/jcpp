@@ -37,6 +37,8 @@ namespace jcpp {
 
 			jint getSize();
 
+			NativeThread* getNativeThread();
+
 			virtual ~ThreadInfo();
 
 		};

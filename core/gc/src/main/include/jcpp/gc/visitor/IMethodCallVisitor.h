@@ -13,7 +13,7 @@ namespace jcpp {
 	namespace gc {
 		namespace visitor {
 
-			class IMethodCallVisitor {
+			class JCPP_EXPORT IMethodCallVisitor {
 			public:
 				virtual void startVisitMethodCallInfo(MethodCallInfo *mi) = 0;
 				virtual void visitParameterInfo(ParameterInfo *pi) = 0;
