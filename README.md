@@ -15,7 +15,7 @@ This project was initiated because I wanted to answer different needs :
 
 Ideally with every JDK version there should be a JCPP version provided, and I would be more than happy if Oracle thinks so ...
 
-Check the wiki for more detailed info, lots of documentation should follow.
+Check the wiki for more detailed info.
 
 License: contact if interested. Still working on it but it should be very friendly
 
