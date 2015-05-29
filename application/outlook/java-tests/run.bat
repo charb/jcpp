@@ -1,1 +1,1 @@
-java -cp target\outlook-java-tests-1.0-jar-with-dependencies.jar outlook.tests.OutlookTest
+java -cp target\outlook-java-tests-1.0-jar-with-dependencies.jar outlook.tests.OutlookTest -b "El 3awafi" -d "walid@lello.com" "moustafa@dahrouge.com" -s "El mas2ala"

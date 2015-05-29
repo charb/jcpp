@@ -119,10 +119,14 @@ namespace jcpp {
 
 					ULONG nSent = 0;
 
+					JSystem::out->println(new JString("launching outlook......"));
+
 					if (gui)
 						nSent = lpfnMAPISendMail(0, 0, &MAPImsg, MAPI_LOGON_UI | MAPI_DIALOG, 0);
 					else
 						nSent = lpfnMAPISendMail(0, 0, &MAPImsg, 0, 0);
+
+					JSystem::out->println(new JString("freeing memory......"));
 
 					jfile->deleteFile();
 					delete filename;
@@ -142,7 +146,11 @@ namespace jcpp {
 					}
 					delete [] v;
 
+					JSystem::out->println(new JString("freeing library......"));
+
 					FreeLibrary(hMAPI);
+
+					JSystem::out->println(new JString("returning......"));
 
 					return (nSent == SUCCESS_SUCCESS || nSent == MAPI_E_USER_ABORT);
 

@@ -4,6 +4,7 @@
 #include "jcpp/util/JArrayList.h"
 #include "jcpp/lang/reflect/JConstructor.h"
 #include "jcpp/lang/reflect/JModifier.h"
+#include "jcpp/lang/JPrimitiveBoolean.h"
 
 using namespace jcpp::lang::reflect;
 using namespace jcpp::lang;
@@ -26,7 +27,9 @@ namespace jcpp{
                 JList* args=new JArrayList();
                 args->add(dynamic_cast<JObject*>(msg));
                 JList* types=new JArrayList();
+                types->add(JPrimitiveBoolean::getClazz());
                 invoke(new JString("openMailMessageInOutlook"),types,args);
+                return;
             }
 
             JIOutlookProxy::~JIOutlookProxy(){
