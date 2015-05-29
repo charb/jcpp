@@ -29,6 +29,7 @@ namespace jcpp{
                 JList* types=new JArrayList();
                 types->add(JPrimitiveBoolean::getClazz());
                 invoke(new JString("openMailMessageInOutlook"),types,args);
+                return;
             }
 
             JIOutlookProxy::~JIOutlookProxy(){

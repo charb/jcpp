@@ -79,6 +79,7 @@ public class OutlookTest {
 
  		EndPoint serverEndPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9800, "site1");
  		IOutlook outlook = server.lookup(serverEndPoint, IOutlook.class);
+ 		
 
  		MailMessage mail = new MailMessage();
  		
@@ -135,5 +136,8 @@ public class OutlookTest {
  		System.out.println("invoking openMail");
  		
  		outlook.openMailMessageInOutlook(mail);
+ 		
+ 		
+ 		server.unexport();
     } 
 }
