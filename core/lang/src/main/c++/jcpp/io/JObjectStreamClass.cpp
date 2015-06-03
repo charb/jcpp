@@ -99,7 +99,7 @@ namespace jcpp{
             return builder->toString();
         }
 
-        static JMap* allObjectStreamClass=null;
+        JMap* JObjectStreamClass::allObjectStreamClass=null;
 
         JObjectStreamClass* JObjectStreamClass::lookup(jcpp::lang::JClass* meta, jbool all){
             if (meta == null){

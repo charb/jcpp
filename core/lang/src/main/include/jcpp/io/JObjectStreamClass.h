@@ -36,6 +36,7 @@ namespace jcpp{
         class JCPP_EXPORT JObjectStreamClass : public JObject, public JSerializable{
         private:
        				static const jlong serialVersionUID = -6120832682080437368LL;
+       			 static JMap* allObjectStreamClass;
         protected:
             static JString* WRITE_OBJECT_STRING;
             static JString* READ_OBJECT_STRING;

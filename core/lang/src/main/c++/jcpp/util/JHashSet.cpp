@@ -9,8 +9,7 @@ using namespace jcpp::lang::reflect;
 
 namespace jcpp{
     namespace util{
-        static JObject* PRESENT = new JObject();
-
+    	JObject* JHashSet::PRESENT = new JObject();
         JHashSet::JHashSet():JAbstractSet(getClazz()){
             this->map=new JHashMap();
         }

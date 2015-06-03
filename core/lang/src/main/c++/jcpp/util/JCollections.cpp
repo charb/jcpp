@@ -494,8 +494,6 @@ namespace jcpp{
             return new JSynchronizedCollection(c,mutex);
         }
 
-        static jcpp::lang::JClass* synchronizedListClazz = null;
-
         // @Class(canonicalName="java.util.Collections$SynchronizedList", simpleName="Collections$SynchronizedList");
         class JSynchronizedList : public JSynchronizedCollection, public JList{
         private:

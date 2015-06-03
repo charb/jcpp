@@ -93,6 +93,7 @@ namespace junit{
             jlong endTime = JSystem::currentTimeMillis();
             jlong runTime = endTime - startTime;
             fPrinter->print(result, runTime);
+            JSystem::gc();JSystem::gc();
             pause(w);
             return result;
         }

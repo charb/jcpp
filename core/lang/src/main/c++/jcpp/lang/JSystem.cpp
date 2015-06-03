@@ -14,7 +14,7 @@ using namespace jcpp::gc;
 namespace jcpp{
     namespace lang{
 
-        static NativeSystem* nativeSystem = NativeFactory::getNativeSystem();
+        NativeSystem* JSystem::nativeSystem = NativeFactory::getNativeSystem();
 
         //TODO add encoding parameter in JPrintStream constructor
         JPrintStream* JSystem::out = new JPrintStream(new JNativeOutputStream(NativeFactory::getNativeIOFactory()->getStandardOutputStream(), false), new JString("UTF-8"));

@@ -29,7 +29,7 @@
 #include "jcpp/lang/JSystem.h"
 #include "jcpp/io/JObjectStreamField.h"
 
-#include <iostream>
+
 
 using namespace jcpp::util;
 using namespace jcpp::io;

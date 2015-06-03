@@ -8,11 +8,13 @@
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/util/JUtilTestSuite.h"
 #include "jcpp/net/JNetTestSuite.h"
+#include "jcpp/lang/info/JInfoTestSuite.h"
 
 
 using namespace jcpp::io;
 using namespace jcpp::nio;
 using namespace jcpp::net;
+using namespace jcpp::lang::info;
 using namespace jcpp::lang::reflect;
 
 namespace jcpp{
@@ -23,6 +25,7 @@ namespace jcpp{
         addTest(new JUtilTestSuite());
         addTest(new JNIOTestSuite());
         addTest(new JNetTestSuite());
+		addTest(new JInfoTestSuite());
     }
 
     JCPPTestSuite* JCPPTestSuite::suite(){

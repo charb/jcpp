@@ -10,6 +10,7 @@
 #include "jcpp/io/JPrintStream.h"
 #include "jcpp/io/JInputStream.h"
 #include "jcpp/util/JProperties.h"
+#include "jcpp/native/api/NativeSystem.h"
 
 using namespace jcpp::io;
 using namespace jcpp::util;
@@ -22,6 +23,9 @@ namespace jcpp{
 
     	// @Class(canonicalName="java.lang.System", simpleName="System");
         class JCPP_EXPORT JSystem : public JObject{
+        private:
+        	// @IgnoreReflection()
+        	static NativeSystem* nativeSystem;
         public:
             // @Class(canonicalName="java.lang.ExitListener", simpleName="ExitListener");
             class JCPP_EXPORT ExitListener{
