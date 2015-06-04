@@ -1,5 +1,6 @@
 package outlook.tests;
 
+import java.io.EOFException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import jcpp.rmi.server.connection.Server;
 import jcpp.rmi.server.transport.EndPoint;
 import outlook.client.IOutlook;
+import outlook.client.IOutlookServer;
 import outlook.client.MailMessage;
 
 
@@ -78,7 +80,9 @@ public class OutlookTest {
  		Server server = Server.create(endPoint);
 
  		EndPoint serverEndPoint = new EndPoint(InetAddress.getLocalHost().getHostName(), 9800, "site1");
- 		IOutlook outlook = server.lookup(serverEndPoint, IOutlook.class);
+// 		IOutlook outlook = server.lookup(serverEndPoint, IOutlook.class);
+ 		IOutlookServer outlookServer = server.lookup(serverEndPoint, IOutlookServer.class);
+ 		
  		
 
  		MailMessage mail = new MailMessage();
@@ -125,9 +129,6 @@ public class OutlookTest {
  				case RECIPIENT:
  					mail.getToList().add(arg);
  					break;
- 				case TEMP_FOLDER:
- 					mail.setTempFolder(arg);
- 					break;
  				}
  			}
  			
@@ -135,8 +136,19 @@ public class OutlookTest {
  		
  		System.out.println("invoking openMail");
  		
- 		outlook.openMailMessageInOutlook(mail);
+// 		outlook.openMailMessageInOutlook(mail);
  		
+ 		outlookServer.setTempFolder("outlookTempDir");
+ 		
+ 		outlookServer.openMailMessageInOutlook(mail);
+ 		
+ 		try {
+ 			outlookServer.shutdown();
+ 		} catch(Exception e){
+ 			if (!(e.getCause() instanceof EOFException)) {
+ 				throw e;
+ 			} 			
+ 		} 		
  		
  		server.unexport();
     } 

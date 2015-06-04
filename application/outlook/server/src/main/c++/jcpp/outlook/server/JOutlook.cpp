@@ -1,5 +1,6 @@
 
 #include "jcpp/outlook/server/JOutlook.h"
+#include "jcpp/lang/JInteger.h"
 
 #include <windows.h>
 #include <Mapi.h>
@@ -8,8 +9,13 @@ namespace jcpp {
 	namespace outlook {
 		namespace server{
 
-				JOutlook::JOutlook() : JObject(getClazz()){
+				static HINSTANCE hMAPI = NULL;
+				static LPMAPISENDMAIL lpfnMAPISendMail = NULL;
 
+				JOutlook::JOutlook(JString* tempFolder) : JObject(getClazz()){
+					this->tempFolder = tempFolder;
+					this->fileCounter = new JInteger(1);
+					JOutlook::init();
 				}
 
 				void JOutlook::openMailMessageInOutlook(JMailMessage *msg){
@@ -21,9 +27,13 @@ namespace jcpp {
 							msg->getBccList(),
 							msg->getBody(),
 							msg->getSubject(),
-							msg->getTempFolder(),
 							true,
 							true);
+				}
+
+				void JOutlook::init() {
+					hMAPI = ::LoadLibrary("mapi32.dll");
+					lpfnMAPISendMail = (LPMAPISENDMAIL)::GetProcAddress(hMAPI, "MAPISendMail");
 				}
 
 				char * JOutlook::heapedString(JString * st){
@@ -56,7 +66,7 @@ namespace jcpp {
 					}
 				}
 
-				jbool JOutlook::openMail(JList *to, JList *cc, JList *bcc, JString *text, JString *subject, JString *tempFolder, jbool isHTML, jbool gui)
+				jbool JOutlook::openMail(JList *to, JList *cc, JList *bcc, JString *text, JString *subject, jbool isHTML, jbool gui)
 				{
 					if(text == NULL) {
 						text = new JString("");
@@ -64,14 +74,8 @@ namespace jcpp {
 					if(subject == NULL) {
 						subject = new JString("");
 					}
-					if(tempFolder == NULL) {
-						tempFolder = new JString(".");
-					}
 
 					JSystem::out->println(new JString("attempting to open outlook"));
-
-					HINSTANCE hMAPI = ::LoadLibrary("mapi32.dll");
-					LPMAPISENDMAIL lpfnMAPISendMail = (LPMAPISENDMAIL)::GetProcAddress(hMAPI, "MAPISendMail");
 
 					MapiMessage MAPImsg = { 0 };
 
@@ -91,23 +95,25 @@ namespace jcpp {
 
 					JStringBuilder *jfileName = new JStringBuilder();
 					jfileName->append(tempFolder);
-					jfileName->append(new JString("p.html"));
+					jfileName->append(JInteger::toString(fileCounter->get()));
+					jfileName->append(new JString("_body.html"));
+					fileCounter->set(fileCounter->get()+1);
 
 					char * body = heapedString(text);
 
 					JFile *jfile = new JFile(jfileName->toString());
+
 					char * filename = heapedString(jfile->getAbsolutePath());
+
 
 					if (isHTML){
 						JFileOutputStream *fos = new JFileOutputStream(jfile, false);
 						fos->write(text->getBytes());
 						fos->close();
-
 						ZeroMemory(&file, sizeof(MapiFileDesc));
 						file.lpszFileName = "messageFile.html";
 						file.lpszPathName = filename;
 						file.nPosition = -1;
-
 						MAPImsg.nFileCount = 1;
 						MAPImsg.lpFiles = &file;
 					} else {
@@ -121,17 +127,21 @@ namespace jcpp {
 
 					JSystem::out->println(new JString("launching outlook......"));
 
+					char buffer[1000];
+					GetCurrentDirectory(1000, buffer);
+
 					if (gui)
 						nSent = lpfnMAPISendMail(0, 0, &MAPImsg, MAPI_LOGON_UI | MAPI_DIALOG, 0);
 					else
 						nSent = lpfnMAPISendMail(0, 0, &MAPImsg, 0, 0);
 
-					JSystem::out->println(new JString("freeing memory......"));
+					SetCurrentDirectory(buffer);
 
+					JSystem::out->println(new JString("freeing memory......"));
 					jfile->deleteFile();
-					delete filename;
-					delete subj;
-					delete body;
+					delete []filename;
+					delete []subj;
+					delete []body;
 					for (int i = 0; i < nbRecipients; ++i){
 
 						if (v[i].lpszAddress != null)
@@ -146,19 +156,21 @@ namespace jcpp {
 					}
 					delete [] v;
 
-					JSystem::out->println(new JString("freeing library......"));
-
-					FreeLibrary(hMAPI);
-
 					JSystem::out->println(new JString("returning......"));
 
 					return (nSent == SUCCESS_SUCCESS || nSent == MAPI_E_USER_ABORT);
+				}
 
+				void JOutlook::setTempFolder(JString* path) {
+					this->tempFolder = path;
+				}
 
+				JString* JOutlook::getTempFolder() {
+					return tempFolder;
 				}
 
 				JOutlook::~JOutlook() {
-
+					FreeLibrary(hMAPI);
 				}
 		}
 	}

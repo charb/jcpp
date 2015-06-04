@@ -32,7 +32,6 @@ namespace jcpp {
 				JList *toList;
 				JString *body;
 				JString *subject;
-				JString *tempFolder;
 
 			public:
 				JMailMessage();
@@ -51,9 +50,6 @@ namespace jcpp {
 
 				JString* getBody();
 				void setBody(JString* body);
-
-				JString* getTempFolder();
-				void setTempFolder(JString* tempFolder);
 
 				static JClass* getClazz();
 

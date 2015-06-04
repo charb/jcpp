@@ -21,6 +21,16 @@
 			<type>nar</type>
 		</dependency>
 		<dependency>
+			<groupId>charb.jcpp.core</groupId>
+			<artifactId>core-rmi</artifactId>
+			<type>nar</type>
+		</dependency>
+		<dependency>
+			<groupId>charb.jcpp.cli</groupId>
+			<artifactId>jcpp-cli</artifactId>
+			<type>nar</type>
+		</dependency>
+		<dependency>
 			<groupId>charb.jcpp.application.outlook</groupId>
 			<artifactId>outlook-client</artifactId>
 			<type>nar</type>

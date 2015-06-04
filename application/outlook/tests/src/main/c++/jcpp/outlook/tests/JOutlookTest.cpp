@@ -61,7 +61,7 @@ namespace jcpp{
 
                     //exporting object
 
-                    JOutlook *outlook = new JOutlook();
+                    JOutlook *outlook = new JOutlook(new JString("."));
                     JList *interfaces = new JArrayList();
                     interfaces->add(JIOutlook::getClazz());
                     server1->getIRegistry()->bind(JIOutlook::getClazz()->getName(), outlook, interfaces);

@@ -23,19 +23,28 @@ namespace jcpp {
 			// @Class(canonicalName="outlook.server.Outlook", simpleName="Outlook");
 			class JCPP_EXPORT JOutlook : public JObject, public JIOutlook{
 			private:
+				JString* tempFolder;
+				JInteger* fileCounter;
+
 				// @IgnoreReflection()
-				jbool openMail(JList *to, JList *cc, JList *bcc, JString *text, JString *subject, JString *tempFolder, jbool isHTML, jbool gui);
+				jbool openMail(JList *to, JList *cc, JList *bcc, JString *text, JString *subject, jbool isHTML, jbool gui);
 				// @IgnoreReflection()
 				void addRecipients(JList *to, jlong type, void *v, int start);
 				// @IgnoreReflection()
 				char * heapedString(JString * st);
 
+				static void init();
+
 			public:
 				static jcpp::lang::JClass* getClazz();
 
-				JOutlook();
+				JOutlook(JString* tempFolder);
 
 				virtual void openMailMessageInOutlook(JMailMessage *msg);
+
+				virtual void setTempFolder(JString* path);
+
+				virtual JString* getTempFolder();
 
 				virtual ~JOutlook();
 			};

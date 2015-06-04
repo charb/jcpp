@@ -14,7 +14,6 @@ public class MailMessage implements Serializable {
 	
 	protected String body;
 	protected String subject;
-	protected String tempFolder;
 	
 	public MailMessage() {
 		
@@ -37,14 +36,6 @@ public class MailMessage implements Serializable {
 		this.subject = subject;
 	}
 	
-	public String getTempFolder() {
-		return tempFolder;
-	}
-	
-	public void setTempFolder(String tempFolder) {
-		this.tempFolder = tempFolder;
-	}
-
 	public List<String> getCcList() {
 		if(ccList == null) {
 			ccList = new ArrayList<String>();

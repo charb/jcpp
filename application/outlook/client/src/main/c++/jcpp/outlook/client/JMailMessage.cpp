@@ -10,7 +10,7 @@
 namespace jcpp {
 	namespace outlook {
 		namespace client{
-			JMailMessage::JMailMessage() : JObject(getClazz()), ccList(NULL), bccList(NULL), toList(NULL), subject(NULL), body(NULL), tempFolder(NULL) {
+			JMailMessage::JMailMessage() : JObject(getClazz()), ccList(NULL), bccList(NULL), toList(NULL), subject(NULL), body(NULL) {
 			}
 
 			JList* JMailMessage::getCcList(){
@@ -60,14 +60,6 @@ namespace jcpp {
 
 			void JMailMessage::setBody(JString* body){
 				this->body = body;
-			}
-
-			JString* JMailMessage::getTempFolder(){
-				return this->tempFolder;
-			}
-
-			void JMailMessage::setTempFolder(JString* tempFolder){
-				this->tempFolder = tempFolder;
 			}
 
 			JMailMessage::~JMailMessage() {

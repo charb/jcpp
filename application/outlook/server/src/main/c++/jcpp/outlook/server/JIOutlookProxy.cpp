@@ -21,13 +21,10 @@ namespace jcpp{
             }
 
             void JIOutlookProxy::openMailMessageInOutlook(JMailMessage *msg) {
-            	JSystem::out->println(new JString("reached proxy"));
-            	JSystem::out->println(msg->getBody());
-
                 JList* args=new JArrayList();
                 args->add(dynamic_cast<JObject*>(msg));
                 JList* types=new JArrayList();
-                types->add(JPrimitiveBoolean::getClazz());
+                types->add(JMailMessage::getClazz());
                 invoke(new JString("openMailMessageInOutlook"),types,args);
                 return;
             }
