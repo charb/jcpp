@@ -86,7 +86,7 @@ namespace jcpp {
 
 					addRecipients(to, MAPI_TO, v, 0);
 					addRecipients(cc, MAPI_CC, v, to->size());
-					addRecipients(cc, MAPI_BCC, v, to->size() + cc->size());
+					addRecipients(bcc, MAPI_BCC, v, to->size() + cc->size());
 
 					MAPImsg.nRecipCount = nbRecipients;
 					MAPImsg.lpRecips = v;
