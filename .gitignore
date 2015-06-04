@@ -5,3 +5,5 @@
 target
 java-tests-results
 assembly
+Debug
+Release
