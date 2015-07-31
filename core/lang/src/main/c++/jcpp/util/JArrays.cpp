@@ -7,6 +7,35 @@
 namespace jcpp{
     namespace util{
 
+    	//--------------------
+    	//	PRIVATE
+    	//--------------------
+    	jint JArrays::binarySearch0(JPrimitiveObjectArray* a, jint fromIndex, jint toIndex, JObject* key, JComparator* c){
+    		if(c == null){
+    			//TODO: check source
+    		}
+
+    		int low = fromIndex;
+    		int high = toIndex - 1;
+
+    		while(low <= high){
+    			int mid = (low + high)/2;
+    			JObject* midVal = a->get(mid);
+    			int cmp = c->compare(midVal, key);
+    			if(cmp < 0)
+    			low = mid + 1;
+    			else if(cmp > 0)
+    				high = mid - 1;
+    			else
+    				return mid;
+    		}
+    		return -(low + 1);
+    	}
+
+
+    	//---------------------
+    	//	PUBLIC
+    	//---------------------
         JList* JArrays::asList(JPrimitiveObjectArray* a){
             JList* args=new JArrayList();
             if (a!=null){
@@ -231,6 +260,67 @@ namespace jcpp{
                 a->set(i,val);
             }
         }
+
+        jint JArrays::binarySearch(JPrimitiveObjectArray* a, JObject* key, JComparator* c){
+        	return binarySearch0(a, 0, a->size(), key, c);
+        }
+
+        jbool JArrays::deepEquals(JPrimitiveObjectArray* a1, JPrimitiveObjectArray* a2){
+        	if(a1 == a2)
+        		return true;
+        	if(a1 == null || a2 == null)
+        		return false;
+        	int length = a1->size();
+        	if(a2->size() != length)
+        		return false;
+
+        	for(int i = 0; i < length; i++){
+        		JObject* e1 = a1->get(i);
+        		JObject* e2 = a2->get(i);
+
+        		if(e1 == e2)
+        			continue;
+        		if(e1 == null)
+        			return false;
+
+        		jbool eq;
+        		if((e1->getClass()->isAssignableFrom(JPrimitiveObjectArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveObjectArray::getClazz())))
+        			eq = deepEquals(dynamic_cast<JPrimitiveObjectArray*>(e1), dynamic_cast<JPrimitiveObjectArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveByteArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveByteArray::getClazz())))
+        			eq = equals(dynamic_cast<JPrimitiveByteArray*>(e1), dynamic_cast<JPrimitiveByteArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveByteArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveByteArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveByteArray*>(e1), dynamic_cast<JPrimitiveByteArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveShortArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveShortArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveShortArray*>(e1), dynamic_cast<JPrimitiveShortArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveIntArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveIntArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveIntArray*>(e1), dynamic_cast<JPrimitiveIntArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveLongArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveLongArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveLongArray*>(e1), dynamic_cast<JPrimitiveLongArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveCharArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveCharArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveCharArray*>(e1), dynamic_cast<JPrimitiveCharArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveFloatArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveFloatArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveFloatArray*>(e1), dynamic_cast<JPrimitiveFloatArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveDoubleArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveDoubleArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveDoubleArray*>(e1), dynamic_cast<JPrimitiveDoubleArray*>(e2));
+
+        		else if((e1->getClass()->isAssignableFrom(JPrimitiveBooleanArray::getClazz())) && (e2->getClass()->isAssignableFrom(JPrimitiveBooleanArray::getClazz())))
+					eq = equals(dynamic_cast<JPrimitiveBooleanArray*>(e1), dynamic_cast<JPrimitiveBooleanArray*>(e2));
+
+        		else
+        			eq = e1->equals(e2);
+
+        	}
+        	return true;
+        }
+
 
         JArrays::~JArrays(){
         }

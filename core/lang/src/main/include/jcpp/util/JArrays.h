@@ -19,6 +19,9 @@ namespace jcpp{
 
     	// @Class(canonicalName="java.util.Arrays", simpleName="Arrays");
         class JCPP_EXPORT JArrays : public JObject{
+        private:
+        	static jint binarySearch0(JPrimitiveObjectArray* a, jint fromIndex, jint toIndex, JObject* key, JComparator* c);
+
         public:
             static jcpp::lang::JClass* getClazz();
 
@@ -59,6 +62,10 @@ namespace jcpp{
             static void fill(JPrimitiveCharArray* a,jchar v);
 
             static void fill(JPrimitiveObjectArray* a,jint start,jint end,JObject* val);
+
+            static jint binarySearch(JPrimitiveObjectArray* a, JObject* key, JComparator* c);
+
+            static jbool deepEquals(JPrimitiveObjectArray* a1, JPrimitiveObjectArray* a2);
 
             virtual ~JArrays();
         };

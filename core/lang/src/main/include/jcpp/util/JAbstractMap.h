@@ -16,11 +16,12 @@ namespace jcpp{
     namespace util{
 
     	// @Class(canonicalName="java.util.AbstractMap", simpleName="AbstractMap");
-        class JCPP_EXPORT JAbstractMap: public JObject, public JMap{
+        class JCPP_EXPORT JAbstractMap: public JObject, virtual public JMap{
         public:
         	class JSimpleEntry;
 
         protected:
+        	/*TODO: transient volatile*/ JCollection* valuesMember;
 
             JAbstractMap(jcpp::lang::JClass* _class);
             friend class JSimpleEntry;
@@ -58,7 +59,7 @@ namespace jcpp{
 
             virtual JString* toString();
 
-            virtual JObject* clone()=0;
+            virtual JObject* clone() = 0;
 
             virtual ~JAbstractMap();
 

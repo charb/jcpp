@@ -9,7 +9,7 @@ using namespace junit::framework;
 namespace jcpp {
 	namespace lang {
 		namespace info {
-			//@Class(canonicalName="jcpp.lang.info.infoTestSuite", simpleName="infoTestSuite");
+			//@Class(canonicalName="jcpp.lang.info.InfoTestSuite", simpleName="InfoTestSuite");
 			class JCPP_EXPORT JInfoTestSuite : public JTestSuite {
 				public:
 				JInfoTestSuite();

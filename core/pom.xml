@@ -25,6 +25,7 @@
 		<module>util-concurrent-tests</module>
 		<module>rmi</module>
 		<module>rmi-tests</module>
+		<module>jmx</module>
 	</modules>
 	
 	<build>
