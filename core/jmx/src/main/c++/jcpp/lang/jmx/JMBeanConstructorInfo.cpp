@@ -26,15 +26,17 @@ namespace jcpp{
 
 			}
 
+
+
 		//---------------
 		//	Public
 		//---------------
 
 
 
-			JMBeanConstructorInfo::JMBeanConstructorInfo(JString* name, JString* description, JPrimitiveObjectArray* signature)
-				:JMBeanFeatureInfo(name, description, JMBeanConstructorInfo::getClazz()){
-				init(signature);
+			JMBeanConstructorInfo::JMBeanConstructorInfo(JString* description, JConstructor* constructor)
+				:JMBeanFeatureInfo(constructor->getName(), description, JMBeanConstructorInfo::getClazz()){
+				init(constructorSignature(constructor));
 			}
 
 			JMBeanConstructorInfo::JMBeanConstructorInfo(JString* name, JString* description, JPrimitiveObjectArray* signature)

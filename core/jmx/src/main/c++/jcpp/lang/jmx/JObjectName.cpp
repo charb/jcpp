@@ -62,9 +62,6 @@ namespace jcpp{
 			JObjectName::JObjectName(JString* name):JObject(JObjectName::getClazz()){
 			}
 
-			JString* JObjectName::getCanonicalName(){
-				return null;
-			}
 
 			JString* JObjectName::getCanonicalKeyPropertyListString(){
 				return null;

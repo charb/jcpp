@@ -27,6 +27,8 @@ namespace jcpp{
 				static JPrimitiveObjectArray* constructorSignature(JConstructor* cn);
 
 				void init(JPrimitiveObjectArray* signature);
+
+
 			public:
 				static JPrimitiveObjectArray* NO_CONSTRUCTORS;
 

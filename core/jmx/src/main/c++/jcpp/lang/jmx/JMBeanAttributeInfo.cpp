@@ -70,8 +70,10 @@ namespace jcpp{
 			//	PUBLIC
 			//-------------------
 
-
-
+			JMBeanAttributeInfo::JMBeanAttributeInfo(JString* name, JString* description, JMethod* getter, JMethod* setter)
+			:JMBeanFeatureInfo(name, description, JMBeanAttributeInfo::getClazz()){
+				init(attributeType(getter, setter), (getter != null), (setter != null), isIs(getter));
+			}
 
 
 

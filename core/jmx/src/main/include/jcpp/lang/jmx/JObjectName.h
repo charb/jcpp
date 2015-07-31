@@ -72,7 +72,6 @@ namespace jcpp{
 
 				JObjectName(JString* name);
 
-				JString* getCanonicalName();
 
 				JString* getCanonicalKeyPropertyListString();
 

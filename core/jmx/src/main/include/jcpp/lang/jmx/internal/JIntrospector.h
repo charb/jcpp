@@ -32,7 +32,6 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 			class JDynamicMBean;
-			class JDescriptor;
 		}
 	}
 }
@@ -58,9 +57,6 @@ namespace jcpp{
 
 					static JClass* getStandardMBeanInterface(JClass* baseClass);
 
-					static JDescriptor* descriptorForElement(JAnnotatedElement* elmt);
-
-					static JDescriptor* descriptorForAnnotations(JPrimitiveObjectArray* annots);
 
 					static JObject* annotationToField(JObject* x);
 

@@ -28,7 +28,7 @@ namespace jcpp{
 			private:
 				static const jlong serialVersionUID = -6451021435135161911LL;
 
-				/*TODO transient*/ JDescriptor* descriptor;
+
 
 				JString* className;
 
