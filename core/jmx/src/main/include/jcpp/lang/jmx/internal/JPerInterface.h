@@ -19,7 +19,6 @@ namespace jcpp{
 	namespace lang{
 		class JPrimitiveObjectArray;
 		namespace jmx{
-			class JMBeanInfo;
 			namespace internal{
 				class JMBeanIntrospector;
 			}
@@ -62,7 +61,6 @@ namespace jcpp{
 
 					JClass* mbeanInterface;
 					JMBeanIntrospector* introspector;
-					JMBeanInfo* mbeanInfo;
 					JMap* getters;
 					JMap* setters;
 					JMap* ops;
@@ -73,11 +71,9 @@ namespace jcpp{
 
 
 				protected:
-					JPerInterface(JClass* mbeanInterface, JMBeanIntrospector* introspector, JMBeanAnalyzer* analyzer, JMBeanInfo* mbeanInfo);
+					JPerInterface(JClass* mbeanInterface, JMBeanIntrospector* introspector, JMBeanAnalyzer* analyzer);
 
 					JClass* getMBeanInterface();
-
-					JMBeanInfo* getMBeanInfo();
 
 					JObject* invoke(JObject* resource, JString* operation, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature, JObject* cookie);
 

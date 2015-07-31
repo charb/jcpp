@@ -18,7 +18,6 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 			class JObjectName;
-			class JMBeanInfo;
 			class JAttribute;
 			class JMBeanServer;
 			namespace internal{
@@ -48,8 +47,6 @@ namespace jcpp{
 				virtual JObjectName* preRegister(JMBeanServer* server, JObjectName* name);
 
 				virtual JObject* invoke(JString* actionName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature);
-
-				virtual JMBeanInfo* getMBeanInfo();
 
 				virtual JObject* getAttribute(JString* attribute);
 

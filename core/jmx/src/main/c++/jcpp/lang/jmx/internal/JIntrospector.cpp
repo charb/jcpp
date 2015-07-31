@@ -6,14 +6,6 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 			//----------------
-			//	Private
-			//-----------------
-
-				jbool JIntrospector::equals(JObject* x, JObject* y){
-					return false;
-				}
-
-			//----------------
 			//	Protected
 			//----------------
 
@@ -33,11 +25,6 @@ namespace jcpp{
 				}
 
 				JClass* JIntrospector::getStandardMBeanInterface(JClass* baseClass){
-					return null;
-				}
-
-
-				JObject* JIntrospector::annotationToField(JObject* x){
 					return null;
 				}
 

@@ -1,7 +1,6 @@
 package jcpp.jmx.mbeanserver;
 
 import jcpp.management.DynamicMBean;
-import jcpp.management.ObjectName;
 
 public class NamedObject {
 

@@ -20,7 +20,6 @@ namespace jcpp{
 		class JClass;
 		class JObject;
 		namespace jmx{
-			class JMBeanInfo;
 			class JAttribute;
 		};
 	}
@@ -34,8 +33,6 @@ namespace jcpp{
 			public:
 
 				virtual JObject* invoke(JString* actionName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature) = 0;
-
-				virtual JMBeanInfo* getJMBeanInfo() = 0;
 
 				virtual JObject* getAttribute(JString* jattribute) = 0;
 

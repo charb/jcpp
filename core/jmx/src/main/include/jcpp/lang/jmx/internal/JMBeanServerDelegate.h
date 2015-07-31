@@ -16,7 +16,6 @@ namespace jcpp{
 	namespace lang{
 
 		namespace jmx{
-			class  JMBeanInfo;
 			class JMBeanServer;
 			class JObjectName;
 			class JAttribute;
@@ -37,7 +36,6 @@ namespace jcpp{
 
 					virtual JObject* invoke(JString* actionName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature);
 
-					virtual JMBeanInfo* getJMBeanInfo();
 
 					virtual JObject* getAttribute(JString* jattribute);
 

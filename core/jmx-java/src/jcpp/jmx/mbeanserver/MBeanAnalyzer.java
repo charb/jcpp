@@ -17,6 +17,43 @@ class MBeanAnalyzer<M> {
 		public void visitOperation(String operationName, M operattion);
 	}
 
+	private static class MethodOrder implements Comparator<Method> {
+		public int compare(Method a, Method b) {
+			final int cmp = a.getName().compareTo(b.getName());
+			if (cmp != 0)
+				return cmp;
+			final Class<?>[] aparams = a.getParameterTypes();
+			final Class<?>[] bparams = b.getParameterTypes();
+			if (aparams.length != bparams.length)
+				return aparams.length - bparams.length;
+			if (!Arrays.equals(aparams, bparams)) {
+				return Arrays.toString(aparams).compareTo(Arrays.toString(bparams));
+			}
+			final Class<?> aret = a.getReturnType();
+			final Class<?> bret = b.getReturnType();
+			if (aret == bret)
+				return 0;
+
+			// Super type comes first: Object, Number, Integer
+			if (aret.isAssignableFrom(bret))
+				return -1;
+			return +1; // could assert bret.isAssignableFrom(aret)
+		}
+
+		public final static MethodOrder instance = new MethodOrder();
+	}
+
+	private static class AttrMethods<M> {
+		M getter;
+		M setter;
+	}
+
+	private Map<String, List<M>> opMap = newInsertionOrderMap();
+
+	private Map<String, AttrMethods<M>> attrMap = newInsertionOrderMap();
+
+	
+	
 	private MBeanAnalyzer(Class<?> mbeanInterface, MBeanIntrospector<M> introspector) throws Exception {
 		if (!mbeanInterface.isInterface()) {
 			throw new Exception("Not an interface: " + mbeanInterface.getName());
@@ -143,39 +180,6 @@ class MBeanAnalyzer<M> {
 		return new MBeanAnalyzer<M>(mbeanInterface, introspector);
 	}
 
-	private Map<String, List<M>> opMap = newInsertionOrderMap();
 
-	private Map<String, AttrMethods<M>> attrMap = newInsertionOrderMap();
-
-	private static class MethodOrder implements Comparator<Method> {
-		public int compare(Method a, Method b) {
-			final int cmp = a.getName().compareTo(b.getName());
-			if (cmp != 0)
-				return cmp;
-			final Class<?>[] aparams = a.getParameterTypes();
-			final Class<?>[] bparams = b.getParameterTypes();
-			if (aparams.length != bparams.length)
-				return aparams.length - bparams.length;
-			if (!Arrays.equals(aparams, bparams)) {
-				return Arrays.toString(aparams).compareTo(Arrays.toString(bparams));
-			}
-			final Class<?> aret = a.getReturnType();
-			final Class<?> bret = b.getReturnType();
-			if (aret == bret)
-				return 0;
-
-			// Super type comes first: Object, Number, Integer
-			if (aret.isAssignableFrom(bret))
-				return -1;
-			return +1; // could assert bret.isAssignableFrom(aret)
-		}
-
-		public final static MethodOrder instance = new MethodOrder();
-	}
-
-	private static class AttrMethods<M> {
-		M getter;
-		M setter;
-	}
 
 }

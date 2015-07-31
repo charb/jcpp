@@ -22,7 +22,7 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 
 	private final String domain;
 
-	public DefaultMBeanServerInterceptor(MBeanServer outer, MBeanServerDelegate delegate, /*MBeanInstantiator instantiator,*/ Repository repository) {
+	public DefaultMBeanServerInterceptor(MBeanServer outer, MBeanServerDelegate delegate,  Repository repository) {
 		if (outer == null)
 			throw new IllegalArgumentException("outer MBeanServer cannot be null");
 		if (delegate == null)
@@ -124,24 +124,7 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 	}
 
 	private static String getNewMBeanClassName(Object mbeanToRegister) throws Exception {
-		if (mbeanToRegister instanceof DynamicMBean) {
-			DynamicMBean mbean = (DynamicMBean) mbeanToRegister;
-			final String name;
-			try {
-				name = mbean.getMBeanInfo().getClassName();
-			} catch (Exception e) {
-				// Includes case where getMBeanInfo() returns null
-				Exception ncmbe = new Exception("Bad getMBeanInfo()");
-				ncmbe.initCause(e);
-				throw ncmbe;
-			}
-			if (name == null) {
-				final String msg = "MBeanInfo has null class name";
-				throw new Exception(msg);
-			}
-			return name;
-		} else
-			return mbeanToRegister.getClass().getName();
+		return mbeanToRegister.getClass().getName();
 	}
 
 	private static void postRegisterInvoke(MBeanRegistration moi, boolean registrationDone, boolean registerFailed) {

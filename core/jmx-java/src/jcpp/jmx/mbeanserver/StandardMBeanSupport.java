@@ -2,7 +2,6 @@ package jcpp.jmx.mbeanserver;
 
 import java.lang.reflect.Method;
 
-import jcpp.management.MBeanInfo;
 import jcpp.management.MBeanServer;
 import jcpp.management.ObjectName;
 
@@ -38,13 +37,6 @@ public class StandardMBeanSupport extends MBeanSupport<Method> {
 	}
 
 	
-
-	@Override
-	public MBeanInfo getMBeanInfo() {
-		// TODO Auto-generated method stub
-		System.out.println("8 implement me " + this.getClass().getName());
-		return null;
-	}
 
 	@Override
 	Object getCookie() {

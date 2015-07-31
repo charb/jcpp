@@ -48,7 +48,7 @@ namespace jcpp{
 			//----------
 			//	Protected
 			//----------
-				JPerInterface::JPerInterface(JClass* mbeanInterface, JMBeanIntrospector* introspector, JMBeanAnalyzer* analyzer, JMBeanInfo* mbeanInfo)
+				JPerInterface::JPerInterface(JClass* mbeanInterface, JMBeanIntrospector* introspector, JMBeanAnalyzer* analyzer)
 				:JObject(JPerInterface::getClazz()){
 					this->getters = JUtil::newMap();
 					this->setters = JUtil::newMap();
@@ -59,9 +59,6 @@ namespace jcpp{
 					return null;
 				}
 
-				JMBeanInfo* JPerInterface::getMBeanInfo(){
-					return null;
-				}
 
 				JObject* JPerInterface::invoke(JObject* resource, JString* operation, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature, JObject* cookie){
 					return null;

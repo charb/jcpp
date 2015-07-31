@@ -50,12 +50,7 @@ public class StandardMBean implements DynamicMBean, MBeanRegistration {
 		return mbean.invoke(actionName, params, signature);
 	}
 
-	@Override
-	public MBeanInfo getMBeanInfo() {
-		// TODO Auto-generated method stub
-		System.out.println("6 implement me " + this.getClass().getName());
-		return null;
-	}
+	
 
 	@Override
 	public Object getAttribute(String attribute) throws Exception {

@@ -25,7 +25,6 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 	}
 
 
-
 	// TODO: Serialization
 	private static final long serialVersionUID = 1081892073854801359L;
 
@@ -39,6 +38,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 
 	static final private Property[] _Empty_property_array = new Property[0];
 
+	
 	public static ObjectName getInstance(String name) throws Exception {
 		return new ObjectName(name);
 	}

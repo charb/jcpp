@@ -2,11 +2,7 @@ package jcpp.jmx.mbeanserver;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.WeakHashMap;
 
-
-import jcpp.management.MBeanAttributeInfo;
-import jcpp.management.MBeanOperationInfo;
 
 public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 
@@ -14,7 +10,6 @@ public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 
 	private static final PerInterfaceMap<Method> perInterfaceMap = new PerInterfaceMap<Method>();
 
-	private static final MBeanInfoMap mbeanInfoMap = new MBeanInfoMap();
 
 	static StandardMBeanIntrospector getInstance() {
 		return instance;
@@ -48,12 +43,6 @@ public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 	
 
 	@Override
-	jcpp.jmx.mbeanserver.MBeanIntrospector.MBeanInfoMap getMBeanInfoMap() {
-		return mbeanInfoMap;
-	}
-
-
-	@Override
 	Method mFrom(Method m) {
 		return m;
 	}
@@ -70,24 +59,8 @@ public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 
 
 
-	@Override
-	MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
-			Method getter, Method setter) {
-		final String description = "Attribute exposed for management";
-		try {
-			return new MBeanAttributeInfo(attributeName, description, getter,
-					setter);
-		} catch (Exception e) {
-			throw new RuntimeException(e); // should not happen
-		}
-	}
+	
 
-	@Override
-	MBeanOperationInfo getMBeanOperationInfo(String operationName,
-			Method operation) {
-		final String description = "Operation exposed for management";
-		return new MBeanOperationInfo(description, operation);
-	}
 
 
 	@Override

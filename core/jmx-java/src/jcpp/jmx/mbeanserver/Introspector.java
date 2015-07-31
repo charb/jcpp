@@ -1,7 +1,5 @@
 package jcpp.jmx.mbeanserver;
 
-import java.util.Arrays;
-
 import jcpp.management.DynamicMBean;
 
 
@@ -54,9 +52,6 @@ public class Introspector {
 		}
 	}
 
-	
-
-	
 
 	private static Class findMBeanInterface(Class aClass, String aName) {
 		Class current = aClass;

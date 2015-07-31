@@ -12,11 +12,27 @@
 
 namespace jcpp{
 	namespace lang{
+		class JPrimitiveObjectArray;
+		class JObject;
+		class JClass;
+		namespace jmx{
+			class JObjectName;
+			class JObjectInstance;
+		}
+	}
+}
+
+namespace jcpp{
+	namespace lang{
 		namespace jmx{
 			namespace internal{
 
 				class JCPP_EXPORT JMBeanServerInterceptor : public JMBeanServerConnection{
 				public:
+
+					virtual JObjectInstance* registerMBean(JObject* object, JObjectName* name) = 0;
+
+					virtual JObject* invoke(JObjectName* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature) = 0;
 
 					static jcpp::lang::JClass* getClazz();
 

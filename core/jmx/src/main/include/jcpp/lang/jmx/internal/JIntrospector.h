@@ -46,8 +46,6 @@ namespace jcpp{
 			namespace internal{
 
 				class JCPP_EXPORT JIntrospector: public JObject{
-				private:
-					static jbool equals(JObject* x, JObject* y);
 				protected:
 					static JException* throwException(JClass* notCompliant, JThrowable* cause);
 				public:
@@ -57,8 +55,6 @@ namespace jcpp{
 
 					static JClass* getStandardMBeanInterface(JClass* baseClass);
 
-
-					static JObject* annotationToField(JObject* x);
 
 					static JClass* findMBeanInterface(JClass* aClass, JString* aName);
 

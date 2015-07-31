@@ -30,10 +30,6 @@ namespace jcpp{
 				return null;
 			}
 
-			JMBeanInfo* JStandardMBean::getMBeanInfo(){
-				return null;
-			}
-
 			JObject* JStandardMBean::getAttribute(JString* attribute){
 				return null;
 			}

@@ -15,10 +15,6 @@ namespace jcpp{
 					return null;
 				}
 
-				JMBeanInfo* JMBeanServerDelegate::getJMBeanInfo(){
-					//TODO
-					return null;
-				}
 
 				JObject* JMBeanServerDelegate::getAttribute(JString* jattribute){
 					//TODO

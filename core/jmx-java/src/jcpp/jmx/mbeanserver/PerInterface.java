@@ -8,22 +8,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import jcpp.management.MBeanInfo;
+
 
 final class PerInterface<M> {
 
 	private final Class<?> mbeanInterface;
 
 	private final MBeanIntrospector<M> introspector;
-	private final MBeanInfo mbeanInfo;
+
 	private final Map<String, M> getters = newMap();
 	private final Map<String, M> setters = newMap();
 	private final Map<String, List<MethodAndSig>> ops = newMap();
 
-	PerInterface(Class<?> mbeanInterface, MBeanIntrospector<M> introspector, MBeanAnalyzer<M> analyzer, MBeanInfo mbeanInfo) {
+	PerInterface(Class<?> mbeanInterface, MBeanIntrospector<M> introspector, MBeanAnalyzer<M> analyzer) {
 		this.mbeanInterface = mbeanInterface;
 		this.introspector = introspector;
-		this.mbeanInfo = mbeanInfo;
+		
 		analyzer.visit(new InitMaps());
 	}
 
@@ -31,9 +31,7 @@ final class PerInterface<M> {
 		return mbeanInterface;
 	}
 
-	MBeanInfo getMBeanInfo() {
-		return mbeanInfo;
-	}
+
 
 	Object invoke(Object resource, String operation, Object[] params, String[] signature, Object cookie) throws Exception {
 

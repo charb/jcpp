@@ -21,10 +21,8 @@ namespace jcpp{
 		namespace jmx{
 			class JMBeanAttributeInfo;
 			class JMBeanOperationInfo;
-			class JMBeanInfo;
 			namespace internal{
 				class JPerInterface;
-//				class JMBeanAnalyzer::JMBeanVisitor;
 			}
 		}
 	}
@@ -43,39 +41,17 @@ namespace jcpp{
 				class JCPP_EXPORT JMBeanIntrospector: public JObject{
 				private:
 
-					class JCPP_EXPORT JMBeanInfoMaker: public JObject{
-					private:
-						JList* attrs;
-						JList* ops;
-					protected:
-						JMBeanInfoMaker();
-						JMBeanInfo* makeMBeanInfo(JClass* mbeanInterface, JString* description);
-					public:
-						void visitAttribute(JString* attributeName, JObject* getter, JObject* setter);
-						void visitOperation(JString* operationName, JObject* operation);
-
-						static JClass* getClazz();
-						virtual ~JMBeanInfoMaker();
-						friend class JMBeanIntrospector;
-
-					};
-
 					static JPrimitiveObjectArray* findConstructors(JClass* c);
-
-					JMBeanInfo* makeInterfaceMBeanInfo(JClass* mbeanInterface, JMBeanAnalyzer* analyzer);
 
 				protected:
 					virtual JHashMap* getPerInterfaceMap() = 0;
 					virtual JMBeanAnalyzer* getAnalyzer(JClass* mbeanInterface) = 0;
 					virtual JPrimitiveObjectArray* getSignature(JObject* m) = 0;
 					virtual void checkMethod(JObject* m) = 0;
-					virtual JHashMap* getMBeanInfoMap() = 0;
 					virtual JObject* mFrom(JObject* m) = 0;
 					virtual JString* getName(JObject* m) = 0;
 					virtual JClass* getGenericReturnType(JObject* m) = 0;
 					virtual JPrimitiveObjectArray* getGenericParameterTypes(JObject* m) = 0;
-					virtual JMBeanAttributeInfo* getMBeanAttributeInfo(JString* attributeName, JObject* getter, JObject* setter) = 0;
-					virtual JMBeanOperationInfo* getMBeanOperationInfo(JString* operationName, JObject* operation) = 0;
 					virtual JObject* invokeM2(JObject* m, JObject* target, JPrimitiveObjectArray* args, JObject* cookie) = 0;
 
 
@@ -83,10 +59,6 @@ namespace jcpp{
 					JPerInterface* getPerInterface(JClass* mbeanInterface, JMBeanAnalyzer* analyzer);
 
 					jbool consistent(JObject* getter, JObject* setter);
-
-					JMBeanInfo* getMBeanInfo(JObject* resource, JPerInterface* perInterface);
-
-					JMBeanInfo* getClassMBeanInfo(JClass* resourceClass, JPerInterface* perInterface);
 
 					JObject* invokeM(JObject* m, JObject* target, JPrimitiveObjectArray* args, JObject* cookie);
 
