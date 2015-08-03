@@ -12,8 +12,9 @@ namespace jcpp{
 				JUtil::JUtil():JObject(JUtil::getClazz()){
 				}
 
+
 				JMap* JUtil::newInsertionOrderMap(){
-					return null;
+					return new JHashMap();		// It should return LinkedHashMap;
 				}
 
 				JMap* JUtil::newMap(){

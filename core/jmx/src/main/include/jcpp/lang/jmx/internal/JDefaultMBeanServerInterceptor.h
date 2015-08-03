@@ -39,6 +39,8 @@ namespace jcpp{
 				private:
 					/*TODO Transient*/ JMBeanServer* server;
 
+					/*TODO Transient*/ JRepository* repository;
+
 					JString* domain;
 
 
@@ -48,11 +50,10 @@ namespace jcpp{
 
 					static JObjectName* preRegisterInvoke(JMBeanRegistration* moi, JObjectName* name, JMBeanServer* mbs);
 
-					JObjectInstance* registerObject(JString* classname, JDynamicMBean* mbean, JObjectName* name);
+					JObjectInstance* registerObject(JString* classname, JObject* object, JObjectName* name);
 
 					JObjectInstance* registerDynamicMBean(JString* classname, JDynamicMBean* mbean, JObjectName* name);
 
-					JObjectName* nonDefaultDomain(JObjectName* name);
 
 					void internal_addObject(JDynamicMBean* object, JObjectName* logicalName);
 

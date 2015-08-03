@@ -20,6 +20,15 @@ namespace jcpp{
 				//	Protected
 				//-----------
 
+
+
+
+					JMBeanIntrospector::JMBeanIntrospector():JObject(JMBeanIntrospector::getClazz()){
+					}
+
+					JMBeanIntrospector::JMBeanIntrospector(JClass* clazz): JObject(clazz){
+					}
+
 					JPerInterface* JMBeanIntrospector::getPerInterface(JClass* mbeanInterface, JMBeanAnalyzer* analyzer){
 						return null;
 					}
@@ -35,6 +44,8 @@ namespace jcpp{
 					void JMBeanIntrospector::invokeSetter(JString* name, JObject* setter, JObject* target, JObject* arg, JObject* cookie){
 
 					}
+
+
 
 				//-----------
 				//	Public

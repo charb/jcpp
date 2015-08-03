@@ -46,6 +46,11 @@ namespace jcpp{
 			namespace internal{
 
 				class JCPP_EXPORT JIntrospector: public JObject{
+				private:
+					static JClass* findMBeanInterface(JClass* aClass, JString* aName);
+
+					static JClass* implementsMBean(JClass* c, JString* clName);
+
 				protected:
 					static JException* throwException(JClass* notCompliant, JThrowable* cause);
 				public:
@@ -55,15 +60,10 @@ namespace jcpp{
 
 					static JClass* getStandardMBeanInterface(JClass* baseClass);
 
-
-					static JClass* findMBeanInterface(JClass* aClass, JString* aName);
-
-					static JClass* implementsMBean(JClass* c, JString* clName);
-
-
-
 					static jcpp::lang::JClass* getClazz();
 					virtual ~JIntrospector();
+
+					friend class JMBeanAnalyzer;
 				};
 			}
 		}

@@ -24,7 +24,7 @@ namespace jcpp{
 }
 
 using namespace jcpp::util;
-using namespace jcpp::lang;
+
 
 namespace jcpp{
 	namespace lang{
@@ -36,7 +36,7 @@ namespace jcpp{
 					jint _key_index;
 					jint _key_length;
 					jint _value_length;
-
+				protected:
 					JProperty(jint key_index, jint key_length, jint value_length);
 
 					void setKeyIndex(jint key_index);
@@ -44,6 +44,7 @@ namespace jcpp{
 				public:
 					static jcpp::lang::JClass* getClazz();
 					~JProperty();
+					friend class JObjectName;
 				};
 
 

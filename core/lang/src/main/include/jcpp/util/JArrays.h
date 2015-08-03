@@ -67,6 +67,8 @@ namespace jcpp{
 
             static jbool deepEquals(JPrimitiveObjectArray* a1, JPrimitiveObjectArray* a2);
 
+            static JString* toStringStatic(JPrimitiveObjectArray* a);
+
             virtual ~JArrays();
         };
     }

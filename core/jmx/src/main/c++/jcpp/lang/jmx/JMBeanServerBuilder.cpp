@@ -8,12 +8,12 @@ namespace jcpp{
 			JMBeanServerBuilder::JMBeanServerBuilder() : JObject(JMBeanServerBuilder::getClazz()){
 			}
 
-			JMBeanServerDelegate* JMBeanServerBuilder::newJMBeanServerDelegate(){
-				return null;
+			JMBeanServerDelegate* JMBeanServerBuilder::newMBeanServerDelegate(){
+				return JmxMBeanServer::newMBeanServerDelegate();
 			}
 
-			JMBeanServer* JMBeanServerBuilder::newJMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate){
-				return null;
+			JMBeanServer* JMBeanServerBuilder::newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate){
+				return JmxMBeanServer::newMBeanServer(defaultDomain, outer, delegate);
 			}
 
 			JMBeanServerBuilder::~JMBeanServerBuilder(){

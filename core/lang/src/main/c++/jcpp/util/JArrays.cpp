@@ -1,8 +1,11 @@
 #include "jcpp/util/JArrays.h"
 #include "jcpp/lang/JClass.h"
 #include "jcpp/util/JArrayList.h"
+#include "jcpp/lang/JstringBuilder.h"
 #include <vector>
 #include <algorithm>
+
+using namespace jcpp::util;
 
 namespace jcpp{
     namespace util{
@@ -319,6 +322,23 @@ namespace jcpp{
 
         	}
         	return true;
+        }
+
+        JString* JArrays::toStringStatic(JPrimitiveObjectArray* a){
+        	if(a == null)
+        		return null;
+        	jint iMax = a->size() - 1;
+        	if(iMax == -1)
+        		return new JString("[]");
+        	JStringBuilder* b = new JStringBuilder();
+        	b->append('[');
+        	for(jint i = 0; ; i++){
+        		b->append(JString::valueOf(a->get(i)));
+        		if(i == iMax)
+        			return b->append(']')->toString();
+        		b->append(', ');
+        	}
+        	return null;
         }
 
 

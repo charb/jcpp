@@ -23,9 +23,9 @@ namespace jcpp{
 
 				JMBeanServerBuilder();
 
-				JMBeanServerDelegate* newJMBeanServerDelegate();
+				JMBeanServerDelegate* newMBeanServerDelegate();
 
-				JMBeanServer* newJMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
+				JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
 
 				static jcpp::lang::JClass* getClazz();
 

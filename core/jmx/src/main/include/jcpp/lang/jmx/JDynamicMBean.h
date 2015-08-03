@@ -36,7 +36,7 @@ namespace jcpp{
 
 				virtual JObject* getAttribute(JString* jattribute) = 0;
 
-				virtual void setJAttribute(JAttribute* attribute) = 0;
+				virtual void setAttribute(JAttribute* attribute) = 0;
 
 				static jcpp::lang::JClass* getClazz();
 				virtual ~JDynamicMBean();

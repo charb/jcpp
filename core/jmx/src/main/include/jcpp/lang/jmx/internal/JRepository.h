@@ -10,6 +10,26 @@
 
 #include "jcpp/lang/JObject.h"
 
+namespace jcpp{
+	namespace util{
+		class JMap;
+	}
+	namespace lang{
+		class JClass;
+		class JString;
+		class JInteger;
+		class JPrimitiveObjectArray;
+		namespace jmx{
+			class JDynamicMBean;
+			class JObjectName;
+			namespace internal{
+				class JNamedObject;
+			}
+		}
+	}
+}
+
+using namespace jcpp::util;
 
 namespace jcpp{
 	namespace lang{
@@ -17,8 +37,29 @@ namespace jcpp{
 			namespace internal{
 
 				class JCPP_EXPORT JRepository:public JObject{
-				public:
+				private:
+					JMap* domainTb;
+					/*TODO volatile*/ jint nbElements;
+					JString* domain;
 
+					void addNewDomainMoi(JDynamicMBean* object, JString* dom, JObjectName* name);
+
+					JNamedObject* retrieveNamedObject(JObjectName* name);
+
+				public:
+					JRepository(JString* domain);
+
+					JPrimitiveObjectArray* getDomains();
+
+					void addMBean(JDynamicMBean* object, JObjectName* name);
+
+					jbool contains(JObjectName* name);
+
+					JDynamicMBean* retrieve(JObjectName* name);
+
+					JInteger* getCount();
+
+					JString* getDefaultDomain();
 
 					static JClass* getClazz();
 					virtual ~JRepository();

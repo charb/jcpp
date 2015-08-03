@@ -19,8 +19,6 @@ namespace jcpp{
 	namespace lang{
 		class JPrimitiveObjectArray;
 		namespace jmx{
-			class JMBeanAttributeInfo;
-			class JMBeanOperationInfo;
 			namespace internal{
 				class JPerInterface;
 			}
@@ -44,6 +42,10 @@ namespace jcpp{
 					static JPrimitiveObjectArray* findConstructors(JClass* c);
 
 				protected:
+					JMBeanIntrospector();
+
+					JMBeanIntrospector(JClass* clazz);
+
 					virtual JHashMap* getPerInterfaceMap() = 0;
 					virtual JMBeanAnalyzer* getAnalyzer(JClass* mbeanInterface) = 0;
 					virtual JPrimitiveObjectArray* getSignature(JObject* m) = 0;
@@ -67,6 +69,8 @@ namespace jcpp{
 				public:
 					static JClass* getClazz();
 					virtual ~JMBeanIntrospector();
+
+					friend class JMBeanAnalyzer;
 				};
 			}
 		}

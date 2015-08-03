@@ -13,16 +13,16 @@ namespace jcpp{
 
 				}
 
+				JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface, JClass* clazz):JObject(clazz){
+
+				}
+
 			//--------------
 			//	Public
 			//--------------
 
 
 				JObject* JMBeanSupport::getResource(){
-					return null;
-				}
-
-				JMBeanSupport::JObject* getResource(){
 					return null;
 				}
 

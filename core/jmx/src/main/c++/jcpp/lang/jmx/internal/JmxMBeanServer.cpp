@@ -27,7 +27,7 @@ namespace jcpp{
 			//	Public
 			//----------------
 
-				JMBeanServerDelegate* JmxMBeanServer::newJMBeanServerDelegate(){
+				JMBeanServerDelegate* JmxMBeanServer::newMBeanServerDelegate(){
 					return null;
 				}
 

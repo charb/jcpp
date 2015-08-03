@@ -51,16 +51,16 @@ namespace jcpp{
 
 			/*************************************** PUBLIC *************************************/
 
-			JMBeanServer* JMBeanServerFactory::newJMBeanServer(){
-				JMBeanServerBuilder* jmbsBuilder = getNewJMBeanServerBuilder();
+			JMBeanServer* JMBeanServerFactory::newMBeanServer(){
+				JMBeanServerBuilder* mbsBuilder = getNewJMBeanServerBuilder();
 
-				synchronized(jmbsBuilder,{
-					JMBeanServerDelegate* delegate = jmbsBuilder->newJMBeanServerDelegate();
+				synchronized(mbsBuilder,{
+					JMBeanServerDelegate* delegate = mbsBuilder->newMBeanServerDelegate();
 					if(delegate == null){
 						JString* msg = new JString("JMBeanServerBuilder.newJMBeanServerDelegate(). returned null");
 						throw new JException(msg);
 					}
-					JMBeanServer* jmbeanServer = jmbsBuilder->newJMBeanServer(null, null, delegate);
+					JMBeanServer* jmbeanServer = mbsBuilder->newMBeanServer(null, null, delegate);
 					if(jmbeanServer == null){
 						JString* msg = new JString("JMBeanServerBuilder.newJMBeanServer() returned null");
 						throw new JException(msg);
@@ -70,7 +70,7 @@ namespace jcpp{
 			}
 
 			JMBeanServer* JMBeanServerFactory::createJMBeanServer(){
-				JMBeanServer* jmBeanServer = newJMBeanServer();
+				JMBeanServer* jmBeanServer = newMBeanServer();
 				addJMBeanServer(jmBeanServer);
 				return jmBeanServer;
 			}

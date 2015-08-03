@@ -44,6 +44,8 @@ namespace jcpp{
 				protected:
 					JMBeanSupport(JObject* resource, JClass* mbeanInterface);
 
+					JMBeanSupport(JObject* resource, JClass* mbeanInterface, JClass* clazz);
+
 					virtual JMBeanIntrospector* getMBeanIntrospector() = 0;
 
 					virtual JObject* getCookie() = 0;

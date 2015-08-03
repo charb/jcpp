@@ -37,7 +37,7 @@ namespace jcpp{
 
 				static JMBeanServer* createJMBeanServer();
 
-				static JMBeanServer* newJMBeanServer();
+				static JMBeanServer* newMBeanServer();
 
 				static jcpp::lang::JClass* getClazz();
 

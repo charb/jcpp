@@ -46,7 +46,7 @@ namespace jcpp{
 				public:
 					static const jbool DEFAULT_FAIR_LOCK_POLICY = true;
 
-					static JMBeanServerDelegate* newJMBeanServerDelegate();
+					static JMBeanServerDelegate* newMBeanServerDelegate();
 
 					static JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
 
