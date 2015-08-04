@@ -19,8 +19,6 @@ namespace jcpp{
 			class JMBeanServer;
 			class JObjectName;
 			class JAttribute;
-		}
-		namespace jmx{
 			namespace internal{
 				class JMBeanIntrospector;
 				class JPerInterface;
@@ -40,6 +38,8 @@ namespace jcpp{
 					JObject* resource;
 
 					JPerInterface* perInterface;
+
+					void init(JObject* resource, JClass* mbeanInterface);
 
 				protected:
 					JMBeanSupport(JObject* resource, JClass* mbeanInterface);

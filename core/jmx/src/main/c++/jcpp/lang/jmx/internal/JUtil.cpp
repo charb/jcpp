@@ -4,6 +4,7 @@
 #include "jcpp/util/JSet.h"
 #include "jcpp/util/JHashMap.h"
 #include "jcpp/util/JSortedMap.h"
+#include "jcpp/util/JHashSet.h"
 
 namespace jcpp{
 	namespace lang{
@@ -18,26 +19,22 @@ namespace jcpp{
 				}
 
 				JMap* JUtil::newMap(){
-					return null;
+					return new JHashMap();
 				}
 
 				JList* JUtil::newList(){
-					return null;
+					return new JArrayList();
 				}
 
 				JList* JUtil::newList(JCollection* c){
-					return null;
+					return new JArrayList(c);
 				}
 
 				JSet* JUtil::newSet(){
-					return null;
+					return new JHashSet();
 				}
-				JHashMap* JUtil::newIdentityHashMap(){
-					return null;
-				}
-
-				JSortedMap* JUtil::newSortedMap(){
-					return null;
+				JHashMap* JUtil::newIdentityHashMap(){				// TODO this should be IdentityHashMap
+					return new JHashMap();
 				}
 
 

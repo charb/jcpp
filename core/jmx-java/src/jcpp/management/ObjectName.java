@@ -58,6 +58,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 		}
 	}
 
+
 	private void construct(String name) throws Exception, NullPointerException {
 
 		// The name cannot be null
@@ -66,12 +67,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 
 		// Test if the name is empty
 		if (name.length() == 0) {
-			// this is equivalent to the whole word query object name.
-			_canonicalName = "*:*";
-			_kp_array = _Empty_property_array;
-			_ca_array = _Empty_property_array;
-			_domain_length = 1;
-			return;
+			throw new IllegalArgumentException("Argument is empty");
 		}
 
 		// initialize parsing of the string
@@ -157,7 +153,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 			if (in_index < len && name_chars[in_index] == '\"') {
 				quoted_value = true;
 				// the case of quoted value part
-				quoted_value_parsing: while ((++in_index < len) && ((c1 = name_chars[in_index]) != '\"')) {
+				while ((++in_index < len) && ((c1 = name_chars[in_index]) != '\"')) {
 					// the case of an escaped character
 					if (c1 == '\\') {
 						if (++in_index == len)
@@ -190,7 +186,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 						throw new Exception("Invalid character '" + c1 + "' in value part of property");
 					default:
 						in_index++;
-						break;
+//						break;
 					}
 				value_length = in_index - value_index;
 			}

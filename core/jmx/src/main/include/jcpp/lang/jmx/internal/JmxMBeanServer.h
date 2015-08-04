@@ -22,9 +22,6 @@ namespace jcpp{
 			class JAttribute;
 			class JObjectInstance;
 
-			namespace internal{
-				class JMBeanServerDelegate;
-			}
 		}
 	}
 }
@@ -42,18 +39,17 @@ namespace jcpp{
 
 					JAttribute* cloneAttribute(JAttribute* attribute);
 
-					void init(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate, jbool failLock);
+					void init(JString* domain, JMBeanServer* outer, jbool fairLock);
 				public:
 					static const jbool DEFAULT_FAIR_LOCK_POLICY = true;
 
-					static JMBeanServerDelegate* newMBeanServerDelegate();
 
-					static JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
+					static JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer);
 
 
-					JmxMBeanServer(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
+					JmxMBeanServer(JString* domain, JMBeanServer* outer);
 
-					JmxMBeanServer(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate, jbool fairLock);
+					JmxMBeanServer(JString* domain, JMBeanServer* outer, jbool fairLock);
 
 					virtual JObjectInstance* registerMBean(JObject* object, JObjectName* name);
 

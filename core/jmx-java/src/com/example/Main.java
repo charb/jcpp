@@ -1,12 +1,12 @@
 package com.example;
 
-import java.util.LinkedList;
-import java.util.Queue;
+
 
 import jcpp.management.Attribute;
 import jcpp.management.MBeanServer;
 import jcpp.management.MBeanServerFactory;
 import jcpp.management.ObjectName;
+
 
 public class Main {
 
@@ -50,9 +50,13 @@ public class Main {
 		int x = (Integer) mbs.invoke(mbeanName, "add", params, sig);
 		System.out.println(x);
 		
-		Queue<String> q = new LinkedList<>();
 		
 		
+		com.example2.Hell hell = new com.example2.Hell();
+		ObjectName hellname = new ObjectName("com.example2:type=Hell");
+		mbs.registerMBean(hell, hellname);
+		
+		mbs.invoke(hellname, "sayHello", null, null);
 	}
 
 }

@@ -2,8 +2,6 @@ package jcpp.management;
 
 import java.util.ArrayList;
 
-import jcpp.jmx.mbeanserver.MBeanServerDelegate;
-
 public class MBeanServerFactory {
 
 	private static MBeanServerBuilder builder = null;
@@ -22,12 +20,7 @@ public class MBeanServerFactory {
 		// Returned value cannot be null. NullPointerException if violated.
 
 		synchronized (mbsBuilder) {
-			final MBeanServerDelegate delegate = mbsBuilder.newMBeanServerDelegate();
-			if (delegate == null) {
-				final String msg = "MBeanServerBuilder.newMBeanServerDelegate() " + "returned null";
-				throw new RuntimeException(msg);
-			}
-			final MBeanServer mbeanServer = mbsBuilder.newMBeanServer(null, null, delegate);
+			final MBeanServer mbeanServer = mbsBuilder.newMBeanServer(null, null);
 			if (mbeanServer == null) {
 				final String msg = "MBeanServerBuilder.newMBeanServer() returned null";
 				throw new RuntimeException(msg);

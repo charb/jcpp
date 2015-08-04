@@ -25,8 +25,8 @@ public abstract class MBeanSupport<M> implements DynamicMBean2, MBeanRegistratio
 		}
 		this.resource = resource;
 		MBeanIntrospector<M> introspector = getMBeanIntrospector();
+
 		this.perInterface = introspector.getPerInterface(mbeanInterface);
-	//	this.mbeanInfo = introspector.getMBeanInfo(resource, perInterface);
 	}
 	
 	abstract MBeanIntrospector<M> getMBeanIntrospector();

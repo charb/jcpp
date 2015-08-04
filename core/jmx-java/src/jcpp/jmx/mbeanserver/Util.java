@@ -44,8 +44,5 @@ public class Util {
 		return new IdentityHashMap<K, V>();
 	}
 	
-	static <K, V> SortedMap<K, V> newSortedMap(){
-		return new TreeMap<K, V>();
-	}
-	
+
 }

@@ -12,12 +12,46 @@
 #include "jcpp/lang/reflect/JConstructor.h"
 #include "jcpp/lang/reflect/JModifier.h"
 #include "jcpp/lang/reflect/JField.h"
+#include "jcpp/io/JSerializable.h"
+#include "jcpp/util/JAbstractList.h"
+#include "jcpp/lang/JIndexOutOfBoundsException.h"
+#include "jcpp/lang/JInteger.h"
 
 using namespace jcpp::lang::reflect;
 using namespace jcpp::io;
 
 namespace jcpp{
     namespace util{
+
+    	// @Class(canonicalName="java.util.Collections$JSingletonList", simpleName="Collections$JSingletonList");
+    	class JCPP_EXPORT JSingletonList: public JAbstractList, public JSerializable{
+		private:
+			static const jlong serialVersionUID = 3093736618740652951L;
+			JObject* element;
+		protected:
+			JSingletonList(JObject* obj):JAbstractList(JSingletonList::getClazz()){
+				element = obj;
+			}
+		public:
+			jint size(){
+				return 1;
+			}
+			jbool contains(JObject* obj){
+				 return (obj==null ? element==null : obj->equals(element));
+			}
+			JObject* get(jint index){
+				if(index != 0)
+		    			throw new JIndexOutOfBoundsException((new JString("Index"))->concat(JInteger::toString(index))->concat(new JString(", Size: 1")));
+		    		return element;
+			}
+
+			static JClass* getClazz();
+			virtual ~JSingletonList(){
+			}
+			friend class JCollections;
+		};
+
+
     	class JUnmodifiableCollectionClass;
     	class JUnmodifiableListClass;
 
@@ -848,6 +882,10 @@ namespace jcpp{
 
         void JCollections::swap(JList* l, jint i, jint j) {
             l->set(i, l->set(j, l->get(i)));
+        }
+
+        JList* JCollections::singletonList(JObject* o){
+        	return new JSingletonList(o);
         }
 
         JCollections::~JCollections(){

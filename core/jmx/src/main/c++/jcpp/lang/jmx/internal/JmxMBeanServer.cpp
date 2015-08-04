@@ -1,4 +1,9 @@
 #include "jcpp/lang/jmx/internal/JmxMBeanServer.h"
+#include "jcpp/lang/jmx/internal/JRepository.h"
+#include "jcpp/lang/jmx/internal/JDefaultMBeanServerInterceptor.h"
+#include "jcpp/lang/jmx/JObjectName.h"
+#include "jcpp/lang/jmx/JAttribute.h"
+
 
 namespace jcpp{
 	namespace lang{
@@ -11,55 +16,65 @@ namespace jcpp{
 
 
 				JObjectName* JmxMBeanServer::cloneObjectName(JObjectName* name){
-					return null;
+					if(name != null){
+						return JObjectName::getInstance(name);
+					}
+					return name;
 				}
 
 				JAttribute* JmxMBeanServer::cloneAttribute(JAttribute* attribute){
-					return null;
+					if(attribute != null){
+						if(!attribute->getClass()->equals(JAttribute::getClazz())){
+							return new JAttribute(attribute->getName(), attribute->getValue());
+						}
+					}
+					return attribute;
 				}
 
-				void JmxMBeanServer::init(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate, jbool failLock){
+				void JmxMBeanServer::init(JString* domain, JMBeanServer* outer, jbool fairLock){
 					mbsInterceptor = null;
-					//TODO
+					if(outer == null)
+						outer = this;
+					JRepository* repository = new JRepository(domain, fairLock);
+					this->mbsInterceptor = new JDefaultMBeanServerInterceptor(outer, repository);
 				}
 
 			//----------------
 			//	Public
 			//----------------
 
-				JMBeanServerDelegate* JmxMBeanServer::newMBeanServerDelegate(){
-					return null;
+
+
+				JMBeanServer* JmxMBeanServer::newMBeanServer(JString* defaultDomain, JMBeanServer* outer){
+					jbool fairLock = DEFAULT_FAIR_LOCK_POLICY;
+					return new JmxMBeanServer(defaultDomain, outer, fairLock);
 				}
 
-				JMBeanServer* JmxMBeanServer::newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate){
-					return null;
-				}
 
-
-				JmxMBeanServer::JmxMBeanServer(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate)
+				JmxMBeanServer::JmxMBeanServer(JString* domain, JMBeanServer* outer)
 				:JMBeanServer(JmxMBeanServer::getClazz()){
-					init(domain, outer, delegate, true);
+					init(domain, outer, true);
 				}
 
-				JmxMBeanServer::JmxMBeanServer(JString* domain, JMBeanServer* outer, JMBeanServerDelegate* delegate, jbool fairLock)
+				JmxMBeanServer::JmxMBeanServer(JString* domain, JMBeanServer* outer, jbool fairLock)
 				:JMBeanServer(JmxMBeanServer::getClazz()){
-					init(domain, outer, delegate, fairLock);
+					init(domain, outer, fairLock);
 				}
 
 				JObjectInstance* JmxMBeanServer::registerMBean(JObject* object, JObjectName* name){
-					return null;
+					return mbsInterceptor->registerMBean(object, cloneObjectName(name));
 				}
 
 				JObject* JmxMBeanServer::invoke(JObjectName* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature){
-					return null;
+					return mbsInterceptor->invoke(cloneObjectName(name), operationName, params, signature);
 				}
 
 				JObject* JmxMBeanServer::getAttribute(JObjectName* name, JString* attribute){
-					return null;
+					return mbsInterceptor->getAttribute(cloneObjectName(name), attribute);
 				}
 
 				void JmxMBeanServer::setAttribute(JObjectName* name, JAttribute* attribute){
-
+					mbsInterceptor->setAttribute(cloneObjectName(name), cloneAttribute(attribute));
 				}
 
 

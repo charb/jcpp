@@ -38,7 +38,7 @@ final class PerInterface<M> {
 		final List<MethodAndSig> list = ops.get(operation);
 		if (list == null) {
 			final String msg = "No such operation: " + operation;
-			return noSuchMethod(msg, resource, operation, params, signature, cookie);
+		throw new Exception(msg);
 		}
 		if (signature == null)
 			signature = new String[0];
@@ -57,7 +57,7 @@ final class PerInterface<M> {
 			} else {
 				msg = "Operation " + operation + " exists but not with " + "this signature: " + badSig;
 			}
-			return noSuchMethod(msg, resource, operation, params, signature, cookie);
+			throw new Exception(msg);
 		}
 		return introspector.invokeM(found.method, resource, params, cookie);
 	}
@@ -120,54 +120,7 @@ final class PerInterface<M> {
 		}
 	}
 
-	private Object noSuchMethod(String msg, Object resource, String operation, Object[] params, String[] signature, Object cookie) throws Exception {
 
-		// Construct the exception that we will probably throw
-		// final NoSuchMethodException nsme = new
-		// NoSuchMethodException(operation
-		// + sigString(signature));
-		final Exception exception = new Exception(msg);
-
-		// Is the compatibility property set?
-		// GetPropertyAction act = new GetPropertyAction("jmx.invoke.getters");
-		String invokeGettersS;
-		try {
-			invokeGettersS = System.getProperty("jmx.invoke.getters");
-		} catch (Exception e) {
-			// We don't expect an exception here but if we get one then
-			// we'll simply assume that the property is not set.
-			invokeGettersS = null;
-		}
-		if (invokeGettersS == null)
-			throw exception;
-
-		int rest = 0;
-		Map<String, M> methods = null;
-		if (signature == null || signature.length == 0) {
-			if (operation.startsWith("get"))
-				rest = 3;
-			else if (operation.startsWith("is"))
-				rest = 2;
-			if (rest != 0)
-				methods = getters;
-		} else if (signature.length == 1 && operation.startsWith("set")) {
-			rest = 3;
-			methods = setters;
-		}
-
-		if (rest != 0) {
-			String attrName = operation.substring(rest);
-			M method = methods.get(attrName);
-			if (method != null && introspector.getName(method).equals(operation)) {
-				String[] msig = introspector.getSignature(method);
-				if ((signature == null && msig.length == 0) || Arrays.equals(signature, msig)) {
-					return introspector.invokeM(method, resource, params, cookie);
-				}
-			}
-		}
-
-		throw exception;
-	}
 
 	private String sigString(String[] signature) {
 		StringBuilder b = new StringBuilder("(");

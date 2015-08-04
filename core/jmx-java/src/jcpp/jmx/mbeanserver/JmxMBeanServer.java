@@ -17,33 +17,27 @@ public class JmxMBeanServer implements MBeanServerInterceptor, MBeanServer {
 	private transient MBeanServerInterceptor mbsInterceptor = null;
 
 
-	JmxMBeanServer(String domain, MBeanServer outer, MBeanServerDelegate delegate) {
-		this(domain, outer, delegate, true);
+	JmxMBeanServer(String domain, MBeanServer outer) {
+		this(domain, outer, true);
 	}
 
 
-	JmxMBeanServer(String domain, MBeanServer outer, MBeanServerDelegate delegate,  boolean fairLock) {
+	JmxMBeanServer(String domain, MBeanServer outer,  boolean fairLock) {
 
-		if (delegate == null)
-			delegate = new MBeanServerDelegate();
 		if (outer == null)
 			outer = this;
-
 		
 		final Repository repository = new Repository(domain, fairLock);
-		this.mbsInterceptor = new DefaultMBeanServerInterceptor(outer, delegate, repository);
+		this.mbsInterceptor = new DefaultMBeanServerInterceptor(outer, repository);
 		
 	}
 
-	public static MBeanServerDelegate newMBeanServerDelegate() {
-		return new MBeanServerDelegate();
-	}
 
-	public static MBeanServer newMBeanServer(String defaultDomain, MBeanServer outer, MBeanServerDelegate delegate) {
+	public static MBeanServer newMBeanServer(String defaultDomain, MBeanServer outer) {
 
 		final boolean fairLock = DEFAULT_FAIR_LOCK_POLICY;
 
-		return new JmxMBeanServer(defaultDomain, outer, delegate, fairLock);
+		return new JmxMBeanServer(defaultDomain, outer, fairLock);
 	}
 
 

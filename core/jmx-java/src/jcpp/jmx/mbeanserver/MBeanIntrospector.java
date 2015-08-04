@@ -1,16 +1,21 @@
 package jcpp.jmx.mbeanserver;
 
 
-import java.lang.ref.WeakReference;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 
 
 abstract class MBeanIntrospector<M> {
 
-	static final class PerInterfaceMap<M> extends WeakHashMap<Class<?>, WeakReference<PerInterface<M>>> {
+	static final class PerInterfaceMap<M> extends HashMap<Class<?>, PerInterface<M>> {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	}
 
 
@@ -38,15 +43,13 @@ abstract class MBeanIntrospector<M> {
 	final PerInterface<M> getPerInterface(Class<?> mbeanInterface) throws Exception {
 		PerInterfaceMap<M> map = getPerInterfaceMap();
 		synchronized (map) {
-			WeakReference<PerInterface<M>> wr = map.get(mbeanInterface);
-			PerInterface<M> pi = (wr == null) ? null : wr.get();
+			PerInterface<M> pi = map.get(mbeanInterface);
+			
 			if (pi == null) {
 				try {
 					MBeanAnalyzer<M> analyzer = getAnalyzer(mbeanInterface);
-					
-					pi = new PerInterface<M>(mbeanInterface, this, analyzer);
-					wr = new WeakReference<PerInterface<M>>(pi);
-					map.put(mbeanInterface, wr);
+					pi = new PerInterface<M>(mbeanInterface, this, analyzer);	
+					map.put(mbeanInterface, pi);
 				} catch (Exception x) {
 					throw Introspector.throwException(mbeanInterface, x);
 				}

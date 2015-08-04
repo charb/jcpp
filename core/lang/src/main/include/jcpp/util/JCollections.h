@@ -16,6 +16,8 @@ namespace jcpp{
 
     	// @Class(canonicalName="java.util.Collections", simpleName="Collections");
         class JCPP_EXPORT JCollections : public JObject{
+
+
         public:
             static jcpp::lang::JClass* getClazz();
 
@@ -45,6 +47,8 @@ namespace jcpp{
 
             static void swap(JList* list, jint i, jint j);
             
+            static JList* singletonList(JObject* o);
+
             virtual ~JCollections();
         };
     }

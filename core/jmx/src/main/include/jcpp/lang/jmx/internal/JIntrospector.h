@@ -64,6 +64,7 @@ namespace jcpp{
 					virtual ~JIntrospector();
 
 					friend class JMBeanAnalyzer;
+					friend class JMBeanIntrospector;
 				};
 			}
 		}

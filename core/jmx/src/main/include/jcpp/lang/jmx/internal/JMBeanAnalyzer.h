@@ -83,6 +83,8 @@ namespace jcpp{
 
 					static JClass* getClazz();
 					virtual ~JMBeanAnalyzer();
+					friend class JPerInterface;
+					friend class JStandardMBeanIntrospector;
 				};
 			}
 		}

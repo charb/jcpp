@@ -1,8 +1,9 @@
 #include "jcpp/lang/jmx/JMBeanServerFactory.h"
 #include "jcpp/lang/JException.h"
-#include "jcpp/lang/jmx/internal/JMBeanServerDelegate.h"
 #include "jcpp/lang/JString.h"
-
+#include "jcpp/util/JArrayList.h"
+#include "jcpp/lang/jmx/JMBeanServer.h"
+#include "jcpp/lang/jmx/JMBeanServerBuilder.h"
 
 namespace jcpp{
 	namespace lang{
@@ -55,12 +56,8 @@ namespace jcpp{
 				JMBeanServerBuilder* mbsBuilder = getNewJMBeanServerBuilder();
 
 				synchronized(mbsBuilder,{
-					JMBeanServerDelegate* delegate = mbsBuilder->newMBeanServerDelegate();
-					if(delegate == null){
-						JString* msg = new JString("JMBeanServerBuilder.newJMBeanServerDelegate(). returned null");
-						throw new JException(msg);
-					}
-					JMBeanServer* jmbeanServer = mbsBuilder->newMBeanServer(null, null, delegate);
+
+					JMBeanServer* jmbeanServer = mbsBuilder->newMBeanServer(null, null);
 					if(jmbeanServer == null){
 						JString* msg = new JString("JMBeanServerBuilder.newJMBeanServer() returned null");
 						throw new JException(msg);

@@ -34,7 +34,7 @@ namespace jcpp{
 
 				JMBeanServer(jcpp::lang::JClass* clazz);
 
-				virtual JObjectInstance* registerJMBean(JObject *jobject, JObjectName *name) = 0;
+				virtual JObjectInstance* registerMBean(JObject *jobject, JObjectName *name) = 0;
 
 				virtual JObject* invoke(JObjectName *name, JString *operationName, JPrimitiveObjectArray *params, JPrimitiveObjectArray *signature) = 0;
 

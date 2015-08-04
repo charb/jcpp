@@ -8,11 +8,21 @@
 #ifndef JMBEANSERVERFACTORY_H_
 #define JMBEANSERVERFACTORY_H_
 
-#include "jcpp/util/JArrayList.h"
-#include "jcpp/lang/jmx/JMBeanServerBuilder.h"
-#include "jcpp/lang/jmx/JMBeanServer.h"
+#include "jcpp/lang/JObject.h"
 
+namespace jcpp{
+	namespace util{
+		class JList;
+	}
+	namespace lang{
+		namespace jmx{
+			class JMBeanServer;
+			class JMBeanServerBuilder;
+		}
+	}
+}
 
+using namespace jcpp::util;
 
 
 namespace jcpp{

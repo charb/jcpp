@@ -36,8 +36,6 @@ public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 
 	@Override
 	void checkMethod(Method m) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		System.out.println("empty " + this.getClass().getName());
 	}
 
 	
@@ -49,18 +47,15 @@ public class StandardMBeanIntrospector extends MBeanIntrospector<Method> {
 
 	@Override
 	Type getGenericReturnType(Method m) {
-		return m.getGenericReturnType();
+//		return m.getGenericReturnType(); // TODO this is the original code
+		return m.getReturnType();
 	}
 
 	@Override
 	Type[] getGenericParameterTypes(Method m) {
-		return m.getGenericParameterTypes();
+//		return m.getGenericParameterTypes(); // TODO this is the original code
+		return m.getParameterTypes();		
 	}
-
-
-
-	
-
 
 
 	@Override

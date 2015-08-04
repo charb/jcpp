@@ -52,48 +52,6 @@ public class Repository {
 		nbElements++;
 	}
 
-	public static boolean wildmatch(char[] str, char[] pat) {
-		int stri; // index in str
-		int pati; // index in pat
-		int starstri; // index for backtrack if "*" attempt fails
-		int starpati; // index for backtrack if "*" attempt fails, +1
-		final int strlen = str.length;
-		final int patlen = pat.length;
-
-		stri = pati = 0;
-		starstri = starpati = -1;
-
-		/*
-		 * On each pass through this loop, we either advance pati, or we
-		 * backtrack pati and advance starstri. Since starstri is only ever
-		 * assigned from pati, the loop must terminate.
-		 */
-		while (true) {
-			if (pati < patlen) {
-				final char patc = pat[pati];
-				switch (patc) {
-				default:
-					if (stri < strlen && str[stri] == patc) {
-						stri++;
-						pati++;
-						continue;
-					}
-					break;
-				}
-			} else if (stri == strlen)
-				return true;
-
-			// Mismatched, can we backtrack to a "*"?
-			if (starpati < 0 || starstri == strlen)
-				return false;
-
-			// Retry the match one position later in str
-			pati = starpati;
-			starstri++;
-			stri = starstri;
-		}
-	}
-
 	/**
 	 * Retrieves the named object contained in repository from the given
 	 * objectname.
@@ -124,12 +82,6 @@ public class Repository {
 
 	// Public methods --------------------------------------------->
 
-	/**
-	 * Construct a new repository with the given default domain.
-	 */
-	public Repository(String domain) {
-		this(domain, true);
-	}
 
 	/**
 	 * Construct a new repository with the given default domain.
@@ -155,6 +107,7 @@ public class Repository {
 	public String[] getDomains() {
 
 		lock.readLock().lock();
+		
 		final List<String> result;
 		try {
 			// Temporary list
@@ -187,7 +140,7 @@ public class Repository {
 
 		// Extract the domain name.
 		String dom = name.getDomain().intern();
-		boolean to_default_domain = false;
+//		boolean to_default_domain = false;
 
 		// Set domain to default if domain is empty and not already set
 		if (dom.length() == 0) {
@@ -199,18 +152,18 @@ public class Repository {
 
 		// Do we have default domain ?
 		if (dom == domain) {
-			to_default_domain = true;
+//			to_default_domain = true;
 			dom = domain;
 		} else {
-			to_default_domain = false;
+//			to_default_domain = false;
 		}
 
 		lock.writeLock().lock();
 		try {
-			// Domain cannot be JMImplementation if entry does not exists
-			if (!to_default_domain && dom.equals("JMImplementation") && domainTb.containsKey("JMImplementation")) {
-				throw new Exception(new IllegalArgumentException("Repository: domain name cannot be JMImplementation"));
-			}
+//			// Domain cannot be JMImplementation if entry does not exists
+//			if (!to_default_domain && dom.equals("JMImplementation") && domainTb.containsKey("JMImplementation")) {
+//				throw new Exception(new IllegalArgumentException("Repository: domain name cannot be JMImplementation"));
+//			}
 
 			// If domain not already exists, add it to the hash table
 			final Map<String, NamedObject> moiTb = domainTb.get(dom);

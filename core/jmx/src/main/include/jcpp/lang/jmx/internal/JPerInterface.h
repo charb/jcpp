@@ -37,8 +37,10 @@ namespace jcpp{
 				private:
 
 					class JCPP_EXPORT InitMaps: public JObject, public JMBeanAnalyzer::JMBeanVisitor{
+					private:
+						JPerInterface* parent;
 					protected:
-						InitMaps();
+						InitMaps(JPerInterface* parent);
 					public:
 						void visitAttribute(JString* attributeName, JObject* getter, JObject* setter);
 						void visitOperation(JString* operationName, JObject* operation);
@@ -65,7 +67,6 @@ namespace jcpp{
 					JMap* setters;
 					JMap* ops;
 
-					JObject* noSuchMethod(JString* msg, JObject* resource, JString* operation, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature, JObject* cookie);
 
 					JString* sigString(JPrimitiveObjectArray* signature);
 
@@ -86,6 +87,8 @@ namespace jcpp{
 
 					static JClass* getClazz();
 					virtual ~JPerInterface();
+					friend class JMBeanIntrospector;
+					friend class JMBeanSupport;
 				};
 			}
 		}

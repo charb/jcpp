@@ -5,11 +5,11 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 				JNamedObject::JNamedObject(JDynamicMBean* object): JObject(JNamedObject::getClazz()){
-
+					this->object = object;
 				}
 
 				JDynamicMBean* JNamedObject::getObject(){
-					return null;
+					return object;
 				}
 
 				JNamedObject::~JNamedObject(){

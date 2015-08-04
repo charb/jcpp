@@ -58,7 +58,7 @@ namespace jcpp{
 
 
 
-					JPerInterface* getPerInterface(JClass* mbeanInterface, JMBeanAnalyzer* analyzer);
+					JPerInterface* getPerInterface(JClass* mbeanInterface);
 
 					jbool consistent(JObject* getter, JObject* setter);
 
@@ -71,6 +71,8 @@ namespace jcpp{
 					virtual ~JMBeanIntrospector();
 
 					friend class JMBeanAnalyzer;
+					friend class JMBeanSupport;
+					friend class JPerInterface;
 				};
 			}
 		}

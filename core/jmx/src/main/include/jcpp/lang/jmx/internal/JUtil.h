@@ -49,8 +49,6 @@ namespace jcpp{
 
 					static JHashMap* newIdentityHashMap();
 
-					static JSortedMap* newSortedMap();
-
 
 					static JClass* getClazz();
 					virtual ~JUtil();

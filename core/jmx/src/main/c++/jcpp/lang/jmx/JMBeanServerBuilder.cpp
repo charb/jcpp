@@ -1,5 +1,8 @@
 #include "jcpp/lang/jmx/JMBeanServerBuilder.h"
 #include "jcpp/lang/jmx/internal/JmxMBeanServer.h"
+#include "jcpp/lang/jmx/JMBeanServer.h"
+
+using namespace jcpp::lang::jmx::internal;
 
 namespace jcpp{
 	namespace lang{
@@ -8,12 +11,9 @@ namespace jcpp{
 			JMBeanServerBuilder::JMBeanServerBuilder() : JObject(JMBeanServerBuilder::getClazz()){
 			}
 
-			JMBeanServerDelegate* JMBeanServerBuilder::newMBeanServerDelegate(){
-				return JmxMBeanServer::newMBeanServerDelegate();
-			}
 
-			JMBeanServer* JMBeanServerBuilder::newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate){
-				return JmxMBeanServer::newMBeanServer(defaultDomain, outer, delegate);
+			JMBeanServer* JMBeanServerBuilder::newMBeanServer(JString* defaultDomain, JMBeanServer* outer){
+				return JmxMBeanServer::newMBeanServer(defaultDomain, outer);
 			}
 
 			JMBeanServerBuilder::~JMBeanServerBuilder(){

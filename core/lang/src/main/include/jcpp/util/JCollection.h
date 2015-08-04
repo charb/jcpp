@@ -41,6 +41,9 @@ namespace jcpp{
             
             virtual void clear()=0;
             
+
+
+
             virtual ~JCollection();
         };
     }

@@ -2,7 +2,6 @@ package jcpp.jmx.interceptor;
 
 import jcpp.jmx.mbeanserver.DynamicMBean2;
 import jcpp.jmx.mbeanserver.Introspector;
-import jcpp.jmx.mbeanserver.MBeanServerDelegate;
 import jcpp.jmx.mbeanserver.Repository;
 import jcpp.management.Attribute;
 import jcpp.management.DynamicMBean;
@@ -20,25 +19,21 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 
 	private final transient Repository repository;
 
-	private final String domain;
-
-	public DefaultMBeanServerInterceptor(MBeanServer outer, MBeanServerDelegate delegate,  Repository repository) {
+	public DefaultMBeanServerInterceptor(MBeanServer outer,  Repository repository) {
 		if (outer == null)
 			throw new IllegalArgumentException("outer MBeanServer cannot be null");
-		if (delegate == null)
-			throw new IllegalArgumentException("MBeanServerDelegate cannot be null");
 
 		if (repository == null)
 			throw new IllegalArgumentException("Repository cannot be null");
 
 		this.server = outer;
 		this.repository = repository;
-		this.domain = repository.getDefaultDomain();
+
 	}
 
 	@Override
 	public ObjectInstance registerMBean(Object object, ObjectName name) throws Exception {
-
+		
 		Class theClass = object.getClass();
 
 		Introspector.checkCompliance(theClass);
@@ -61,8 +56,6 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 
 	private ObjectInstance registerDynamicMBean(String classname, DynamicMBean mbean, ObjectName name) throws Exception {
 
-		name = nonDefaultDomain(name);
-
 		ObjectName logicalName = name;
 
 		if (mbean instanceof MBeanRegistration) {
@@ -75,10 +68,6 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 					postRegisterInvoke(reg, false, false);
 					e.printStackTrace();
 				}
-			}
-
-			if (logicalName != name && logicalName != null) {
-				logicalName = ObjectName.getInstance(nonDefaultDomain(logicalName));
 			}
 		}
 
@@ -100,28 +89,7 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 		return result;
 	}
 
-	private ObjectName nonDefaultDomain(ObjectName name) {
-		if (name == null || name.getDomain().length() > 0)
-			return name;
 
-		/*
-		 * The ObjectName looks like ":a=b", and that's what its toString() will
-		 * return in this implementation. So we can just stick the default
-		 * domain in front of it to get a non-default-domain name. We depend on
-		 * the fact that toString() works like that and that it leaves wildcards
-		 * in place (so we can detect an error if one is supplied where it
-		 * shouldn't be).
-		 */
-		final String completeName = domain + name;
-
-		try {
-			return new ObjectName(completeName);
-		} catch (Exception e) {
-			final String msg = "Unexpected default domain problem: " + completeName + ": " + e;
-			// TODO: check source
-			throw new IllegalArgumentException(msg);
-		}
-	}
 
 	private static String getNewMBeanClassName(Object mbeanToRegister) throws Exception {
 		return mbeanToRegister.getClass().getName();
@@ -177,7 +145,6 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 	@Override
 	public Object invoke(ObjectName name, String operationName, Object[] params, String[] signature) throws Exception {
 
-		name = nonDefaultDomain(name);
 		DynamicMBean instance = getMBean(name);
 		return instance.invoke(operationName, params, signature);
 	}
@@ -204,8 +171,6 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 			throw new Exception("Exception occurred trying to invoke the getter on the MBean");
 		}
 
-		name = nonDefaultDomain(name);
-
 		final DynamicMBean instance = getMBean(name);
 
 		try {
@@ -227,7 +192,7 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 			throw new Exception("Exception occurred trying to invoke the setter on the MBean");
 		}
 
-		name = nonDefaultDomain(name);
+		
 		DynamicMBean instance = getMBean(name);
 
 		try {

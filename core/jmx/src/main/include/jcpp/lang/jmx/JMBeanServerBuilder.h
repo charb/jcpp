@@ -8,11 +8,18 @@
 #ifndef JMBEANSERVERBUILDER_H_
 #define JMBEANSERVERBUILDER_H_
 
-#include "jcpp/lang/jmx/JMBeanServer.h"
-#include "jcpp/lang/jmx/internal/JMBeanServerDelegate.h"
+#include "jcpp/lang/JObject.h"
+
+namespace jcpp{
+	namespace lang{
+		namespace jmx{
+			class JMBeanServer;
+		}
+	}
+}
 
 
-using namespace jcpp::lang::jmx::internal;
+
 
 namespace jcpp{
 	namespace lang{
@@ -23,9 +30,9 @@ namespace jcpp{
 
 				JMBeanServerBuilder();
 
-				JMBeanServerDelegate* newMBeanServerDelegate();
 
-				JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer, JMBeanServerDelegate* delegate);
+
+				JMBeanServer* newMBeanServer(JString* defaultDomain, JMBeanServer* outer);
 
 				static jcpp::lang::JClass* getClazz();
 

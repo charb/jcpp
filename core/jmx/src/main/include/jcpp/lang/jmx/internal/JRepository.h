@@ -42,12 +42,14 @@ namespace jcpp{
 					/*TODO volatile*/ jint nbElements;
 					JString* domain;
 
+					JObject* lock;	//TODO should be replaced by readWriteLock
+
 					void addNewDomainMoi(JDynamicMBean* object, JString* dom, JObjectName* name);
 
 					JNamedObject* retrieveNamedObject(JObjectName* name);
 
 				public:
-					JRepository(JString* domain);
+					JRepository(JString* domain, jbool fairLock);
 
 					JPrimitiveObjectArray* getDomains();
 

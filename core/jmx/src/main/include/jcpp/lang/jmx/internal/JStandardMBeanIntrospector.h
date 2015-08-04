@@ -67,6 +67,7 @@ namespace jcpp{
 
 					static JClass* getClazz();
 					virtual ~JStandardMBeanIntrospector();
+					friend class JStandardMBeanSupport;
 				};
 			}
 		}

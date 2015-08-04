@@ -23,7 +23,6 @@ namespace jcpp{
 			class JMBeanRegistration;
 			class JAttribute;
 			namespace internal{
-				class JMBeanServerDelegate;
 				class JRepository;
 			}
 		}
@@ -35,7 +34,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-				class JCPP_EXPORT JDefaultMBeanInterceptor: public JObject, public JMBeanServerInterceptor{
+				class JCPP_EXPORT JDefaultMBeanServerInterceptor: public JObject, public JMBeanServerInterceptor{
 				private:
 					/*TODO Transient*/ JMBeanServer* server;
 
@@ -60,7 +59,7 @@ namespace jcpp{
 				protected:
 					JDynamicMBean* getMBean(JObjectName* name);
 				public:
-					JDefaultMBeanInterceptor(JMBeanServer* outer, JMBeanServerDelegate* delegate, JRepository* repository);
+					JDefaultMBeanServerInterceptor(JMBeanServer* outer, JRepository* repository);
 
 					JObjectInstance* registerMBean(JObject* object, JObjectName* name);
 
@@ -71,7 +70,7 @@ namespace jcpp{
 					void setAttribute(JObjectName* name, JAttribute* attribute);
 
 					static JClass* getClazz();
-					virtual ~JDefaultMBeanInterceptor();
+					virtual ~JDefaultMBeanServerInterceptor();
 				};
 			}
 		}
