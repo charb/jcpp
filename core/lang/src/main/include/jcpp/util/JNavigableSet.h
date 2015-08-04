@@ -14,6 +14,8 @@
 namespace jcpp{
 	namespace util{
 
+
+	// @Class(canonicalName="java.util.NavigableSet", simpleName="NavigableSet");
 		class JCPP_EXPORT JNavigableSet: public JSortedSet{
 		public:
 			virtual JObject* lower(JObject* e) = 0;

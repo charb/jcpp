@@ -17,6 +17,8 @@ namespace jcpp{
 		class JSortedMap;
 		class JNavigableSet;
 
+
+		// @Class(canonicalName="java.util.NavigableMap", simpleName="NavigableMap");
 		class JNavigableMap: public JSortedMap{
 		public:
 			virtual JMap::JEntry* lowerEntry(JObject* key) = 0;

@@ -19,6 +19,8 @@ namespace jcpp{
 		class JComparator;
 		class JSet;
 
+
+		// @Class(canonicalName="java.util.SortedSet", simpleName="SortedSet");
 		class JCPP_EXPORT JSortedMap: virtual public JMap{
 		public:
 

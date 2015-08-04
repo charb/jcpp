@@ -18,6 +18,7 @@ namespace jcpp{
 
 		class JComparator;
 
+		// @Class(canonicalName="java.util.SortedSet", simpleName="SortedSet");
 		class JCPP_EXPORT JSortedSet: public JSet{
 		public:
 

@@ -31,12 +31,13 @@ namespace jcpp{
 		class JComparator;
 		class JSet;
 
-
+		// @Class(canonicalName="java.util.TreeMap", simpleName="TreeMap");
 		class JCPP_EXPORT JTreeMap: public JNavigableMap, public JAbstractMap, public JCloneable, public jcpp::io::JSerializable{
 		private:
 
 			static const jlong serialVersionUID = 919286545866124006LL;
 
+			// @Class(canonicalName="java.util.Map$Entry", simpleName="Map$Entry");
 			static class JCPP_EXPORT JTreeEntry :public JObject, public JMap::JEntry{
 
 			public:
@@ -65,6 +66,7 @@ namespace jcpp{
 				virtual ~JTreeEntry();
 			};
 
+			// @Class(canonicalName="java.util.TreeMap$KeySet", simpleName="TreeMap$KeySet");
 			static class JTreeKeySet: public JAbstractSet, public JNavigableSet{
 			private:
 				JNavigableMap* m;
@@ -110,6 +112,7 @@ namespace jcpp{
 				friend class JTreeMap;
 			};
 
+			// @Class(canonicalName="java.util.TreeMap$PrivateEntryIterator", simpleName="TreeMap$PrivateEntryIterator");
 			class JCPP_EXPORT JPrivateEntryIterator: public JObject, public JIterator{
 			private:
 
@@ -174,6 +177,8 @@ namespace jcpp{
 			JTreeEntry* getFirstEntry();
 
 		protected:
+
+			// @Class(canonicalName="java.util.TreeMap$EntryIterator", simpleName="TreeMap$EntryIterator");
 			class JCPP_EXPORT JTreeEntryIterator: public JPrivateEntryIterator{
 			private:
 				JTreeMap* parent;
@@ -213,6 +218,7 @@ namespace jcpp{
 			};
 
 
+			// @Class(canonicalName="java.util.TreeMap$Values", simpleName="TreeMap$Values");
 			class JCPP_EXPORT JTreeValues: public JAbstractCollection{
 			protected:
 				JTreeValues();
