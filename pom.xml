@@ -383,6 +383,15 @@
 		  		<version>${project.version}</version>
 	    	</dependency>
 			
+			<!-- jmx -->
+			
+			<dependency>
+				<groupId>charb.jcpp.core.jmx</groupId>
+				<artifactId>jmx-server</artifactId>
+				<type>nar</type>
+				<version>${project.version}</version>
+			</dependency>
+			
 			<!-- native -->
 			
 			<dependency>

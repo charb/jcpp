@@ -10,14 +10,19 @@
 	</parent>
 
 	<groupId>charb.jcpp.core.jmx</groupId>
-	<artifactId>jmx-server</artifactId>
+	<artifactId>jmx-tests</artifactId>
 	<packaging>nar</packaging>
 	<name>${charb.project.name.template}</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>charb.jcpp.core</groupId>
-			<artifactId>core-lang</artifactId>
+			<groupId>charb.jcpp.core.jmx</groupId>
+			<artifactId>jmx-server</artifactId>
+			<type>nar</type>
+		</dependency>
+		<dependency>
+			<groupId>charb.jcpp.junit</groupId>
+			<artifactId>jcpp-junit</artifactId>
 			<type>nar</type>
 		</dependency>
 	</dependencies>

@@ -4,20 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>charb.jcpp</groupId>
-		<artifactId>core</artifactId>
+		<groupId>charb.jcpp.core</groupId>
+		<artifactId>jmx</artifactId>
 		<version>1.0</version>
 	</parent>
 
-	<groupId>charb.jcpp.core</groupId>
-	<artifactId>jmx</artifactId>
-	<packaging>pom</packaging>
+	<groupId>charb.jcpp.core.jmx</groupId>
+	<artifactId>jmx-java</artifactId>
+	<packaging>jar</packaging>
 	<name>${charb.project.name.template}</name>
-	
-	<modules>
-		<module>server</module>
-		<module>java</module>
-		<module>tests</module>
-	</modules>
+
+	<dependencies>
+
+	</dependencies>
 	
 </project>
