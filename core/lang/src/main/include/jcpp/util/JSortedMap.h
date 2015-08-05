@@ -20,7 +20,7 @@ namespace jcpp{
 		class JSet;
 
 
-		// @Class(canonicalName="java.util.SortedSet", simpleName="SortedSet");
+		// @Class(canonicalName="java.util.SortedMap", simpleName="SortedMap");
 		class JCPP_EXPORT JSortedMap: virtual public JMap{
 		public:
 
