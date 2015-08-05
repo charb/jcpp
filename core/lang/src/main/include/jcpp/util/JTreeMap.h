@@ -193,6 +193,7 @@ namespace jcpp{
 				virtual ~JTreeEntryIterator();
 			};
 
+			// @Class(canonicalName="java.util.TreeMap$EntrySet", simpleName="TreeMap$EntrySet");
 			class JCPP_EXPORT JTreeEntrySet: public JAbstractSet{
 			private:
 				JTreeMap* parent;
