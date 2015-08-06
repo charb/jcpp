@@ -41,7 +41,6 @@ namespace jcpp{
 
 					/*TODO Transient*/ JRepository* repository;
 
-					JString* domain;
 
 
 					static JString* getNewMBeanClassName(JObject* mbeanToRegister);

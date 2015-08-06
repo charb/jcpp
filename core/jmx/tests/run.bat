@@ -13,5 +13,5 @@ copy ..\..\..\cli\target\nar\jcpp-cli-1.0-amd64-Windows-msvc-shared\lib\amd64-Wi
 copy ..\..\..\core\jmx\server\target\nar\jmx-server-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\jmx-server-1.0.dll assembly
 copy target\nar\jmx-tests-1.0-amd64-Windows-msvc-shared\lib\amd64-Windows-msvc\shared\jmx-tests-1.0.dll assembly
 cd assembly
-jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-rmi-1.0.dll;jmx-tests-1.0.dll;jmx-server-1.0.dll -classname=junit.textui.TestRunner jcpp.jmx.tests.ServerTestSuite
+jcpp-exe -classpath=jcpp-cli-1.0.dll;core-lang-1.0.dll;jcpp-junit-1.0.dll;core-util-concurrent-1.0.dll;core-rmi-1.0.dll;jmx-tests-1.0.dll;jmx-server-1.0.dll -classname=junit.textui.TestRunner jcpp.lang.jmx.tests.ServerTestSuite
 cd ..

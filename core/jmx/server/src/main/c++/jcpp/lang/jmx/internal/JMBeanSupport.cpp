@@ -5,6 +5,8 @@
 #include "jcpp/lang/jmx/internal/JPerInterface.h"
 #include "jcpp/lang/jmx/JAttribute.h"
 
+#include "jcpp/lang/JSystem.h"
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{
@@ -13,7 +15,7 @@ namespace jcpp{
 			//	Private
 			//--------------
 
-			void JMBeanSupport::init(JObject* resource, JClass* mbeanInterface){
+			void JMBeanSupport::init(JObject* resource, JClass* mbeanInterface, JMBeanIntrospector* introspector){
 				if(mbeanInterface == null)
 					throw new JException(new JString("Null MBean interface"));
 				if(!mbeanInterface->isAssignableFrom(resource->getClass())){
@@ -24,7 +26,6 @@ namespace jcpp{
 					throw new JException(msg);
 				}
 				this->resource = resource;
-				JMBeanIntrospector* introspector = getMBeanIntrospector();
 				this->perInterface = introspector->getPerInterface(mbeanInterface);
 			}
 
@@ -32,12 +33,12 @@ namespace jcpp{
 			//	Protected
 			//--------------
 
-				JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface):JObject(JMBeanSupport::getClazz()){
-					init(resource, mbeanInterface);
+				JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface, JMBeanIntrospector* introspector):JObject(JMBeanSupport::getClazz()){
+					init(resource, mbeanInterface, introspector);
 				}
 
-				JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface, JClass* clazz):JObject(clazz){
-					init(resource, mbeanInterface);
+				JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface, JMBeanIntrospector* introspector, JClass* clazz):JObject(clazz){
+					init(resource, mbeanInterface, introspector);
 				}
 
 			//--------------
@@ -76,7 +77,9 @@ namespace jcpp{
 				void JMBeanSupport::setAttribute(JAttribute* attribute){
 					JString* name = attribute->getName();
 					JObject* value = attribute->getValue();
+
 					perInterface->setAttribute(resource, name, value, getCookie());
+
 				}
 
 				JMBeanSupport::~JMBeanSupport(){

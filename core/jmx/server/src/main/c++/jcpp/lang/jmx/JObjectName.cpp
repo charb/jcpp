@@ -54,9 +54,9 @@ namespace jcpp{
 				jint index = 0;
 				jchar c1;
 
-				domain_parsing: while(index < len){
-					int i;
+			domain_parsing: while(index < len){
 					switch(name_chars->getChar(index)){
+					jint i;
 					case ':':
 						_domain_length = index++;
 						goto AFTER_domain_parsing;
@@ -151,7 +151,7 @@ namespace jcpp{
 								throw new JException(((new JString("Invalid character '"))->concat(new JString(c1)))->concat(new JString("' in key part of property")));
 							default:
 								in_index++;
-								break;
+//								break;
 							}
 							value_length = in_index - value_index;
 						}
@@ -232,6 +232,8 @@ namespace jcpp{
 						}
 					}
 				}
+
+				_canonicalName = new JString(canonical_chars, 0, prop_index);
 			}
 
 			JString* JObjectName::getSerializedNameString(){

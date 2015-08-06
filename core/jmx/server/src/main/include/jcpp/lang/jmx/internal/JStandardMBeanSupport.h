@@ -31,7 +31,7 @@ namespace jcpp{
 			// @Class(canonicalName="com.sun.jmx.mbeanserver.StandardMBeanSupport", simpleName="StandardMBeanSupport");
 				class JCPP_EXPORT JStandardMBeanSupport: public JMBeanSupport{
 				protected:
-					JMBeanIntrospector* getMBeanIntrospector();
+					virtual JMBeanIntrospector* getMBeanIntrospector();
 
 					JObject* getCookie();
 				public:

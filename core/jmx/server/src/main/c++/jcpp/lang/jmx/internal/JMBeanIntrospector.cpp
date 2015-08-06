@@ -8,6 +8,9 @@
 #include "jcpp/lang/JException.h"
 
 
+#include "jcpp/lang/JSystem.h"
+#include "jcpp/lang/JInteger.h"
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{
@@ -66,6 +69,7 @@ namespace jcpp{
 					void JMBeanIntrospector::invokeSetter(JString* name, JObject* setter, JObject* target, JObject* arg, JObject* cookie){
 						try{
 							JPrimitiveObjectArray* argArray = new JPrimitiveObjectArray(arg->getClass(), 1);
+							argArray->set(0, arg);
 							invokeM2(setter, target, argArray, cookie);
 						} catch (JException* e){
 							throw e;

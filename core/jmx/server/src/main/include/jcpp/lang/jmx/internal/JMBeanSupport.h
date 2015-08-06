@@ -40,12 +40,12 @@ namespace jcpp{
 
 					JPerInterface* perInterface;
 
-					void init(JObject* resource, JClass* mbeanInterface);
+					void init(JObject* resource, JClass* mbeanInterface,JMBeanIntrospector* introspector);
 
 				protected:
-					JMBeanSupport(JObject* resource, JClass* mbeanInterface);
+					JMBeanSupport(JObject* resource, JClass* mbeanInterface, JMBeanIntrospector* introspector);
 
-					JMBeanSupport(JObject* resource, JClass* mbeanInterface, JClass* clazz);
+					JMBeanSupport::JMBeanSupport(JObject* resource, JClass* mbeanInterface, JMBeanIntrospector* introspector, JClass* clazz);
 
 					virtual JMBeanIntrospector* getMBeanIntrospector() = 0;
 

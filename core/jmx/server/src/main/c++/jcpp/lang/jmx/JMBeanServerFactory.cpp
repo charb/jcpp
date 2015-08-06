@@ -4,6 +4,7 @@
 #include "jcpp/util/JArrayList.h"
 #include "jcpp/lang/jmx/JMBeanServer.h"
 #include "jcpp/lang/jmx/JMBeanServerBuilder.h"
+#include "jcpp/lang/JSystem.h"
 
 namespace jcpp{
 	namespace lang{
@@ -43,7 +44,7 @@ namespace jcpp{
 			JMBeanServerBuilder* JMBeanServerFactory::newBuilder(JClass* builderClass){
 				try{
 					JObject* builder = builderClass->newInstance();
-					return (JMBeanServerBuilder*) builder;
+					return dynamic_cast<JMBeanServerBuilder*>(builder);
 				}catch(JException* x){
 					throw x;
 				}
@@ -53,6 +54,7 @@ namespace jcpp{
 			/*************************************** PUBLIC *************************************/
 
 			JMBeanServer* JMBeanServerFactory::newMBeanServer(){
+
 				JMBeanServerBuilder* mbsBuilder = getNewJMBeanServerBuilder();
 
 				synchronized(mbsBuilder,{

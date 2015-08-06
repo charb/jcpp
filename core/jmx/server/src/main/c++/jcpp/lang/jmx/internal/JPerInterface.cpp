@@ -10,6 +10,8 @@
 #include "jcpp/lang/jmx/internal/JUtil.h"
 #include "jcpp/lang/JStringBuilder.h"
 
+#include "jcpp/lang/JSystem.h"
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{
@@ -154,6 +156,7 @@ namespace jcpp{
 
 				void JPerInterface::setAttribute(JObject* resource, JString* attribute, JObject* value, JObject* cookie){
 					JObject* cm = setters->get(attribute);
+
 					if(cm == null){
 						JString* msg;
 						if(getters->containsKey(attribute))
@@ -162,6 +165,8 @@ namespace jcpp{
 							msg = ( new JString("No such attribute: "))->concat(attribute);
 						throw new JException(msg);
 					}
+
+
 					introspector->invokeSetter(attribute, cm, resource, value, cookie);
 				}
 

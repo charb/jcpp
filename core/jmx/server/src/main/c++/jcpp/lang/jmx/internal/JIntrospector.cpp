@@ -5,6 +5,7 @@
 #include "jcpp/lang/JException.h"
 #include "jcpp/lang/JPrimitiveObjectArray.h"
 #include "jcpp/util/JList.h"
+#include "jcpp/lang/JSystem.h"
 
 namespace jcpp{
 	namespace lang{
@@ -20,8 +21,9 @@ namespace jcpp{
 						jint len = interfaces->size();
 						for (jint i = 0; i < len; i++){
 							JClass* inter = implementsMBean(dynamic_cast<JClass*>(interfaces->get(i)), aName);
-							if(inter != null)
+							if(inter != null){
 								return inter;
+							}
 						}
 						current = current->getSuperclass();
 					}
@@ -72,9 +74,9 @@ namespace jcpp{
 					} catch (JException* e){
 						// ignore
 					}
-					if(c != null)
+					if(c != null){
 						return new JStandardMBeanSupport(mbean, dynamic_cast<JClass*>(c));
-
+					}
 					checkCompliance(mbeanClass);
 					throw new JException(new JString("Not compliant"));	// not reached
 
@@ -85,8 +87,9 @@ namespace jcpp{
 					JClass* mbeanInterface = null;
 					while(current != null){
 						mbeanInterface = findMBeanInterface(current, current->getName());
-						if(mbeanInterface != null)
+						if(mbeanInterface != null){
 							break;
+						}
 						current = current->getSuperclass();
 					}
 					if(mbeanInterface != null){

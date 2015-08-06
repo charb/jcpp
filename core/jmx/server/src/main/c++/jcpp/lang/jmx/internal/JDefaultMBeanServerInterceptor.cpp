@@ -14,6 +14,8 @@
 #include "jcpp/lang/JAssertionError.h"
 
 
+
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{
@@ -61,6 +63,7 @@ namespace jcpp{
 						throw new JException(new JString("Exception occured trying to register the MBean"));
 					}
 					JDynamicMBean* mbean = JIntrospector::makeDynamicMBean(object);
+
 					return registerDynamicMBean(classname, mbean, name);
 				}
 
@@ -80,6 +83,7 @@ namespace jcpp{
 							}
 						}
 					}
+
 
 					JObjectInstance* result;
 					if(logicalName != null){
@@ -127,7 +131,7 @@ namespace jcpp{
 			//--------------
 				JDefaultMBeanServerInterceptor::JDefaultMBeanServerInterceptor(JMBeanServer* outer, JRepository* repository)
 				:JObject(JDefaultMBeanServerInterceptor::getClazz()){
-					server = null;
+
 					if(outer == null)
 						throw new JIllegalArgumentException(new JString("outer MBeanServer cannot be null"));
 
@@ -135,7 +139,8 @@ namespace jcpp{
 						throw new JIllegalArgumentException(new JString("Repository cannot be null"));
 					this->server = outer;
 					this->repository= repository;
-					this->domain = repository->getDefaultDomain();
+
+
 				}
 
 				JObjectInstance* JDefaultMBeanServerInterceptor::registerMBean(JObject* object, JObjectName* name){

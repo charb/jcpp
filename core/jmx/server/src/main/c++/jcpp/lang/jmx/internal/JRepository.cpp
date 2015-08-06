@@ -5,6 +5,7 @@
 #include "jcpp/lang/jmx/JObjectName.h"
 #include "jcpp/lang/jmx/internal/JNamedObject.h"
 
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{
@@ -35,16 +36,18 @@ namespace jcpp{
 			//	Public
 			//-------------
 				JRepository::JRepository(JString* domain, jbool fairLock):JObject(JRepository::getClazz()){
+
 					nbElements = 0;
 					lock = new JString();	//TODO should be changed to readWriteLock
 					domainTb = new JHashMap(5, 0.75f);
 
 					if(domain != null && domain->length() != 0)
 						this->domain = domain;
-					else
+					else{
 						this->domain = new JString("default domain");
+					}
 
-					domainTb->put(this->domain, dynamic_cast<JObject*>(new JHashMap()));
+					domainTb->put(this->domain,new JHashMap());
 				}
 
 				JPrimitiveObjectArray* JRepository::getDomains(){
@@ -67,6 +70,7 @@ namespace jcpp{
 				}
 
 				void JRepository::addMBean(JDynamicMBean* object, JObjectName* name){
+
 					JString* dom = name->getDomain();
 
 					if(dom->length() == 0){
@@ -76,9 +80,12 @@ namespace jcpp{
 						}
 					}
 
+
 					if(dom == domain){
 						dom = domain;
 					}
+
+
 					synchronized(lock,
 						try{
 

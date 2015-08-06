@@ -62,7 +62,7 @@ namespace jcpp{
 
 					JString* getName(JObject* m);
 
-					JObject* invokeM2(JObject* m, JObject* target, JPrimitiveObjectArray* args, JObject* cookie);
+					virtual JObject* invokeM2(JObject* m, JObject* target, JPrimitiveObjectArray* args, JObject* cookie);
 
 				public:
 

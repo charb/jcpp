@@ -7,7 +7,7 @@ namespace jcpp{
 			namespace tests{
 
 				JServerTestSuite::JServerTestSuite(): JTestSuite(JServerTestSuite::getClazz(), true){
-					addTest(new JServerTest);
+					addTest(new JServerTest());
 				}
 
 				JServerTestSuite* JServerTestSuite::suite(){

@@ -5,6 +5,9 @@
 #include "jcpp/lang/jmx/JAttribute.h"
 
 
+#include "jcpp/lang/JSystem.h"
+
+
 namespace jcpp{
 	namespace lang{
 		namespace jmx{

@@ -21,7 +21,7 @@ namespace jcpp{
 			//--------
 			//	Public
 			//--------
-				JStandardMBeanSupport::JStandardMBeanSupport(JObject* resource, JClass* mbeanInterface): JMBeanSupport(resource, mbeanInterface, JStandardMBeanSupport::getClazz()){
+				JStandardMBeanSupport::JStandardMBeanSupport(JObject* resource, JClass* mbeanInterface): JMBeanSupport(resource, mbeanInterface, getMBeanIntrospector(), JStandardMBeanSupport::getClazz()){
 				}
 
 				void JStandardMBeanSupport::registerFailed(){
