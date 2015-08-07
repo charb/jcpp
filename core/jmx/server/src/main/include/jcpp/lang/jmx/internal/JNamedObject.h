@@ -23,7 +23,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.NamedObject", simpleName="NamedObject");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.NamedObject", simpleName="NamedObject");
 				class JCPP_EXPORT JNamedObject: public JObject{
 				private:
 					JDynamicMBean* object;

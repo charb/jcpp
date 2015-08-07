@@ -33,7 +33,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanSupport", simpleName="MBeanSupport");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.MBeanSupport", simpleName="MBeanSupport");
 				class JCPP_EXPORT JMBeanSupport: public JObject, public JDynamicMBean2, public JMBeanRegistration{
 				private:
 					JObject* resource;

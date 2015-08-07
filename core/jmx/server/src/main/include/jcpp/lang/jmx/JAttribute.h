@@ -18,7 +18,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.Attribute", simpleName="Attribute");
+		// @Class(canonicalName="jcpp.management.Attribute", simpleName="Attribute");
 			class JCPP_EXPORT JAttribute : public JObject, public JSerializable{
 			private:
 				static const jlong serialVersionUID = 2484220110589082382LL;

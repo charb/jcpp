@@ -33,11 +33,11 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.PerInterface", simpleName="PerInterface");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.PerInterface", simpleName="PerInterface");
 				class JCPP_EXPORT JPerInterface: public JObject{
 				private:
 
-					// @Class(canonicalName="com.sun.jmx.mbeanserver.PerInterface$InitMap", simpleName="PerInterface$InitMap");
+					// @Class(canonicalName="jcpp.jmx.mbeanserver.PerInterface$InitMap", simpleName="PerInterface$InitMap");
 					class JCPP_EXPORT InitMaps: public JObject, public JMBeanAnalyzer::JMBeanVisitor{
 					private:
 						JPerInterface* parent;
@@ -52,7 +52,7 @@ namespace jcpp{
 						friend class JPerInterface;
 					};
 
-					// @Class(canonicalName="com.sun.jmx.mbeanserver.PerInterface$MethodAndSig", simpleName="PerInterface$MethodAndSig");
+					// @Class(canonicalName="jcpp.jmx.mbeanserver.PerInterface$MethodAndSig", simpleName="PerInterface$MethodAndSig");
 					class JCPP_EXPORT MethodAndSig: public JObject{
 					protected:
 						MethodAndSig();

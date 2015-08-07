@@ -25,7 +25,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.DynamicMBean2", simpleName="DynamicMBean2");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.DynamicMBean2", simpleName="DynamicMBean2");
 				class JCPP_EXPORT JDynamicMBean2: public JDynamicMBean{
 				public:
 					virtual JObject* getResource() = 0;

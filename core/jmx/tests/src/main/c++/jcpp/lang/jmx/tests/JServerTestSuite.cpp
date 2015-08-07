@@ -1,5 +1,7 @@
 #include "jcpp/lang/jmx/tests/JServerTestSuite.h"
-#include "jcpp/lang/jmx/tests/JServerTest.h"
+//#include "jcpp/lang/jmx/tests/JServerTest.h"
+#include "jcpp/lang/jmx/tests/JRemoteServerTest.h"
+
 
 namespace jcpp{
 	namespace lang{
@@ -7,7 +9,8 @@ namespace jcpp{
 			namespace tests{
 
 				JServerTestSuite::JServerTestSuite(): JTestSuite(JServerTestSuite::getClazz(), true){
-					addTest(new JServerTest());
+					addTest(new JRemoteServerTest());
+//					addTest(new JServerTest());
 				}
 
 				JServerTestSuite* JServerTestSuite::suite(){

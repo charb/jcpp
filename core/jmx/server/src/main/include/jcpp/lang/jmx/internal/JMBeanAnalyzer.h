@@ -34,12 +34,12 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanAnalyzer", simpleName="MBeanAnalyzer");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.MBeanAnalyzer", simpleName="MBeanAnalyzer");
 				class JCPP_EXPORT JMBeanAnalyzer:public JObject{
 					class JMBeanVisitor;
 				private:
 
-					// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanAnalyzer$MethodOrder", simpleName="MBeanAnalyzer$MethodOrder");
+					// @Class(canonicalName="jcpp.jmx.mbeanserver.MBeanAnalyzer$MethodOrder", simpleName="MBeanAnalyzer$MethodOrder");
 					static class JCPP_EXPORT JMethodOrder: public JObject, public JComparator{
 					private:
 						JMethodOrder();
@@ -50,7 +50,7 @@ namespace jcpp{
 						virtual ~JMethodOrder();
 					};
 
-					// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanAnalyzer$AttrMethods", simpleName="MBeanAnalyzer$AttrMethods");
+					// @Class(canonicalName="jcpp.jmx.mbeanserver.MBeanAnalyzer$AttrMethods", simpleName="MBeanAnalyzer$AttrMethods");
 					static class JCPP_EXPORT JAttrMethods:public JObject{
 					protected:
 						JObject* getter;
@@ -75,7 +75,7 @@ namespace jcpp{
 					void visit(JMBeanAnalyzer::JMBeanVisitor* visitor);
 				public:
 
-					// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanAnalyzer$MBeanVisitor", simpleName="MBeanAnalyzer$MBeanVisitor");
+					// @Class(jcpp.jmx.mbeanserver.MBeanAnalyzer$MBeanVisitor", simpleName="MBeanAnalyzer$MBeanVisitor");
 					class JCPP_EXPORT JMBeanVisitor:public JInterface{
 					public:
 						virtual void visitAttribute(JString* attributeName, JObject* getter, JObject* setter) = 0;

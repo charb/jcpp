@@ -14,8 +14,5 @@
 	<packaging>jar</packaging>
 	<name>${charb.project.name.template}</name>
 
-	<dependencies>
-
-	</dependencies>
 	
 </project>

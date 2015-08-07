@@ -8,18 +8,20 @@
 #ifndef JMBEANSERVER_H_
 #define JMBEANSERVER_H_
 
-#include "jcpp/lang/jmx/JMBeanServerConnection.h"
-#include "jcpp/lang/JObject.h"
+
+#include "jcpp/lang/JInterface.h"
 
 namespace jcpp{
 	namespace lang{
 		class JPrimitiveObjectArray;
 		class JClass;
 		class JString;
+		class JObject;
 		namespace jmx{
 			class JObjectInstance;
 			class JObjectName;
 			class JAttribute;
+
 		}
 	}
 }
@@ -28,23 +30,24 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.MBeanServer", simpleName="MBeanServer");
-			class JCPP_EXPORT JMBeanServer : public JMBeanServerConnection{
+		// @Class(canonicalName="jcpp.management.MBeanServer", simpleName="MBeanServer");
+			class JCPP_EXPORT JMBeanServer: public JInterface{
 			public:
 
 				JMBeanServer();
 
-				virtual JObjectInstance* registerMBean(JObject *jobject, JObjectName *name) = 0;
+				virtual JObjectInstance* registerMBean(JObject *jobject, JString *name) = 0;
 
-				virtual JObject* invoke(JObjectName *name, JString *operationName, JPrimitiveObjectArray *params, JPrimitiveObjectArray *signature) = 0;
+				virtual JObject* invoke(JString *name, JString *operationName, JPrimitiveObjectArray *params, JPrimitiveObjectArray *signature) = 0;
 
-				virtual JObject* getAttribute(JObjectName *name, JString *attribute) = 0;
+				virtual JObject* getAttribute(JString *name, JString *attribute) = 0;
 
-				virtual void setAttribute(JObjectName *name, JAttribute *attribute) = 0;
+				virtual void setAttribute(JString *name, JAttribute *attribute) = 0;
 
 
 				static jcpp::lang::JClass* getClazz();
 				virtual ~JMBeanServer();
+
 			};
 		}
 	}

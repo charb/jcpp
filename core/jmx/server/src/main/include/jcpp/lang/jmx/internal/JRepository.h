@@ -36,7 +36,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.Repository", simpleName="Repository");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.Repository", simpleName="Repository");
 				class JCPP_EXPORT JRepository:public JObject{
 				private:
 					JMap* domainTb;

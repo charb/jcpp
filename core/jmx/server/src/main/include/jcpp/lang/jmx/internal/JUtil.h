@@ -32,7 +32,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.Util", simpleName="Util");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.Util", simpleName="Util");
 				class JCPP_EXPORT JUtil: public JObject{
 				private:
 					JUtil();

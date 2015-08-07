@@ -43,6 +43,9 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 		return new ObjectName(name);
 	}
 
+	public ObjectName() {
+	}
+	
 	public ObjectName(String name) throws Exception, NullPointerException {
 		construct(name);
 	}

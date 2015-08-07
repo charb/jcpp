@@ -34,7 +34,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.interceptor.DefaultMBeanServerInterceptor", simpleName="DefaultMBeanServerInterceptor");
+			// @Class(canonicalName="jcpp.jmx.interceptor.DefaultMBeanServerInterceptor", simpleName="DefaultMBeanServerInterceptor");
 				class JCPP_EXPORT JDefaultMBeanServerInterceptor: public JObject, public JMBeanServerInterceptor{
 				private:
 					/*TODO Transient*/ JMBeanServer* server;

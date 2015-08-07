@@ -25,7 +25,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.MBeanServerBuilder", simpleName="MBeanServerBuilder");
+		// @Class(canonicalName="jcpp.management.MBeanServerBuilder", simpleName="MBeanServerBuilder");
 			class JCPP_EXPORT JMBeanServerBuilder : public JObject{
 			public:
 

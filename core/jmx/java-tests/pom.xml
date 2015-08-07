@@ -10,31 +10,33 @@
 	</parent>
 
 	<groupId>charb.jcpp.core.jmx</groupId>
-	<artifactId>jmx-tests</artifactId>
-	<packaging>nar</packaging>
+	<artifactId>jmx-java-tests</artifactId>
+	<packaging>jar</packaging>
 	<name>${charb.project.name.template}</name>
 
+
+
+	
 	<dependencies>
-		<dependency>
+	     <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>charb.jcpp.core</groupId>
+		  <artifactId>core-java-rmi</artifactId>
+	    </dependency>
+	    <dependency>
+			<groupId>charb.jcpp.application.outlook</groupId>
+			<artifactId>outlook-java-client</artifactId>
+	    </dependency>
+	    <dependency>
 			<groupId>charb.jcpp.core.jmx</groupId>
-			<artifactId>jmx-server</artifactId>
-			<type>nar</type>
-		</dependency>
-		<dependency>
-			<groupId>charb.jcpp.core</groupId>
-			<artifactId>core-lang</artifactId>
-			<type>nar</type>
-		</dependency>
-		<dependency>
-			<groupId>charb.jcpp.core</groupId>
-			<artifactId>core-rmi</artifactId>
-			<type>nar</type>
-		</dependency>
-		<dependency>
-			<groupId>charb.jcpp.junit</groupId>
-			<artifactId>jcpp-junit</artifactId>
-			<type>nar</type>
+			<artifactId>jmx-java</artifactId>
+			<type>jar</type>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
+	
 	
 </project>

@@ -2,7 +2,6 @@ package jcpp.management;
 
 import java.io.Serializable;
 
-import javax.management.RuntimeErrorException;
 
 public class Attribute implements Serializable {
 
@@ -13,7 +12,12 @@ public class Attribute implements Serializable {
 	
 	public Attribute(String name, Object value) {
 		if(name == null)
-			throw new RuntimeErrorException(null, "Attribute name cannot be null ");
+			try {
+				throw new Exception("Attribute name cannot be null ");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		this.name = name;
 		this.value = value;

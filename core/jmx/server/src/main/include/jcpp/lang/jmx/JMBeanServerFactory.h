@@ -29,7 +29,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.MBeanServerFactory", simpleName="MBeanServerFactory");
+		// @Class(canonicalName="jcpp.management.MBeanServerFactory", simpleName="MBeanServerFactory");
 			class JCPP_EXPORT JMBeanServerFactory : public JObject{
 			private:
 				static JMBeanServerBuilder* builder;

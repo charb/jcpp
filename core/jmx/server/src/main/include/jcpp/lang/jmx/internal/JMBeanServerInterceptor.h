@@ -27,7 +27,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.interceptor.MBeanServerInterceptor", simpleName="MBeanServerInterceptor");
+			// @Class(canonicalName="jcpp.jmx.interceptor.MBeanServerInterceptor", simpleName="MBeanServerInterceptor");
 				class JCPP_EXPORT JMBeanServerInterceptor : public JMBeanServerConnection{
 				public:
 

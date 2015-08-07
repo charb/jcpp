@@ -45,7 +45,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.Introspector", simpleName="Introspector");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.Introspector", simpleName="Introspector");
 				class JCPP_EXPORT JIntrospector: public JObject{
 				private:
 					static JClass* findMBeanInterface(JClass* aClass, JString* aName);

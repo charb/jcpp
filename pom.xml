@@ -392,6 +392,13 @@
 				<version>${project.version}</version>
 			</dependency>
 			
+			<dependency>
+				<groupId>charb.jcpp.core.jmx</groupId>
+				<artifactId>jmx-java-tests</artifactId>
+				<type>jar</type>
+				<version>${project.version}</version>
+			</dependency>
+			
 			<!-- native -->
 			
 			<dependency>

@@ -264,6 +264,8 @@ namespace jcpp{
 					throw new JIllegalArgumentException((new JString("Unexpected: "))->concat(e->toString()));
 				}
 			}
+			JObjectName::JObjectName() :JObject(JObjectName::getClazz()){
+			}
 
 			JObjectName::JObjectName(JString* name):JObject(JObjectName::getClazz()){
 				construct(name);

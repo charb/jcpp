@@ -5,7 +5,6 @@
 #include "jcpp/lang/jmx/JMBeanServer.h"
 #include "jcpp/lang/jmx/JMBeanServerFactory.h"
 #include "jcpp/lang/JSystem.h"
-#include "jcpp/lang/jmx/JObjectName.h"
 #include "jcpp/lang/jmx/tests/JHello.h"
 #include "jcpp/lang/jmx/tests/JCopyOfHello.h"
 #include "jcpp/lang/jmx/JAttribute.h"
@@ -30,7 +29,7 @@ namespace jcpp{
 						JMBeanServer* mbs = JMBeanServerFactory::createJMBeanServer();
 
 						// Creating MBean and registering it in the mbean server
-						JObjectName* mbeanName = new JObjectName(new JString("jcpp.lang.jmx.tests:type=Hello"));
+						JString* mbeanName =new JString("jcpp.lang.jmx.tests:type=Hello");
 						JHello* mbean = new JHello();
 						mbs->registerMBean(mbean, mbeanName);
 
@@ -64,7 +63,7 @@ namespace jcpp{
 
 						JSystem::out->println(new JString("\n\n\n\n"));
 
-						JObjectName* mbeanName2 = new JObjectName(new JString("jcpp.lang.jmx.tests:type=CopyOfHello"));
+						JString* mbeanName2 = new JString("jcpp.lang.jmx.tests:type=CopyOfHello");
 						JCopyOfHello* mbean2 = new JCopyOfHello();
 						mbs->registerMBean(mbean2, mbeanName2);
 
@@ -98,7 +97,7 @@ namespace jcpp{
 //
 						JSystem::out->println(new JString("\n\n\n\n"));
 
-						JObjectName* mbeanName3 = new JObjectName(new JString("jcpp.lang.jmx.tests.innertest:type=Hell"));
+						JString* mbeanName3 = new JString("jcpp.lang.jmx.tests.innertest:type=Hell");
 						JHell* mbean3 = new JHell();
 						mbs->registerMBean(mbean3, mbeanName3);
 

@@ -9,7 +9,7 @@ import jcpp.management.MBeanServer;
 import jcpp.management.ObjectInstance;
 import jcpp.management.ObjectName;
 
-public class JmxMBeanServer implements MBeanServerInterceptor, MBeanServer {
+public class JmxMBeanServer implements MBeanServer {
 
 	public static final boolean DEFAULT_FAIR_LOCK_POLICY = true;
 
@@ -58,24 +58,28 @@ public class JmxMBeanServer implements MBeanServerInterceptor, MBeanServer {
 	}
 
 	@Override
-	public ObjectInstance registerMBean(Object object, ObjectName name) throws Exception {
-		return mbsInterceptor.registerMBean(object, cloneObjectName(name));
+	public ObjectInstance registerMBean(Object object, String name) throws Exception {
+		jcpp.management.ObjectName objName = new jcpp.management.ObjectName(name);
+		return mbsInterceptor.registerMBean(object, cloneObjectName(objName));
 	}
 
 	@Override
-	public Object invoke(ObjectName name, String operationName, Object[] params, String[] signature) throws Exception {
-		return mbsInterceptor.invoke(cloneObjectName(name), operationName, params, signature);
+	public Object invoke(String name, String operationName, Object[] params, String[] signature) throws Exception {
+		jcpp.management.ObjectName objName = new jcpp.management.ObjectName(name);
+		return mbsInterceptor.invoke(cloneObjectName(objName), operationName, params, signature);
 	}
 
 	@Override
-	public Object getAttribute(ObjectName name, String attribute) throws Exception {
-
-		return mbsInterceptor.getAttribute(cloneObjectName(name), attribute);
+	public Object getAttribute(String name, String attribute) throws Exception {
+		jcpp.management.ObjectName objName = new jcpp.management.ObjectName(name);
+		return mbsInterceptor.getAttribute(cloneObjectName(objName), attribute);
 	}
 
 	@Override
-	public void setAttribute(ObjectName name, Attribute attribute) throws Exception {
-		mbsInterceptor.setAttribute(cloneObjectName(name), cloneAttribute(attribute));
+	public void setAttribute(String name, Attribute attribute) throws Exception {
+		jcpp.management.ObjectName objName = new jcpp.management.ObjectName(name);
+		mbsInterceptor.setAttribute(cloneObjectName(objName), cloneAttribute(attribute));
 	}
 
+	
 }

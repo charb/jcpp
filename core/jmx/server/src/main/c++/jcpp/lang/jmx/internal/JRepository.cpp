@@ -87,6 +87,7 @@ namespace jcpp{
 
 
 					synchronized(lock,
+					{
 						try{
 
 							JMap* moiTb = dynamic_cast<JMap*>(domainTb->get(dom));
@@ -106,7 +107,7 @@ namespace jcpp{
 						}catch (JException* e){
 						}
 
-					)
+					})
 				}
 
 				jbool JRepository::contains(JObjectName* name){

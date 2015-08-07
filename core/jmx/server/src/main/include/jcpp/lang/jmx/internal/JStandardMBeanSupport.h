@@ -28,7 +28,7 @@ namespace jcpp{
 		namespace jmx{
 			namespace internal{
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.StandardMBeanSupport", simpleName="StandardMBeanSupport");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.StandardMBeanSupport", simpleName="StandardMBeanSupport");
 				class JCPP_EXPORT JStandardMBeanSupport: public JMBeanSupport{
 				protected:
 					virtual JMBeanIntrospector* getMBeanIntrospector();

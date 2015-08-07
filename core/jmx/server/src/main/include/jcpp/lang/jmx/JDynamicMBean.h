@@ -29,7 +29,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.DynamicMBean", simpleName="DynamicMBean");
+		// @Class(canonicalName="jcpp.management.DynamicMBean", simpleName="DynamicMBean");
 			class JCPP_EXPORT JDynamicMBean : public JInterface{
 			public:
 

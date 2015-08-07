@@ -30,10 +30,10 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-			// @Class(canonicalName="javax.management.ObjectName", simpleName="ObjectName");
+			// @Class(canonicalName="jcpp.management.ObjectName", simpleName="ObjectName");
 			class JCPP_EXPORT JObjectName : public JObject{
 			private:
-				// @Class(canonicalName="javax.management.ObjectName$Property", simpleName="ObjectName$Property");
+				// @Class(canonicalName="jcpp.management.ObjectName$Property", simpleName="ObjectName$Property");
 				static class JCPP_EXPORT JProperty: public JObject{
 					jint _key_index;
 					jint _key_length;
@@ -72,6 +72,8 @@ namespace jcpp{
 				static JObjectName* getInstance(JString* name);
 
 				static JObjectName* getInstance(JObjectName* name);
+
+				JObjectName();
 
 				JObjectName(JString* name);
 

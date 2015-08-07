@@ -29,7 +29,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-			// @Class(canonicalName="javax.management.MBeanServerConnection", simpleName="MBeanServerConnection");
+			// @Class(canonicalName="jcpp.management.MBeanServerConnection", simpleName="MBeanServerConnection");
 			class JCPP_EXPORT JMBeanServerConnection : public JInterface{
 			public:
 

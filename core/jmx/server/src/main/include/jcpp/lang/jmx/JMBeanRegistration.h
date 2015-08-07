@@ -24,7 +24,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-		// @Class(canonicalName="javax.management.MBeanServerRegistration", simpleName="MBeanServerRegistration");
+		// @Class(canonicalName="jcpp.management.MBeanServerRegistration", simpleName="MBeanServerRegistration");
 			class JCPP_EXPORT JMBeanRegistration : public JInterface{
 			public:
 

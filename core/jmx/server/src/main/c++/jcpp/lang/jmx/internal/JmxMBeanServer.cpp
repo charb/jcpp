@@ -3,9 +3,8 @@
 #include "jcpp/lang/jmx/internal/JDefaultMBeanServerInterceptor.h"
 #include "jcpp/lang/jmx/JObjectName.h"
 #include "jcpp/lang/jmx/JAttribute.h"
+#include "jcpp/lang/jmx/internal/JMBeanServerInterceptor.h"
 
-
-#include "jcpp/lang/JSystem.h"
 
 
 namespace jcpp{
@@ -64,26 +63,32 @@ namespace jcpp{
 					init(domain, outer, fairLock);
 				}
 
-				JObjectInstance* JmxMBeanServer::registerMBean(JObject* object, JObjectName* name){
-					return mbsInterceptor->registerMBean(object, cloneObjectName(name));
+				JObjectInstance* JmxMBeanServer::registerMBean(JObject* object, JString* name){
+					JObjectName* objName = new JObjectName(name);
+					return mbsInterceptor->registerMBean(object, cloneObjectName(objName));
 				}
 
-				JObject* JmxMBeanServer::invoke(JObjectName* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature){
-					return mbsInterceptor->invoke(cloneObjectName(name), operationName, params, signature);
+				JObject* JmxMBeanServer::invoke(JString* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature){
+					JObjectName* objName = new JObjectName(name);
+					return mbsInterceptor->invoke(cloneObjectName(objName), operationName, params, signature);
 				}
 
-				JObject* JmxMBeanServer::getAttribute(JObjectName* name, JString* attribute){
-					return mbsInterceptor->getAttribute(cloneObjectName(name), attribute);
+				JObject* JmxMBeanServer::getAttribute(JString* name, JString* attribute){
+					JObjectName* objName = new JObjectName(name);
+					return mbsInterceptor->getAttribute(cloneObjectName(objName), attribute);
 				}
 
-				void JmxMBeanServer::setAttribute(JObjectName* name, JAttribute* attribute){
-					mbsInterceptor->setAttribute(cloneObjectName(name), cloneAttribute(attribute));
+				void JmxMBeanServer::setAttribute(JString* name, JAttribute* attribute){
+					JObjectName* objName = new JObjectName(name);
+					mbsInterceptor->setAttribute(cloneObjectName(objName), cloneAttribute(attribute));
 				}
 
 
 
 				JmxMBeanServer::~JmxMBeanServer(){
 				}
+
+
 			}
 		}
 	}

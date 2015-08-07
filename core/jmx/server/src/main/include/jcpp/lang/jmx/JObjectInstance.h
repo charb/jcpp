@@ -17,7 +17,7 @@ namespace jcpp{
 	namespace lang{
 		namespace jmx{
 
-			// @Class(canonicalName="javax.management.ObjectInstance", simpleName="ObjectInstance");
+			// @Class(canonicalName="jcpp.management.ObjectInstance", simpleName="ObjectInstance");
 			class JCPP_EXPORT JObjectInstance: public JObject, public JSerializable{
 			private:
 				static const jlong serialVersionUID = -4099952623687795850LL;

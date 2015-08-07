@@ -9,7 +9,7 @@
 #define JMXMBEANSERVER_H_
 
 #include "jcpp/lang/jmx/JMBeanServer.h"
-#include "jcpp/lang/jmx/internal/JMBeanServerInterceptor.h"
+#include "jcpp/lang/JObject.h"
 
 
 
@@ -17,11 +17,15 @@ namespace jcpp{
 	namespace lang{
 		class JPrimitiveObjectArray;
 		class JString;
+
 		namespace jmx{
 			class JObjectName;
 			class JAttribute;
 			class JObjectInstance;
 
+			namespace internal{
+				class JMBeanServerInterceptor;
+			}
 		}
 	}
 }
@@ -32,8 +36,8 @@ namespace jcpp{
 			namespace internal{
 
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.JmxMBeanServer", simpleName="JmxMBeanServer");
-				class JCPP_EXPORT JmxMBeanServer: public JObject, public JMBeanServerInterceptor, public JMBeanServer{
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.JmxMBeanServer", simpleName="JmxMBeanServer");
+				class JCPP_EXPORT JmxMBeanServer: public JObject , public JMBeanServer{
 				private:
 					/*TODO transient*/ JMBeanServerInterceptor* mbsInterceptor;
 
@@ -53,17 +57,19 @@ namespace jcpp{
 
 					JmxMBeanServer(JString* domain, JMBeanServer* outer, jbool fairLock);
 
-					virtual JObjectInstance* registerMBean(JObject* object, JObjectName* name);
+					virtual JObjectInstance* registerMBean(JObject* object, JString* name);
 
-					virtual JObject* invoke(JObjectName* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature);
+					virtual JObject* invoke(JString* name, JString* operationName, JPrimitiveObjectArray* params, JPrimitiveObjectArray* signature);
 
-					virtual JObject* getAttribute(JObjectName* name, JString* attribute);
+					virtual JObject* getAttribute(JString* name, JString* attribute);
 
-					virtual void setAttribute(JObjectName* name, JAttribute* attribute);
+					virtual void setAttribute(JString* name, JAttribute* attribute);
 
 
 					static jcpp::lang::JClass* getClazz();
 					virtual ~JmxMBeanServer();
+
+
 				};
 			}
 		}
