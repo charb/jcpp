@@ -28,9 +28,9 @@ public class Introspector {
 			// Ignore exception - we need to check whether
 			// mbean is an MXBean first.
 		}
-		if (c != null)
+		if (c != null){
 			return new StandardMBeanSupport(mbean, Util.<Class<Object>> cast(c));
-
+		}
 		checkCompliance(mbeanClass);
 		throw new Exception("Not compliant"); // not reached
 	}
@@ -54,6 +54,7 @@ public class Introspector {
 
 
 	private static Class findMBeanInterface(Class aClass, String aName) {
+		
 		Class current = aClass;
 		while (current != null) {
 			final Class[] interfaces = current.getInterfaces();

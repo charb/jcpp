@@ -3,6 +3,7 @@ package jcpp.jmx.mbeanserver;
 import static jcpp.jmx.mbeanserver.Util.newList;
 import static jcpp.jmx.mbeanserver.Util.newMap;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -77,6 +78,7 @@ final class PerInterface<M> {
 
 	void setAttribute(Object resource, String attribute, Object value, Object cookie) throws Exception {
 		final M cm = setters.get(attribute);
+		
 		if (cm == null) {
 			final String msg;
 			if (getters.containsKey(attribute))

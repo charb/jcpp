@@ -16,15 +16,30 @@ public class Main {
 
 		ObjectName mbeanName = new ObjectName("com.example:type=Hello");
 
+		System.out.println(mbeanName.getDomain());
+		
 		Hello mbean = new Hello();
 
 		mbs.registerMBean(mbean, mbeanName);
 
+		
+		
+		
+//		
+
+
+		Attribute cacheSizeAttribute = new Attribute("CacheSize", 234);
+		mbs.setAttribute(mbeanName, cacheSizeAttribute);
+
+		
 		ObjectName mbeanName2 = new ObjectName("com.example:type=CopyOfHello");
 
 		CopyOfHello mbean2 = new CopyOfHello();
 
 		mbs.registerMBean(mbean2, mbeanName2);
+		
+		
+		
 
 		ObjectName mbeanName3 = new ObjectName("com.example2:type=Hello");
 
@@ -32,14 +47,13 @@ public class Main {
 
 		mbs.registerMBean(mbean3, mbeanName3);
 
-		Object obj = mbs.invoke(mbeanName, "sayHello", null, null);
+		
 
+		
+		
 		String helloName = (String) mbs.getAttribute(mbeanName, "Name");
 		System.out.println(helloName);
-
-		Attribute cacheSizeAttribute = new Attribute("CacheSize", 234);
-		mbs.setAttribute(mbeanName, cacheSizeAttribute);
-
+		
 		mbs.setAttribute(mbeanName2, cacheSizeAttribute);
 		mbs.invoke(mbeanName2, "say", null, null);
 		

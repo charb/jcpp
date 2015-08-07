@@ -86,13 +86,7 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 				_domain_length = index++;
 				break domain_parsing;
 			case '=':
-				// ":" omission check.
-				//
-				// Although "=" is a valid character in the domain part
-				// it is true that it is rarely used in the real world.
-				// So check straight away if the ":" has been omitted
-				// from the ObjectName. This allows us to provide a more
-				// accurate exception message.
+				
 				int i = ++index;
 				while ((i < len) && (name_chars[i++] != ':'))
 					if (i == len)
@@ -136,7 +130,6 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 				throw new Exception("Invalid key (empty)");
 			while ((in_index < len) && ((c1 = name_chars[in_index++]) != '='))
 				switch (c1) {
-				// '=' considered to introduce value part
 				case ',':
 				case ':':
 				case '\n':
@@ -175,7 +168,6 @@ public class ObjectName implements Comparable<ObjectName> , Serializable{
 				else
 					value_length = ++in_index - value_index;
 			} else {
-				// the case of standard value part
 				quoted_value = false;
 				while ((in_index < len) && ((c1 = name_chars[in_index]) != ','))
 					switch (c1) {

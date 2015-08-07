@@ -16,9 +16,9 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 	private transient MBeanServer server = null;
 
 
-
 	private final transient Repository repository;
 
+	
 	public DefaultMBeanServerInterceptor(MBeanServer outer,  Repository repository) {
 		if (outer == null)
 			throw new IllegalArgumentException("outer MBeanServer cannot be null");
@@ -50,7 +50,7 @@ public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
 		}
 
 		DynamicMBean mbean = Introspector.makeDynamicMBean(object);
-
+		
 		return registerDynamicMBean(classname, mbean, name);
 	}
 
