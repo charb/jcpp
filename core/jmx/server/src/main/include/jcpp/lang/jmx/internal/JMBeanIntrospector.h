@@ -37,7 +37,7 @@ namespace jcpp{
 			namespace internal{
 
 
-			// @Class(canonicalName="com.sun.jmx.mbeanserver.MBeanIntrospector", simpleName="MBeanIntrospector");
+			// @Class(canonicalName="jcpp.jmx.mbeanserver.MBeanIntrospector", simpleName="MBeanIntrospector");
 				class JCPP_EXPORT JMBeanIntrospector: public JObject{
 				private:
 
